@@ -9,7 +9,7 @@
               <router-link to="/home" active-class="menuActivo" title="Home">Home</router-link>
             </li>
             <li role="presentation">
-              <router-link to="/listarUsuarios" active-class="menuActivo" title="Nosotros">Listar Usuarios</router-link>
+              <router-link to="/listarUsuarios" active-class="menuActivo" title="Listar Usuarios">Listar Usuarios</router-link>
             </li>
             <li role="presentation">
               <router-link to="/servicios" active-class="menuActivo" title="Servicios">Servicios</router-link>
@@ -17,12 +17,13 @@
             <li role="presentation">
               <router-link to="/contacto" active-class="menuActivo" title="Contacto">Contacto</router-link>
             </li>
-            <li role="presentation">
+           
+             <li role="presentation">
               <router-link to="/login" active-class="menuActivo" title="Login">Login</router-link>
             </li>
           </ul>
         </nav>
-        <h3 class="text-muted"><img src="./assets/images/logo.png" alt="Logo" style="width:70px;" /></h3>
+        <h3 class="text-muted"><img src="./assets/images/LogoFinal.png" alt="Logo" style="width:70px;" /></h3>
       </div>
       <!--/head-->
       <!--contenido-->

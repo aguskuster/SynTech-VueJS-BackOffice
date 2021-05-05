@@ -1,6 +1,6 @@
 <template>
   <div>
-
+ <button type="button" class="right btn btn-primary"><router-link style="color:white;text-decoration:none;" to="/usuario">Agregar Usuarios</router-link></button>
 <table class="table">
   <thead>
     <tr>
@@ -21,7 +21,7 @@
   </tbody>
 </table>
 
-
+ 
   </div>
 </template>
 
