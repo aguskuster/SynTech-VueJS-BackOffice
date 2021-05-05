@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Página de Contacto</h1>
+    <h1>Agregar Usuario</h1>
     <form name="form" id="form" v-on:submit.prevent="procesar()">
       <p>
         Usuario:
@@ -17,8 +17,8 @@
         Contraseña:
         <input
           type="text"
-          name="correo"
-          placeholder="E-Mail"
+          name="password"
+          placeholder="Contreseña"
           class="form-control"
           v-model="persona.unicodePwd"
         />
@@ -27,8 +27,8 @@
         Nombre:
         <input
           type="text"
-          name="telefono"
-          placeholder="Teléfono"
+          name="nombre"
+          placeholder="Nombre"
           class="form-control"
           v-model="persona.cn"
         />

@@ -12,9 +12,6 @@
               <router-link to="/listarUsuarios" active-class="menuActivo" title="Listar Usuarios">Listar Usuarios</router-link>
             </li>
             <li role="presentation">
-              <router-link to="/servicios" active-class="menuActivo" title="Servicios">Servicios</router-link>
-            </li>
-            <li role="presentation">
               <router-link to="/contacto" active-class="menuActivo" title="Contacto">Contacto</router-link>
             </li>
            
