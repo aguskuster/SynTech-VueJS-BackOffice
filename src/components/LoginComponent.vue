@@ -42,14 +42,14 @@
                 axios
                 .post(Global.url + 'login', this.contacto,config)
                 .then( (response) => {
-                  console.log('Golaso panini')
+                  
                   if(response.status==200)
                   {
-                    //console.log(response.data.nombre);
-                    this.flashMessage.show({status: 'success', title: 'Mi aplicación', message: 'Te has logueado exitosamente!!!.'});
+                   // console.log(response.data);
+                   this.flashMessage.show({status: 'success', title: 'Mi aplicación', message: 'Te has logueado exitosamente!!!.'});
                     localStorage.setItem('auth_token', response.data.token);
                     localStorage.setItem('auth_nombre', response.data.username);
-                    this.$router.push('/home');
+                    this.$router.push('/home'); 
                   }
                 }
 

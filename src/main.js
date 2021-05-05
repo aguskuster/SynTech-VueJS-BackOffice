@@ -7,9 +7,6 @@ import FlashMessage from "@smartweb/vue-flash-message";
 
 import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
-import ServiciosComponent from './components/ServiciosComponent.vue';
-import ServiciosDetalleComponent from './components/ServiciosDetalleComponent.vue';
-import ContactoComponent from './components/ContactoComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
@@ -25,9 +22,6 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
-    { path: '/servicios', name: 'servicios', component: ServiciosComponent },
-    { path: '/servicios-detalle/:slug', name: 'servicios-detalle', component: ServiciosDetalleComponent },
-    { path: '/contacto', name: 'contacto', component: ContactoComponent },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '*', name: 'error404', component: ErrorComponent} 
 ];
