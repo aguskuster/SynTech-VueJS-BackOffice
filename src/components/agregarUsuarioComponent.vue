@@ -114,7 +114,7 @@ export default {
               message: "Usuario Agregado",
             });
             document.form.reset();
-            this.$router.push("/agregar?s=1");
+            this.$router.push("/listarUsuarios");
           }
         })
         .catch((error) => {

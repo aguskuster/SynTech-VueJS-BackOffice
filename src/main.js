@@ -9,6 +9,7 @@ import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
+import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
 
@@ -25,6 +26,7 @@ const routes = [
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
+    { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent} 
 ];
 

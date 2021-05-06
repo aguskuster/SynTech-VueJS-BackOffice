@@ -1,27 +1,39 @@
 <template>
   <div>
- <button type="button" class="right btn btn-primary"><router-link style="color:white;text-decoration:none;" to="/usuario">Agregar Usuarios</router-link></button>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Username</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">E-Mail</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="todo in todosUsuarios" :key="todo.id">
-      <th scope="row">{{ todo.id }}</th>
-      <td>{{ todo.username }}</td>
-      <td>{{ todo.nombre }}</td>
-      <td>{{ todo.email }}</td>
-    </tr>
-   
-  </tbody>
-</table>
-
- 
+    <button type="button" class="right btn btn-primary">
+      <router-link style="color: white; text-decoration: none" to="/usuario"
+        >Agregar Usuarios</router-link
+      >
+    </button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Username</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">E-Mail</th>
+          <th scope="col">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="todo in todosUsuarios" :key="todo.id">
+          <th scope="row">{{ todo.id }}</th>
+          <td>{{ todo.username }}</td>
+          <td>{{ todo.nombre }}</td>
+          <td>{{ todo.email }}</td>
+          <td>
+           <router-link :to="{ name: 'listar-usuario-eliminar', params: { user: todo.username } }">
+            <i
+                style="font-size: 20px; margin-left: 20px; color: red"
+                class="fas fa-user-times hover"
+            ></i>
+          </router-link>
+              
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
