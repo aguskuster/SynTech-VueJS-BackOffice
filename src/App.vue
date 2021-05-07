@@ -42,7 +42,7 @@
       </footer>
     
 </div>
-
+<FlashMessage></FlashMessage>
 </div>
  
 </template>

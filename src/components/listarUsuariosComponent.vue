@@ -83,10 +83,13 @@ export default {
         if (res.status == 200) {
           this.todosUsuarios = res.data;
           //console.log('servicios', this.servicios);
-        } else {
-          alert("no se pudo conectar");
         }
-      });
+        
+      }
+      ) .catch( (error) => {
+                  this.flashMessage.show({status: 'warning', title: 'BackOffice', message: 'Error inesperado al cargar '+error})
+                  
+                });
     },
   },
 };

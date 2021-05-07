@@ -15,7 +15,7 @@
       class="btn btn-danger"
       v-on:click="eliminarUsuario()"
     />
-    <FlashMessage></FlashMessage>
+ 
   </div>
 </div>
 </template>
@@ -52,6 +52,7 @@ export default {
         .delete(Global.url + "usuario", {
         headers: {
             "Content-Type": "application/json",
+            "token": Global.token
         },
         data: {
             "cn": this.usuarioDatos.nombre,

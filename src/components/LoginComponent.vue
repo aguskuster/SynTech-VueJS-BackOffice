@@ -6,7 +6,7 @@
     
     <form name="form" id="form" v-on:submit.prevent="procesar();">
       <p>
-        Username: <input type="text" name="username" placeholder="username" class="form-control" v-model="contacto.username" />
+        Documento: <input type="text" name="username" placeholder="Documento" class="form-control" v-model="contacto.username" />
       </p>
       <p>
         Contraseña: <input type="password" name="password" placeholder="Contraseña" class="form-control" v-model="contacto.password" />
@@ -15,7 +15,7 @@
       <hr />
       <input type="submit" value="Enviar" title="Enviar" class="btn btn-primary" />
     </form>
-    <FlashMessage></FlashMessage>
+    
   </div>
 </div>
 </template>
@@ -41,6 +41,7 @@
               let config = {
                   headers: {
                     "Content-Type": "application/json",
+                    "token": Global.token
                   },
                 }; 
                 axios

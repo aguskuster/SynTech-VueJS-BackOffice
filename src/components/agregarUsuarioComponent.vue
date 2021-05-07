@@ -14,6 +14,9 @@
             class="form-control"
             v-model="persona.samaccountname"
             autocomplete="=off"
+            required
+            minlength="8"
+            maxlength="8"
           />
         </p>
 
@@ -26,6 +29,7 @@
             placeholder="Contreseña"
             class="form-control"
             v-model="persona.unicodePwd"
+            required
           />
         </p>
 
@@ -38,6 +42,7 @@
             placeholder="Nombre"
             class="form-control"
             v-model="persona.cn"
+            required
           />
         </p>
 
@@ -45,11 +50,12 @@
         <p>
           Correo<em>*</em>:
           <input
-            type="text"
+            type="email"
             name="Correo"
             placeholder="Correo"
             class="form-control"
             v-model="persona.userPrincipalName"
+            required
           />
         </p>
 
@@ -62,6 +68,7 @@
             placeholder="Unidad Organizativa"
             class="form-control"
             v-model="persona.ou"
+            required
           />
         </p>
 
@@ -73,7 +80,7 @@
           class="btn btn-primary"
         />
       </form>
-      <FlashMessage></FlashMessage>
+      
     </div>
   </div>
 </template>
@@ -103,6 +110,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
+          "token": Global.token
         },
       };
       /* let parametros =
@@ -131,6 +139,11 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+           this.flashMessage.show({
+              status: "error",
+              title: "BackOffice",
+              message: "Usuario ya existe",
+            });
         });
         
     },
