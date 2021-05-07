@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <h1>Ingresa tus datos para acceder</h1>
+<div>
+  <h1>Ingresa tus datos para acceder</h1>
+
+  <div class="container p-3 my-3 border">
+    
     <form name="form" id="form" v-on:submit.prevent="procesar();">
       <p>
         Username: <input type="text" name="username" placeholder="username" class="form-control" v-model="contacto.username" />
@@ -14,6 +17,7 @@
     </form>
     <FlashMessage></FlashMessage>
   </div>
+</div>
 </template>
 
 <script>

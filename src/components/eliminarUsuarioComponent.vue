@@ -1,5 +1,7 @@
 <template>
-  <div>
+<div>
+  <h1>Eliminar Usuario</h1>
+<div class="container p-3 my-3 border">
     <p class="form-control"><b> Username :</b> {{ usuarioDatos.username }}</p>
     <p class="form-control"><b>Nombre :</b> {{ usuarioDatos.nombre }}</p>
     <p class="form-control"><b> Email : </b>{{ usuarioDatos.email }}</p>
@@ -15,6 +17,7 @@
     />
     <FlashMessage></FlashMessage>
   </div>
+</div>
 </template>
 
 <script>

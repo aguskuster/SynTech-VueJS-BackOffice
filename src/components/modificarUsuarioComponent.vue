@@ -1,6 +1,9 @@
 <template>
 <div>
-    <h1>Modificado Persona</h1>
+     <h1>Modificado Persona</h1>
+
+<div class="container p-3 my-3 border">
+   
 
    <form name="form" id="form" v-on:submit.prevent="modificarUsuario()">
   <div class="form-group">
@@ -20,6 +23,7 @@
         class="btn btn-primary"
       />
 </form>
+</div>
 </div>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>Página no encontrada (error 404)</h1>
-    <img width="500px"     src="https://viapais.com.ar/resizer/gAH8eoqwuveHp1huF4fRvjSg0e8=/1200x630/smart/cloudfront-us-east-1.images.arcpublishing.com/grupoclarin/MMZTGMJRMM3WEMDBHEYDONJVMM.jpg" alt="">
+    <br>
+  
+    <img width="500px"  class="center"  src="https://media.giphy.com/media/idogabG8Entw4/giphy.gif" alt="">
   </div>
 </template>
 

@@ -1,12 +1,15 @@
 <template>
-  <div>
+<div>
+<h1>Página Home</h1>
+<div class="container p-3 my-3 border">
     <vue-headful :title="title" />
-    <h1>Página Home</h1>
+    
     <p>
       Bienvenid@ {{ nombre }} |
       <a href="javascript:void(0);" v-on:click="cerrarSesion()">Salir</a>
     </p>
   </div>
+</div>
 </template>
 
 <script>

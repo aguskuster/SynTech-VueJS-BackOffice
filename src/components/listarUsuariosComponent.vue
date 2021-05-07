@@ -1,5 +1,7 @@
 <template>
-  <div>
+<div>
+    <h1>Listado de Usuarios</h1>
+<div class="container p-3 my-3 border">
     <button type="button" class="right btn btn-primary">
       <router-link style="color: white; text-decoration: none" to="/usuario"
         >Agregar Usuarios</router-link
@@ -52,6 +54,7 @@
       </tbody>
     </table>
   </div>
+</div>
 </template>
 
 <script>
