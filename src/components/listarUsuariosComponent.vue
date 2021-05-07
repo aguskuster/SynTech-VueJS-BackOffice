@@ -12,6 +12,7 @@
           <th scope="col">Username</th>
           <th scope="col">Nombre</th>
           <th scope="col">E-Mail</th>
+          <th scope="col">Modificar</th>
           <th scope="col">Eliminar</th>
         </tr>
       </thead>
@@ -22,14 +23,30 @@
           <td>{{ todo.nombre }}</td>
           <td>{{ todo.email }}</td>
           <td>
-           <router-link :to="{ name: 'listar-usuario-eliminar', params: { user: todo.username } }">
-            <i
+            <router-link
+              :to="{
+                name: 'listar-usuario-modificar',
+                params: { user: todo.username },
+              }"
+            >
+              <i
+                style="font-size: 20px; margin-left: 20px; color: blue"
+                class="fas fa-pencil-alt hover"
+              ></i>
+            </router-link>
+          </td>
+          <td>
+            <router-link
+              :to="{
+                name: 'listar-usuario-eliminar',
+                params: { user: todo.username },
+              }"
+            >
+              <i
                 style="font-size: 20px; margin-left: 20px; color: red"
                 class="fas fa-user-times hover"
-            ></i>
-          </router-link>
-              
-            
+              ></i>
+            </router-link>
           </td>
         </tr>
       </tbody>

@@ -10,6 +10,7 @@ import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
 import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue';
+import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
 
@@ -27,6 +28,7 @@ const routes = [
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
     { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
+    { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent} 
 ];
 

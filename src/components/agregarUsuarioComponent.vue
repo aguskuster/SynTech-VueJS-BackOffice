@@ -59,7 +59,7 @@
       <hr />
       <input
         type="submit"
-        value="Enviar"
+        value="Agregar Usuario"
         title="Enviar"
         class="btn btn-primary"
       />
