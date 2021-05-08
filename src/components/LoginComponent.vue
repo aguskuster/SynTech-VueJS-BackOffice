@@ -53,8 +53,8 @@
                    // console.log(response.data);
                    this.flashMessage.show({status: 'success', title: 'BackOffice', message: 'Te has logueado exitosamente!!!.'});
                     localStorage.setItem('auth_token', response.data.token);
-                    localStorage.setItem('auth_nombre', response.data.username);
-                     if(response.data.ou !='Bedelias'){
+                    localStorage.setItem('auth_nombre', response.data.datos.username);
+                     if(response.data.datos.ou !='Bedelias'){
                      // this.$router.push('/home');
                       this.flashMessage.show({status: 'error', title: 'BackOffice', message: 'El usuario ingresado no pertenece a esta aplicacion'})
                       localStorage.clear();

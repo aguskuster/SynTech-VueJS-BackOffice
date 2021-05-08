@@ -21,12 +21,14 @@
       
     </ul>
     
+
       
       
       <router-link to="/login" active-class="menuActivoL"  class="btn btn-success my-2 my-sm-0"  title="Login">Login</router-link>
       
     
   </div>
+  
   
   </nav>
 
@@ -51,6 +53,14 @@
 export default {
   name: "App",
   components: {},
+  data() {
+    return {
+      usuario:''
+    };
+  },
+  mounted() {
+    this.usuario=localStorage.getItem("auth_nombre")
+  },
 };
 </script>
 
