@@ -51,16 +51,22 @@
                   if(response.status==200)
                   {
                    // console.log(response.data);
-                   this.flashMessage.show({status: 'success', title: 'Mi aplicación', message: 'Te has logueado exitosamente!!!.'});
+                   this.flashMessage.show({status: 'success', title: 'BackOffice', message: 'Te has logueado exitosamente!!!.'});
                     localStorage.setItem('auth_token', response.data.token);
                     localStorage.setItem('auth_nombre', response.data.username);
+                     if(response.data.ou !='Bedelias'){
+                     // this.$router.push('/home');
+                      this.flashMessage.show({status: 'error', title: 'BackOffice', message: 'El usuario ingresado no pertenece a esta aplicacion'})
+                      localStorage.clear();
+                   } 
                     this.$router.push('/home'); 
                   }
                 }
 
                 )
                 .catch( (error) => {
-                  this.flashMessage.show({status: 'error', title: 'Mi aplicación', message: 'Los datos ingresados no son válidos.'+error})
+                  console.error()
+                  this.flashMessage.show({status: 'error', title: 'BackOffice', message: 'Los datos ingresados no son válidos.'+error})
                   document.form.reset(); 
                 });
 

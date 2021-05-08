@@ -76,7 +76,7 @@ export default {
         .catch((error) => {
           this.flashMessage.show({
             status: "error",
-            title: "Mi aplicación",
+            title: "BackOffice",
             message: "Error inesperado." + error,
           });
         });

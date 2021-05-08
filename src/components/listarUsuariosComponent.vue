@@ -14,6 +14,7 @@
           <th scope="col">Username</th>
           <th scope="col">Nombre</th>
           <th scope="col">E-Mail</th>
+           <th scope="col">OU</th>
           <th scope="col">Modificar</th>
           <th scope="col">Eliminar</th>
         </tr>
@@ -24,6 +25,7 @@
           <td>{{ todo.username }}</td>
           <td>{{ todo.nombre }}</td>
           <td>{{ todo.email }}</td>
+          <td>{{ todo.ou }}</td>
           <td>
             <router-link
               :to="{
