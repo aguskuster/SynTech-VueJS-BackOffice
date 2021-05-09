@@ -4,11 +4,8 @@
 <div class="container p-3 my-3 border">
     <vue-headful :title="title" />
     
-    <p>
-      Bienvenid@ {{ nombre }} |
-      <a href="javascript:void(0);" v-on:click="cerrarSesion()">Salir</a>
-    </p>
-  </div>
+  
+</div>
 </div>
 </template>
 
@@ -27,19 +24,13 @@ export default {
   },
 
   mounted() {
-    if (localStorage.getItem("auth_token")) {
+/*     if (localStorage.getItem("auth_token")) {
       this.nombre = localStorage.getItem("auth_nombre");
     } else {
       this.$router.push("/login");
-    }
+    } */
   },
-  methods: {
-    cerrarSesion() {
-      localStorage.clear();
-      //localStorage.removeItem(nombreDelLocal);
-      this.$router.push("/login");
-    },
-  },
+ 
 };
 </script>
 
