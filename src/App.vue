@@ -64,7 +64,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            - {{usuario}}
+            {{usuario}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <button class="dropdown-item" v-on:click="cerrarSesion();">Cerrar Sesion</button>
@@ -127,6 +127,7 @@ export default {
       localStorage.clear();
       //localStorage.removeItem(nombreDelLocal);
       this.$router.push("/login");
+      location.reload();
     },
   },
 };

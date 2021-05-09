@@ -1,79 +1,98 @@
 <template>
-<div>
-  <h1>Ingresa tus datos para acceder</h1>
+  <div>
+    <h1>Ingresa tus datos para acceder</h1>
 
-  <div class="container p-3 my-3 border">
-    
-    <form name="form" id="form" v-on:submit.prevent="procesar();">
-      <p>
-        Documento: <input type="text" name="username" placeholder="Documento" class="form-control" v-model="contacto.username" />
-      </p>
-      <p>
-        Contraseña: <input type="password" name="password" placeholder="Contraseña" class="form-control" v-model="contacto.password" />
-      </p>
-      
-      <hr />
-      <input type="submit" value="Enviar" title="Enviar" class="btn btn-primary" />
-    </form>
-    
+    <div class="container p-3 my-3 border">
+      <form name="form" id="form" v-on:submit.prevent="procesar()">
+        <p>
+          Documento:
+          <input
+            type="text"
+            name="username"
+            placeholder="Documento"
+            class="form-control"
+            v-model="contacto.username"
+          />
+        </p>
+        <p>
+          Contraseña:
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            class="form-control"
+            v-model="contacto.password"
+          />
+        </p>
+
+        <hr />
+        <input
+          type="submit"
+          value="Enviar"
+          title="Enviar"
+          class="btn btn-primary"
+        />
+      </form>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-   
-    import { Global } from "../Global";
-    import axios from "axios";
-    export default {
-        name: 'LoginComponent',
-        data() {
-            return {
-               
-                contacto: {
-                    username: '',
-                    password: ''
-                }
+import { Global } from "../Global";
+import axios from "axios";
+export default {
+  name: "LoginComponent",
+  data() {
+    return {
+      contacto: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    procesar() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "login", this.contacto, config)
+        .then((response) => {
+          if (response.status == 200) {
+            // console.log(response.data);
+            this.flashMessage.show({
+              status: "success",
+              title: "BackOffice",
+              message: "Te has logueado exitosamente!!!.",
+            });
+            localStorage.setItem("auth_token", response.data.token);
+            localStorage.setItem("auth_nombre", response.data.datos.username);
+            if (response.data.datos.ou != "Bedelias") {
+              // this.$router.push('/home');
+              this.flashMessage.show({
+                status: "error",
+                title: "BackOffice",
+                message: "El usuario ingresado no pertenece a esta aplicacion",
+              });
+              localStorage.clear();
+            } else {
+              this.$router.push("/home");
             }
-        },
-        methods: {
-            procesar() {
-              
-              let config = {
-                  headers: {
-                    "Content-Type": "application/json",
-                    "token": Global.token
-                  },
-                }; 
-                axios
-                .post(Global.url + 'login', this.contacto,config)
-                .then( (response) => {
-                  
-                  if(response.status==200)
-                  {
-                   // console.log(response.data);
-                   this.flashMessage.show({status: 'success', title: 'BackOffice', message: 'Te has logueado exitosamente!!!.'});
-                    localStorage.setItem('auth_token', response.data.token);
-                    localStorage.setItem('auth_nombre', response.data.datos.username);
-                     if(response.data.datos.ou !='Bedelias'){
-                     // this.$router.push('/home');
-                      this.flashMessage.show({status: 'error', title: 'BackOffice', message: 'El usuario ingresado no pertenece a esta aplicacion'})
-                      localStorage.clear();
-                   } 
-                    this.$router.push('/home'); 
-                  }
-                }
-
-                )
-                .catch( (error) => {
-                  console.error()
-                  this.flashMessage.show({status: 'error', title: 'BackOffice', message: 'Los datos ingresados no son válidos.'+error})
-                  document.form.reset(); 
-                });
-
-            },
-            
-        },
-        
-
-    }
+          }
+        })
+        .catch((error) => {
+          console.error();
+          this.flashMessage.show({
+            status: "error",
+            title: "BackOffice",
+            message: "Los datos ingresados no son válidos." + error,
+          });
+          document.form.reset();
+        });
+    },
+  },
+};
 </script>
