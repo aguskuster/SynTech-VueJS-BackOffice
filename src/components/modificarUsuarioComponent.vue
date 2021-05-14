@@ -70,6 +70,7 @@ export default {
       let config = {
         headers: {
             "Content-Type": "application/json",
+             token: Global.token
         },
       };
    axios
