@@ -62,18 +62,12 @@ export default {
         .post(Global.url + "login", this.contacto, config)
         .then((response) => {
           if (response.status == 200) {
-            // console.log(response.data);
-            this.flashMessage.show({
-              status: "success",
-              title: "BackOffice",
-              message: "Te has logueado exitosamente!!!.",
-            });
-           
-          
-             let uncodeResponseData = JSON.parse(window.atob(response.data.datos));
+
+            let uncodeResponseData = JSON.parse(window.atob(response.data.datos));
             localStorage.setItem("auth_token", response.data.datos);
             localStorage.setItem("auth_nombre", uncodeResponseData.nombre);
-            if (uncodeResponseData.ou != "Bedelias") {
+           
+           if (uncodeResponseData.ou != "Bedelias") {
               // this.$router.push('/home');
               this.flashMessage.show({
                 status: "error",
@@ -83,6 +77,7 @@ export default {
               localStorage.clear();
             } else {
               this.$router.push("/home");
+              location.reload();
             }
           }
         })
