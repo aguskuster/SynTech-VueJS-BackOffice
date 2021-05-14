@@ -68,9 +68,12 @@ export default {
               title: "BackOffice",
               message: "Te has logueado exitosamente!!!.",
             });
-            localStorage.setItem("auth_token", response.data.token);
-            localStorage.setItem("auth_nombre", response.data.datos.username);
-            if (response.data.datos.ou != "Bedelias") {
+           
+          
+             let uncodeResponseData = JSON.parse(window.atob(response.data.datos));
+            localStorage.setItem("auth_token", response.data.datos);
+            localStorage.setItem("auth_nombre", uncodeResponseData.nombre);
+            if (uncodeResponseData.ou != "Bedelias") {
               // this.$router.push('/home');
               this.flashMessage.show({
                 status: "error",
@@ -84,7 +87,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error();
+          console.log(error);
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
