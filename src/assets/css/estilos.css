@@ -8,7 +8,7 @@
     text-decoration:none;
 }
 .menuActivo {
-    color: black !important;
+    color: rgb(255, 255, 255) !important;
     text-decoration-color: underline 1px black;
     text-decoration:none;
 }
@@ -21,11 +21,17 @@
 footer{
     margin-top:5%;
 }
-
+nav{
+    background:#1a1a1d;
+    text-decoration: none;
+}
 h1{
   text-align: center;
+  color:whitesmoke;
 }
-
+table{
+    color:whitesmoke;
+}
 .center {
     display: block;
     margin-left: auto;

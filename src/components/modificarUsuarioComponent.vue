@@ -7,13 +7,13 @@
 
    <form name="form" id="form" v-on:submit.prevent="modificarUsuario()">
   <div class="form-group">
-    <label for="Nombre">Nombre</label>
+    <label for="Nombre" style="color:white">Nombre</label>
     <p class="form-control" id="Nombre"> {{usuarioDatos.nombre}}</p>
   </div>
 
 
   <div class="form-group">
-    <label for="password">Contraseña Nueva</label>
+    <label for="password" style="color:white">Contraseña Nueva</label>
     <input type="password" class="form-control" id="password" placeholder="Contraseña Nueva" v-model="nuevaContrasenia.password">
   </div>
    <input

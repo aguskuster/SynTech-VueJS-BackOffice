@@ -1,15 +1,14 @@
 <template>
-
   <div>
     <vue-headful :title="title" />
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg" v-if='logged'>
       <h3 class="text-muted">
         <router-link to="/home" title="Home"
           ><img
             src="./assets/images/LogoFinal.png"
             alt="Logo"
-            style="width: 70px"
-        /></router-link>
+            style="width: 70px"/>
+        </router-link>
       </h3>
       <button
         class="navbar-toggler"
@@ -18,11 +17,9 @@
         data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -31,8 +28,8 @@
               class="nav-link navMargin"
               active-class="menuActivo"
               title="Home"
-              >Home</router-link
-            >
+              style="color:#c5c6c7;text-decoration:none"
+              >Home</router-link>
           </li>
           <li class="nav-item">
             <router-link
@@ -40,8 +37,8 @@
               class="nav-link navMargin"
               active-class="menuActivo"
               title="Listar Usuarios"
-              >Listar Usuarios</router-link
-            >
+              style="color:#c5c6c7;text-decoration:none"
+              >Listar Usuarios</router-link>
           </li>
           <li class="nav-item">
             <router-link
@@ -49,26 +46,22 @@
               active-class="menuActivo"
               class="nav-link navMargin"
               title="Contacto"
-              >Contacto</router-link
-            >
+              style="color:#c5c6c7;text-decoration:none"
+              >Contacto</router-link>
           </li>
         </ul>
-
-
-             <div v-if="logged" class="dropdown">
+        <div v-if="logged" class="dropdown">
           <button
             class="btn btn-secondary dropdown-toggle"
             type="button"
             id="dropdownMenuButton"
             data-toggle="dropdown"
             aria-haspopup="true"
-            aria-expanded="false"
-          >
+            aria-expanded="false">
             {{usuario}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button class="dropdown-item" v-on:click="cerrarSesion();">Cerrar Sesion</button>
-            
+            <button class="dropdown-item" v-on:click="cerrarSesion();">Cerrar Sesion</button>    
           </div>
         </div>
         <router-link
@@ -77,22 +70,18 @@
           active-class="menuActivoL"
           class="btn btn-success my-2 my-sm-0"
           title="Login"
-          >Login</router-link
-        >
-
-     
+          >Login</router-link>
       </div>
     </nav>
 
     <div class="container">
-      <br />
-      <!--contenido-->
-      <router-view></router-view>
-      <!--/contenido-->
+      <br/> 
+      <router-view>
 
-      <footer class="footer">
+      </router-view>
+      <!-- <footer class="footer">
         <p>&copy; Desarrollado por Syntech</p>
-      </footer>
+      </footer> -->
     </div>
     <FlashMessage></FlashMessage>
   </div>
@@ -101,7 +90,6 @@
 <script>
 import vueHeadful from "vue-headful";
 export default {
-  
   name: "App",
   components: {
     vueHeadful,
@@ -116,7 +104,7 @@ export default {
   mounted() {
     this.verificarLogueo();
   },
-  methods: {
+  methods:{
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
@@ -125,14 +113,15 @@ export default {
     },
     cerrarSesion() {
       localStorage.clear();
-      //localStorage.removeItem(nombreDelLocal);
       this.$router.push("/login");
       location.reload();
     },
   },
 };
 </script>
-
 <style>
+body{ 
+  background-color:#1d1e1f;
+}
 @import "./assets/css/estilos.css";
 </style>

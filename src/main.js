@@ -22,7 +22,7 @@ Vue.use(Vuelidate);
 
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
-    { path: '/', redirect: '/home' },
+    { path: '/', redirect: '/login' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
     { path: '/login', name: 'login', component: LoginComponent },

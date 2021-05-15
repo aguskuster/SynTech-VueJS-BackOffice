@@ -20,15 +20,16 @@ export default {
     return {
       title: "BackOffice",
       nombre: "",
+      nav:true,
     };
   },
 
   mounted() {
-/*     if (localStorage.getItem("auth_token")) {
-      this.nombre = localStorage.getItem("auth_nombre");
-    } else {
-      this.$router.push("/login");
-    } */
+    
+   if (!localStorage.getItem("auth_token")) {
+    this.$router.push("/login");
+    } 
+
   },
  
 };
