@@ -54,9 +54,7 @@ export default {
             "Content-Type": "application/json",
             "token": Global.token
         },
-        data: {
-            "cn": this.usuarioDatos.nombre,
-            "ou": this.usuarioDatos.ou,
+        data: { 
             "username": this.usuarioDatos.username,
          },
         })

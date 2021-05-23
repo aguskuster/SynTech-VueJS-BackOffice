@@ -7,14 +7,26 @@
 
    <form name="form" id="form" v-on:submit.prevent="modificarUsuario()">
   <div class="form-group">
-    <label for="Nombre" style="color:white">Nombre</label>
-    <p class="form-control" id="Nombre"> {{usuarioDatos.nombre}}</p>
+    <label for="username" style="color:white">Usuario</label>
+    <p class="form-control" id="username"> {{usuarioDatos.username}}</p>
   </div>
 
 
   <div class="form-group">
-    <label for="password" style="color:white">Contraseña Nueva</label>
-    <input type="password" class="form-control" id="password" placeholder="Contraseña Nueva" v-model="nuevaContrasenia.password">
+    <label for="password" style="color:white">Nuevo nombre</label>
+    <input type="text" class="form-control" name="nombre" id="name" placeholder="Nuevo nombre" v-model="updateUser.newName"  required>
+  </div>
+   <div class="form-group">
+    <label for="password" style="color:white">Nuevo email</label>
+    <input type="email" class="form-control" id="email" placeholder="Nuevo email" v-model="updateUser.newEmail" required>
+  </div>
+   <div class="form-group">
+    <label for="password" style="color:white">Nueva contraseña</label>
+    <input type="password" class="form-control" id="password" placeholder="Nueva contraseña" v-model="updateUser.newPassword" required>
+  </div>
+   <div class="form-group">
+    <label for="Nombre" style="color:white">Tipo de Usuario</label>
+    <p class="form-control" id="Nombre"> {{usuarioDatos.ou}}</p>
   </div>
    <input
         type="submit"
@@ -37,8 +49,11 @@ export default {
   data() {
     return {
       usuarioDatos: "",
-      nuevaContrasenia: {
-        password: "",
+      updateUser: {
+        newPassword: "",
+        newName:"",
+        newEmail:"",
+
       },
 
     };
@@ -60,11 +75,13 @@ export default {
       });
     },
     modificarUsuario() {
+      let user = this.$route.params.user;
       let parametros = {
             
-            "cn": this.usuarioDatos.nombre,
-            "ou": this.usuarioDatos.ou,
-            "unicodePwd":this.nuevaContrasenia.password,
+            "username": user,
+            "newPassword":this.updateUser.newPassword,
+            "nuevoNombre": this.updateUser.newName,
+            "nuevoEmail":this.updateUser.newEmail,
             
          };
       let config = {

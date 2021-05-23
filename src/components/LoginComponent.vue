@@ -54,6 +54,10 @@ export default {
       },
     };
   },
+  mounted() {
+    localStorage.clear();
+  },
+
   methods: {
     procesar() {
       let config = {
@@ -75,7 +79,7 @@ export default {
               this.flashMessage.show({
                 status: "error",
                 title: "BackOffice",
-                message: "El usuario ingresado no pertenece a esta aplicacion",
+                message: "Error , credenciales invalidas",
               });
               localStorage.clear();
             } else {
@@ -89,7 +93,7 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Los datos ingresados no son válidos." + error,
+            message: "Error , credenciales invalidas" + error,
           });
           document.form.reset();
         });

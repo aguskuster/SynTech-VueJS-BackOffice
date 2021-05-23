@@ -4,7 +4,6 @@
 
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
-        
         <p>
           Cedula<em>*</em>:
           <input
@@ -20,7 +19,6 @@
           />
         </p>
 
-     
         <p>
           Contraseña<em>*</em>:
           <input
@@ -33,7 +31,6 @@
           />
         </p>
 
-       
         <p>
           Nombre<em>*</em>:
           <input
@@ -46,7 +43,6 @@
           />
         </p>
 
-     
         <p>
           Correo<em>*</em>:
           <input
@@ -59,18 +55,17 @@
           />
         </p>
 
-       
         <p>
           Unidad Organizativa<em>*</em>:
-          <input
-            type="text"
-            name="ou"
-            placeholder="Unidad Organizativa"
-            class="form-control"
-            v-model="persona.ou"
-            required
-          />
+
+          <select  class="form-control" v-model="persona.ou" aria-label="Default select example" required>
+            <option value="Bedelias">Bedelias</option>
+            <option value="Profesor">Profesor</option>
+            <option value="Alumno">Alumno</option>
+          </select>
         </p>
+
+        
 
         <hr />
         <input
@@ -80,7 +75,6 @@
           class="btn btn-primary"
         />
       </form>
-      
     </div>
   </div>
 </template>
@@ -106,11 +100,10 @@ export default {
     procesar() {
       this.submited = true;
 
-        
       let config = {
         headers: {
           "Content-Type": "application/json",
-          "token": Global.token
+          token: Global.token,
         },
       };
       /* let parametros =
@@ -139,19 +132,13 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-           this.flashMessage.show({
-              status: "error",
-              title: "BackOffice",
-              message: "Usuario ya existe",
-            });
+          this.flashMessage.show({
+            status: "error",
+            title: "BackOffice",
+            message: "Usuario ya existe",
+          });
         });
-        
     },
   },
-  
-
-    
-  
-    
 };
 </script>
