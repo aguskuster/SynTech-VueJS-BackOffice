@@ -106,17 +106,6 @@ export default {
           token: Global.token,
         },
       };
-      /* let parametros =
-        "samaccountname=" +
-        this.persona.samaccountname +
-        "&unicodePwd=" +
-        this.persona.unicodePwd +
-        "&cn=" +
-        this.persona.cn +
-        "&userPrincipalName=" +
-        this.persona.userPrincipalName +
-        "&ou="+ 
-        this.persona.ou; */
       axios
         .post(Global.url + "usuario", this.persona, config)
         .then((response) => {

@@ -42,6 +42,15 @@
           </li>
           <li class="nav-item">
             <router-link
+              to="/listarGrupo"
+              class="nav-link navMargin"
+              active-class="menuActivo"
+              title="Listar Grupo"
+              style="color:#c5c6c7;text-decoration:none"
+              >Listar Grupo</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
               to="/contacto"
               active-class="menuActivo"
               class="nav-link navMargin"

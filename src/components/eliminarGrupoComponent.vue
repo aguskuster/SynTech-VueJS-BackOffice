@@ -1,0 +1,78 @@
+<template>
+<div>
+  <h1>Eliminar Usuario</h1>
+<div class="container p-3 my-3 border">
+    <p class="form-control"><b> Acronimo Grupo	 :</b> {{ GrupoDatos.idGrupo }}</p>
+    <p class="form-control"><b>Nombre Completo Grupo	 :</b> {{ GrupoDatos.nombreCompleto }}</p>
+    <p class="form-control"><b> Año Electivo	 : </b>{{ GrupoDatos.anioElectivo }}</p>
+    <input
+      type="submit"
+      value="Eliminar Grupo"
+      class="btn btn-danger"
+      v-on:click="eliminarGrupo()"
+    />
+  </div>
+</div>
+</template>
+
+<script>
+import { Global } from "../Global";
+import axios from "axios";
+export default {
+  name: "eliminarGrupoComponent.vue",
+  data() {
+    return {
+      GrupoDatos: "",
+    };
+  },
+  mounted() {
+    //console.log(slug);
+    this.getGrupo();
+  },
+  methods: {
+    getGrupo() {
+      let grupo = this.$route.params.grupo;
+      axios.get(Global.url + "grupo?idGrupo=" + grupo).then((res) => {
+        if (res.status == 200) {
+          this.GrupoDatos = res.data;
+        } else {
+          alert("no se pudo conectar");
+        }
+      });
+    },
+    eliminarGrupo() {
+    
+   axios
+        .delete(Global.url + "grupo", {
+        headers: {
+            "Content-Type": "application/json",
+            "token": Global.token
+        },
+        data: { 
+            "idGrupo": this.GrupoDatos.idGrupo,
+         },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+        
+    
+            this.flashMessage.show({
+              status: "success",
+              title: "BackkOffice",
+              message: "Grupo Eliminado",
+            });
+
+            this.$router.push("/listarGrupo");
+          }
+        })
+        .catch((error) => {
+          this.flashMessage.show({
+            status: "error",
+            title: "BackOffice",
+            message: "Error inesperado." + error,
+          });
+        });
+    },
+  },
+};
+</script>

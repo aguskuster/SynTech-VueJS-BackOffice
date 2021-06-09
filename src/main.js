@@ -11,6 +11,11 @@ import LoginComponent from './components/LoginComponent.vue';
 import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
 import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue';
 import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
+import agregarGrupoComponent from './components/agregarGrupoComponent.vue';
+import listarGrupoComponent from './components/listarGrupoComponent.vue';
+
+import eliminarGrupoComponent from './components/eliminarGrupoComponent.vue';
+import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
 
@@ -29,7 +34,11 @@ const routes = [
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
     { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
-    { path: '*', name: 'error404', component: ErrorComponent} 
+    { path: '*', name: 'error404', component: ErrorComponent},
+    { path: '/grupo', name: 'grupoAgregar', component: agregarGrupoComponent },
+    { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
+    { path: '/eliminarGrupo/:grupo', name: 'listar-grupo-eliminar', component: eliminarGrupoComponent },
+    { path: '/modificarGrupo/:grupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent }
 ];
 
 
