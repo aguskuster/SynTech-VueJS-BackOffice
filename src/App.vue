@@ -42,6 +42,15 @@
           </li>
           <li class="nav-item">
             <router-link
+              to="/listarMaterias"
+              class="nav-link navMargin"
+              active-class="menuActivo"
+              title="Listar Materia"
+              style="color:#c5c6c7;text-decoration:none"
+              >Listar Materia</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
               to="/listarGrupo"
               class="nav-link navMargin"
               active-class="menuActivo"

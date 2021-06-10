@@ -13,11 +13,14 @@ import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue'
 import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
 import agregarGrupoComponent from './components/agregarGrupoComponent.vue';
 import listarGrupoComponent from './components/listarGrupoComponent.vue';
-
 import eliminarGrupoComponent from './components/eliminarGrupoComponent.vue';
 import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
+import listarMateriaComponent from './components/listarMateriaComponent.vue';
+import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
+import modificarMateriaComponent from './components/modificarMateriaComponent.vue';
+import eliminarMateriaComponent from './components/eliminarMateriaComponent.vue';
 
 Vue.config.productionTip = false
 
@@ -38,7 +41,11 @@ const routes = [
     { path: '/grupo', name: 'grupoAgregar', component: agregarGrupoComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
     { path: '/eliminarGrupo/:grupo', name: 'listar-grupo-eliminar', component: eliminarGrupoComponent },
-    { path: '/modificarGrupo/:grupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent }
+    { path: '/modificarGrupo/:grupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
+    { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
+    { path: '/materia', name: 'agregarMateria', component: agregarMateriaComponent },
+    { path: '/modificarMateria/:materia', name: 'listar-materia-modificar', component: modificarMateriaComponent },
+    { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent }
 ];
 
 
