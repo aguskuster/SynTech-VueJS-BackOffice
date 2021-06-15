@@ -22,6 +22,8 @@ import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
 import modificarMateriaComponent from './components/modificarMateriaComponent.vue';
 import eliminarMateriaComponent from './components/eliminarMateriaComponent.vue';
 
+import agregarProfesorMateria from './components/agregarProfesorMateria.vue';
+
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -37,7 +39,6 @@ const routes = [
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
     { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
-    { path: '*', name: 'error404', component: ErrorComponent},
     { path: '/grupo', name: 'grupoAgregar', component: agregarGrupoComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
     { path: '/eliminarGrupo/:grupo', name: 'listar-grupo-eliminar', component: eliminarGrupoComponent },
@@ -45,7 +46,9 @@ const routes = [
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
     { path: '/materia', name: 'agregarMateria', component: agregarMateriaComponent },
     { path: '/modificarMateria/:materia', name: 'listar-materia-modificar', component: modificarMateriaComponent },
-    { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent }
+    { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent },
+    { path: '/profesor-materia', name: 'profesorMateria', component: agregarProfesorMateria},
+    { path: '*', name: 'error404', component: ErrorComponent},
 ];
 
 
