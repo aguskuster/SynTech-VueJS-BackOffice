@@ -13,8 +13,10 @@
           <th scope="col">Acronimo Grupo</th>
           <th scope="col">Nombre Completo Grupo</th>
           <th scope="col">Año Electivo</th>
+          <th scope="col">Agregar Profesor</th>
             <th scope="col">Modificar</th>
           <th scope="col">Eliminar</th>
+           
         </tr>
       </thead>
       <tbody>
@@ -24,6 +26,17 @@
           <th scope="row">{{ todo.idGrupo }}</th>
           <td>{{ todo.nombreCompleto }}</td>
           <td>{{ todo.anioElectivo }}</td>
+           <td>
+            <router-link
+              :to="{
+                name: 'profesorGrupo',
+                params: { grupo: todo.idGrupo  },
+              }"
+            >
+              <i class="fa fa-plus" aria-hidden="true" style="font-size: 20px; margin-left: 40px; color: green"></i>
+
+            </router-link>
+          </td>
           <td>
 
             <router-link
@@ -51,6 +64,7 @@
               ></i>
             </router-link>
           </td>
+          
         </tr>
       </tbody>
     </table>

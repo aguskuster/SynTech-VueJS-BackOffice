@@ -69,7 +69,7 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Usuario ya existe",
+            message: "Materia ya existe",
           });
         });
     },

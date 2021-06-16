@@ -1,45 +1,31 @@
 <template>
   <div>
-    <h1>Agregar Profesor a una Materia</h1>
+    <h1>Agregar Profesor a un Grupo</h1>
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
-
       <form
         name="form"
         id="form"
-        v-on:submit.prevent="agregarProfesorMateria()"
+        v-on:submit.prevent="agregarProfesorGrupo()"
       >
         <p>
-          Nombre Profesor<em>*</em>:
+          Profesores<em>*</em>:
 
           <select
             class="form-control"
-            v-model="modelProfeMateria.idProfesor"
+            v-model="modelProfeMateria"
             aria-label="Default select example"
             required
           >
             
-              <option v-for="profe in profesores" :key="profe.username" v-bind:value="profe.username">{{ profe.nombre }}</option>
+              <option v-for="profe in materiaProfesor" :key="profe.cedulaProfesor" v-bind:value="[profe.cedulaProfesor, profe.idMateria]">{{ profe.nombreProfesor }} - {{ profe.nombreMateria }}</option>
             
           </select>
         </p>
-        <p>
-          Materia<em>*</em>:
-
-          <select
-            class="form-control"
-            v-model="modelProfeMateria.idMateria"
-            aria-label="Default select example"
-            required
-          >
-              <option  v-for="materia in materias" :key="materia.id" v-bind:value="materia.id">{{ materia.nombre }}</option>
-          </select>
-        </p>
-
         <hr />
         <input
           type="submit"
-          value="Agregar Usuario"
+          value="Agregar"
           title="Enviar"
           class="btn btn-primary"
         />
@@ -53,21 +39,15 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 export default {
-  name: "agregarProfesorMateria",
+  name: "agregarProfesorGrupoComponent",
   components: {
     vueHeadful,
   },
   data() {
     return {
       title: "BackOffice",
-      nombre: "",
-      nav: true,
-      materias: "",
-      profesores: "",
-      modelProfeMateria: {
-        idProfesor: "",
-        idMateria: "",
-      },
+      materiaProfesor: "",
+      modelProfeMateria:[],
     };
   },
 
@@ -76,49 +56,43 @@ export default {
       this.$router.push("/login");
     }
     this.getMaterias();
-    this.getProfesores();
   },
   methods: {
     getMaterias() {
-      axios.get(Global.url + "materias").then((res) => {
+      axios.get(Global.url + "profesorMateria").then((res) => {
         if (res.status == 200) {
-          this.materias = res.data;
+          this.materiaProfesor = res.data;
         } else {
           alert("no se pudo conectar");
         }
       });
     },
-    getProfesores() {
-      
-      axios.get(Global.url + "profesores").then((res) => {
-        if (res.status == 200) {
-          this.profesores = res.data;
-        } else {
-          alert("no se pudo conectar");
-        }
-      });
-    },
-    agregarProfesorMateria() {
-     
+
+    agregarProfesorGrupo() {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-
+    let grupo = this.$route.params.grupo;
+    let parametros = {
+        'idGrupo' :grupo,
+        'idMateria' : this.modelProfeMateria[1],
+        'idProfesor' : this.modelProfeMateria[0]
+    };
       axios
-        .post(Global.url + "profesor", this.modelProfeMateria, config)
+        .post(Global.url + "curso", parametros, config)
         .then((response) => {
           if (response.status == 200) {
 
             this.flashMessage.show({
               status: "success",
               title: "BackOffice",
-              message: "Profesor se agrego a la materia",
+              message: "Profesor se agrego al grupo",
             });
             document.form.reset();
-            this.$router.push("/listarMaterias");
+            this.$router.push("/listarGrupo");
           }
         })
         .catch((error) => {
@@ -126,7 +100,7 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Profesor ya tiene esa materia",
+            message: "Grupo ya tiene esta  materia",
           });
         });
     },

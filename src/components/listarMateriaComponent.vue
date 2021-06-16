@@ -6,6 +6,10 @@
       <router-link style="color: white; text-decoration: none" to="/materia"
         >Agregar Materia</router-link>
     </button>
+     <button type="button" class="right btn btn-primary ml-2">
+      <router-link style="color: white; text-decoration: none" to="/profesor-materia"
+        >Agregar Profesor a Materia</router-link>
+    </button>
     <table class="table">
       <thead>
         <tr>

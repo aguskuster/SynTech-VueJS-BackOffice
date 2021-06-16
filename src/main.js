@@ -23,7 +23,7 @@ import modificarMateriaComponent from './components/modificarMateriaComponent.vu
 import eliminarMateriaComponent from './components/eliminarMateriaComponent.vue';
 
 import agregarProfesorMateria from './components/agregarProfesorMateria.vue';
-
+import agregarProfesorGrupoComponent from './components/agregarProfesorGrupoComponent.vue';
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -48,7 +48,12 @@ const routes = [
     { path: '/modificarMateria/:materia', name: 'listar-materia-modificar', component: modificarMateriaComponent },
     { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent },
     { path: '/profesor-materia', name: 'profesorMateria', component: agregarProfesorMateria},
+    { path: '/profesor-grupo/:grupo', name: 'profesorGrupo', component: agregarProfesorGrupoComponent},
     { path: '*', name: 'error404', component: ErrorComponent},
+
+    
+
+    
 ];
 
 
