@@ -13,13 +13,14 @@
           Nombre Profesor<em>*</em>:
 
           <select
+           v-on:change="getMaterias()"
             class="form-control"
             v-model="modelProfeMateria.idProfesor"
             aria-label="Default select example"
             required
           >
             
-              <option v-for="profe in profesores" :key="profe.username" v-bind:value="profe.username">{{ profe.nombre }}</option>
+              <option   v-for="profe in profesores" :key="profe.username" v-bind:value="profe.username">{{ profe.nombre }}</option>
             
           </select>
         </p>
@@ -39,7 +40,7 @@
         <hr />
         <input
           type="submit"
-          value="Agregar Usuario"
+          value="Agregar a Materia"
           title="Enviar"
           class="btn btn-primary"
         />
@@ -75,12 +76,12 @@ export default {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-    this.getMaterias();
+
     this.getProfesores();
   },
   methods: {
     getMaterias() {
-      axios.get(Global.url + "materias").then((res) => {
+      axios.get(Global.url + "profesor?idProfesor=" + this.modelProfeMateria.idProfesor).then((res) => {
         if (res.status == 200) {
           this.materias = res.data;
         } else {
@@ -130,6 +131,14 @@ export default {
           });
         });
     },
+
+ 
+ 
   },
+
 };
+
+
+
+
 </script>
