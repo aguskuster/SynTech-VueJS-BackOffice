@@ -59,18 +59,18 @@ export default {
     
             this.flashMessage.show({
               status: "success",
-              title: "BackkOffice",
+              title: "BackOffice",
               message: "Materia Eliminada",
             });
 
             this.$router.push("/listarMaterias");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error inesperado." + error,
+            message: "Error, la materia esta vinculada a otros elementos",
           });
         });
     },
