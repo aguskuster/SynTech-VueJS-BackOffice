@@ -13,7 +13,7 @@
           <th scope="col">Acronimo Grupo</th>
           <th scope="col">Nombre Completo Grupo</th>
           <th scope="col">Año Electivo</th>
-          <th scope="col">Agregar Profesor</th>
+          <th scope="col">Agregar Miembro</th>
             <th scope="col">Modificar</th>
           <th scope="col">Eliminar</th>
            
@@ -29,7 +29,7 @@
            <td>
             <router-link
               :to="{
-                name: 'profesorGrupo',
+                name: 'miembroGrupo',
                 params: { grupo: todo.idGrupo  },
               }"
             >
