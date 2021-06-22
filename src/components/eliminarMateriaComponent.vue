@@ -60,7 +60,7 @@ export default {
             this.flashMessage.show({
               status: "success",
               title: "BackkOffice",
-              message: "Usuario Eliminado",
+              message: "Materia Eliminada",
             });
 
             this.$router.push("/listarMaterias");
