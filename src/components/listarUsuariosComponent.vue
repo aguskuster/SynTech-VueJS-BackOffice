@@ -79,12 +79,12 @@ export default {
   },
   methods: {
     getTodos() {
-      /*   let config = {
+       let config = {
                     headers: {
                         'token': Global.token
                     } 
-                } */
-      axios.get(Global.url + "usuarios").then((res) => {
+                } 
+      axios.get(Global.url + "usuarios",config).then((res) => {
         //console.log('servicios', res.status);
         if (res.status == 200) {
           this.todosUsuarios = res.data;

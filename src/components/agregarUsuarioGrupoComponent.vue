@@ -109,7 +109,13 @@ export default {
     },
 
     getAlumnos() {
-      axios.get(Global.url + "alumnos").then((res) => {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "alumnos",config).then((res) => {
         if (res.status == 200) {
           this.usuarios = res.data;
         } else {
@@ -119,8 +125,14 @@ export default {
     },
 
     getProfeMateria() {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
       let grupo = this.$route.params.grupo;
-      axios.get(Global.url + "grupo-materia?idGrupo=" + grupo + "&idProfesor=" + this.miembro).then((res) => {
+      axios.get(Global.url + "grupo-materia?idGrupo=" + grupo + "&idProfesor=" + this.miembro,config).then((res) => {
         if (res.status == 200) {
           this.materiaProfesor = res.data;
         } else {
@@ -131,8 +143,13 @@ export default {
 
     
     getProfesores() {
-     
-      axios.get(Global.url + "profesores").then((res) => {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "profesores",config).then((res) => {
         if (res.status == 200) {
           this.usuarios = res.data;
         } else {
@@ -142,7 +159,13 @@ export default {
     },
 
     getMaterias() {
-      axios.get(Global.url + "profesorMateria").then((res) => {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "profesorMateria",config).then((res) => {
         if (res.status == 200) {
           this.materiaProfesor = res.data;
         } else {

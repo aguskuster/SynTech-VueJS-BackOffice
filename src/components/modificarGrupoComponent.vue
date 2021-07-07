@@ -45,8 +45,13 @@ export default {
   },
   methods: {
     getGrupo() {
+      let config = {
+                    headers: {
+                        'token': Global.token
+                    } 
+                } 
       let grupo = this.$route.params.grupo;
-      axios.get(Global.url + "grupo?idGrupo=" + grupo).then((res) => {
+      axios.get(Global.url + "grupo?idGrupo=" + grupo,config).then((res) => {
         if (res.status == 200) {
           this.GrupoDatos = res.data;
         } else {

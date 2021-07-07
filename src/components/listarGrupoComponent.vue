@@ -92,7 +92,13 @@ export default {
   },
   methods: {
     getTodos() {
-      axios.get(Global.url + "grupos").then((res) => {
+        let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "grupos",config).then((res) => {
         if (res.status == 200) {
           this.todosGrupo= res.data;
         }

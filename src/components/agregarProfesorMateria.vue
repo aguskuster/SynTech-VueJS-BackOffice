@@ -81,7 +81,13 @@ export default {
   },
   methods: {
     getMaterias() {
-      axios.get(Global.url + "profesor?idProfesor=" + this.modelProfeMateria.idProfesor).then((res) => {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "profesor?idProfesor=" + this.modelProfeMateria.idProfesor,config).then((res) => {
         if (res.status == 200) {
           this.materias = res.data;
         } else {
@@ -90,8 +96,13 @@ export default {
       });
     },
     getProfesores() {
-      
-      axios.get(Global.url + "profesores").then((res) => {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "profesores",config).then((res) => {
         if (res.status == 200) {
           this.profesores = res.data;
         } else {

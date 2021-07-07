@@ -64,8 +64,13 @@ export default {
   },
   methods: {
     getUsuario() {
+       let config = {
+                    headers: {
+                        'token': Global.token
+                    } 
+                }
       let user = this.$route.params.user;
-      axios.get(Global.url + "usuario?username=" + user).then((res) => {
+      axios.get(Global.url + "usuario?username=" + user,config).then((res) => {
         //console.log('servicios', res.status);
         if (res.status == 200) {
           this.usuarioDatos = res.data;

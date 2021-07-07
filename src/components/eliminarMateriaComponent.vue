@@ -31,8 +31,14 @@ export default {
   },
   methods: {
     getMateria() {
+        let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
       let materia = this.$route.params.materia;
-      axios.get(Global.url + "materia?idMateria=" + materia).then((res) => {
+      axios.get(Global.url + "materia?idMateria=" + materia,config).then((res) => {
       
         if (res.status == 200) {
           this.materiaDatos = res.data;
