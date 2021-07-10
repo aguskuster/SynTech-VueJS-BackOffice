@@ -5,7 +5,10 @@ body{
     
 }
 
-
+.contenedor_res{
+    width:100%;
+    padding:20px;
+}
 .contenedor_table{
     margin-top:40px;
     display:flex;
@@ -37,11 +40,13 @@ body{
     height: 36px;
     border:2px solid grey;
     border-radius: 6px;
+    width:50%;
 }
 .menu_buscar{
     margin-top:20px;
-    text-align: center;
-    align-items:center;
+   display:flex;
+   flex-direction: row;
+   justify-content: center;
 }
 .contenedor_table thead{
     background-color:rgb(14,13, 23);
@@ -202,6 +207,10 @@ body{
         border:3px solid grey;
         border-radius: 6px;
         
+        
+    }
+    .menu_buscar{
+     min-width: 350px;
     }
     .contenedor_table table tr td{
      font-size: .8rem;

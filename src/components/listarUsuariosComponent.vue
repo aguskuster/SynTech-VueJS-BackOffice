@@ -1,5 +1,5 @@
 <template>
-<div style=" padding:0 !important">
+<div>
   
 
 <div class="contenedor_menu">

@@ -127,7 +127,7 @@
 
 
 
-    <div class="container"> 
+    <div class="contenedor_res"> 
       <br />
       <router-view> </router-view>
     </div>
