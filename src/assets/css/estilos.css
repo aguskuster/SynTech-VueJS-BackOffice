@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap');
+
 .pie {
     background-color: black !important;
     color: white;
@@ -45,4 +47,157 @@ table{
 
 p{
     color:white;
+}
+
+
+
+
+
+
+
+
+.contenedorSupremo{
+    display:flex;
+    flex-direction: row; 
+    
+}
+
+.menu{
+    width: 230px;
+    background-color:rgb(14,13, 23);
+    height:100vh;
+}
+
+.menu ul{ 
+   margin-top:20px;
+   font-size:1rem; 
+   padding:0; 
+}
+
+.menu ul li a:hover{
+    background-color:rgb(255, 255, 255);
+    color:black;
+    text-decoration:none;
+    }
+
+.menu ul li i{
+    
+    min-width:50px;
+    height:50px;
+    line-height: 50px;
+    font-size: 1.3rem;
+}
+
+.menu ul li{
+   position: relative;
+   height: 70px;
+   width: 100%;
+   list-style: none;
+   text-align: center;
+ 
+}
+
+
+.menu ul li a{
+    color:white;
+    display:flex;
+   
+    align-items: center;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+.perfil{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+   
+}
+
+
+
+.logout{
+    color:red;
+    padding:10px;
+    font-size:1.3rem;
+}
+.logout:hover{
+    cursor: pointer;
+    background-color:rgb(255, 255, 255);
+    border-radius:12px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navclase{
+    display: none !important;
+  
+}
+
+@media (max-width: 1024px) {
+    .boton-nav-celular{
+        font-size: 1.5rem;
+        float: right;
+        margin-top:26px;
+    }
+    .navclase{
+        display:block !important;
+        background-color:rgb(14,13, 23);
+    }
+    .menu{
+        display:none !important;
+    }
+   
+    .contenedorSupremo{
+        display:block; 
+   }
+  
+   .navcel-Contenedor ul{
+       
+       margin-top:10px;
+       font-size:1.3rem; 
+       padding:0; 
+       
+   }
+
+   .navcel-Contenedor ul li{
+    color:#fff !important; 
+    list-style: none;
+    text-align: center;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    padding:6px;
+   }
+
+    .navcel-Contenedor ul li i{
+        font-size:1rem;
+        color: white;
+    }
+    .navcel-Contenedor ul li a{
+       
+        color:rgb(255, 255, 255);
+    }
+    
+
 }

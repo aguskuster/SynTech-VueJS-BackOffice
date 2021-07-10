@@ -35,10 +35,15 @@ export default {
     this.getUsuario();
   },
   methods: {
+
     getUsuario() {
+        let config = {
+                    headers: {
+                        'token': Global.token
+                    } 
+                };
       let user = this.$route.params.user;
-      axios.get(Global.url + "usuario?username=" + user).then((res) => {
-        //console.log('servicios', res.status);
+      axios.get(Global.url + "usuario?username=" + user ,config).then((res) => {
         if (res.status == 200) {
           this.usuarioDatos = res.data;
         } else {
@@ -56,6 +61,7 @@ export default {
         },
         data: { 
             "username": this.usuarioDatos.username,
+            "ou": this.usuarioDatos.ou,
          },
         })
         .then((response) => {

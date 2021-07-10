@@ -1,105 +1,134 @@
 <template>
-  <div>
+  <div class="contenedorSupremo">
     <vue-headful :title="title" />
-    <nav class="navbar navbar-expand-lg" v-if='logged'>
+
+    <div class="menu" v-if="logged">
       <h3 class="text-muted">
         <router-link to="/home" title="Home"
           ><img
             src="./assets/images/LogoFinal.png"
             alt="Logo"
-            style="width: 70px"/>
+            style="width: 70px; margin: auto; display: block; margin-top: 20px"
+          />
         </router-link>
       </h3>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link
-              to="/home"
-              class="nav-link navMargin"
-              active-class="menuActivo"
-              title="Home"
-              style="color:#c5c6c7;text-decoration:none"
-              >Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/listarUsuarios"
-              class="nav-link navMargin"
-              active-class="menuActivo"
-              title="Listar Usuarios"
-              style="color:#c5c6c7;text-decoration:none"
-              >Listar Usuarios</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/listarMaterias"
-              class="nav-link navMargin"
-              active-class="menuActivo"
-              title="Listar Materia"
-              style="color:#c5c6c7;text-decoration:none"
-              >Listar Materia</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/listarGrupo"
-              class="nav-link navMargin"
-              active-class="menuActivo"
-              title="Listar Grupo"
-              style="color:#c5c6c7;text-decoration:none"
-              >Listar Grupo</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/contacto"
-              active-class="menuActivo"
-              class="nav-link navMargin"
-              title="Contacto"
-              style="color:#c5c6c7;text-decoration:none"
-              >Contacto</router-link>
-          </li>
-        </ul>
-        <div v-if="logged" class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false">
-            {{usuario}}
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button class="dropdown-item" v-on:click="cerrarSesion();">Cerrar Sesion</button>    
-          </div>
+
+      <ul>
+        <li>
+          <router-link to="/home" title="Home">
+            <i class="far fa-home"></i>
+
+            Home</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/listarUsuarios" title="Listar Usuarios">
+            <i class="far fa-user"></i>
+            Listar Usuarios</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/listarMaterias" title="Listar Materia">
+            <i class="fal fa-books"></i>
+
+            Listar Materia
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/listarGrupo" title="Listar Grupo">
+            <i class="far fa-users"></i>Listar Grupo
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/contacto" title="Contacto">
+            <i class="far fa-address-book"></i>
+            Contacto
+          </router-link>
+        </li>
+      </ul>
+
+      <div class="perfil">
+        <div class="contenedorPerfil">
+          <i class="far fa-sign-out-alt logout" v-on:click="cerrarSesion()"></i>
         </div>
-        <router-link
-          v-else
-          to="/login"
-          active-class="menuActivoL"
-          class="btn btn-success my-2 my-sm-0"
-          title="Login"
-          >Login</router-link>
       </div>
-    </nav>
+    </div>
+
+    <!-- Separacion---------------------------------------------------------------- -->
+    <div class="navcelular">
+      <nav class="navbar navclase" style="padding:0" v-if="logged">
+        <span>
+          <router-link to="/home" title="Home"
+            ><img
+              src="./assets/images/LogoFinal.png"
+              alt="Logo"
+              style="width: 70px"
+            />
+          </router-link>
+        </span>
+        
+        <button
+          class="navbar-toggler boton-nav-celular"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span style="color: white">
+            <i class="fas fa-stream"></i>
+          </span>
+        </button>
+
+
+        <div class="collapse navcel-Contenedor"  id="navbarSupportedContent">
+          <ul>
+
+            <li>
+              <router-link to="/home" title="Home" >
+                <i class="far fa-home"></i>
+                Home</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/listarUsuarios" title="Listar Usuarios" >
+                <i class="far fa-user"></i>
+                Listar Usuarios</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/listarMaterias" title="Listar Materia" >
+                <i class="fal fa-books"></i>
+
+                Listar Materia
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/listarGrupo" title="Listar Grupo" >
+                <i class="far fa-users"></i>Listar Grupo
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/contacto" title="Contacto" >
+                <i class="far fa-address-book"></i>
+                Contacto
+              </router-link>
+            </li>
+            <li>
+               <i class="far fa-sign-out-alt logout" v-on:click="cerrarSesion()" style="   font-size:1.2rem; "> Cerrar Sesion </i>
+
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+
 
     <div class="container">
-      <br/> 
-      <router-view>
-
-      </router-view>
-      <!-- <footer class="footer">
-        <p>&copy; Desarrollado por Syntech</p>
-      </footer> -->
+      <br />
+      <router-view> </router-view>
     </div>
     <FlashMessage></FlashMessage>
   </div>
@@ -116,13 +145,13 @@ export default {
     return {
       usuario: "",
       logged: false,
-      title:"BackOffice",
+      title: "BackOffice",
     };
   },
   mounted() {
     this.verificarLogueo();
   },
-  methods:{
+  methods: {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
@@ -138,8 +167,8 @@ export default {
 };
 </script>
 <style>
-body{ 
-  background-color:#1d1e1f;
+body {
+  background-color: #1d1e1f;
 }
 @import "./assets/css/estilos.css";
 </style>
