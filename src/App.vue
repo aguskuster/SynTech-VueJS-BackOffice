@@ -55,7 +55,8 @@
     </div>
 
     <!-- Separacion---------------------------------------------------------------- -->
-    <div class="navcelular">
+    <div>
+      
       <nav class="navbar navclase" style="padding:0" v-if="logged">
         <span>
           <router-link to="/home" title="Home"
@@ -85,8 +86,8 @@
         <div class="collapse navcel-Contenedor"  id="navbarSupportedContent">
           <ul>
 
-            <li>
-              <router-link to="/home" title="Home" >
+            <li >
+              <router-link  to="/home" title="Home" class="nav-link" >
                 <i class="far fa-home"></i>
                 Home</router-link
               >
@@ -126,7 +127,7 @@
 
 
 
-    <div class="container">
+    <div class="container"> 
       <br />
       <router-view> </router-view>
     </div>
@@ -168,7 +169,7 @@ export default {
 </script>
 <style>
 body {
-  background-color: #1d1e1f;
+  background-color: #ffffff;
 }
 @import "./assets/css/estilos.css";
 </style>

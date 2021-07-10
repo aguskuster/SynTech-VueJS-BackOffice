@@ -1,57 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap');
 
-.pie {
-    background-color: black !important;
-    color: white;
+body{
+    font-family: 'Poppins', sans-serif;
+    
 }
 
-.menuActivoL {
-    color: #fff !important;
-    text-decoration:none;
-}
-.menuActivo {
-    color: rgb(255, 255, 255) !important;
-    text-decoration-color: underline 1px black;
-    text-decoration:none;
+
+.contenedor_table{
+    margin-top:40px;
+    display:flex;
+    flex-direction:row;
 }
 
-.navMargin{
-    margin-left:10px;
-    margin-right:10px;
+
+
+.contenedor_menu{
+    display: flex;
+    justify-content:space-between;
+    background-color:rgba(70, 65, 65, 0.226);
+    padding:0.8rem;
+    
+    
+    
 }
 
-footer{
-    margin-top:5%;
-}
-nav{
-    background:#1a1a1d;
-    text-decoration: none;
-}
-h1{
-  text-align: center;
-  color:whitesmoke;
-}
-table{
-    color:whitesmoke;
-}
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-  }
+.menu_buscar button{
 
-  em{
-      color:red;
-  }
-
-p{
+    
+    margin-left: 5px;
+    font-size: 1.3rem;
+   border-radius: 9px;
+    background-color:rgb(14,13, 23);
     color:white;
 }
-
-
-
-
+.menu_buscar input{
+    height: 36px;
+    border:2px solid grey;
+    border-radius: 6px;
+}
+.menu_buscar{
+    margin-top:20px;
+    text-align: center;
+    align-items:center;
+}
+.contenedor_table thead{
+    background-color:rgb(14,13, 23);
+    color: white;
+}
 
 
 
@@ -199,5 +194,16 @@ p{
         color:rgb(255, 255, 255);
     }
     
-
+    .contenedor_menu h2{
+    font-size: 1rem;
+    }
+    .menu_buscar input{
+        height: 38px;
+        border:3px solid grey;
+        border-radius: 6px;
+        
+    }
+    .contenedor_table table tr td{
+     font-size: .8rem;
+    }
 }

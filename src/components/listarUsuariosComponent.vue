@@ -1,30 +1,40 @@
 <template>
-<div>
-    <h1>Listado de Usuarios</h1>
-<div class="container p-3 my-3 border">
-    <button type="button" class="right btn btn-primary">
-      <router-link style="color: white; text-decoration: none" to="/usuario"
-        >Agregar Usuarios</router-link
-      >
+<div style=" padding:0 !important">
+  
+
+<div class="contenedor_menu">
+
+<h2>Listado de Usuarios</h2>
+   
+     <button class="btn btn-primary">
+      <router-link style="color: white;" to="/usuario">
+      Agregar Usuarios
+      </router-link>
     </button>
+
+    
+    
+</div>
+
+<div class="menu_buscar">
+  <input placeholder="Buscar...">
+  <button><i class="fas fa-search"></i></button>
+</div>
+<div class="contenedor_table">   
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Username</th>
           <th scope="col">Nombre</th>
-          <th scope="col">E-Mail</th>
-           <th scope="col">OU</th>
-          <th scope="col">Modificar</th>
-          <th scope="col">Eliminar</th>
+          <th scope="col">OU</th>
+          <th scope="col">Accion</th>
+          
         </tr>
       </thead>
       <tbody>
         <tr v-for="todo in todosUsuarios" :key="todo.id">
-          <th scope="row">{{ todo.id }}</th>
           <td>{{ todo.username }}</td>
-          <td>{{ todo.nombre }}</td>
-          <td>{{ todo.email }}</td>
+          <td >{{ todo.nombre }}</td>
           <td>{{ todo.ou }}</td>
           <td>
             <router-link
@@ -38,9 +48,7 @@
                 class="fas fa-pencil-alt hover"
               ></i>
             </router-link>
-          </td>
-          <td>
-            <router-link
+             <router-link
               :to="{
                 name: 'listar-usuario-eliminar',
                 params: { user: todo.username },
@@ -52,6 +60,7 @@
               ></i>
             </router-link>
           </td>
+        
         </tr>
       </tbody>
     </table>
