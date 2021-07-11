@@ -1,10 +1,15 @@
 <template>
   <div>
-    <h1>Listado de Materias</h1>
-    <div class="container p-3 my-3 border">
-      <button type="button" class="right btn btn-primary">
+    
+
+<div class="contenedor_menu">
+<h2>Listado de Materias</h2>
+<div>
+
+  <button type="button" class="right btn btn-primary">
         <router-link style="color: white; text-decoration: none" to="/materia"
-          >Agregar Materia</router-link
+          ><i class="far fa-books-medical"></i>
+</router-link
         >
       </button>
       <button type="button" class="right btn btn-primary ml-2">
@@ -14,13 +19,23 @@
           >Agregar Profesor a Materia</router-link
         >
       </button>
+  </div> 
+</div>
+
+<div class="menu_buscar">
+  <input placeholder="Buscar...">
+  <button><i class="fas fa-search"></i></button>
+</div>
+
+
+    <div class="contenedor_table">
+      
       <table class="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Modificar</th>
-            <th scope="col">Eliminar</th>
+            <th scope="col">Accion</th>
           </tr>
         </thead>
         <tbody>
@@ -34,23 +49,16 @@
                   params: { materia: todo.id },
                 }"
               >
-                <i
-                  style="font-size: 20px; margin-left: 20px; color: blue"
-                  class="fas fa-pencil-alt hover"
-                ></i>
+                <i class="far fa-pen" style="font-size: 20px; margin-left: 20px; color: blue"></i>
               </router-link>
-            </td>
-            <td>
-              <router-link
+               <router-link
                 :to="{
                   name: 'listar-materia-eliminar',
                   params: { materia: todo.id },
                 }"
               >
-                <i
-                  style="font-size: 20px; margin-left: 20px; color: red"
-                  class="fas fa-user-times hover"
-                ></i>
+                              <i class="far fa-user-times" style="font-size: 20px; margin-left: 20px; color: red"></i>
+
               </router-link>
             </td>
           </tr>

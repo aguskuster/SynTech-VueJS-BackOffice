@@ -83,34 +83,34 @@
         </button>
 
 
-        <div class="collapse navcel-Contenedor"  id="navbarSupportedContent">
+        <div class="collapse navcel-Contenedor" id="navbarSupportedContent">
           <ul>
 
-            <li >
-              <router-link  to="/home" title="Home" class="nav-link" >
+            <li v-on:click="bajarMenu()">
+              <router-link  to="/home" title="Home" class="nav-link">
                 <i class="far fa-home"></i>
                 Home</router-link
               >
             </li>
-            <li>
+            <li v-on:click="bajarMenu()">
               <router-link to="/listarUsuarios" title="Listar Usuarios" >
                 <i class="far fa-user"></i>
                 Listar Usuarios</router-link
               >
             </li>
-            <li>
+            <li v-on:click="bajarMenu()">
               <router-link to="/listarMaterias" title="Listar Materia" >
                 <i class="fal fa-books"></i>
 
                 Listar Materia
               </router-link>
             </li>
-            <li class="nav-item">
+            <li v-on:click="bajarMenu()">
               <router-link to="/listarGrupo" title="Listar Grupo" >
                 <i class="far fa-users"></i>Listar Grupo
               </router-link>
             </li>
-            <li>
+            <li v-on:click="bajarMenu()">
               <router-link to="/contacto" title="Contacto" >
                 <i class="far fa-address-book"></i>
                 Contacto
@@ -147,12 +147,28 @@ export default {
       usuario: "",
       logged: false,
       title: "BackOffice",
+      nav:false,
     };
   },
   mounted() {
     this.verificarLogueo();
   },
   methods: {
+
+    bajarMenu() {
+    
+    let elemento = document.getElementById('navbarSupportedContent');
+
+     if (this.nav){
+      elemento.classList.add("show");
+     }else{
+        elemento.classList.remove("show");
+     }
+    },
+
+
+
+
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
@@ -169,7 +185,7 @@ export default {
 </script>
 <style>
 body {
-  background-color: #ffffff;
+  background-color: whitesmoke;
 }
 @import "./assets/css/estilos.css";
 </style>

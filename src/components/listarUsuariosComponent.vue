@@ -8,12 +8,12 @@
    
      <button class="btn btn-primary">
       <router-link style="color: white;" to="/usuario">
-      Agregar Usuarios
+      <i class="far fa-user-plus"></i>
       </router-link>
+      
+     
     </button>
-
-    
-    
+  
 </div>
 
 <div class="menu_buscar">
@@ -43,21 +43,20 @@
                 params: { user: todo.username },
               }"
             >
-              <i
-                style="font-size: 20px; margin-left: 20px; color: blue"
-                class="fas fa-pencil-alt hover"
-              ></i>
+              
+
+              <i class="far fa-pen" style="font-size: 20px; margin-left: 20px; color: blue"></i>
+
             </router-link>
              <router-link
               :to="{
                 name: 'listar-usuario-eliminar',
                 params: { user: todo.username },
-              }"
-            >
-              <i
-                style="font-size: 20px; margin-left: 20px; color: red"
-                class="fas fa-user-times hover"
-              ></i>
+              }">
+         
+
+              <i class="far fa-user-times" style="font-size: 20px; margin-left: 20px; color: red"></i>
+
             </router-link>
           </td>
         

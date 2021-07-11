@@ -1,11 +1,25 @@
 <template>
 <div>
-    <h1>Listado de Grupos</h1>
-<div class="container p-3 my-3 border">
-    <button type="button" class="right btn btn-primary">
+
+<div class="contenedor_menu">
+<h2>Listado de Grupos</h2>
+<div>
+ <button type="button" class="right btn btn-primary">
       <router-link style="color: white; text-decoration: none" to="/grupo"
-        >Agregar Grupos</router-link>
+        ><i class="far fa-users-medical"></i></router-link>
     </button>
+  
+  </div> 
+</div>
+
+<div class="menu_buscar">
+  <input placeholder="Buscar...">
+  <button><i class="fas fa-search"></i></button>
+</div>
+
+
+<div class="contenedor_table">
+   
     <table class="table">
       <thead>
         <tr>
@@ -14,8 +28,8 @@
           <th scope="col">Nombre Completo Grupo</th>
           <th scope="col">Año Electivo</th>
           <th scope="col">Agregar Miembro</th>
-            <th scope="col">Modificar</th>
-          <th scope="col">Eliminar</th>
+            <th scope="col">Accion</th>
+         
            
         </tr>
       </thead>
@@ -33,8 +47,8 @@
                 params: { grupo: todo.idGrupo  },
               }"
             >
-              <i class="fa fa-plus" aria-hidden="true" style="font-size: 20px; margin-left: 40px; color: green"></i>
-
+             
+<i class="fal fa-plus-octagon" style="font-size: 20px; margin-left: 40px; color: green"></i>
             </router-link>
           </td>
           <td>
@@ -45,25 +59,20 @@
                 params: { grupo: todo.idGrupo },
               }"
             >
-              <i
-                style="font-size: 20px; margin-left: 20px; color: blue"
-                class="fas fa-pencil-alt hover"
-              ></i>
+         <i class="far fa-pen" style="font-size: 20px; margin-left: 20px; color: blue"></i>
+
             </router-link>
-          </td>
-          <td>
             <router-link
               :to="{
                 name: 'listar-grupo-eliminar',
                 params: { grupo: todo.idGrupo  },
               }"
             >
-              <i
-                style="font-size: 20px; margin-left: 20px; color: red"
-                class="fas fa-user-times hover"
-              ></i>
+            <i class="far fa-user-times" style="font-size: 20px; margin-left: 20px; color: red"></i>
+
             </router-link>
           </td>
+        
           
         </tr>
       </tbody>
