@@ -8,7 +8,7 @@
 
   <button type="button" class="right btn btn-primary">
         <router-link style="color: white; text-decoration: none" to="/materia"
-          ><i class="far fa-books-medical"></i>
+          ><i class="far fa-books-medical"></i> Materia
 </router-link
         >
       </button>
@@ -46,7 +46,8 @@
               <router-link
                 :to="{
                   name: 'listar-materia-modificar',
-                  params: { materia: todo.id },
+                  params: { materia: todo.nombre, idMateria: todo.id},
+
                 }"
               >
                 <i class="far fa-pen" style="font-size: 20px; margin-left: 20px; color: blue"></i>
@@ -101,11 +102,11 @@ export default {
             this.todosMateria = res.data;
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "warning",
             title: "BackOffice",
-            message: "Error inesperado al cargar " + error,
+            message: "Error inesperado al cargar ",
           });
         });
     },

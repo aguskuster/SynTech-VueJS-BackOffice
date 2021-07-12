@@ -6,12 +6,12 @@
    <form name="form" id="form" v-on:submit.prevent="modificarGrupo()">
 
   <div class="form-group">
-    <label for="password" style="color:white">Acronimo Grupo</label>
-    <input type="text" class="form-control" name="acronimoGrupo" id="name" placeholder="Acronimo Grupo" v-model="updateGrupo.nuevoGrupo"  required>
+    <label for="password">Acronimo Grupo</label>
+    <input type="text" class="form-control" name="acronimoGrupo" id="nombreAcronimo" placeholder="Acronimo Grupo"   required>
   </div>
    <div class="form-group">
-    <label for="password" style="color:white">Nombre Completo Grupo</label>
-    <input type="text" class="form-control" id="nombreCompletoGrupo" placeholder="Nombre Completo Grupo" v-model="updateGrupo.nuevoNombreCompleto" required>
+    <label for="password">Nombre Completo Grupo</label>
+    <input type="text" class="form-control" id="nombreCompletoGrupo" placeholder="Nombre Completo Grupo"  required>
   </div>
    <input
         type="submit"
@@ -44,6 +44,11 @@ export default {
     this.getGrupo(); 
   },
   methods: {
+
+    datosFRM(){
+      document.getElementById('nombreAcronimo').value = this.GrupoDatos.idGrupo;
+      document.getElementById('nombreCompletoGrupo').value = this.GrupoDatos.nombreCompleto;
+    },
     getGrupo() {
       let config = {
                     headers: {
@@ -54,6 +59,7 @@ export default {
       axios.get(Global.url + "grupo?idGrupo=" + grupo,config).then((res) => {
         if (res.status == 200) {
           this.GrupoDatos = res.data;
+         this.datosFRM();
         } else {
           alert("no se pudo conectar");
         }
@@ -64,8 +70,8 @@ export default {
       let parametros = {
             
             "idGrupo": grupo,
-            "nuevoGrupo":this.updateGrupo.nuevoGrupo,
-            "nuevoNombreCompleto": this.updateGrupo.nuevoNombreCompleto, 
+            "nuevoGrupo": document.getElementById('nombreAcronimo').value,
+            "nuevoNombreCompleto":  document.getElementById('nombreCompletoGrupo').value, 
          };
 
 
@@ -84,18 +90,18 @@ export default {
     
             this.flashMessage.show({
               status: "success",
-              title: "BackkOffice",
-              message: "Grupo Modificado",
+              title: "BackOffice",
+              message: "Grupo Modificado.",
             });
 
             this.$router.push("/listarGrupo");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error inesperado." + error,
+            message: "Error inesperado.",
           });
         });
     },

@@ -45,7 +45,7 @@ const routes = [
     { path: '/modificarGrupo/:grupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
     { path: '/materia', name: 'agregarMateria', component: agregarMateriaComponent },
-    { path: '/modificarMateria/:materia', name: 'listar-materia-modificar', component: modificarMateriaComponent },
+    { path: '/modificarMateria/:materia/:idMateria', name: 'listar-materia-modificar', component: modificarMateriaComponent },
     { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent },
     { path: '/profesor-materia', name: 'profesorMateria', component: agregarProfesorMateria},
     { path: '/miembro-grupo/:grupo', name: 'miembroGrupo', component: agregarUsuarioGrupoComponent},

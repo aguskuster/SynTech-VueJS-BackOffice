@@ -95,7 +95,7 @@
             <li v-on:click="bajarMenu()">
               <router-link to="/listarUsuarios" title="Listar Usuarios" >
                 <i class="far fa-user"></i>
-                Listar Usuarios</router-link
+                Listar Personas</router-link
               >
             </li>
             <li v-on:click="bajarMenu()">

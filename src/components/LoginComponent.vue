@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="container">
+  <div style=''>
+    <div class="">
       <div class="login-container">
         <div id="output"></div>
         <div class="avatar">
@@ -30,7 +30,7 @@
             </p>
            <input
           type="submit"
-          value="Enviar"
+          value="Login"
           title="Enviar"
           class="btn"
         />
@@ -79,7 +79,7 @@ export default {
               this.flashMessage.show({
                 status: "error",
                 title: "BackOffice",
-                message: "Error , credenciales invalidas",
+                message: "Error, credenciales invalidas",
               });
               localStorage.clear();
             } else {
@@ -88,12 +88,11 @@ export default {
             }
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error , credenciales invalidas" + error,
+            message: "Error, credenciales invalidas",
           });
           document.form.reset();
         });
@@ -102,29 +101,6 @@ export default {
 };
 </script>
 
-<style>
-
-.login-container {
-  position: relative;
-  width: 300px;
-  margin: 80px auto;
-  padding: 20px 40px 40px;
-  text-align: center;
-  background: #393e41be;
-  border: 1px solid #ccc;
-}
-
-
-.avatar {
-  background:url(../assets/images/LogoFinal.png);
-  width: 100px;
-  height: 100px;
-  margin: 10px auto 30px;
-  background-size: cover;
-  
-}
-.letraslogin{
-  color:white;
-}
+<style >
 
 </style>

@@ -71,11 +71,11 @@ export default {
             this.$router.push("/listarGrupo");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error inesperado." + error,
+            message: "Grupo se encuentra vinculado a datos.",
           });
         });
     },

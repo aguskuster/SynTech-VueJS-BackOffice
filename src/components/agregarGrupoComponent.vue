@@ -3,8 +3,8 @@
     <h1>Agregar Grupo</h1>
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
-        <p style="color: white; text-decoration: none">
-          Acronimo de Grupo<em>*</em>:
+        <p>
+          Acronimo de Grupo<em>*</em> :
           <input
             type="text"
             name="acronimoGrupo"
@@ -15,8 +15,8 @@
             required
           />
         </p>
-        <p style="color: white; text-decoration: none">
-          Nombre completo de grupo<em>*</em>
+        <p>
+          Nombre completo de grupo<em>*</em> :
           <input
             type="text"
             name="nombreCompletoGrupo"
@@ -73,8 +73,7 @@ export default {
             this.$router.push("/listarGrupo");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",

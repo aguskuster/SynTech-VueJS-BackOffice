@@ -3,8 +3,8 @@
     <h1>Agregar Materia</h1>
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
-        <p style="color: white; text-decoration: none">
-          Nombre Materia<em>*</em>:
+        <p>
+          Nombre Materia<em> *</em> :
           <input
             type="text"
             name="nombreMateria"
@@ -64,8 +64,7 @@ export default {
             this.$router.push("/listarMaterias");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",

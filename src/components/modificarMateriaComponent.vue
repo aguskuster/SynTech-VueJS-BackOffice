@@ -1,13 +1,13 @@
 <template>
 <div>
-     <h1>Modificado Grupo</h1>
+     <h1>Modificado de Materia</h1>
 <div class="container p-3 my-3 border">
 
    <form name="form" id="form" v-on:submit.prevent="modificarMateria()">
 
   <div class="form-group">
-    <label for="password" style="color:white">Nombre Materia</label>
-    <input type="text" class="form-control" name="acronimoGrupo" id="name" placeholder="Acronimo Grupo" v-model="nuevoNombreMateria"  required>
+    <label for="password">Nuevo nombre de Materia :</label>
+    <input type="text" class="form-control" name="acronimoGrupo" id="name" placeholder="Ejemplo: Tecnicatura Nocturna" v-model="nuevoNombreMateria"  required>
   </div>
    <input
         type="submit"
@@ -26,21 +26,26 @@ export default {
   name: "modificarMateriaComponent.vue",
   data() {
     return {
-     
-    nuevoNombreMateria: "",
-     
+    nuevoNombreMateria: "",    
     };
   },
   mounted() {
-    this.getMateria(); 
+
+    this.cargarDatosfrm();
   },
   methods: {
 
+
+    cargarDatosfrm(){
+  
+      document.getElementById('name').value = this.$route.params.materia;
+    },
     modificarMateria() {
-      let materia = this.$route.params.materia;
+      let idMateria = this.$route.params.idMateria;
       let parametros = {  
-            "idMateria": materia,
-            "nuevoNombre" : this.nuevoNombreMateria
+            "idMateria": idMateria,
+            "nuevoNombre" : document.getElementById('name').value,
+
          };
 
 
@@ -55,22 +60,19 @@ export default {
         .put(Global.url + "materia",parametros,config)
         .then((response) => {
           if (response.status == 200) {
-        
-    
             this.flashMessage.show({
               status: "success",
-              title: "BackkOffice",
-              message: "Materia Modificada",
+              title: "BackOffice",
+              message: "Materia Modificada.",
             });
-
             this.$router.push("/listarMaterias");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error inesperado." + error,
+            message: "Materia ya vinculada.",
           });
         });
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Agregar Usuario a un Grupo</h1>
+    <h1>Agregar Persona a un Grupo</h1>
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
 
@@ -10,7 +10,7 @@
         v-on:submit.prevent="agregarUsuarioGrupo()"
       >
         <p>
-          Tipo Miembro<em>*</em>:
+          Tipo Miembro<em> *</em> :
           <select
             v-on:change="buscarMiembro()"
             class="form-control"
@@ -25,7 +25,7 @@
         </p>
 
         <p>
-          Miembro<em>*</em>:
+          Miembro<em> *</em> :
           <select
             class="form-control"
             v-model="miembro"
@@ -213,8 +213,7 @@ export default {
             this.$router.push("/listarGrupo");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {  
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",

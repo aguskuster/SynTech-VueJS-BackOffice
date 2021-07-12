@@ -1,12 +1,12 @@
 <template>
 <div>
-  <h1>Eliminar Usuario</h1>
+  <h1>Eliminar Persona</h1>
 <div class="container p-3 my-3 border">
-    <p class="form-control"><b> Username :</b> {{ usuarioDatos.username }}</p>
-    <p class="form-control"><b>Nombre :</b> {{ usuarioDatos.nombre }}</p>
+    <p class="form-control"><b> Usuario :</b> {{ usuarioDatos.username }}</p>
+    <p class="form-control"><b> Nombre :</b> {{ usuarioDatos.nombre }}</p>
     <p class="form-control"><b> Email : </b>{{ usuarioDatos.email }}</p>
     <p class="form-control">
-      <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
+      <b> Rol : </b>{{ usuarioDatos.ou }}
     </p>
 
     <input
@@ -66,22 +66,20 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-        
-    
             this.flashMessage.show({
               status: "success",
-              title: "BackkOffice",
-              message: "Usuario Eliminado",
+              title: "BackOffice",
+              message: "Usuario Eliminado.",
             });
 
             this.$router.push("/listarUsuarios");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
-            message: "Error inesperado." + error,
+            message: "Usuario contiene vinculacion.",
           });
         });
     },

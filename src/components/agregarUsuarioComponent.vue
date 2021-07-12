@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h1>Agregar Usuario</h1>
+    <h1>Agregar Persona</h1>
 
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
         <p>
-          Cedula<em>*</em>:
+          Cedula<em> *</em> :
           <input
             type="text"
             name="Cedula"
-            placeholder="Cedula"
+            placeholder="Escriba Cedula..."
             class="form-control"
             v-model="persona.samaccountname"
             autocomplete="=off"
@@ -20,11 +20,11 @@
         </p>
 
         <p>
-          Contraseña<em>*</em>:
+          Contraseña<em> *</em> :
           <input
             type="text"
             name="password"
-            placeholder="Contreseña"
+            placeholder="Escriba Contreseña..."
             class="form-control"
             v-model="persona.unicodePwd"
             required
@@ -32,11 +32,11 @@
         </p>
 
         <p>
-          Nombre<em>*</em>:
+          Nombre<em> *</em> :
           <input
             type="text"
             name="nombre"
-            placeholder="Nombre"
+            placeholder="Escriba Nombre..."
             class="form-control"
             v-model="persona.cn"
             required
@@ -44,19 +44,18 @@
         </p>
 
         <p>
-          Correo<em>*</em>:
+          Correo :
           <input
             type="email"
             name="Correo"
-            placeholder="Correo"
+            placeholder="Escriba Correo..."
             class="form-control"
             v-model="persona.userPrincipalName"
-            required
           />
         </p>
 
         <p>
-          Unidad Organizativa<em>*</em>:
+         Rol<em> *</em> :
 
           <select  class="form-control" v-model="persona.ou" aria-label="Default select example" required>
             <option value="Bedelias">Bedelias</option>
@@ -119,8 +118,7 @@ export default {
             this.$router.push("/listarUsuarios");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",

@@ -10,7 +10,7 @@
         v-on:submit.prevent="agregarProfesorMateria()"
       >
         <p>
-          Nombre Profesor<em>*</em>:
+          Nombre Profesor<em> *</em> :
 
           <select
            v-on:change="getMaterias()"
@@ -25,7 +25,7 @@
           </select>
         </p>
         <p>
-          Materia<em>*</em>:
+          Materia<em> *</em> :
 
           <select
             class="form-control"
@@ -133,8 +133,7 @@ export default {
             this.$router.push("/listarMaterias");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: "BackOffice",
