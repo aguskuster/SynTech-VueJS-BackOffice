@@ -102,6 +102,7 @@ export default {
     buscarMiembro() {
       if (this.tipo === "Alumno") {
         this.getAlumnos();
+        this.profesor = false;
       } else {
         this.profesor = true;
         this.getProfesores();
