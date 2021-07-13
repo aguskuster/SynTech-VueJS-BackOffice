@@ -1,6 +1,6 @@
 <template>
 <div>
-     <h1>Modificado de Materia</h1>
+     <h1>Modificar Materia</h1>
 <div class="container p-3 my-3 border">
 
    <form name="form" id="form" v-on:submit.prevent="modificarMateria()">

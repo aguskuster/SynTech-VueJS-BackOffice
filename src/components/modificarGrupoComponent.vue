@@ -1,6 +1,6 @@
 <template>
 <div>
-     <h1>Modificado Grupo</h1>
+     <h1>Modificar Grupo</h1>
 <div class="container p-3 my-3 border">
 
    <form name="form" id="form" v-on:submit.prevent="modificarGrupo()">

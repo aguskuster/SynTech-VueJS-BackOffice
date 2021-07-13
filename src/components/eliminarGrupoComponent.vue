@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1>Eliminar Usuario</h1>
+  <h1>Eliminar Grupo</h1>
 <div class="container p-3 my-3 border">
     <p class="form-control"><b> Acronimo Grupo	 :</b> {{ GrupoDatos.idGrupo }}</p>
     <p class="form-control"><b>Nombre Completo Grupo	 :</b> {{ GrupoDatos.nombreCompleto }}</p>
