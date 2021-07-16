@@ -57,7 +57,7 @@ export default {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Materia Agregado",
             });
             document.form.reset();
@@ -67,7 +67,7 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Materia ya existe",
           });
         });

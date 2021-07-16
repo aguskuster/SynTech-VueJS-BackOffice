@@ -1,35 +1,30 @@
 <template>
   <div>
-    
+    <div class="contenedor_menu">
+      <vue-headful :title="title" />
+      <h2>Listado de Materias</h2>
+      <div>
+        <button type="button" class="right btn btn-primary">
+          <router-link style="color: white; text-decoration: none" to="/materia"
+            ><i class="far fa-books-medical"></i> Materia
+          </router-link>
+        </button>
+        <button type="button" class="right btn btn-primary ml-2">
+          <router-link
+            style="color: white; text-decoration: none"
+            to="/profesor-materia"
+            >Agregar Profesor a Materia</router-link
+          >
+        </button>
+      </div>
+    </div>
 
-<div class="contenedor_menu">
-<h2>Listado de Materias</h2>
-<div>
-
-  <button type="button" class="right btn btn-primary">
-        <router-link style="color: white; text-decoration: none" to="/materia"
-          ><i class="far fa-books-medical"></i> Materia
-</router-link
-        >
-      </button>
-      <button type="button" class="right btn btn-primary ml-2">
-        <router-link
-          style="color: white; text-decoration: none"
-          to="/profesor-materia"
-          >Agregar Profesor a Materia</router-link
-        >
-      </button>
-  </div> 
-</div>
-
-<div class="menu_buscar">
-  <input placeholder="Buscar...">
-  <button><i class="fas fa-search"></i></button>
-</div>
-
+    <div class="menu_buscar">
+      <input placeholder="Buscar..." />
+      <button><i class="fas fa-search"></i></button>
+    </div>
 
     <div class="contenedor_table">
-      
       <table class="table">
         <thead>
           <tr>
@@ -46,20 +41,24 @@
               <router-link
                 :to="{
                   name: 'listar-materia-modificar',
-                  params: { materia: todo.nombre, idMateria: todo.id},
-
+                  params: { materia: todo.nombre, idMateria: todo.id },
                 }"
               >
-                <i class="far fa-pen" style="font-size: 20px; margin-left: 20px; color: blue"></i>
+                <i
+                  class="far fa-pen"
+                  style="font-size: 20px; margin-left: 20px; color: blue"
+                ></i>
               </router-link>
-               <router-link
+              <router-link
                 :to="{
                   name: 'listar-materia-eliminar',
                   params: { materia: todo.id },
                 }"
               >
-                              <i class="far fa-user-times" style="font-size: 20px; margin-left: 20px; color: red"></i>
-
+                <i
+                  class="far fa-user-times"
+                  style="font-size: 20px; margin-left: 20px; color: red"
+                ></i>
               </router-link>
             </td>
           </tr>
@@ -71,20 +70,22 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
+import vueHeadful from "vue-headful";
 export default {
-  name: "listarMateria",
-
+  name: "HomeComponent",
+  components: {
+    vueHeadful,
+  },
   data() {
     return {
-      todosMateria: null,
+      title: "BackOffice",
+      nav: true,
     };
   },
-
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-
     this.getTodos();
   },
   methods: {
@@ -105,8 +106,8 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "warning",
-            title: "BackOffice",
-            message: "Error inesperado al cargar ",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
           });
         });
     },

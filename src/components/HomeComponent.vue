@@ -1,12 +1,10 @@
 <template>
-<div>
-<h1>Página Home</h1>
-<div class="container p-3 my-3 border">
-    <vue-headful :title="title" />
-    
-  
-</div>
-</div>
+  <div>
+    <h1>Página Home</h1>
+    <div class="container p-3 my-3 border">
+      <vue-headful :title="title" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -20,18 +18,15 @@ export default {
     return {
       title: "BackOffice",
       nombre: "",
-      nav:true,
+      nav: true,
     };
   },
 
   mounted() {
-    
-   if (!localStorage.getItem("auth_token")) {
-    this.$router.push("/login");
-    } 
-
+    if (!localStorage.getItem("auth_token")) {
+      this.$router.push("/login");
+    }
   },
- 
 };
 </script>
 

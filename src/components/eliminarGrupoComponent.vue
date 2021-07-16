@@ -14,7 +14,6 @@
   </div>
 </div>
 </template>
-
 <script>
 import { Global } from "../Global";
 import axios from "axios";
@@ -26,7 +25,6 @@ export default {
     };
   },
   mounted() {
-    //console.log(slug);
     this.getGrupo();
   },
   methods: {
@@ -41,13 +39,10 @@ export default {
       axios.get(Global.url + "grupo?idGrupo=" + grupo, config).then((res) => {
         if (res.status == 200) {
           this.GrupoDatos = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
     eliminarGrupo() {
-    
    axios
         .delete(Global.url + "grupo", {
         headers: {
@@ -60,11 +55,9 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-        
-    
             this.flashMessage.show({
               status: "success",
-              title: "BackkOffice",
+              title:  Global.nombreSitio,
               message: "Grupo Eliminado",
             });
 
@@ -74,7 +67,7 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Grupo se encuentra vinculado a datos.",
           });
         });

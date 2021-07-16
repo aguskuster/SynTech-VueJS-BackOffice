@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
+      <vue-headful :title="title" />
       <h2>Listado de Grupos</h2>
       <div>
         <button type="button" class="right btn btn-primary">
@@ -77,21 +78,23 @@
 </template>
 <script>
 import { Global } from "../Global";
+import vueHeadful from "vue-headful";
 import axios from "axios";
 export default {
   name: "listarGrupo",
-
+  components: {
+    vueHeadful,
+  },
   data() {
     return {
       todosGrupo: null,
+      title: "BackOffice",
     };
   },
-
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-
     this.getTodos();
   },
   methods: {
@@ -112,8 +115,8 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "warning",
-            title: "BackOffice",
-            message: "Error inesperado al cargar ",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
           });
         });
     },

@@ -17,7 +17,6 @@
                 v-model="contacto.username"
               />
             </p>
-
             <p class="letraslogin">
               Contraseña:
               <input
@@ -78,7 +77,7 @@ export default {
             if (uncodeResponseData.ou != "Bedelias") {
               this.flashMessage.show({
                 status: "error",
-                title: "BackOffice",
+                title: Global.nombreSitio,
                 message: "Error, credenciales invalidas",
               });
               localStorage.clear();
@@ -91,7 +90,7 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Error, credenciales invalidas",
           });
           document.form.reset();

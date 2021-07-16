@@ -59,13 +59,11 @@
     </div>
   </div>
 </template>
-
 <script>
 import { Global } from "../Global";
 import axios from "axios";
 export default {
   name: "listarUsuarios",
-
   data() {
     return {
       todosUsuarios: null,
@@ -75,7 +73,6 @@ export default {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-
     this.getTodos();
   },
   methods: {
@@ -95,7 +92,7 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "warning",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Error inesperado al cargar ",
           });
         });

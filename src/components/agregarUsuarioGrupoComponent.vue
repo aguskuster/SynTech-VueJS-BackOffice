@@ -70,7 +70,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
@@ -91,12 +90,10 @@ export default {
       materias: "",
     };
   },
-
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
-    }
-   
+    } 
   },
   methods: {
     buscarMiembro() {
@@ -108,7 +105,6 @@ export default {
         this.getProfesores();
       }
     },
-
     getAlumnos() {
        let config = {
         headers: {
@@ -119,12 +115,9 @@ export default {
       axios.get(Global.url + "alumnos",config).then((res) => {
         if (res.status == 200) {
           this.usuarios = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
-
     getProfeMateria() {
        let config = {
         headers: {
@@ -133,16 +126,12 @@ export default {
         },
       };
       let grupo = this.$route.params.grupo;
-      axios.get(Global.url + "grupo-materia?idGrupo=" + grupo + "&idProfesor=" + this.miembro,config).then((res) => {
+      axios.get(Global.url + "grupo-materia?idGrupo=" + grupo + "&idProfesor=" + this.miembro,config).then((res) =>{
         if (res.status == 200) {
           this.materiaProfesor = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     }, 
-
-    
     getProfesores() {
        let config = {
         headers: {
@@ -153,12 +142,9 @@ export default {
       axios.get(Global.url + "profesores",config).then((res) => {
         if (res.status == 200) {
           this.usuarios = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
-
     getMaterias() {
        let config = {
         headers: {
@@ -169,12 +155,9 @@ export default {
       axios.get(Global.url + "profesorMateria",config).then((res) => {
         if (res.status == 200) {
           this.materiaProfesor = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
-
     agregarUsuarioGrupo() {
       let config = {
         headers: {
@@ -185,13 +168,11 @@ export default {
       let grupo = this.$route.params.grupo;
       let url;
       let parametros;
-
       if (this.tipo === "Alumno") {
            parametros = {
           idGrupo: grupo,
           idAlumnos: this.miembro,
         };
-
         url = 'alumno';
       } else {
            parametros = {
@@ -207,7 +188,7 @@ export default {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Miembro se agrego al grupo",
             });
             document.form.reset();
@@ -217,7 +198,7 @@ export default {
         .catch(() => {  
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Grupo ya tiene esta  materia",
           });
         });

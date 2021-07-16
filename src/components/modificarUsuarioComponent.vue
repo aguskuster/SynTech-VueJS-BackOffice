@@ -55,9 +55,6 @@
     </div>
   </div>
 </template>
-
-
-
 <script>
 import { Global } from "../Global";
 import axios from "axios";
@@ -80,7 +77,6 @@ export default {
     usuarioDatoFRM() {
       let nombre = document.getElementById("nombre");
       let email = document.getElementById("email");
-
       nombre.value = this.usuarioDatos.nombre;
       email.value = this.usuarioDatos.email;
     },
@@ -96,16 +92,13 @@ export default {
         if (res.status == 200) {
           this.usuarioDatos = res.data;
           this.usuarioDatoFRM();
-        } else {
-          alert("Error al contactar con el servidor");
-        }
+        } 
       });
     },
     modificarUsuario() {
       let user = this.$route.params.user;
       let parametros = {
         username: user,
-
         newPassword: document.getElementById('password').value,
         nuevoNombre:document.getElementById('nombre').value,
         nuevoEmail: document.getElementById('email').value,
@@ -122,17 +115,16 @@ export default {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Usuario Modificado",
             });
-
             this.$router.push("/listarUsuarios");
           }
         })
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Error inesperado.",
           });
         });

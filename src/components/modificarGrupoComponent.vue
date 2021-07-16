@@ -1,27 +1,38 @@
 <template>
-<div>
-     <h1>Modificar Grupo</h1>
-<div class="container p-3 my-3 border">
-
-   <form name="form" id="form" v-on:submit.prevent="modificarGrupo()">
-
-  <div class="form-group">
-    <label for="password">Acronimo Grupo</label>
-    <input type="text" class="form-control" name="acronimoGrupo" id="nombreAcronimo" placeholder="Acronimo Grupo"   required>
+  <div>
+    <h1>Modificar Grupo</h1>
+    <div class="container p-3 my-3 border">
+      <form name="form" id="form" v-on:submit.prevent="modificarGrupo()">
+        <div class="form-group">
+          <label for="password">Acronimo Grupo</label>
+          <input
+            type="text"
+            class="form-control"
+            name="acronimoGrupo"
+            id="nombreAcronimo"
+            placeholder="Acronimo Grupo"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Nombre Completo Grupo</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nombreCompletoGrupo"
+            placeholder="Nombre Completo Grupo"
+            required
+          />
+        </div>
+        <input
+          type="submit"
+          value="Modificar Grupo"
+          title="Enviar"
+          class="btn btn-primary"
+        />
+      </form>
+    </div>
   </div>
-   <div class="form-group">
-    <label for="password">Nombre Completo Grupo</label>
-    <input type="text" class="form-control" id="nombreCompletoGrupo" placeholder="Nombre Completo Grupo"  required>
-  </div>
-   <input
-        type="submit"
-        value="Modificar Grupo"
-        title="Enviar"
-        class="btn btn-primary"
-      />
-</form>
-</div>
-</div>
 </template>
 
 
@@ -36,71 +47,63 @@ export default {
       GrupoDatos: "",
       updateGrupo: {
         nuevoGrupo: "",
-        nuevoNombreCompleto:"",
+        nuevoNombreCompleto: "",
       },
     };
   },
   mounted() {
-    this.getGrupo(); 
+    this.getGrupo();
   },
   methods: {
-
-    datosFRM(){
-      document.getElementById('nombreAcronimo').value = this.GrupoDatos.idGrupo;
-      document.getElementById('nombreCompletoGrupo').value = this.GrupoDatos.nombreCompleto;
+    datosFRM() {
+      document.getElementById("nombreAcronimo").value = this.GrupoDatos.idGrupo;
+      document.getElementById("nombreCompletoGrupo").value =
+        this.GrupoDatos.nombreCompleto;
     },
     getGrupo() {
       let config = {
-                    headers: {
-                        'token': Global.token
-                    } 
-                } 
+        headers: {
+          token: Global.token,
+        },
+      };
       let grupo = this.$route.params.grupo;
-      axios.get(Global.url + "grupo?idGrupo=" + grupo,config).then((res) => {
+      axios.get(Global.url + "grupo?idGrupo=" + grupo, config).then((res) => {
         if (res.status == 200) {
           this.GrupoDatos = res.data;
-         this.datosFRM();
-        } else {
-          alert("no se pudo conectar");
+          this.datosFRM();
         }
       });
     },
     modificarGrupo() {
       let grupo = this.$route.params.grupo;
       let parametros = {
-            
-            "idGrupo": grupo,
-            "nuevoGrupo": document.getElementById('nombreAcronimo').value,
-            "nuevoNombreCompleto":  document.getElementById('nombreCompletoGrupo').value, 
-         };
-
-
+        idGrupo: grupo,
+        nuevoGrupo: document.getElementById("nombreAcronimo").value,
+        nuevoNombreCompleto: document.getElementById("nombreCompletoGrupo")
+          .value,
+      };
       let config = {
         headers: {
-            "Content-Type": "application/json",
-             token: Global.token
+          "Content-Type": "application/json",
+          token: Global.token,
         },
       };
-      
-   axios
-        .put(Global.url + "grupo",parametros,config)
+      axios
+        .put(Global.url + "grupo", parametros, config)
         .then((response) => {
           if (response.status == 200) {
-        
-    
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Grupo Modificado.",
             });
-
             this.$router.push("/listarGrupo");
           }
         })
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Error inesperado.",
           });
         });

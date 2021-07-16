@@ -8,18 +8,15 @@
     <p class="form-control">
       <b> Rol : </b>{{ usuarioDatos.ou }}
     </p>
-
     <input
       type="submit"
       value="Eliminar Usuario"
       class="btn btn-danger"
       v-on:click="eliminarUsuario()"
     />
- 
   </div>
 </div>
 </template>
-
 <script>
 import { Global } from "../Global";
 import axios from "axios";
@@ -31,11 +28,9 @@ export default {
     };
   },
   mounted() {
-    //console.log(slug);
     this.getUsuario();
   },
   methods: {
-
     getUsuario() {
         let config = {
                     headers: {
@@ -46,13 +41,10 @@ export default {
       axios.get(Global.url + "usuario?username=" + user ,config).then((res) => {
         if (res.status == 200) {
           this.usuarioDatos = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
     eliminarUsuario() {
-    
    axios
         .delete(Global.url + "usuario", {
         headers: {
@@ -68,17 +60,16 @@ export default {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title:  Global.nombreSitio,
               message: "Usuario Eliminado.",
             });
-
             this.$router.push("/listarUsuarios");
           }
         })
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title:  Global.nombreSitio,
             message: "Usuario contiene vinculacion.",
           });
         });

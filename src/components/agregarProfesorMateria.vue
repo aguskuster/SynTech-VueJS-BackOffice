@@ -48,7 +48,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
@@ -71,12 +70,10 @@ export default {
       },
     };
   },
-
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-
     this.getProfesores();
   },
   methods: {
@@ -90,8 +87,6 @@ export default {
       axios.get(Global.url + "profesor?idProfesor=" + this.modelProfeMateria.idProfesor,config).then((res) => {
         if (res.status == 200) {
           this.materias = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
@@ -105,28 +100,23 @@ export default {
       axios.get(Global.url + "profesores",config).then((res) => {
         if (res.status == 200) {
           this.profesores = res.data;
-        } else {
-          alert("no se pudo conectar");
         }
       });
     },
     agregarProfesorMateria() {
-     
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-
       axios
         .post(Global.url + "profesor", this.modelProfeMateria, config)
         .then((response) => {
           if (response.status == 200) {
-
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Profesor se agrego a la materia",
             });
             document.form.reset();
@@ -136,19 +126,11 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Profesor ya tiene esa materia",
           });
         });
     },
-
- 
- 
   },
-
 };
-
-
-
-
 </script>

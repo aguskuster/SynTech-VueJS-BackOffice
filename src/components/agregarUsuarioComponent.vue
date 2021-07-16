@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Agregar Persona</h1>
-
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
         <p>
@@ -18,7 +17,6 @@
             maxlength="8"
           />
         </p>
-
         <p>
           Contraseña<em> *</em> :
           <input
@@ -30,7 +28,6 @@
             required
           />
         </p>
-
         <p>
           Nombre<em> *</em> :
           <input
@@ -41,8 +38,7 @@
             v-model="persona.cn"
             required
           />
-        </p>
-
+        </p>  
         <p>
           Correo :
           <input
@@ -53,19 +49,14 @@
             v-model="persona.userPrincipalName"
           />
         </p>
-
         <p>
          Rol<em> *</em> :
-
           <select  class="form-control" v-model="persona.ou" aria-label="Default select example" required>
             <option value="Bedelias">Bedelias</option>
             <option value="Profesor">Profesor</option>
             <option value="Alumno">Alumno</option>
           </select>
         </p>
-
-        
-
         <hr />
         <input
           type="submit"
@@ -77,7 +68,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { Global } from "../Global";
 import axios from "axios";
@@ -98,7 +88,6 @@ export default {
   methods: {
     procesar() {
       this.submited = true;
-
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +100,7 @@ export default {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "BackOffice",
+              title: Global.nombreSitio,
               message: "Usuario Agregado",
             });
             document.form.reset();
@@ -121,7 +110,7 @@ export default {
         .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: Global.nombreSitio,
             message: "Usuario ya existe",
           });
         });
