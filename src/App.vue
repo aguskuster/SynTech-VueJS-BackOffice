@@ -176,7 +176,7 @@ export default {
 </script>
 <style>
 body {
-  background-color: whitesmoke;
+ background:url(./assets/images/img.png);
 }
 @import "./assets/css/estilos.css";
 </style>
