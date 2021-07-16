@@ -80,6 +80,7 @@ export default {
     return {
       title: "BackOffice",
       nav: true,
+      todosMateria:'',
     };
   },
   mounted() {
