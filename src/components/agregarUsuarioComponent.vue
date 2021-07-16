@@ -20,7 +20,7 @@
         <p>
           Contraseña<em> *</em> :
           <input
-            type="text"
+            type="password"
             name="password"
             placeholder="Escriba Contreseña..."
             class="form-control"
