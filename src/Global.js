@@ -1,5 +1,5 @@
 export var Global = {
-    url: 'http://192.168.1.2:8000/api/',
+    url: 'http://190.64.41.140:8000/api/',
     token: localStorage.getItem("auth_token"),
-    nombreSitio:'BackOffice'
+    nombreSitio: 'BackOffice'
 }
