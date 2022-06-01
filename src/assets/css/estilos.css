@@ -1,247 +1,191 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik:wght@400;500&display=swap');
-
-body{
+body {
     font-family: 'Poppins', sans-serif;
 }
-p{
+
+p {
     color: black;
 }
-em{
+
+em {
     color: red;
 }
- h2{
-    font-family: 'Permanent Marker', cursive;
-    font-family: 'Rubik', sans-serif;
- }
-h1{
-    text-align:center;
+
+h2 {
     font-family: 'Permanent Marker', cursive;
     font-family: 'Rubik', sans-serif;
 }
 
-label{
+h1 {
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Rubik', sans-serif;
+}
+
+label {
     color: black;
 }
-.contenedor_res{
-    width:100%;
-    padding:15px;
-}
 
+.contenedor_res {
+    width: 100%;
+    padding: 15px;
+}
 
 .table tr:nth-of-type(even) {
     background: rgba(138, 136, 136, 0.185);
-  }
+}
 
-.contenedor_menu{
-   
+.contenedor_menu {
     background: rgba(138, 136, 136, 0.185);
-    padding:0.8rem;
-    display:flex;
-    justify-content:space-between;    
+    padding: 0.8rem;
+    display: flex;
+    justify-content: space-between;
 }
 
-
-
-.menu_buscar button{
-
-    
+.menu_buscar select {
     margin-left: 5px;
-    font-size: 1.3rem;
-   border-radius: 9px;
-    background-color:rgb(14,13, 23);
-    color:white;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: black;
 }
-.menu_buscar input{
+
+.menu_buscar input {
     height: 36px;
-    border:2px solid grey;
+    border: 2px solid grey;
     border-radius: 6px;
-    width:50%;
+    width: 50%;
 }
-.menu_buscar{
-    margin-top:20px;
-   display:flex;
-   flex-direction: row;
-   justify-content: center;
+
+.menu_buscar {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
-.contenedor_table thead{
-    background-color:rgb(14,13, 23);
+
+.contenedor_table thead {
+    background-color: rgb(14, 13, 23);
     color: white;
 }
 
-
-
-
-.contenedorSupremo{
-    display:flex;
-    flex-direction: row; 
-    
+.contenedorSupremo {
+    display: flex;
+    flex-direction: row;
 }
 
-.menu{
+.menu {
     width: 230px;
-    background-color:rgb(14,13, 23);
-    height:100vh;
+    background-color: rgb(14, 13, 23);
+    height: 100vh;
 }
 
-.menu ul{ 
-   margin-top:20px;
-   font-size:1rem; 
-   padding:0; 
+.menu ul {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 0;
 }
 
-.menu ul li a:hover{
-    background-color:rgb(255, 255, 255);
-    color:black;
-    text-decoration:none;
-    }
+.menu ul li a:hover {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    text-decoration: none;
+}
 
-.menu ul li i{
-    
-    min-width:50px;
-    height:50px;
+.menu ul li i {
+    min-width: 50px;
+    height: 50px;
     line-height: 50px;
     font-size: 1.3rem;
 }
 
-.menu ul li{
-   position: relative;
-   height: 70px;
-   width: 100%;
-   list-style: none;
-   text-align: center;
- 
+.menu ul li {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    list-style: none;
+    text-align: center;
 }
 
-
-.menu ul li a{
-    color:white;
-    display:flex;
-   
+.menu ul li a {
+    color: white;
+    display: flex;
     align-items: center;
     transition: all 0.3s ease;
     border-radius: 12px;
 }
 
-
-
-
-
-
-
-
-
-
-.perfil{
-    
+.perfil {
     position: absolute;
     bottom: 0;
     left: 0;
-   
 }
 
-
-
-.logout{
-    color:red;
-    padding:10px;
-    font-size:1.3rem;
+.logout {
+    color: red;
+    padding: 10px;
+    font-size: 1.3rem;
 }
-.logout:hover{
+
+.logout:hover {
     cursor: pointer;
-    background-color:rgb(255, 255, 255);
-    border-radius:12px;
-
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.navclase{
+.navclase {
     display: none !important;
-  
 }
 
 @media (max-width: 1024px) {
-    .boton-nav-celular{
+    .boton-nav-celular {
         font-size: 1.5rem;
         float: right;
-        margin-top:26px;
+        margin-top: 26px;
     }
-    .navclase{
-        display:block !important;
-        background-color:rgb(14,13, 23);
+    .navclase {
+        display: block !important;
+        background-color: rgb(14, 13, 23);
     }
-    .menu{
-        display:none !important;
+    .menu {
+        display: none !important;
     }
-   
-
-    .contenedorSupremo{
-        display:block; 
-   }
-  
-   .navcel-Contenedor ul{
-       
-       margin-top:10px;
-       font-size:1.3rem; 
-       padding:0; 
-       
-   }
-
-   .navcel-Contenedor ul li{
-    color:#fff !important; 
-    list-style: none;
-    text-align: center;
-    border-bottom: 1px solid rgb(255, 255, 255);
-    padding:6px;
-   }
-
-    .navcel-Contenedor ul li i{
-        font-size:1rem;
+    .contenedorSupremo {
+        display: block;
+    }
+    .navcel-Contenedor ul {
+        margin-top: 10px;
+        font-size: 1.3rem;
+        padding: 0;
+    }
+    .navcel-Contenedor ul li {
+        color: #fff !important;
+        list-style: none;
+        text-align: center;
+        border-bottom: 1px solid rgb(255, 255, 255);
+        padding: 6px;
+    }
+    .navcel-Contenedor ul li i {
+        font-size: 1rem;
         color: white;
     }
-    .navcel-Contenedor ul li a{
-       
-        color:rgb(255, 255, 255);
+    .navcel-Contenedor ul li a {
+        color: rgb(255, 255, 255);
     }
-    
-    .contenedor_menu h2{
-    font-size: 1rem;
+    .contenedor_menu h2 {
+        font-size: 1rem;
     }
-    .menu_buscar input{
+    .menu_buscar input {
         height: 38px;
-        border:3px solid grey;
+        border: 3px solid grey;
         border-radius: 6px;
-        
-        
     }
-    .menu_buscar{
-     min-width: 350px;
+    .menu_buscar {
+        min-width: 350px;
     }
-    .contenedor_table table tr td{
-     font-size: .8rem;
+    .contenedor_table table tr td {
+        font-size: .8rem;
     }
 }
-
-
-
-
-
-
-
 
 .login-container {
     position: relative;
@@ -249,52 +193,53 @@ label{
     margin: 80px auto;
     padding: 20px 40px 40px;
     text-align: center;
-    background-color:rgb(14,13, 23);
+    background-color: rgb(14, 13, 23);
     border: 1px solid #ccc;
-  }
-  
-  
-  .avatar {
-    background:url(../images/LogoFinal.png);
+}
+
+.avatar {
+    background: url(../images/LogoFinal.png);
     width: 100px;
     height: 100px;
     margin: 10px auto 30px;
     background-size: cover;
-    
-  }
-  .letraslogin{
-    color:white;
-  }
-  
- .contenedorGeneral{
-     display:flex;
-     flex-direction: row;
-     justify-content: space-evenly;
-     margin-top: 15px;
- }
-
- .contenedorDerechoPersona{
-     width: 350px; 
-     background-color:#ccc;
- }
-
- .imgContDer{
-    width: 100%; 
 }
- .imgContDer img{
+
+.letraslogin {
+    color: white;
+}
+
+.contenedorGeneral {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.contenedorDerechoPersona {
+    width: 450px;
+    background-color: #ccc;
+}
+
+.imgContDer {
+    width: 100%;
+}
+
+.imgContDer img {
     width: 100%;
     background-size: cover;
- }
- .contenedor_table{
-     width: 60%;
- }
+}
 
- .DerTexl{
+.contenedor_table {
+    width: 70%;
+}
+
+.DerTexl {
     display: flex;
     flex-direction: column;
- }
+}
 
- .DerTexl {
+.DerTexl {
     margin-top: 5px;
     margin-left: 5px;
- }
+}

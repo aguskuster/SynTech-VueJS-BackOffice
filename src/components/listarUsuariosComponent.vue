@@ -10,13 +10,19 @@
       </button>
     </div>
 <div>
- <div class="menu_buscar">
-      <input placeholder="Buscar..." id='filtro'   v-on:keyup="filtrarPorNombre"/>
-      <button><i class="fas fa-search"></i></button>
-    </div>
+ 
    
 </div>
-   
+   <div class="menu_buscar">
+      <input placeholder="Buscar..." id='filtro'   v-on:keyup="filtrarPorNombre"/>
+      <select name="" id="">
+        <option value="">Alumnos</option>
+        <option value="">Profesores</option>
+           <option value="">Adscripto</option>
+              <option value="">Director</option>
+                 <option value="">Subdirector</option>
+      </select>
+    </div>
     <div class="contenedorGeneral">
     <div class="contenedor_table">
       <table class="table">
