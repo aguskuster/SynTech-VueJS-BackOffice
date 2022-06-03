@@ -43,7 +43,7 @@
         </tbody>
       </table>
     </div>
-    <div class="contenedorDerechoPersona">
+    <div class="contenedorDerechoPersona"  v-if="showProfile">
       <div class="imgContDer">
         <img :src='returnImgProfile(userInfo.profile_img)'>
       </div>
@@ -71,12 +71,14 @@ export default {
     return {
       todosUsuarios: null,
     userInfo : { user: {}, profile_img: {} },
+    showProfile: false,
     };
   },
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
+   
     this.getTodos();
   },
   methods: {
@@ -112,6 +114,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.userInfo = res.data;
+            this.showProfile=true;
           }
         })
         .catch(() => {
