@@ -23,19 +23,18 @@
       <input placeholder="Buscar..." />
       <button><i class="fas fa-search"></i></button>
     </div>
-
+<div>
+   <div class="contenedorGeneral">
     <div class="contenedor_table">
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Accion</th>
+            <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="todo in todosMateria" :key="todo.id">
-            <th scope="row">{{ todo.id }}</th>
             <td>{{ todo.nombre }}</td>
             <td>
               <router-link
@@ -64,6 +63,12 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="contenedorDerechoPersona">
+
+    </div>
+ </div>
     </div>
   </div>
 </template>
