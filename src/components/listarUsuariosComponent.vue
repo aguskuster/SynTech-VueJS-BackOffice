@@ -35,34 +35,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="todo in todosUsuarios" :key="todo.id" v-on:click="buscarUser(todo.username)">
-            <td>{{ todo.username }}</td>
+          <tr v-for="todo in todosUsuarios" :key="todo.id" v-on:click="buscarUser(todo.id)">
+            <td>{{ todo.id }}</td>
             <td>{{ todo.nombre }}</td>
             <td>{{ todo.ou }}</td>
-         
           </tr>
         </tbody>
       </table>
     </div>
     <div class="contenedorDerechoPersona">
       <div class="imgContDer">
-        <img src="https://sportshub.cbsistatic.com/i/2022/02/26/a7550e46-0c91-42a2-92c7-ee68ce8b2976/bleach-art.jpg" alt="">
+        <img :src='returnImgProfile(userInfo.profile_img)'>
       </div>
       <div class="DerTexl">
-        <div><span>Cedula:</span> <span>4989522</span></div>
-        <div><span>Nombre:</span> <span>Ichigo</span></div>
-        <div><span>Cargo:</span> <span>Shinigami</span></div>
-        <div><span>Correo:</span> <span>fedeblengoo@gmail.com</span></div>
+        <div><span>Cedula:</span> <span>{{userInfo.user.id}}</span></div>
+        <div><span>Nombre:</span> <span>{{userInfo.user.nombre}}</span></div>
+        <div><span>Cargo:</span> <span>{{userInfo.user.ou}}</span></div>
+        <div><span>Correo:</span> <span>{{userInfo.user.email}}</span></div>
       </div>
       <div class="DerTexl">
       <div><i class="fas fa-pencil-alt"></i> Modificar Usuario</div> 
         <div><i class="fas fa-trash-alt"></i>Eliminar Usuario</div>
-        
-
       </div>
     </div>
     </div>
-    
   </div>
 </template>
 <script>
@@ -74,6 +70,7 @@ export default {
   data() {
     return {
       todosUsuarios: null,
+    userInfo : { user: {}, profile_img: {} },
     };
   },
   mounted() {
@@ -104,8 +101,26 @@ export default {
           });
         });
     },
-    buscarUser(username){
-    alert(username)
+    buscarUser(id){
+        let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "usuario?username=" + id, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.userInfo = res.data;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
     },
     filtrarPorNombre() {
       var input = document.getElementById("filtro").value.toLowerCase();
@@ -124,6 +139,9 @@ export default {
     },
     comprobarArrayVacio(array) {
       return $.isEmptyObject(array);
+    },
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
     },
   },
 };
