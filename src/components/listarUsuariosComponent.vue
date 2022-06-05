@@ -9,55 +9,70 @@
         </router-link>
       </button>
     </div>
-<div>
- 
-   
-</div>
-   <div class="menu_buscar">
-      <input placeholder="Buscar..." id='filtro'   v-on:keyup="filtrarPorNombre"/>
-      <select name="" id="">
-        <option value="">Alumnos</option>
-        <option value="">Profesores</option>
-           <option value="">Adscripto</option>
-              <option value="">Director</option>
-                 <option value="">Subdirector</option>
+    <div></div>
+    <div class="menu_buscar">
+      <input
+        placeholder="Buscar..."
+        id="filtro"
+        v-on:keyup="filtrarPorNombre"
+      />
+
+      <select name="" v-on:change="filtrarPorRol()" v-model="selectedRol">
+        <option value="Alumno">Alumnos</option>
+        <option value="Profesor">Profesores</option>
+        <option value="Adscripto">Adscripto</option>
+        <option value="Director">Director</option>
+        <option value="Subdirector">Subdirector</option>
+        <option value="Bedelias">Bedelias</option>
+        <option value=" ">Emmpty</option>
       </select>
     </div>
     <div class="contenedorGeneral">
-    <div class="contenedor_table">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Usuario</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Rol</th>
-           
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="todo in todosUsuarios" :key="todo.id" v-on:click="buscarUser(todo.id)">
-            <td>{{ todo.id }}</td>
-            <td>{{ todo.nombre }}</td>
-            <td>{{ todo.ou }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="contenedorDerechoPersona"  v-if="showProfile">
-      <div class="imgContDer">
-        <img :src='returnImgProfile(userInfo.profile_img)'>
+      <div class="contenedor_table">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Rol</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="todo in filtrarPorRol()"
+              :key="todo.id"
+              v-on:click="buscarUser(todo.id)"
+            >
+              <td>{{ todo.id }}</td>
+              <td>{{ todo.nombre }}</td>
+              <td>{{ todo.ou }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="DerTexl">
-        <div><span>Cedula:</span> <span>{{userInfo.user.id}}</span></div>
-        <div><span>Nombre:</span> <span>{{userInfo.user.nombre}}</span></div>
-        <div><span>Cargo:</span> <span>{{userInfo.user.ou}}</span></div>
-        <div><span>Correo:</span> <span>{{userInfo.user.email}}</span></div>
+      <div class="contenedorDerechoPersona" v-if="showProfile">
+        <div class="imgContDer">
+          <img :src="returnImgProfile(userInfo.profile_img)" />
+        </div>
+        <div class="DerTexl">
+          <div>
+            <span>Cedula:</span> <span>{{ userInfo.user.id }}</span>
+          </div>
+          <div>
+            <span>Nombre:</span> <span>{{ userInfo.user.nombre }}</span>
+          </div>
+          <div>
+            <span>Cargo:</span> <span>{{ userInfo.user.ou }}</span>
+          </div>
+          <div>
+            <span>Correo:</span> <span>{{ userInfo.user.email }}</span>
+          </div>
+        </div>
+        <div class="DerTexl">
+          <div><i class="fas fa-pencil-alt"></i> Modificar Usuario</div>
+          <div><i class="fas fa-trash-alt"></i>Eliminar Usuario</div>
+        </div>
       </div>
-      <div class="DerTexl">
-      <div><i class="fas fa-pencil-alt"></i> Modificar Usuario</div> 
-        <div><i class="fas fa-trash-alt"></i>Eliminar Usuario</div>
-      </div>
-    </div>
     </div>
   </div>
 </template>
@@ -70,18 +85,35 @@ export default {
   data() {
     return {
       todosUsuarios: null,
-    userInfo : { user: {}, profile_img: {} },
-    showProfile: false,
+      userInfo: { user: {}, profile_img: {} },
+      showProfile: false,
+      selectedRol: "",
     };
   },
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
     }
-   
+
     this.getTodos();
   },
   methods: {
+    filtrarPorRol() {
+      
+      var selectedRol = this.selectedRol;
+      var listaUser = [];
+      if (selectedRol.length !=0 && selectedRol.trim()!=="") {
+        this.todosUsuarios.forEach(function (users) {
+          if (users.ou == selectedRol) {
+            listaUser.push(users);
+          }
+        });
+      } else {
+        listaUser = this.todosUsuarios;
+      }
+
+      return listaUser;
+    },
     getTodos() {
       let config = {
         headers: {
@@ -103,8 +135,8 @@ export default {
           });
         });
     },
-    buscarUser(id){
-        let config = {
+    buscarUser(id) {
+      let config = {
         headers: {
           token: Global.token,
         },
@@ -114,7 +146,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.userInfo = res.data;
-            this.showProfile=true;
+            this.showProfile = true;
           }
         })
         .catch(() => {
@@ -129,7 +161,7 @@ export default {
       var input = document.getElementById("filtro").value.toLowerCase();
       var listaUser = [];
 
-    if (input == "") {
+      if (input == "") {
         this.loading = true;
         this.getTodos();
       }
