@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik:wght@400;500&display=swap");
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
+    --colorFondoTabla: whitesmoke;
 }
 
 p {
@@ -13,14 +14,19 @@ em {
 }
 
 h2 {
-    font-family: 'Permanent Marker', cursive;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Permanent Marker", cursive;
+    font-family: "Rubik", sans-serif;
 }
 
 h1 {
     text-align: center;
-    font-family: 'Permanent Marker', cursive;
-    font-family: 'Rubik', sans-serif;
+    font-family: "Permanent Marker", cursive;
+    font-family: "Rubik", sans-serif;
+}
+
+h4 {
+    font-family: "Permanent Marker", cursive;
+    font-family: "Rubik", sans-serif;
 }
 
 label {
@@ -58,9 +64,14 @@ label {
 }
 
 .menu_buscar {
-    margin-top: 20px;
+    padding: 5px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+
+.botonesMateria button {
+    margin: 0 2px;
 }
 
 .contenedor_table thead {
@@ -183,7 +194,7 @@ label {
         min-width: 350px;
     }
     .contenedor_table table tr td {
-        font-size: .8rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -217,8 +228,9 @@ label {
 }
 
 .contenedorDerechoPersona {
-    width: 450px;
-    background-color: #ccc;
+    width: 49%;
+    background-color: var(--colorFondoTabla);
+    border-radius: 3px;
 }
 
 .imgContDer {
@@ -231,7 +243,7 @@ label {
 }
 
 .contenedor_table {
-    width: 70%;
+    background-color: hsla(0, 0%, 100%, 0.537);
 }
 
 .DerTexl {
@@ -242,4 +254,38 @@ label {
 .DerTexl {
     margin-top: 5px;
     margin-left: 5px;
+}
+
+.tdMateria {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.table {
+    margin: 0;
+}
+
+.contenedorIzquierdo {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background-color: var(--colorFondoTabla);
+    border-radius: 3px;
+}
+
+.contenedorGeneral h4 {
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.spinerCont {
+    display: flex;
+    justify-content: center;
+}
+
+.spinnerCSS {
+    width: 50px;
+    height: 50px;
+    margin-top: 20px;
 }

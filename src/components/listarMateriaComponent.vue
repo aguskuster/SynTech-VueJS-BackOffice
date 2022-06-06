@@ -9,66 +9,103 @@
             ><i class="far fa-books-medical"></i> Materia
           </router-link>
         </button>
-        <button type="button" class="right btn btn-primary ml-2">
-          <router-link
-            style="color: white; text-decoration: none"
-            to="/profesor-materia"
-            >Agregar Profesor a Materia</router-link
-          >
-        </button>
       </div>
     </div>
 
-    <div class="menu_buscar">
-      <input placeholder="Buscar..." />
-      <button><i class="fas fa-search"></i></button>
-    </div>
-<div>
-   <div class="contenedorGeneral">
-    <div class="contenedor_table">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="todo in todosMateria" :key="todo.id">
-            <td>{{ todo.nombre }}</td>
-            <td>
-              <router-link
-                :to="{
-                  name: 'listar-materia-modificar',
-                  params: { materia: todo.nombre, idMateria: todo.id },
-                }"
-              >
-                <i
-                  class="far fa-pen"
-                  style="font-size: 20px; margin-left: 20px; color: blue"
-                ></i>
-              </router-link>
-              <router-link
-                :to="{
-                  name: 'listar-materia-eliminar',
-                  params: { materia: todo.id },
-                }"
-              >
-                <i
-                  class="far fa-user-times"
-                  style="font-size: 20px; margin-left: 20px; color: red"
-                ></i>
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="contenedorGeneral">
+      <div class="contenedorIzquierdo">
+        <h4>Asignaturas</h4>
+        <div class="menu_buscar" style="justify-content: center">
+          <input placeholder="Buscar..." />
+        </div>
+        <div class="contenedor_table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Asignatura</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="todo in todosMateria" :key="todo.id">
+                <td>{{ todo.nombre }}</td>
+                <td class="tdMateria">
+                  <router-link
+                    :to="{
+                      name: 'listar-materia-eliminar',
+                      params: { materia: todo.id },
+                    }"
+                  >
+                    <i
+                      class="far fa-user-times"
+                      style="font-size: 20px; margin-left: 20px; color: red"
+                    ></i>
+                  </router-link>
+                  <!--  <router-link
+                  :to="{
+                    name: 'listar-materia-modificar',
+                    params: { materia: todo.nombre, idMateria: todo.id },
+                  }"
+                >
+                  <i
+                    class="far fa-info-circle"
+                    style="font-size: 20px; margin-left: 20px; color: blue"
+                  ></i>
+                </router-link> -->
 
-    <div class="contenedorDerechoPersona">
+                  <i
+                    class="far fa-info-circle"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: blue;
+                      cursor: pointer;
+                    "
+                    v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-    </div>
- </div>
+      <div class="contenedorDerechoPersona">
+        <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
+        <div class="menu_buscar">
+          <input placeholder="Buscar..." />
+          <div class="botonesMateria">
+            <button type="button" class="btn btn-success ml-2">
+              <i class="fas fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-primary ml-2">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button type="button" class="btn btn-danger ml-2">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="contenedor_table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Docente</th>
+                <th scope="col">Email</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="todo in materiaProfesores" :key="todo.id">
+                <td>{{ todo.nombre }}</td>
+                <td>{{ todo.email }}</td>
+                <td><a href="">Ver Perfil</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +122,9 @@ export default {
     return {
       title: "BackOffice",
       nav: true,
-      todosMateria:'',
+      todosMateria: "",
+      materiaProfesores: "",
+      materiaSeleccionada: "",
     };
   },
   mounted() {
@@ -107,6 +146,33 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.todosMateria = res.data;
+            this.traerProfesoresMateria(
+              this.todosMateria[0].id,
+              this.todosMateria[0].nombre
+            );
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
+    traerProfesoresMateria(idMateria, nombreMateria) {
+      this.materiaSeleccionada = nombreMateria;
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "materia-profesores?idMateria=" + idMateria, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.materiaProfesores = res.data;
           }
         })
         .catch(() => {
