@@ -49,6 +49,7 @@
             v-model="persona.userPrincipalName"
           />
         </p>
+
         <p>
           Rol<em> *</em> :
           <select
