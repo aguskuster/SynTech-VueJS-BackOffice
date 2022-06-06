@@ -3,13 +3,15 @@
     <div class="contenedor_menu">
       <h2>Listado de Personas</h2>
 
-      <button class="btn btn-primary">
-        <router-link style="color: white" to="/usuario">
-          <i class="far fa-user-plus"></i>
-        </router-link>
+      <button
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalAgregarPersona"
+      >
+        Agregar Persona
       </button>
     </div>
-    <div></div>
+
     <div class="menu_buscar">
       <input
         placeholder="Buscar..."
@@ -24,12 +26,11 @@
         <option value="Director">Director</option>
         <option value="Subdirector">Subdirector</option>
         <option value="Bedelias">Bedelias</option>
-        <option value=" ">Emmpty</option>
       </select>
     </div>
     <div class="contenedorGeneral">
-      <div class="contenedor_table">
-        <table class="table">
+      <div class="contenedor_table" style="width:70%">
+        <table class="table" >
           <thead>
             <tr>
               <th scope="col">Usuario</th>
@@ -74,14 +75,56 @@
         </div>
       </div>
     </div>
+
+    <!--     MODAL AGREGAR PERSONA  -->
+    <div
+      class="modal fade"
+      id="modalAgregarPersona"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Agregar Persona</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <agregarUsuarioComponent></agregarUsuarioComponent>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Send message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--     FIN MODAL AGREGAR PERSONA  -->
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import axios from "axios";
 import $ from "jquery";
+import agregarUsuarioComponent from "./agregarUsuarioComponent"
 export default {
   name: "listarUsuarios",
+  components: {
+agregarUsuarioComponent
+  },
   data() {
     return {
       todosUsuarios: null,
@@ -89,7 +132,9 @@ export default {
       showProfile: false,
       selectedRol: "",
     };
+  
   },
+
   mounted() {
     if (!localStorage.getItem("auth_token")) {
       this.$router.push("/login");
@@ -99,10 +144,9 @@ export default {
   },
   methods: {
     filtrarPorRol() {
-      
       var selectedRol = this.selectedRol;
       var listaUser = [];
-      if (selectedRol.length !=0 && selectedRol.trim()!=="") {
+      if (selectedRol.length != 0 && selectedRol.trim() !== "") {
         this.todosUsuarios.forEach(function (users) {
           if (users.ou == selectedRol) {
             listaUser.push(users);

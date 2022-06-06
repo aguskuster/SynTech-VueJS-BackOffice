@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Agregar Persona</h1>
     <div class="container p-3 my-3 border">
       <form name="form" id="form" v-on:submit.prevent="procesar()">
         <p>
@@ -17,17 +16,7 @@
             maxlength="8"
           />
         </p>
-        <p>
-          Contraseña<em> *</em> :
-          <input
-            type="password"
-            name="password"
-            placeholder="Escriba Contreseña..."
-            class="form-control"
-            v-model="persona.unicodePwd"
-            required
-          />
-        </p>
+
         <p>
           Nombre<em> *</em> :
           <input
@@ -35,10 +24,21 @@
             name="nombre"
             placeholder="Escriba Nombre..."
             class="form-control"
-            v-model="persona.cn"
+            v-model="persona.name"
             required
           />
-        </p>  
+        </p>
+        <p>
+          Apellido<em> *</em> :
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Escriba Nombre..."
+            class="form-control"
+            v-model="persona.surname"
+            required
+          />
+        </p>
         <p>
           Correo :
           <input
@@ -50,8 +50,13 @@
           />
         </p>
         <p>
-         Rol<em> *</em> :
-          <select  class="form-control" v-model="persona.ou" aria-label="Default select example" required>
+          Rol<em> *</em> :
+          <select
+            class="form-control"
+            v-model="persona.ou"
+            aria-label="Default select example"
+            required
+          >
             <option value="Bedelias">Bedelias</option>
             <option value="Profesor">Profesor</option>
             <option value="Alumno">Alumno</option>
@@ -63,6 +68,7 @@
           value="Agregar Usuario"
           title="Enviar"
           class="btn btn-primary"
+          data-bs-dismiss="modal"
         />
       </form>
     </div>
@@ -79,7 +85,8 @@ export default {
       persona: {
         samaccountname: "",
         unicodePwd: "",
-        cn: "",
+        name: "",
+        surname: "",
         userPrincipalName: "",
         ou: "",
       },
