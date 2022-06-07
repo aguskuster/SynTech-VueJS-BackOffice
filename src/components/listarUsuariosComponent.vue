@@ -24,12 +24,13 @@
           />
 
           <select name="" v-on:change="filtrarPorRol()" v-model="selectedRol">
+            <option value="">Todos</option>
             <option value="Alumno">Alumnos</option>
+            <option value="Bedelias">Bedelias</option>
             <option value="Profesor">Profesores</option>
             <option value="Adscripto">Adscripto</option>
             <option value="Director">Director</option>
             <option value="Subdirector">Subdirector</option>
-            <option value="Bedelias">Bedelias</option>
           </select>
         </div>
 
