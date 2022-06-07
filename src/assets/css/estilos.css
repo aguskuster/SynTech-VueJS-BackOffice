@@ -4,6 +4,8 @@ body {
     font-family: "Poppins", sans-serif;
     --colorFondoTabla: whitesmoke;
     --colordebarra: rgb(14, 13, 23);
+    --mostaza: #e1ad01;
+    --bordo: #800020c2;
 }
 
 p {
@@ -268,14 +270,18 @@ label {
     font-size: 18px;
 }
 
+.derTexNombre h4 {
+    font-size: 20px;
+}
+
 .listaModificar {
-    background-color: var(--colordebarra);
+    background-color: rgb(21, 20, 35);
     color: white;
 }
 
 .listaModificar>div:hover {
-    background-color: rgb(28, 26, 46);
-    color: rgb(255, 255, 255);
+    background-color: var(--colordebarra);
+    color: lightgray;
 }
 
 .listaModificar>div {
@@ -284,7 +290,9 @@ label {
 }
 
 .listaModificar>div>i {
-    font-size: 17px;
+    border-radius: 50%;
+    background-color: red;
+    padding: 7px;
     margin-right: 10px;
 }
 

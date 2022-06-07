@@ -71,22 +71,35 @@
             </center>
           </div>
           <div class="DerTexl">
-            <div>
-              <span>Cedula:</span> <span>{{ userInfo.user.id }}</span>
-            </div>
-            <div>
-              <span>Nombre:</span> <span>{{ userInfo.user.nombre }}</span>
+            <div class="derTexNombre">
+              <h4>{{ userInfo.user.nombre }}</h4>
+              <hr />
             </div>
             <div>
               <span>Cargo:</span> <span>{{ userInfo.user.ou }}</span>
+            </div>
+            <div>
+              <span>Cedula:</span> <span>{{ userInfo.user.id }}</span>
             </div>
             <div>
               <span>Correo:</span> <span>{{ userInfo.user.email }}</span>
             </div>
           </div>
           <div class="listaModificar">
-            <div><i class="fas fa-pencil-alt"></i>Modificar Usuario</div>
-            <div><i class="fas fa-trash-alt"></i>Eliminar Usuario</div>
+            <div>
+              <i
+                class="fas fa-pencil-alt"
+                style="background-color: var(--mostaza)"
+              ></i
+              >Modificar Usuario
+            </div>
+            <div>
+              <i
+                class="fas fa-trash-alt"
+                style="background-color: var(--bordo)"
+              ></i
+              >Eliminar Usuario
+            </div>
           </div>
         </div>
       </div>
@@ -184,6 +197,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.todosUsuarios = res.data;
+            this.buscarUser(this.todosUsuarios[0].id);
           }
         })
         .catch(() => {
