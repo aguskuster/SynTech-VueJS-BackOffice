@@ -28,33 +28,43 @@
             </thead>
             <tbody>
               <tr v-for="todo in todosMateria" :key="todo.id">
-                <td>{{ todo.nombre }}</td>
+                <td v-if="todo.id == idModificar && modificar">
+                  <input type="text" v-model="nuevoNombreMateria" />
+                </td>
+                <td v-else>{{ todo.nombre }}</td>
                 <td class="tdMateria">
-                  <router-link
-                    :to="{
-                      name: 'listar-materia-eliminar',
-                      params: { materia: todo.id },
-                    }"
-                  >
-                    <i
-                      class="far fa-user-times"
-                      style="font-size: 20px; margin-left: 20px; color: red"
-                    ></i>
-                  </router-link>
-                  <!--  <router-link
-                  :to="{
-                    name: 'listar-materia-modificar',
-                    params: { materia: todo.nombre, idMateria: todo.id },
-                  }"
-                >
                   <i
-                    class="far fa-info-circle"
-                    style="font-size: 20px; margin-left: 20px; color: blue"
+                    class="fas fa-times"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: red;
+                      cursor: pointer;
+                    "
+                    v-if="modificar && idModificar == todo.id"
+                    @click="modificar = false"
                   ></i>
-                </router-link> -->
-
+              
+                       <i
+                    v-else
+                    v-on:click="alternarModificar(todo.id, true)"
+                    class="far fa-pen"
+                    style="font-size: 20px; margin-left: 20px; color: orange"
+                  ></i>
                   <i
-                    class="far fa-info-circle"
+                    class="fas fa-check"
+                    v-if="modificar && idModificar == todo.id"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: green;
+                      cursor: pointer;
+                    "
+                    v-on:click="modificarMateria(todo.id)"
+                  ></i>
+                      <i
+                    v-else
+                    class="fas fa-search"
                     style="
                       font-size: 20px;
                       margin-left: 20px;
@@ -63,6 +73,7 @@
                     "
                     v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
                   ></i>
+             
                 </td>
               </tr>
             </tbody>
@@ -125,6 +136,9 @@ export default {
       todosMateria: "",
       materiaProfesores: "",
       materiaSeleccionada: "",
+      modificar: false,
+      nuevoNombreMateria: "",
+      idModificar: "",
     };
   },
   mounted() {
@@ -134,6 +148,10 @@ export default {
     this.getTodos();
   },
   methods: {
+    alternarModificar(idMateria, boolean) {
+      this.idModificar = idMateria;
+      this.modificar = boolean;
+    },
     getTodos() {
       let config = {
         headers: {
@@ -157,6 +175,37 @@ export default {
             status: "warning",
             title: Global.nombreSitio,
             message: "Error inesperado al cargar",
+          });
+        });
+    },
+    modificarMateria(idMateria) {
+      let parametros = {
+        idMateria: idMateria,
+        nuevoNombre: this.nuevoNombreMateria,
+      };
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.url + "materia", parametros, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Materia Modificada.",
+            });
+            this.$router.push("/listarMaterias");
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya vinculada.",
           });
         });
     },
@@ -186,3 +235,4 @@ export default {
   },
 };
 </script>
+
