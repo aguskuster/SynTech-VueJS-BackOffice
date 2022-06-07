@@ -4,15 +4,17 @@
       <vue-headful :title="title" />
       <h2>Listado de Materias</h2>
       <div>
-        <button type="button" class="right btn btn-primary">
-          <router-link style="color: white; text-decoration: none" to="/materia"
-            ><i class="far fa-books-medical"></i> Materia
-          </router-link>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#modalAgregarMateria"
+        >
+          <i class="far fa-books-medical"></i>
+          Materia
         </button>
       </div>
     </div>
 
-    
     <div class="contenedorGeneral">
       <div class="contenedorIzquierdo">
         <h4>Asignaturas</h4>
@@ -45,8 +47,8 @@
                     v-if="modificar && idModificar == todo.id"
                     @click="modificar = false"
                   ></i>
-              
-                       <i
+
+                  <i
                     v-else
                     v-on:click="alternarModificar(todo.id, true)"
                     class="far fa-pen"
@@ -63,7 +65,7 @@
                     "
                     v-on:click="modificarMateria(todo.id)"
                   ></i>
-                      <i
+                  <i
                     v-else
                     class="fas fa-search"
                     style="
@@ -74,7 +76,6 @@
                     "
                     v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
                   ></i>
-             
                 </td>
               </tr>
             </tbody>
@@ -82,6 +83,56 @@
         </div>
       </div>
 
+      <!--     MODAL AGREGAR PERSONA  -->
+      <div
+        class="modal fade"
+        id="modalAgregarMateria"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Agregar materia
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form name="form" id="form" v-on:submit.prevent="crearMateria()">
+                <p>
+                  Nombre Materia<em> *</em> :
+                  <input
+                    type="text"
+                    name="nombreMateria"
+                    placeholder="Ejemplo: Matematica"
+                    class="form-control"
+                    v-model="materia.nombreMateria"
+                    autocomplete="=off"
+                    required
+                  />
+                </p>
+
+                <input
+                  data-bs-dismiss="modal"
+                  type="submit"
+                  value="Agregar Materia"
+                  title="Enviar"
+                  class="btn btn-primary"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--     FIN MODAL AGREGAR PERSONA  -->
       <div class="contenedorDerechoPersona">
         <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
         <div class="menu_buscar">
@@ -125,8 +176,10 @@
 import { Global } from "../Global";
 import axios from "axios";
 import vueHeadful from "vue-headful";
+
 export default {
-  name: "HomeComponent",
+  name: "Listado Materias",
+
   components: {
     vueHeadful,
   },
@@ -140,6 +193,9 @@ export default {
       modificar: false,
       nuevoNombreMateria: "",
       idModificar: "",
+      materia: {
+        nombreMateria: "",
+      },
     };
   },
   mounted() {
@@ -152,6 +208,33 @@ export default {
     alternarModificar(idMateria, boolean) {
       this.idModificar = idMateria;
       this.modificar = boolean;
+    },
+    crearMateria() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "materia", this.materia, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Materia Agregado",
+            });
+            this.getTodos();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya existe",
+          });
+        });
     },
     getTodos() {
       let config = {
@@ -199,7 +282,7 @@ export default {
               title: Global.nombreSitio,
               message: "Materia modificada.",
             });
-           this.modificar=false;
+            this.modificar = false;
           }
         })
         .catch(() => {
