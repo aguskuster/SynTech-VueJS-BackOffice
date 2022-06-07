@@ -54,6 +54,7 @@ label {
     font-size: 1rem;
     border-radius: 5px;
     color: black;
+    height: 100%;
 }
 
 .menu_buscar input {
@@ -64,7 +65,7 @@ label {
 }
 
 .menu_buscar {
-    padding: 5px;
+    padding: 9px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -234,16 +235,20 @@ label {
 }
 
 .imgContDer {
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .imgContDer img {
-    width: 100%;
+    width: 150px;
+    height: 150px;
     background-size: cover;
 }
 
 .contenedor_table {
     background-color: hsla(0, 0%, 100%, 0.537);
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .DerTexl {
@@ -288,4 +293,10 @@ label {
     width: 50px;
     height: 50px;
     margin-top: 20px;
+}
+
+.infoUser {
+    width: 80%;
+    margin: 0 auto;
+    background-color: var(--colorFondoTabla);
 }
