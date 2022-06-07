@@ -12,6 +12,7 @@
       </div>
     </div>
 
+    
     <div class="contenedorGeneral">
       <div class="contenedorIzquierdo">
         <h4>Asignaturas</h4>
@@ -196,16 +197,16 @@ export default {
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
-              message: "Materia Modificada.",
+              message: "Materia modificada.",
             });
-            this.$router.push("/listarMaterias");
+           this.modificar=false;
           }
         })
         .catch(() => {
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
-            message: "Materia ya vinculada.",
+            message: "Error al modificar",
           });
         });
     },
