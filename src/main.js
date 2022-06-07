@@ -18,7 +18,7 @@ import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 
 import listarMateriaComponent from './components/listarMateriaComponent.vue';
-import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
+
 import modificarMateriaComponent from './components/modificarMateriaComponent.vue';
 import eliminarMateriaComponent from './components/eliminarMateriaComponent.vue';
 
@@ -44,16 +44,15 @@ const routes = [
     { path: '/eliminarGrupo/:grupo', name: 'listar-grupo-eliminar', component: eliminarGrupoComponent },
     { path: '/modificarGrupo/:grupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
-    { path: '/materia', name: 'agregarMateria', component: agregarMateriaComponent },
     { path: '/modificarMateria/:materia/:idMateria', name: 'listar-materia-modificar', component: modificarMateriaComponent },
     { path: '/eliminarMateria/:materia', name: 'listar-materia-eliminar', component: eliminarMateriaComponent },
-    { path: '/profesor-materia', name: 'profesorMateria', component: agregarProfesorMateria},
-    { path: '/miembro-grupo/:grupo', name: 'miembroGrupo', component: agregarUsuarioGrupoComponent},
-    { path: '*', name: 'error404', component: ErrorComponent},
+    { path: '/profesor-materia', name: 'profesorMateria', component: agregarProfesorMateria },
+    { path: '/miembro-grupo/:grupo', name: 'miembroGrupo', component: agregarUsuarioGrupoComponent },
+    { path: '*', name: 'error404', component: ErrorComponent },
 
-    
 
-    
+
+
 ];
 
 
