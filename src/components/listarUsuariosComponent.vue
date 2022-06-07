@@ -48,6 +48,7 @@
                 v-for="todo in filtrarPorRol()"
                 :key="todo.id"
                 v-on:click="buscarUser(todo.id)"
+                style="cursor: pointer"
               >
                 <td>{{ todo.id }}</td>
                 <td>{{ todo.nombre }}</td>
@@ -83,8 +84,8 @@
               <span>Correo:</span> <span>{{ userInfo.user.email }}</span>
             </div>
           </div>
-          <div class="DerTexl">
-            <div><i class="fas fa-pencil-alt"></i> Modificar Usuario</div>
+          <div class="listaModificar">
+            <div><i class="fas fa-pencil-alt"></i>Modificar Usuario</div>
             <div><i class="fas fa-trash-alt"></i>Eliminar Usuario</div>
           </div>
         </div>

@@ -3,6 +3,7 @@
 body {
     font-family: "Poppins", sans-serif;
     --colorFondoTabla: whitesmoke;
+    --colordebarra: rgb(14, 13, 23);
 }
 
 p {
@@ -24,7 +25,8 @@ h1 {
     font-family: "Rubik", sans-serif;
 }
 
-h4 {
+h4,
+span {
     font-family: "Permanent Marker", cursive;
     font-family: "Rubik", sans-serif;
 }
@@ -237,12 +239,15 @@ label {
 .imgContDer {
     width: 80%;
     margin: 0 auto;
+    padding: 15px 0;
 }
 
 .imgContDer img {
     width: 150px;
     height: 150px;
     background-size: cover;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .contenedor_table {
@@ -254,11 +259,33 @@ label {
 .DerTexl {
     display: flex;
     flex-direction: column;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: whitesmoke;
 }
 
-.DerTexl {
-    margin-top: 5px;
-    margin-left: 5px;
+.DerTexl span {
+    font-size: 18px;
+}
+
+.listaModificar {
+    background-color: var(--colordebarra);
+    color: white;
+}
+
+.listaModificar>div:hover {
+    background-color: rgb(28, 26, 46);
+    color: rgb(255, 255, 255);
+}
+
+.listaModificar>div {
+    padding: 7px;
+    cursor: pointer;
+}
+
+.listaModificar>div>i {
+    font-size: 17px;
+    margin-right: 10px;
 }
 
 .tdMateria {
@@ -298,5 +325,5 @@ label {
 .infoUser {
     width: 80%;
     margin: 0 auto;
-    background-color: var(--colorFondoTabla);
+    background-color: rgba(211, 211, 211, 0.561);
 }
