@@ -52,7 +52,12 @@
                     v-else
                     v-on:click="alternarModificar(todo.id, true)"
                     class="far fa-pen"
-                    style="font-size: 20px; margin-left: 20px; color: orange"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: orange;
+                      line-height: unset;
+                    "
                   ></i>
                   <i
                     class="fas fa-check"
@@ -231,8 +236,8 @@ export default {
     this.getTodos();
   },
   methods: {
-    sacarProfesorMateria(profesor){
-           axios
+    sacarProfesorMateria(profesor) {
+      axios
         .delete(Global.url + "materia-profesor", {
           headers: {
             "Content-Type": "application/json",
@@ -240,7 +245,7 @@ export default {
           },
           data: {
             idProfesor: profesor.idProfesor,
-            idMateria: profesor.idMateria
+            idMateria: profesor.idMateria,
           },
         })
         .then((response) => {
@@ -258,16 +263,18 @@ export default {
             title: Global.nombreSitio,
             message: "Error",
           });
-        }); 
+        });
     },
-    alternarEliminar(){
-     this.sacarProfesor ?  this.sacarProfesor=false :  this.sacarProfesor =true;
+    alternarEliminar() {
+      this.sacarProfesor
+        ? (this.sacarProfesor = false)
+        : (this.sacarProfesor = true);
     },
     eliminarMateria() {
-      alert("BORRANDO . . .")
-       alert("JODAAA")
-     /*  NO BORRAR FUNCIONA PERO NO QUIERO HACER CAGADA */
-/*       axios
+      alert("BORRANDO . . .");
+      alert("JODAAA");
+      /*  NO BORRAR FUNCIONA PERO NO QUIERO HACER CAGADA */
+      /*       axios
         .delete(Global.url + "materia", {
           headers: {
             "Content-Type": "application/json",
