@@ -335,3 +335,13 @@ label {
     margin: 0 auto;
     background-color: rgba(211, 211, 211, 0.561);
 }
+
+.tituloGrupoPertenecen {
+    font-size: 25px;
+    margin-top: 40px !important;
+}
+
+.contListarGrupo {
+    width: 95%;
+    margin: 0 auto;
+}

@@ -12,67 +12,93 @@
       </div>
     </div>
 
-    <div class="menu_buscar">
-      <input placeholder="Buscar..." />
-      <button><i class="fas fa-search"></i></button>
-    </div>
+    <div class="contenedorGeneral">
+      <div class="contenedorIzquierdo">
+        <h4>Grupos</h4>
+        <div class="menu_buscar" style="justify-content: center">
+          <input placeholder="Buscar..." />
+        </div>
+        <div class="contenedor_table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Acronimo Grupo</th>
+                <th scope="col">Nombre Completo Grupo</th>
+                <th scope="col">Año Electivo</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="todo in todosGrupo" :key="todo.id">
+                <td>{{ todo.idGrupo }}</td>
+                <td>{{ todo.nombreCompleto }}</td>
+                <td>{{ todo.anioElectivo }}</td>
+                <!--    <td v-if="todo.id == idMateria && modificar">
+                  <input type="text" v-model="nuevoNombreMateria" />
+                </td>
+                <td v-else>{{ todo.nombre }}</td>
+                <td class="tdMateria">
+                  <i
+                    class="fas fa-times"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: red;
+                      cursor: pointer;
+                      line-height: unset;
+                    "
+                    v-if="modificar && idMateria == todo.id"
+                    @click="modificar = false"
+                  ></i>
 
-    <div class="contenedor_table">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Acronimo Grupo</th>
-            <th scope="col">Nombre Completo Grupo</th>
-            <th scope="col">Año Electivo</th>
-            <th scope="col">Agregar Miembro</th>
-            <th scope="col">Accion</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="todo in todosGrupo" :key="todo.idGrupo">
-            <th scope="row">{{ todo.idGrupo }}</th>
-            <td>{{ todo.nombreCompleto }}</td>
-            <td>{{ todo.anioElectivo }}</td>
-            <td>
-              <router-link
-                :to="{
-                  name: 'miembroGrupo',
-                  params: { grupo: todo.idGrupo },
-                }"
-              >
-                <i
-                  class="fal fa-plus-octagon"
-                  style="font-size: 20px; margin-left: 40px; color: green"
-                ></i>
-              </router-link>
-            </td>
-            <td>
-              <router-link
-                :to="{
-                  name: 'listar-grupo-modificar',
-                  params: { grupo: todo.idGrupo },
-                }"
-              >
-                <i
-                  class="far fa-pen"
-                  style="font-size: 20px; margin-left: 20px; color: blue"
-                ></i>
-              </router-link>
-              <router-link
-                :to="{
-                  name: 'listar-grupo-eliminar',
-                  params: { grupo: todo.idGrupo },
-                }"
-              >
-                <i
-                  class="far fa-user-times"
-                  style="font-size: 20px; margin-left: 20px; color: red"
-                ></i>
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  <i
+                    v-else
+                    v-on:click="alternarModificar(todo.id, true)"
+                    class="far fa-pen"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: orange;
+                      line-height: unset;
+                    "
+                  ></i>
+                  <i
+                    class="fas fa-check"
+                    v-if="modificar && idMateria == todo.id"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: green;
+                      cursor: pointer;
+                      line-height: unset;
+                    "
+                    v-on:click="modificarMateria(todo.id)"
+                  ></i>
+                  <i
+                    v-else
+                    class="fas fa-search"
+                    style="
+                      font-size: 20px;
+                      margin-left: 20px;
+                      color: blue;
+                      cursor: pointer;
+                      line-height: unset;
+                    "
+                    v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
+                  ></i>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="contenedorDerechoPersona">
+        <div class="contListarGrupo">
+          <h4 class="tituloGrupoPertenecen">Materias Perenecientes a ~TB1~</h4>
+          <hr />
+        </div>
+      </div>
     </div>
   </div>
 </template>
