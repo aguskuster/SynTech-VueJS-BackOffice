@@ -78,6 +78,7 @@
                       margin-left: 20px;
                       color: blue;
                       cursor: pointer;
+                      line-height: unset;
                     "
                     v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
                   ></i>
