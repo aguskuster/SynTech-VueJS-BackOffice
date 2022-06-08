@@ -31,7 +31,7 @@
             </thead>
             <tbody>
               <tr v-for="todo in todosMateria" :key="todo.id">
-                <td v-if="todo.id == idModificar && modificar">
+                <td v-if="todo.id == idMateria && modificar">
                   <input type="text" v-model="nuevoNombreMateria" />
                 </td>
                 <td v-else>{{ todo.nombre }}</td>
@@ -44,7 +44,7 @@
                       color: red;
                       cursor: pointer;
                     "
-                    v-if="modificar && idModificar == todo.id"
+                    v-if="modificar && idMateria == todo.id"
                     @click="modificar = false"
                   ></i>
 
@@ -56,7 +56,7 @@
                   ></i>
                   <i
                     class="fas fa-check"
-                    v-if="modificar && idModificar == todo.id"
+                    v-if="modificar && idMateria == todo.id"
                     style="
                       font-size: 20px;
                       margin-left: 20px;
@@ -83,7 +83,7 @@
         </div>
       </div>
 
-      <!--     MODAL AGREGAR PERSONA  -->
+      <!--     MODAL AGREGAR MATERIA  -->
       <div
         class="modal fade"
         id="modalAgregarMateria"
@@ -132,20 +132,37 @@
         </div>
       </div>
 
-      <!--     FIN MODAL AGREGAR PERSONA  -->
+      <!--     FIN MODAL AGREGAR MATERIA  -->
+
       <div class="contenedorDerechoPersona">
         <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
         <div class="menu_buscar">
           <input placeholder="Buscar..." />
           <div class="botonesMateria">
             <button type="button" class="btn btn-success ml-2">
-              <i class="fas fa-plus"></i>
+              <router-link
+                style="
+                  text-decoration: none;
+                  font-size: 14px;
+                  padding: 0px !important;
+                  color: white;
+                "
+                class="router-link"
+                :to="{
+                  name: 'profesorMateria',
+                  params: {
+                    idMateria: idMateria,
+                  },
+                }"
+              >
+                <i class="fas fa-plus"></i>
+              </router-link>
             </button>
             <button type="button" class="btn btn-primary ml-2">
-              <i class="fas fa-pen"></i>
+              <i class="fas fa-pen" v-on:click="alternarEliminar()"></i>
             </button>
             <button type="button" class="btn btn-danger ml-2">
-              <i class="fas fa-trash"></i>
+              <i class="fas fa-trash" v-on:click="eliminarMateria()"></i>
             </button>
           </div>
         </div>
@@ -163,7 +180,15 @@
               <tr v-for="todo in materiaProfesores" :key="todo.id">
                 <td>{{ todo.nombre }}</td>
                 <td>{{ todo.email }}</td>
-                <td><a href="">Ver Perfil</a></td>
+
+                <td v-if="sacarProfesor">
+                  <i
+                    class="fas fa-times"
+                    style="color: red; font-size: 16px"
+                    v-on:click="sacarProfesorMateria(todo)"
+                  ></i>
+                </td>
+                <td v-else><a href="">Ver Perfil</a></td>
               </tr>
             </tbody>
           </table>
@@ -178,7 +203,7 @@ import axios from "axios";
 import vueHeadful from "vue-headful";
 
 export default {
-  name: "Listado Materias",
+  name: "listadoMaterias",
 
   components: {
     vueHeadful,
@@ -192,10 +217,11 @@ export default {
       materiaSeleccionada: "",
       modificar: false,
       nuevoNombreMateria: "",
-      idModificar: "",
+      idMateria: 0,
       materia: {
         nombreMateria: "",
       },
+      sacarProfesor: false,
     };
   },
   mounted() {
@@ -205,8 +231,71 @@ export default {
     this.getTodos();
   },
   methods: {
+    sacarProfesorMateria(profesor){
+           axios
+        .delete(Global.url + "materia-profesor", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            idProfesor: profesor.idProfesor,
+            idMateria: profesor.idMateria
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Profesor eliminado correctamente",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error",
+          });
+        }); 
+    },
+    alternarEliminar(){
+     this.sacarProfesor ?  this.sacarProfesor=false :  this.sacarProfesor =true;
+    },
+    eliminarMateria() {
+      alert("BORRANDO . . .")
+       alert("JODAAA")
+     /*  NO BORRAR FUNCIONA PERO NO QUIERO HACER CAGADA */
+/*       axios
+        .delete(Global.url + "materia", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            idMateria: this.idMateria,
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Materia Eliminada",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error",
+          });
+        }); */
+    },
     alternarModificar(idMateria, boolean) {
-      this.idModificar = idMateria;
+      this.idMateria = idMateria;
       this.modificar = boolean;
     },
     crearMateria() {
@@ -294,6 +383,7 @@ export default {
         });
     },
     traerProfesoresMateria(idMateria, nombreMateria) {
+      this.idMateria = idMateria;
       this.materiaSeleccionada = nombreMateria;
       let config = {
         headers: {
