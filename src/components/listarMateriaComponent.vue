@@ -43,6 +43,7 @@
                       margin-left: 20px;
                       color: red;
                       cursor: pointer;
+                      line-height: unset;
                     "
                     v-if="modificar && idMateria == todo.id"
                     @click="modificar = false"
@@ -67,6 +68,7 @@
                       margin-left: 20px;
                       color: green;
                       cursor: pointer;
+                      line-height: unset;
                     "
                     v-on:click="modificarMateria(todo.id)"
                   ></i>
