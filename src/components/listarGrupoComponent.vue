@@ -29,7 +29,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="todo in todosGrupo" :key="todo.id">
+              <tr
+                v-for="todo in todosGrupo"
+                :key="todo.id"
+                v-on:click="buscarGrupoSeleccionado(todo.idGrupo)"
+                style="cursor: pointer"
+              >
                 <td>{{ todo.idGrupo }}</td>
                 <td>{{ todo.nombreCompleto }}</td>
                 <td>{{ todo.anioElectivo }}</td>
@@ -97,6 +102,14 @@
         <div class="contListarGrupo">
           <h4 class="tituloGrupoPertenecen">Materias Perenecientes a ~TB1~</h4>
           <hr />
+          Profesores
+          <p v-for="todo in grupoSeleccionado" :key="todo.id">
+            {{ todo[0].nombreProfesor }}
+          </p>
+          Alumnos
+          <p v-for="todo in grupoSeleccionado" :key="todo.id">
+            {{ todo[0].nombreAlumno }}
+          </p>
         </div>
       </div>
     </div>
@@ -115,6 +128,7 @@ export default {
     return {
       todosGrupo: null,
       title: "BackOffice",
+      grupoSeleccionado: { profesores: {}, alumnos: {} },
     };
   },
   mounted() {
@@ -136,6 +150,29 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.todosGrupo = res.data;
+            this.buscarGrupoSeleccionado(this.todosGrupo[0].idGrupo);
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
+    buscarGrupoSeleccionado(idGrupo) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "integrantes-curso?idGrupo=" + idGrupo, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupoSeleccionado = res.data;
           }
         })
         .catch(() => {
