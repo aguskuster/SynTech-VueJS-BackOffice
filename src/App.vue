@@ -15,32 +15,44 @@
 
       <ul>
         <li>
-          <router-link to="/home" title="Home">
+          <router-link to="/home" title="Home" class="router-link">
             <i class="far fa-home"></i>
 
             Home</router-link
           >
         </li>
         <li>
-          <router-link to="/listarUsuarios" title="Listar Usuarios">
+          <router-link
+            to="/listarUsuarios"
+            title="Listar Usuarios"
+            class="router-link"
+          >
             <i class="far fa-user"></i>
             Listar Usuarios</router-link
           >
         </li>
         <li>
-          <router-link to="/listarMaterias" title="Listar Materia">
+          <router-link
+            to="/listarMaterias"
+            title="Listar Materia"
+            class="router-link"
+          >
             <i class="fal fa-books"></i>
 
             Listar Materia
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/listarGrupo" title="Listar Grupo">
+          <router-link
+            to="/listarGrupo"
+            title="Listar Grupo"
+            class="router-link"
+          >
             <i class="far fa-users"></i>Listar Grupo
           </router-link>
         </li>
         <li>
-          <router-link to="/contacto" title="Contacto">
+          <router-link to="/contacto" title="Contacto" class="router-link">
             <i class="far fa-address-book"></i>
             Contacto
           </router-link>
@@ -176,7 +188,7 @@ export default {
 </script>
 <style>
 body {
- background:url(./assets/images/img.png);
+  background: url(./assets/images/img.png);
 }
 @import "./assets/css/estilos.css";
 </style>

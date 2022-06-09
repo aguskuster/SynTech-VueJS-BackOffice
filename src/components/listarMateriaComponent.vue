@@ -32,7 +32,11 @@
             <tbody>
               <tr v-for="todo in todosMateria" :key="todo.id">
                 <td v-if="todo.id == idMateria && modificar">
-                  <input type="text" v-model="nuevoNombreMateria" />
+                  <input
+                    type="text"
+                    class="inputFachero"
+                    v-model="nuevoNombreMateria"
+                  />
                 </td>
                 <td v-else>{{ todo.nombre }}</td>
                 <td class="tdMateria">
@@ -40,13 +44,13 @@
                     class="fas fa-times"
                     style="
                       font-size: 20px;
-                      margin-left: 20px;
+                      margin-right: 5px;
                       color: red;
                       cursor: pointer;
                       line-height: unset;
                     "
                     v-if="modificar && idMateria == todo.id"
-                    @click="modificar = false"
+                    @click="cancelarModificar()"
                   ></i>
 
                   <i
@@ -55,7 +59,7 @@
                     class="far fa-pen"
                     style="
                       font-size: 20px;
-                      margin-left: 20px;
+                      margin-left: 19px;
                       color: orange;
                       line-height: unset;
                     "
@@ -65,7 +69,7 @@
                     v-if="modificar && idMateria == todo.id"
                     style="
                       font-size: 20px;
-                      margin-left: 20px;
+                      margin-right: 20px;
                       color: green;
                       cursor: pointer;
                       line-height: unset;
@@ -155,7 +159,6 @@
                   padding: 0px !important;
                   color: white;
                 "
-                class="router-link"
                 :to="{
                   name: 'profesorMateria',
                   params: {
@@ -381,7 +384,8 @@ export default {
               title: Global.nombreSitio,
               message: "Materia modificada.",
             });
-            this.modificar = false;
+            this.getTodos();
+            this.cancelarModificar();
           }
         })
         .catch(() => {
@@ -415,6 +419,10 @@ export default {
             message: "Error inesperado al cargar",
           });
         });
+    },
+    cancelarModificar() {
+      this.modificar = false;
+      this.nuevoNombreMateria = "";
     },
   },
 };

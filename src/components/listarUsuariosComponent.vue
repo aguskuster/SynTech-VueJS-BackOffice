@@ -87,11 +87,21 @@
           </div>
           <div class="listaModificar">
             <div>
-              <i
-                class="fas fa-pencil-alt"
-                style="background-color: var(--mostaza)"
-              ></i
-              >Modificar Usuario
+              <router-link
+                class="router-link-listarUsers"
+                :to="{
+                  name: 'listar-usuario-modificar',
+                  params: {
+                    user: userInfo.user.id,
+                  },
+                }"
+              >
+                <i
+                  class="fas fa-pencil-alt"
+                  style="background-color: var(--mostaza)"
+                ></i
+                >Modificar Usuario
+              </router-link>
             </div>
             <div>
               <i

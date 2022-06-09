@@ -345,3 +345,52 @@ label {
     width: 95%;
     margin: 0 auto;
 }
+
+.router-link-listarUsers:hover {
+    background-color: var(--colordebarra);
+    color: lightgray;
+}
+
+.router-link-listarUsers {
+    text-decoration: none !important;
+    color: white;
+}
+
+.router-link-listarUsers>i {
+    margin-right: 10px;
+    padding: 7px;
+    border-radius: 50%;
+}
+
+.imgModificarUser {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.imgModificarUser img {
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.imgModificarUser h3 {
+    margin: 20px 0;
+}
+
+.imgModificarUser p {
+    font-size: 18px;
+}
+
+.inputFachero {
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid #cbd5e0;
+}
+
+.router-link {
+    text-decoration: none !important;
+}

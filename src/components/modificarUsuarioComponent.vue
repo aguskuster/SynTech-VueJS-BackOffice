@@ -1,57 +1,34 @@
 <template>
   <div>
-    <h1>Modificar Persona</h1>
+    <div class="contenedor_menu">
+      <h2>Modificar Personas</h2>
+    </div>
 
-    <div class="container p-3 my-3 border">
-      <form name="form" id="form" v-on:submit.prevent="modificarUsuario()">
-        <div class="form-group">
-          <label for="username" x>Usuario :</label>
-          <p class="form-control" id="username">{{ usuarioDatos.username }}</p>
-        </div>
+    <div class="contenedorGeneral">
+      <div
+        class="contenedorIzquierdo"
+        style="width: 35%; background-color: whitesmoke"
+      >
+        <div class="imgModificarUser">
+          <center>
+            <img
+              src="https://i1.sndcdn.com/artworks-e9OCBHHsxpCAKjNV-oB7t1g-t500x500.jpg"
+              alt=""
+            />
 
-        <div class="form-group">
-          <label for="text">Nuevo nombre :</label>
-          <input
-            type="text"
-            class="form-control"
-            name="nombre"
-            id="nombre"
-            placeholder="Nuevo nombre"
-            required
-          />
+            <h3>Agus Kuster</h3>
+            <hr />
+          </center>
+          <p class="text-muted">CI: 40494949</p>
         </div>
-        <div class="form-group">
-          <label for="password" >Nuevo email :</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            placeholder="Nuevo email"
-            
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Nueva contraseña :</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            placeholder="Nueva contraseña"
-           
-            
-          />
-        </div>
-        <div class="form-group">
-          <label for="Nombre">Rol :</label>
-          <p class="form-control" id="Nombre">{{ usuarioDatos.ou }}</p>
-        </div>
-        <input
-          type="submit"
-          value="Modificar Persona"
-          title="Enviar"
-          class="btn btn-primary"
-        />
-      </form>
+      </div>
+
+      <div
+        class="contenedorDerechoPersona"
+        style="width: 64%; background-color: whitesmoke"
+      >
+        <div class="formModificar"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,20 +65,19 @@ export default {
       };
       let user = this.$route.params.user;
       axios.get(Global.url + "usuario?username=" + user, config).then((res) => {
-       
         if (res.status == 200) {
           this.usuarioDatos = res.data;
           this.usuarioDatoFRM();
-        } 
+        }
       });
     },
     modificarUsuario() {
       let user = this.$route.params.user;
       let parametros = {
         username: user,
-        newPassword: document.getElementById('password').value,
-        nuevoNombre:document.getElementById('nombre').value,
-        nuevoEmail: document.getElementById('email').value,
+        newPassword: document.getElementById("password").value,
+        nuevoNombre: document.getElementById("nombre").value,
+        nuevoEmail: document.getElementById("email").value,
       };
       let config = {
         headers: {
