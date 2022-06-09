@@ -100,15 +100,17 @@
 
       <div class="contenedorDerechoPersona">
         <div class="contListarGrupo">
-          <h4 class="tituloGrupoPertenecen">Materias Perenecientes a ~TB1~</h4>
+          <h4 class="tituloGrupoPertenecen">
+            Materias Perenecientes a {{ acronimoGrupo }}
+          </h4>
           <hr />
           Profesores
-          <p v-for="todo in grupoSeleccionado" :key="todo.id">
-            {{ todo[0].nombreProfesor }}
+          <p v-for="todo in grupoSeleccionado.profesores" :key="todo.id">
+            {{ todo.nombreProfesor }}
           </p>
           Alumnos
-          <p v-for="todo in grupoSeleccionado" :key="todo.id">
-            {{ todo[0].nombreAlumno }}
+          <p v-for="todo in grupoSeleccionado.alumnos" :key="todo.id">
+            {{ todo.nombreAlumno }}
           </p>
         </div>
       </div>
@@ -129,6 +131,7 @@ export default {
       todosGrupo: null,
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
+      acronimoGrupo: "",
     };
   },
   mounted() {
@@ -162,6 +165,7 @@ export default {
         });
     },
     buscarGrupoSeleccionado(idGrupo) {
+      this.acronimoGrupo = idGrupo;
       let config = {
         headers: {
           "Content-Type": "application/json",
