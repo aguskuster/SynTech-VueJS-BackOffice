@@ -1,30 +1,46 @@
 <template>
   <div>
-    <h1>Agregar Profesor a una Materia</h1>
-    <div class="container p-3 my-3 border">
+    <vue-headful :title="title" />
+    <div class="contenedor_menu" style="margin-bottom: 30px">
       <vue-headful :title="title" />
-      <vue-good-table
-        @on-selected-rows-change="selectionChanged"
-        :columns="columns"
-        :rows="rows"
-        :select-options="{
-          enabled: true,
-          selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-          selectionInfoClass: 'custom-class',
-          selectionText: 'rows selected',
-          clearSelectionText: 'clear',
-          disableSelectInfo: true, // disable the select info panel on top
-          selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-        }"
-        :search-options="{ enabled: true }"
-        theme="polar-bear"
-      >
-      </vue-good-table>
+      <h2>Agregar Profesores a {{ this.$route.params.Materia }}</h2>
     </div>
-  
 
-  {{selectedRows}}
-   
+    <div class="contTableProfesor">
+      <div>
+        <h3>Listado de Profesores</h3>
+        <hr />
+        <vue-good-table
+          @on-selected-rows-change="selectionChanged"
+          :columns="columns"
+          :rows="rows"
+          :select-options="{
+            enabled: true,
+            selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+            selectionInfoClass: 'custom-class',
+            selectionText: 'rows selected',
+            clearSelectionText: 'clear',
+            disableSelectInfo: true, // disable the select info panel on top
+            selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+          }"
+          :search-options="{ enabled: true }"
+          theme="polar-bear"
+        >
+        </vue-good-table>
+      </div>
+      <div class="talbeProfesorDerecha">
+        <div>
+          <h3>Profesores Seleccionado</h3>
+          <hr />
+          <div class="contProfeSelec">
+            <div v-for="todo in selectedRows" :key="todo.id">
+              {{ todo.nombre }}
+            </div>
+          </div>
+        </div>
+        <button @click="agregarProfesorMateria()">Agregar Profesor</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -38,7 +54,6 @@ export default {
   name: "agregarProfesorMateria",
   components: {
     vueHeadful,
-
     VueGoodTable,
   },
   data() {
@@ -55,7 +70,7 @@ export default {
         },
       ],
       rows: [],
-      selectedRows:"",
+      selectedRows: "",
     };
   },
   mounted() {
@@ -65,28 +80,8 @@ export default {
     this.getProfesores();
   },
   methods: {
-    selectionChanged(params){
-    this.selectedRows = params.selectedRows
-    },
-    getMaterias() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.url +
-            "profesor?idProfesor=" +
-            this.modelProfeMateria.idProfesor,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.materias = res.data;
-          }
-        });
+    selectionChanged(params) {
+      this.selectedRows = params.selectedRows;
     },
     getProfesores() {
       let config = {
@@ -114,7 +109,7 @@ export default {
         },
       };
       axios
-        .post(Global.url + "profesor", this.modelProfeMateria, config)
+        .post(Global.url + "profesor", this.crearArrayProfesores(), config)
         .then((response) => {
           if (response.status == 200) {
             this.flashMessage.show({
@@ -122,8 +117,6 @@ export default {
               title: Global.nombreSitio,
               message: "Profesor se agrego a la materia",
             });
-            document.form.reset();
-            this.$router.push("/listarMaterias");
           }
         })
         .catch(() => {
@@ -133,6 +126,17 @@ export default {
             message: "Profesor ya tiene esa materia",
           });
         });
+    },
+    crearArrayProfesores() {
+      let newArray = [];
+      this.selectedRows.forEach(function (user) {
+        newArray.push(user.id);
+      });
+      let objeto = {
+        idMateria: this.$route.params.idMateria,
+        profesores: newArray,
+      };
+      return objeto;
     },
   },
 };

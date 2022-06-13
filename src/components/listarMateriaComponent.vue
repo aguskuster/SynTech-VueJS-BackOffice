@@ -163,6 +163,7 @@
                   name: 'profesorMateria',
                   params: {
                     idMateria: idMateria,
+                    Materia: this.materiaSeleccionada,
                   },
                 }"
               >

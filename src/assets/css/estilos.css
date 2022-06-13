@@ -394,3 +394,56 @@ label {
 .router-link {
     text-decoration: none !important;
 }
+
+.contTableProfesor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 47rem;
+    background-color: whitesmoke;
+    padding: 30px;
+}
+
+.contTableProfesor>div {
+    width: 59%;
+}
+
+.talbeProfesorDerecha {
+    width: 40% !important;
+    border-left: 2px solid #000000;
+    position: relative;
+}
+
+.talbeProfesorDerecha button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border: 3px solid skyblue;
+    background-color: skyblue;
+    border-radius: 4px;
+}
+
+.talbeProfesorDerecha>div {
+    margin-left: 30px;
+}
+
+.talbeProfesorDerecha>div>div>div {
+    border: 3px solid skyblue;
+    background-color: skyblue;
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 5px;
+    ;
+}
+
+.contProfeSelec {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.contTableProfesor h3 {
+    margin-left: 5px;
+}
