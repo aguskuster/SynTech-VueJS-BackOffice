@@ -16,47 +16,14 @@
         class="contenedorIzquierdo"
         style="width: 70%; background-color: transparent"
       >
-        <div class="menu_buscar" style="margin-bottom: 30px; display: block">
-          <input
-            placeholder="Buscar..."
-            id="filtro"
-            v-on:keyup="filtrarPorNombre"
-          />
-
-          <select name="" v-on:change="filtrarPorRol()" v-model="selectedRol">
-            <option value="">Todos</option>
-            <option value="Alumno">Alumnos</option>
-            <option value="Bedelias">Bedelias</option>
-            <option value="Profesor">Profesores</option>
-            <option value="Adscripto">Adscripto</option>
-            <option value="Director">Director</option>
-            <option value="Subdirector">Subdirector</option>
-          </select>
-        </div>
-
-        <div class="contenedor_table">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Usuario</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Rol</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="todo in filtrarPorRol()"
-                :key="todo.id"
-                v-on:click="buscarUser(todo.id)"
-                style="cursor: pointer"
-              >
-                <td>{{ todo.id }}</td>
-                <td>{{ todo.nombre }}</td>
-                <td>{{ todo.ou }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <vue-good-table
+          @on-row-click="onRowClick"
+          :columns="columns"
+          :rows="rows"
+          :search-options="{ enabled: true }"
+          theme="polar-bear"
+        >
+        </vue-good-table>
       </div>
 
       <div
@@ -137,16 +104,6 @@
           <div class="modal-body">
             <agregarUsuarioComponent></agregarUsuarioComponent>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
         </div>
       </div>
     </div>
@@ -159,10 +116,13 @@ import { Global } from "../Global";
 import axios from "axios";
 import $ from "jquery";
 import agregarUsuarioComponent from "./agregarUsuarioComponent";
+import "vue-good-table/dist/vue-good-table.css";
+import { VueGoodTable } from "vue-good-table";
 export default {
   name: "listarUsuarios",
   components: {
     agregarUsuarioComponent,
+    VueGoodTable,
   },
   data() {
     return {
@@ -170,6 +130,21 @@ export default {
       userInfo: { user: {}, profile_img: {} },
       showProfile: false,
       selectedRol: "",
+      columns: [
+        {
+          label: "ID",
+          field: "id",
+        },
+        {
+          label: "Nombre",
+          field: "nombre",
+        },
+        {
+          label: "Rol",
+          field: "ou",
+        },
+      ],
+      rows: [],
     };
   },
 
@@ -206,8 +181,8 @@ export default {
         .get(Global.url + "usuarios", config)
         .then((res) => {
           if (res.status == 200) {
-            this.todosUsuarios = res.data;
-            this.buscarUser(this.todosUsuarios[0].id);
+            this.rows = res.data;
+            this.buscarUser(this.rows[0]);
           }
         })
         .catch(() => {
@@ -218,14 +193,17 @@ export default {
           });
         });
     },
-    buscarUser(id) {
+    onRowClick(usuario) {
+      this.buscarUser(usuario.row);
+    },
+    buscarUser(persona) {
       let config = {
         headers: {
           token: Global.token,
         },
       };
       axios
-        .get(Global.url + "usuario?username=" + id, config)
+        .get(Global.url + "usuario?username=" + persona.id, config)
         .then((res) => {
           if (res.status == 200) {
             this.userInfo = res.data;
