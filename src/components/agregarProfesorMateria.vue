@@ -3,71 +3,59 @@
     <h1>Agregar Profesor a una Materia</h1>
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
-
-      <form
-        name="form"
-        id="form"
-        v-on:submit.prevent="agregarProfesorMateria()"
+      <vue-good-table
+        @on-selected-rows-change="selectionChanged"
+        :columns="columns"
+        :rows="rows"
+        :select-options="{
+          enabled: true,
+          selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+          selectionInfoClass: 'custom-class',
+          selectionText: 'rows selected',
+          clearSelectionText: 'clear',
+          disableSelectInfo: true, // disable the select info panel on top
+          selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+        }"
+        :search-options="{ enabled: true }"
+        theme="polar-bear"
       >
-        <p>
-          Nombre Profesor<em> *</em> :
-
-          <select
-           v-on:change="getMaterias()"
-            class="form-control"
-            v-model="modelProfeMateria.idProfesor"
-            aria-label="Default select example"
-            required
-          >
-            
-              <option   v-for="profe in profesores" :key="profe.username" v-bind:value="profe.username">{{ profe.nombre }}</option>
-            
-          </select>
-        </p>
-        <p>
-          Materia<em> *</em> :
-
-          <select
-            class="form-control"
-            v-model="modelProfeMateria.idMateria"
-            aria-label="Default select example"
-            required
-          >
-              <option  v-for="materia in materias" :key="materia.id" v-bind:value="materia.id">{{ materia.nombre }}</option>
-          </select>
-        </p>
-
-        <hr />
-        <input
-          type="submit"
-          value="Agregar a Materia"
-          title="Enviar"
-          class="btn btn-primary"
-        />
-      </form>
+      </vue-good-table>
     </div>
+  
+
+  {{selectedRows}}
+   
   </div>
 </template>
 <script>
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
+import "vue-good-table/dist/vue-good-table.css";
+import { VueGoodTable } from "vue-good-table";
+
 export default {
   name: "agregarProfesorMateria",
   components: {
     vueHeadful,
+
+    VueGoodTable,
   },
   data() {
     return {
       title: "BackOffice",
-      nombre: "",
-      nav: true,
-      materias: "",
-      profesores: "",
-      modelProfeMateria: {
-        idProfesor: "",
-        idMateria: "",
-      },
+      columns: [
+        {
+          label: "ID",
+          field: "id",
+        },
+        {
+          label: "Nombre",
+          field: "nombre",
+        },
+      ],
+      rows: [],
+      selectedRows:"",
     };
   },
   mounted() {
@@ -77,6 +65,9 @@ export default {
     this.getProfesores();
   },
   methods: {
+    selectionChanged(params){
+    this.selectedRows = params.selectedRows
+    },
     getMaterias() {
       let config = {
         headers: {
@@ -84,11 +75,18 @@ export default {
           token: Global.token,
         },
       };
-      axios.get(Global.url + "profesor?idProfesor=" + this.modelProfeMateria.idProfesor,config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
+      axios
+        .get(
+          Global.url +
+            "profesor?idProfesor=" +
+            this.modelProfeMateria.idProfesor,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.materias = res.data;
+          }
+        });
     },
     getProfesores() {
       let config = {
@@ -97,11 +95,16 @@ export default {
           token: Global.token,
         },
       };
-      axios.get(Global.url + "profesores",config).then((res) => {
-        if (res.status == 200) {
-          this.profesores = res.data;
-        }
-      });
+      axios
+        .get(
+          Global.url + "profesores?idMateria=" + this.$route.params.idMateria,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+          }
+        });
     },
     agregarProfesorMateria() {
       let config = {

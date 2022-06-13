@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "jquery": "^3.6.0",
     "vue": "^2.6.11",
+    "vue-good-table": "^2.21.11",
     "vue-headful": "^2.1.0",
     "vue-router": "^3.3.4",
     "vuelidate": "^0.7.5"

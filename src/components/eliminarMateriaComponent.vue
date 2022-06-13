@@ -40,35 +40,7 @@ export default {
         }
       });
     },
-    eliminarMateria() {
-   axios
-        .delete(Global.url + "materia", {
-        headers: {
-            "Content-Type": "application/json",
-            "token": Global.token
-        },
-        data: { 
-            "idMateria": this.$route.params.materia,
-         },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title:  Global.nombreSitio,
-              message: "Materia Eliminada",
-            });
-            this.$router.push("/listarMaterias");
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title:  Global.nombreSitio,
-            message: "Error, la materia esta vinculada a otros elementos",
-          });
-        });
-    },
+
   },
 };
 </script>
