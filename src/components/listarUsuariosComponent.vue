@@ -29,7 +29,7 @@
       <div
         class="contenedorDerechoPersona"
         v-if="showProfile"
-        style="width: 30%; margin-top: 83px; background-color: transparent"
+        style="width: 30%; background-color: transparent"
       >
         <div class="infoUser">
           <div class="imgContDer">
