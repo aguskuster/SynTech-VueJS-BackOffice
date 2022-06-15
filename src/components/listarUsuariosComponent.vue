@@ -18,10 +18,12 @@
       >
         <vue-good-table
           @on-row-click="onRowClick"
+          @on-search="onSearch"
           :columns="columns"
           :rows="rows"
           :search-options="{ enabled: true }"
           theme="polar-bear"
+          :pagination-options="pagination"
         >
         </vue-good-table>
       </div>
@@ -144,6 +146,21 @@ export default {
           field: "ou",
         },
       ],
+      pagination: {
+        enabled: true,
+        perPage: 10,
+        position: "top",
+        jumpFirstOrLast: true,
+        firstLabel: "Primer Pagina",
+        lastLabel: "Ultima Pagina",
+        nextLabel: "sig.",
+        prevLabel: "ant.",
+        ofLabel: "de",
+        dropdownAllowAll: false,
+        dropdown: false,
+        perPageDropdown: [10, 5],
+         rowsPerPageLabel: 'Filas por pagina',
+      },
       rows: [],
     };
   },
@@ -192,6 +209,11 @@ export default {
             message: "Error inesperado al cargar ",
           });
         });
+    },
+    onSearch(params) {
+      if (params.searchTerm.length == 1) {
+        this.getTodos();
+      }
     },
     onRowClick(usuario) {
       this.buscarUser(usuario.row);
