@@ -4,10 +4,12 @@
       <vue-headful :title="title" />
       <h2>Listado de Grupos</h2>
       <div>
-        <button type="button" class="right btn btn-primary">
-          <router-link style="color: white; text-decoration: none" to="/grupo"
-            ><i class="far fa-users-medical"></i
-          ></router-link>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#modalAgregarGrupo"
+        >
+          Agregar Grupo
         </button>
       </div>
     </div>
@@ -114,12 +116,73 @@
           </p>
         </div>
       </div>
+
+      <!--     MODAL AGREGAR GRUPO  -->
+      <div
+        class="modal fade"
+        id="modalAgregarGrupo"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Grupo</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form name="form" id="form" v-on:submit.prevent="procesar()">
+                <p>
+                  Acronimo de Grupo<em>*</em> :
+                  <input
+                    type="text"
+                    name="acronimoGrupo"
+                    placeholder="Ejemplo: TB1"
+                    class="form-control"
+                    v-model="grupo.idGrupo"
+                    autocomplete="=off"
+                    required
+                  />
+                </p>
+                <p>
+                  Nombre completo de grupo<em>*</em> :
+                  <input
+                    type="text"
+                    name="nombreCompletoGrupo"
+                    placeholder="Ejemplo: Tecnicatura Nocturno"
+                    class="form-control"
+                    v-model="grupo.nombreCompleto"
+                    required
+                  />
+                </p>
+
+                <input
+                  type="submit"
+                  value="Agregar Grupo"
+                  title="Enviar"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--     FIN MODAL AGREGAR GRUPO  -->
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import vueHeadful from "vue-headful";
+
 import axios from "axios";
 export default {
   name: "listarGrupo",
@@ -132,6 +195,10 @@ export default {
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
+      grupo: {
+        idGrupo: "",
+        nombreCompleto: "",
+      },
     };
   },
   mounted() {
@@ -141,6 +208,35 @@ export default {
     this.getTodos();
   },
   methods: {
+    procesar() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "grupo", this.grupo, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Grupo Agregado",
+            });
+            document.form.reset();
+
+            this.getTodos();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Grupo ya existe",
+          });
+        });
+    },
     getTodos() {
       let config = {
         headers: {

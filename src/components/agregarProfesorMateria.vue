@@ -117,6 +117,7 @@ export default {
               title: Global.nombreSitio,
               message: "Profesor se agrego a la materia",
             });
+            this.$router.push("/listarMaterias");
           }
         })
         .catch(() => {
