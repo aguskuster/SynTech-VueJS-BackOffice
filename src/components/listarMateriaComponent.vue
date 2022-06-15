@@ -278,10 +278,7 @@ export default {
         : (this.sacarProfesor = true);
     },
     eliminarMateria() {
-      alert("BORRANDO . . .");
-      alert("JODAAA");
-      /*  NO BORRAR FUNCIONA PERO NO QUIERO HACER CAGADA */
-      /*       axios
+      axios
         .delete(Global.url + "materia", {
           headers: {
             "Content-Type": "application/json",
@@ -293,6 +290,8 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
+          
+            this.getTodos();
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
@@ -306,7 +305,7 @@ export default {
             title: Global.nombreSitio,
             message: "Error",
           });
-        }); */
+        });
     },
     alternarModificar(idMateria, boolean) {
       this.idMateria = idMateria;
@@ -323,6 +322,7 @@ export default {
         .post(Global.url + "materia", this.materia, config)
         .then((response) => {
           if (response.status == 200) {
+              console.log(response.data);
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,

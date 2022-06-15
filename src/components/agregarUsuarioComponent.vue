@@ -61,7 +61,7 @@
       <div v-if="persona.ou == 'Alumno'">
         <p>
           Grupo<em> *</em> :
-          <select class="form-control" v-model="persona.grupo" required>
+          <select class="form-control" v-model="persona.idGrupo" required>
             <option value="TB1">TB1</option>
             <option value="TB2">TB2</option>
             <option value="TB3">TB3</option>
@@ -82,10 +82,10 @@
       <div v-if="persona.ou == 'Profesor'">
         <p>
           Materias<em> *</em> :
-          <select class="form-control" v-model="persona.materias" required>
+          <select class="form-control" v-model="persona.mate" required>
             <option value="1">Matematica</option>
-            <option value="2">Fisica</option>
-            <option value="3">Biologia</option>
+            <option value="3">Fisica</option>
+            <option value="2">Biologia</option>
             <option value="4">Quimica</option>
           </select>
         </p>
@@ -116,9 +116,10 @@ export default {
         surname: "",
         userPrincipalName: "",
         ou: "",
-        grupo: "",
-        materias: "",
+        idGrupo: "",
+        idMaterias: [1,4],
         cargo: "",
+        mate:''
       },
     };
   },
