@@ -447,3 +447,50 @@ label {
 .contTableProfesor h3 {
     margin-left: 5px;
 }
+
+.conteinerCardGrupo {
+    background-color: rgba(214, 214, 223, 0.776);
+    width: 100px;
+    height: 130px;
+    margin-right: 5px;
+    margin-top: 10px
+}
+
+.conteinerCardGrupo img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-size: cover;
+    margin: 2px 0;
+}
+
+.conteinerCardGrupo h2 {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+.conteinerCardGrupo h3 {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    margin: 6px 0;
+    text-transform: uppercase;
+}
+
+.contCardGrupoo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btnGrupo {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btnGrupo button:last-child {
+    margin-right: 5px;
+}
