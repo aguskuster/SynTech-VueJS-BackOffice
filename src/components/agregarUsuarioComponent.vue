@@ -61,11 +61,27 @@
       <div v-if="persona.ou == 'Alumno'">
         <p>
           Grupo<em> *</em> :
-          <select class="form-control" v-model="persona.idGrupo" required>
-            <option value="TB1">TB1</option>
-            <option value="TB2">TB2</option>
-            <option value="TB3">TB3</option>
+          <select
+            class="form-control"
+            v-on:change="agregarArray(grupoSelect, persona.idGrupos)"
+            v-model="grupoSelect"
+            required
+          >
+            <option :value="g.idGrupo" v-for="g in grupos" :key="g.id">
+              {{ g.nombreCompleto }} | {{ g.idGrupo }} |
+            </option>
           </select>
+
+          <span
+            v-for="selectedGroup in persona.idGrupos"
+            :key="selectedGroup.id"
+          >
+            <span>{{ selectedGroup }}</span>
+            <i
+              @click="eliminarArray(selectedGroup, persona.idGrupos)"
+              class="fas fa-times"
+            ></i>
+          </span>
         </p>
       </div>
       <div v-if="persona.ou == 'Administrador'">
@@ -82,14 +98,29 @@
       <div v-if="persona.ou == 'Profesor'">
         <p>
           Materias<em> *</em> :
-          <select class="form-control" v-model="persona.mate" required>
-            <option value="1">Matematica</option>
-            <option value="3">Fisica</option>
-            <option value="2">Biologia</option>
-            <option value="4">Quimica</option>
+          <select
+            class="form-control"
+            v-model="materiaSelect"
+            v-on:change="agregarArray(materiaSelect, persona.idMaterias)"
+            required
+          >
+            <option :value="m.id" v-for="m in materias" :key="m.id">
+              {{ m.nombre }}
+            </option>
           </select>
+          <span
+            v-for="selectedSubject in persona.idMaterias"
+            :key="selectedSubject.id"
+          >
+            <span>{{ returnSubjectNameById(selectedSubject) }}</span>
+            <i
+              @click="eliminarArray(selectedSubject, persona.idMaterias)"
+              class="fas fa-times"
+            ></i>
+          </span>
         </p>
       </div>
+
       <hr />
       <input
         type="submit"
@@ -116,14 +147,65 @@ export default {
         surname: "",
         userPrincipalName: "",
         ou: "",
-        idGrupo: "",
-        idMaterias: [1,4],
+        idGrupos: [],
+        idMaterias: [],
         cargo: "",
-        mate:''
+        mate: "",
       },
+      materiaSelect: "",
+      grupoSelect: "",
+      materias: "",
+      grupos: "",
     };
   },
+  mounted() {
+    this.getMaterias();
+    this.getGrupos();
+  },
   methods: {
+    getMaterias() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "materias", config).then((res) => {
+        if (res.status == 200) {
+          this.materias = res.data;
+        }
+      });
+    },
+    returnSubjectNameById(idSub) {
+      for (let m of this.materias) {
+        if (m.id == idSub) {
+          return m.nombre;
+        }
+      }
+    },
+    agregarArray(id, array) {
+      if (!array.includes(id)) {
+        array.push(id);
+      }
+    },
+    eliminarArray(id, array) {
+      const grupo = (element) => element == id;
+      let index = array.findIndex(grupo);
+      array.splice(index, 1);
+    },
+    getGrupos() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "grupos", config).then((res) => {
+        if (res.status == 200) {
+          this.grupos = res.data;
+        }
+      });
+    },
     procesar() {
       this.submited = true;
       let config = {
@@ -143,6 +225,8 @@ export default {
               message: "Usuario Agregado",
             });
             document.form.reset();
+            this.materiaSelect = "";
+            this.grupoSelect = "";
           }
         })
         .catch(() => {
