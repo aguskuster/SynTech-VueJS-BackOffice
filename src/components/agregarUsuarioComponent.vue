@@ -59,6 +59,7 @@
       </p>
 
       <div v-if="persona.ou == 'Alumno'">
+        {{getGrupos()}}
         <p>
           Grupo<em> *</em> :
           <select
@@ -96,6 +97,7 @@
         </p>
       </div>
       <div v-if="persona.ou == 'Profesor'">
+         {{getMaterias()}}
         <p>
           Materias<em> *</em> :
           <select
@@ -159,7 +161,7 @@ export default {
     };
   },
   mounted() {
-    this.getMaterias();
+   this.getMaterias();
     this.getGrupos();
   },
   methods: {
