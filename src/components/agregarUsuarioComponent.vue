@@ -72,8 +72,10 @@
               {{ g.nombreCompleto }} | {{ g.idGrupo }} |
             </option>
           </select>
-
+        </p>
+        <div class="contenedorMateriaForm">
           <span
+            class="btnAgregarComp"
             v-for="selectedGroup in persona.idGrupos"
             :key="selectedGroup.id"
           >
@@ -83,7 +85,7 @@
               class="fas fa-times"
             ></i>
           </span>
-        </p>
+        </div>
       </div>
       <div v-if="persona.ou == 'Administrador'">
         <p>
@@ -110,7 +112,10 @@
               {{ m.nombre }}
             </option>
           </select>
+        </p>
+        <div class="contenedorMateriaForm">
           <span
+            class="btnAgregarComp"
             v-for="selectedSubject in persona.idMaterias"
             :key="selectedSubject.id"
           >
@@ -120,7 +125,7 @@
               class="fas fa-times"
             ></i>
           </span>
-        </p>
+        </div>
       </div>
 
       <hr />

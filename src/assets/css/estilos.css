@@ -427,7 +427,26 @@ label {
     margin-left: 30px;
 }
 
-.talbeProfesorDerecha>div>div>div {
+.contenedorMateriaForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btnAgregarComp span {
+    font-weight: 400;
+}
+
+.btnAgregarComp i {
+    margin: 0 5px;
+    color: red;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.talbeProfesorDerecha>div>div>div,
+.btnAgregarComp {
     border: 3px solid skyblue;
     background-color: skyblue;
     width: 150px;
