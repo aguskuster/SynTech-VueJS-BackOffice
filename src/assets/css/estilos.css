@@ -444,6 +444,12 @@ label {
     flex-wrap: wrap;
 }
 
+.contProfeSelec>div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .contTableProfesor h3 {
     margin-left: 5px;
 }
