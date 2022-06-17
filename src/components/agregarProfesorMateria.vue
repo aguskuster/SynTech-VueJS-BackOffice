@@ -33,7 +33,14 @@
           <h3>Profesores Seleccionado</h3>
           <hr />
           <div class="contProfeSelec">
-            <div v-for="todo in selectedRows" :key="todo.id">
+            <div
+              v-for="todo in selectedRows"
+              :key="todo.id"
+              data-toggle="tooltip"
+              data-placement="top"
+              :title="todo.nombre"
+              style="cursor: help"
+            >
               {{ todo.nombre }}
             </div>
           </div>
