@@ -519,3 +519,46 @@ label {
 .btnGrupo button:last-child {
     margin-right: 5px;
 }
+
+.formModificar {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.personalDetails {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.personalDetails p {
+    margin: 0 5px;
+}
+
+.personalDetails input {
+    width: 400px;
+    height: 30px;
+    margin: 0 5px;
+}
+
+.frmProfesor {
+    margin-top: 30px;
+}
+
+.frmProfesorMaterias {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.frmProfesorMaterias>div {
+    border: 3px solid skyblue;
+    background-color: skyblue;
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+}

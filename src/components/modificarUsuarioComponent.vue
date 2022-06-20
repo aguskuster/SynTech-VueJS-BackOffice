@@ -11,15 +11,12 @@
       >
         <div class="imgModificarUser">
           <center>
-            <img
-              src="https://i1.sndcdn.com/artworks-e9OCBHHsxpCAKjNV-oB7t1g-t500x500.jpg"
-              alt=""
-            />
+            <img :src="returnImgProfile(usuarioDatos.imagen_perfil)" alt="" />
 
-            <h3>Agus Kuster</h3>
+            <h3>{{ usuarioDatos.nombre }}</h3>
             <hr />
           </center>
-          <p class="text-muted">CI: 40494949</p>
+          <p class="text-muted">CI: {{ usuarioDatos.id }}</p>
         </div>
       </div>
 
@@ -27,7 +24,43 @@
         class="contenedorDerechoPersona"
         style="width: 64%; background-color: whitesmoke"
       >
-        <div class="formModificar"></div>
+        <div class="formModificar">
+          <h3>Information Personal</h3>
+          <div class="personalDetails">
+            <div>
+              <p>Nombre</p>
+              <input :value="nombre" />
+            </div>
+            <div>
+              <p>Apellido</p>
+              <input :value="apellido" />
+            </div>
+            <div>
+              <p>Mail</p>
+              <input :value="usuarioDatos.email" />
+            </div>
+            <div>
+              <p>OU</p>
+              <input :value="usuarioDatos.ou" />
+            </div>
+            <div>
+              <p>Genero</p>
+              <input :value="usuarioDatos.genero" />
+            </div>
+          </div>
+          <div class="frmProfesor">
+            <h3>Materias</h3>
+            <div class="frmProfesorMaterias">
+              <div>Matematica</div>
+              <div>Matematica</div>
+              <div>Matematica</div>
+              <div>Matematica</div>
+              <div>Matematica</div>
+              <div>Matematica</div>
+              <div>Matematica</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,23 +73,14 @@ export default {
   data() {
     return {
       usuarioDatos: "",
-      updateUser: {
-        newPassword: "",
-        newName: "",
-        newEmail: "",
-      },
+      nombre: "",
+      apellido: "",
     };
   },
   mounted() {
     this.getUsuario();
   },
   methods: {
-    usuarioDatoFRM() {
-      let nombre = document.getElementById("nombre");
-      let email = document.getElementById("email");
-      nombre.value = this.usuarioDatos.nombre;
-      email.value = this.usuarioDatos.email;
-    },
     getUsuario() {
       let config = {
         headers: {
@@ -64,46 +88,30 @@ export default {
         },
       };
       let user = this.$route.params.user;
-      axios.get(Global.url + "usuario?username=" + user, config).then((res) => {
-        if (res.status == 200) {
-          this.usuarioDatos = res.data;
-          this.usuarioDatoFRM();
-        }
-      });
-    },
-    modificarUsuario() {
-      let user = this.$route.params.user;
-      let parametros = {
-        username: user,
-        newPassword: document.getElementById("password").value,
-        nuevoNombre: document.getElementById("nombre").value,
-        nuevoEmail: document.getElementById("email").value,
-      };
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
       axios
-        .put(Global.url + "usuario", parametros, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Usuario Modificado",
-            });
-            this.$router.push("/listarUsuarios");
+        .get(Global.url + "usuario?username=" + user, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.usuarioDatos = res.data;
+            this.recortarNombre();
           }
         })
         .catch(() => {
           this.flashMessage.show({
-            status: "error",
+            status: "warning",
             title: Global.nombreSitio,
-            message: "Error inesperado.",
+            message: "Error inesperado al cargar",
           });
         });
+    },
+    recortarNombre() {
+      let user = this.usuarioDatos.nombre;
+      let res = user.split(" ");
+      this.nombre = res[0];
+      this.apellido = res[1];
+    },
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
     },
   },
 };
