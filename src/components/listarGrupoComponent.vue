@@ -108,8 +108,7 @@
           <hr />
 
           <div class="btnGrupo">
-            <button class="btn btn-danger">Quitar Miembro</button>
-            <button class="btn btn-success">Agregar Miembro</button>
+            <button class="btn btn-warning">Modificar Grupo</button>
           </div>
           <div class="contCardGrupoo">
             <div
@@ -120,21 +119,28 @@
               <center>
                 <h3>{{ todo.nombreMateria }}</h3>
 
-                <img
-                  src="https://c4.wallpaperflare.com/wallpaper/17/753/97/bleach-ulquiorra-cifer-wallpaper-preview.jpg"
-                  alt=""
-                />
+                <img :src="b64Decode(todo.imagen_perfil)" alt="" />
               </center>
               <h2>{{ todo.nombreProfesor }}</h2>
             </div>
           </div>
-          <!-- <p v-for="todo in grupoSeleccionado.profesores" :key="todo.id">
-            {{ todo.nombreProfesor }}
-          </p> -->
-          <!--    Alumnos
-          <p v-for="todo in grupoSeleccionado.alumnos" :key="todo.id">
-            {{ todo.nombreAlumno }}
-          </p> -->
+          <br />
+          <br />
+
+          <div class="contCardGrupoo">
+            <div
+              class="conteinerCardGrupo"
+              v-for="todo in grupoSeleccionado.alumnos"
+              :key="todo.id"
+            >
+              <center>
+                <h3>{{ todo.nombreMateria }}</h3>
+
+                <img :src="b64Decode(todo.imagen_perfil)" alt="" />
+              </center>
+              <h2>{{ todo.nombreAlumno }}</h2>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -220,6 +226,7 @@ export default {
         idGrupo: "",
         nombreCompleto: "",
       },
+      imgB64: "",
     };
   },
   mounted() {
@@ -304,6 +311,9 @@ export default {
           });
         });
     },
+    b64Decode(img){
+      return  "data:image/png;base64," + img;
+    }
   },
 };
 </script>
