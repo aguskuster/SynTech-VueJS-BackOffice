@@ -16,87 +16,16 @@
 
     <div class="contenedorGeneral">
       <div class="contenedorIzquierdo">
-        <h4>Grupos</h4>
-        <div class="menu_buscar" style="justify-content: center">
-          <input placeholder="Buscar..." />
-        </div>
-        <div class="contenedor_table">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Acronimo Grupo</th>
-                <th scope="col">Nombre Completo Grupo</th>
-                <th scope="col">Año Electivo</th>
-                <th scope="col">&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="todo in todosGrupo"
-                :key="todo.id"
-                v-on:click="buscarGrupoSeleccionado(todo.idGrupo)"
-                style="cursor: pointer"
-              >
-                <td>{{ todo.idGrupo }}</td>
-                <td>{{ todo.nombreCompleto }}</td>
-                <td>{{ todo.anioElectivo }}</td>
-                <!--    <td v-if="todo.id == idMateria && modificar">
-                  <input type="text" v-model="nuevoNombreMateria" />
-                </td>
-                <td v-else>{{ todo.nombre }}</td>
-                <td class="tdMateria">
-                  <i
-                    class="fas fa-times"
-                    style="
-                      font-size: 20px;
-                      margin-left: 20px;
-                      color: red;
-                      cursor: pointer;
-                      line-height: unset;
-                    "
-                    v-if="modificar && idMateria == todo.id"
-                    @click="modificar = false"
-                  ></i>
-
-                  <i
-                    v-else
-                    v-on:click="alternarModificar(todo.id, true)"
-                    class="far fa-pen"
-                    style="
-                      font-size: 20px;
-                      margin-left: 20px;
-                      color: orange;
-                      line-height: unset;
-                    "
-                  ></i>
-                  <i
-                    class="fas fa-check"
-                    v-if="modificar && idMateria == todo.id"
-                    style="
-                      font-size: 20px;
-                      margin-left: 20px;
-                      color: green;
-                      cursor: pointer;
-                      line-height: unset;
-                    "
-                    v-on:click="modificarMateria(todo.id)"
-                  ></i>
-                  <i
-                    v-else
-                    class="fas fa-search"
-                    style="
-                      font-size: 20px;
-                      margin-left: 20px;
-                      color: blue;
-                      cursor: pointer;
-                      line-height: unset;
-                    "
-                    v-on:click="traerProfesoresMateria(todo.id, todo.nombre)"
-                  ></i>
-                </td> -->
-              </tr>
-            </tbody>
-          </table>
+        <div class="contenedor_table mt-3">
+          <vue-good-table
+            @on-row-click="onRowClick"
+            :columns="columns"
+            :rows="rows"
+            :search-options="{ enabled: true }"
+            theme="polar-bear"
+            :pagination-options="pagination"
+          >
+          </vue-good-table>
         </div>
       </div>
 
@@ -108,8 +37,7 @@
           <hr />
 
           <div class="btnGrupo">
-            <button class="btn btn-danger">Quitar Miembro</button>
-            <button class="btn btn-success">Agregar Miembro</button>
+            <button class="btn btn-warning">Modificar Grupo</button>
           </div>
           <div class="contCardGrupoo">
             <div
@@ -120,21 +48,28 @@
               <center>
                 <h3>{{ todo.nombreMateria }}</h3>
 
-                <img
-                  src="https://c4.wallpaperflare.com/wallpaper/17/753/97/bleach-ulquiorra-cifer-wallpaper-preview.jpg"
-                  alt=""
-                />
+                <img :src="b64Decode(todo.imagen_perfil)" alt="" />
               </center>
               <h2>{{ todo.nombreProfesor }}</h2>
             </div>
           </div>
-          <!-- <p v-for="todo in grupoSeleccionado.profesores" :key="todo.id">
-            {{ todo.nombreProfesor }}
-          </p> -->
-          <!--    Alumnos
-          <p v-for="todo in grupoSeleccionado.alumnos" :key="todo.id">
-            {{ todo.nombreAlumno }}
-          </p> -->
+          <br />
+          <br />
+
+          <div class="contCardGrupoo">
+            <div
+              class="conteinerCardGrupo"
+              v-for="todo in grupoSeleccionado.alumnos"
+              :key="todo.id"
+            >
+              <center>
+                <h3>{{ todo.nombreMateria }}</h3>
+
+                <img :src="b64Decode(todo.imagen_perfil)" alt="" />
+              </center>
+              <h2>{{ todo.nombreAlumno }}</h2>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -203,16 +138,17 @@
 <script>
 import { Global } from "../Global";
 import vueHeadful from "vue-headful";
-
+import "vue-good-table/dist/vue-good-table.css";
+import { VueGoodTable } from "vue-good-table";
 import axios from "axios";
 export default {
   name: "listarGrupo",
   components: {
     vueHeadful,
+    VueGoodTable,
   },
   data() {
     return {
-      todosGrupo: null,
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
@@ -220,6 +156,37 @@ export default {
         idGrupo: "",
         nombreCompleto: "",
       },
+      imgB64: "",
+      columns: [
+        {
+          label: "Acronimo Grupo",
+          field: "idGrupo",
+        },
+        {
+          label: "Nombre Completo",
+          field: "nombreCompleto",
+        },
+        {
+          label: "Año electivo",
+          field: "anioElectivo",
+        },
+      ],
+      pagination: {
+        enabled: true,
+        perPage: 10,
+        position: "top",
+        jumpFirstOrLast: true,
+        firstLabel: "Primer Pagina",
+        lastLabel: "Ultima Pagina",
+        nextLabel: "sig.",
+        prevLabel: "ant.",
+        ofLabel: "de",
+        dropdownAllowAll: false,
+        dropdown: false,
+        perPageDropdown: [10, 5],
+        rowsPerPageLabel: "Filas por pagina",
+      },
+      rows: [],
     };
   },
   mounted() {
@@ -269,8 +236,8 @@ export default {
         .get(Global.url + "grupos", config)
         .then((res) => {
           if (res.status == 200) {
-            this.todosGrupo = res.data;
-            this.buscarGrupoSeleccionado(this.todosGrupo[0].idGrupo);
+            this.rows = res.data;
+            this.buscarGrupoSeleccionado(this.rows[0]);
           }
         })
         .catch(() => {
@@ -281,8 +248,11 @@ export default {
           });
         });
     },
-    buscarGrupoSeleccionado(idGrupo) {
-      this.acronimoGrupo = idGrupo;
+    onRowClick(params) {
+      this.buscarGrupoSeleccionado(params.row);
+    },
+    buscarGrupoSeleccionado(grupo) {
+      this.acronimoGrupo = grupo.idGrupo;
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -290,7 +260,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "integrantes-curso?idGrupo=" + idGrupo, config)
+        .get(Global.url + "integrantes-curso?idGrupo=" + grupo.idGrupo, config)
         .then((res) => {
           if (res.status == 200) {
             this.grupoSeleccionado = res.data;
@@ -303,6 +273,9 @@ export default {
             message: "Error inesperado al cargar",
           });
         });
+    },
+    b64Decode(img) {
+      return "data:image/png;base64," + img;
     },
   },
 };
