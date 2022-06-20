@@ -16,7 +16,7 @@
 
     <div class="contenedorGeneral">
       <div class="contenedorIzquierdo">
-        <div class="contenedor_table mt-3">
+        <div class="contenedor_table mt-2">
           <vue-good-table
             @on-row-click="onRowClick"
             :columns="columns"
