@@ -36,22 +36,23 @@
         <div class="infoUser">
           <div class="imgContDer">
             <center>
-              <img :src="returnImgProfile(userInfo.profile_img)" />
+              <img :src="returnImgProfile(userInfo.imagen_perfil)" />
             </center>
           </div>
+
           <div class="DerTexl">
             <div class="derTexNombre">
-              <h4>{{ userInfo.user.nombre }}</h4>
+              <h4>{{ userInfo.nombre }}</h4>
               <hr />
             </div>
             <div>
-              <span>Cargo:</span> <span>{{ userInfo.user.ou }}</span>
+              <span>Cargo:</span> <span>{{ userInfo.ou }}</span>
             </div>
             <div>
-              <span>Cedula:</span> <span>{{ userInfo.user.id }}</span>
+              <span>Cedula:</span> <span>{{ userInfo.id }}</span>
             </div>
             <div>
-              <span>Correo:</span> <span>{{ userInfo.user.email }}</span>
+              <span>Correo:</span> <span>{{ userInfo.email }}</span>
             </div>
           </div>
           <div class="listaModificar">
@@ -61,7 +62,7 @@
                 :to="{
                   name: 'listar-usuario-modificar',
                   params: {
-                    user: userInfo.user.id,
+                    user: userInfo.id,
                   },
                 }"
               >
@@ -129,7 +130,7 @@ export default {
   data() {
     return {
       todosUsuarios: null,
-      userInfo: { user: {}, profile_img: {} },
+      userInfo: "",
       showProfile: false,
       selectedRol: "",
       columns: [
@@ -159,7 +160,7 @@ export default {
         dropdownAllowAll: false,
         dropdown: false,
         perPageDropdown: [10, 5],
-         rowsPerPageLabel: 'Filas por pagina',
+        rowsPerPageLabel: "Filas por pagina",
       },
       rows: [],
     };
