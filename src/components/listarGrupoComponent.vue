@@ -35,11 +35,52 @@
             Materias Perenecientes a {{ acronimoGrupo }}
           </h4>
           <hr />
+          <input
+            type="radio"
+            class="btn-check"
+            name="options-outlined"
+            id="success-outlined"
+            autocomplete="off"
+            checked
+          />
+          <label
+            class="btn btn-outline-primary"
+            for="success-outlined"
+            @click="alternaBooleanAP(false, true)"
+            >Profesores</label
+          >
 
-          <div class="btnGrupo">
-            <button class="btn btn-warning">Modificar Grupo</button>
+          <input
+            type="radio"
+            class="btn-check"
+            style="margin-left: 10px"
+            name="options-outlined"
+            id="danger-outlined"
+            autocomplete="off"
+          />
+          <label
+            style="margin-left: 10px"
+            class="btn btn-outline-primary"
+            for="danger-outlined"
+            @click="alternaBooleanAP(true, false)"
+            >Alumnos</label
+          >
+
+          <div class="btnGrupo" style="margin-left: auto; margin-top: -40px">
+            <router-link
+              class="btn btn-primary"
+              style="text-decoration: none; color: white"
+              :to="{
+                name: 'listar-grupo-modificar',
+                params: {
+                  idGrupo: acronimoGrupo,
+                },
+              }"
+            >
+              <i class="fal fa-cog"></i>
+            </router-link>
           </div>
-          <div class="contCardGrupoo">
+          <div class="contCardGrupoo" v-if="profesores">
             <div
               class="conteinerCardGrupo"
               v-for="todo in grupoSeleccionado.profesores"
@@ -56,7 +97,7 @@
           <br />
           <br />
 
-          <div class="contCardGrupoo">
+          <div class="contCardGrupoo" v-if="alumnos">
             <div
               class="conteinerCardGrupo"
               v-for="todo in grupoSeleccionado.alumnos"
@@ -156,7 +197,8 @@ export default {
         idGrupo: "",
         nombreCompleto: "",
       },
-      imgB64: "",
+      profesores: true,
+      alumnos: false,
       columns: [
         {
           label: "Acronimo Grupo",
@@ -196,6 +238,12 @@ export default {
     this.getTodos();
   },
   methods: {
+    alternaBooleanAP(alumnos, profesores) {
+      this.alumnos = alumnos;
+      this.profesores = profesores;
+      console.log(this.profesores);
+      console.log(this.alumnos);
+    },
     procesar() {
       let config = {
         headers: {
