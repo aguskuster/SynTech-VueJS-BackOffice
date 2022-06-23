@@ -7,7 +7,6 @@ import FlashMessage from "@smartweb/vue-flash-message";
 
 import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
-import LoginComponent from './components/LoginComponent.vue';
 import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
 import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue';
 import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
@@ -26,10 +25,9 @@ Vue.use(Vuelidate);
 
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
-    { path: '/', redirect: '/login' },
+    { path: '/', redirect: 'home' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
-    { path: '/login', name: 'login', component: LoginComponent },
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
     { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },

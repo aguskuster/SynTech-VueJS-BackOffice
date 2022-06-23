@@ -138,19 +138,27 @@
         </div>
       </nav>
     </div>
-    <div class="contenedor_res">
+    <div class="contenedor_res pagina" v-if="logged">
       <br />
       <router-view> </router-view>
     </div>
+
+    <div class="contenedor_res" v-if="!logged">
+      <br />
+      <LoginComponent></LoginComponent>
+    </div>
+
     <FlashMessage></FlashMessage>
   </div>
 </template>
 <script>
 import vueHeadful from "vue-headful";
+import LoginComponent from "./components/LoginComponent.vue";
 export default {
   name: "App",
   components: {
     vueHeadful,
+    LoginComponent,
   },
   data() {
     return {
@@ -180,7 +188,6 @@ export default {
     },
     cerrarSesion() {
       localStorage.clear();
-      this.$router.push("/login");
       location.reload();
     },
   },
@@ -188,7 +195,11 @@ export default {
 </script>
 <style>
 body {
-  background: url(./assets/images/img.png);
+  background:  url(./assets/images/background-login.png);
+
+}
+.pagina {
+  background: url(./assets/images/img.png) ;
 }
 @import "./assets/css/estilos.css";
 </style>

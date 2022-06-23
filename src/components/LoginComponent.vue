@@ -1,38 +1,37 @@
 <template>
-  <div style=''>
+  <div style="">
     <div class="">
       <div class="login-container">
         <div id="output"></div>
-        <div class="avatar">
-        </div>
+        <div class="avatar"></div>
         <div class="form-box">
           <form form name="form" id="form" v-on:submit.prevent="procesar()">
             <p class="letraslogin">
               Documento:
               <input
-                  type="text"
-                  name="username"
-                  placeholder="Documento"
-                  class="form-control"
-                  v-model="contacto.username"
+                type="text"
+                name="username"
+                placeholder="Documento"
+                class="form-control"
+                v-model="contacto.username"
               />
             </p>
             <p class="letraslogin">
               Contraseña:
               <input
-                  type="password"
-                  name="password"
-                  placeholder="Contraseña"
-                  class="form-control"
-                  v-model="contacto.password"
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                class="form-control"
+                v-model="contacto.password"
               />
             </p>
             <input
-                type="submit"
-                value="Login"
-                title="Enviar"
-                class="btn"
-                style="border-bottom: 1px solid white; color:white;"
+              type="submit"
+              value="Login"
+              title="Enviar"
+              class="btn"
+              style="border-bottom: 1px solid white; color: white"
             />
           </form>
         </div>
@@ -42,7 +41,7 @@
 </template>
 
 <script>
-import {Global} from "../Global";
+import { Global } from "../Global";
 import axios from "axios";
 
 export default {
@@ -55,9 +54,6 @@ export default {
       },
     };
   },
-  mounted() {
-    localStorage.clear();
-  },
 
   methods: {
     procesar() {
@@ -67,36 +63,34 @@ export default {
         },
       };
       axios
-          .post(Global.url + "login", this.contacto, config)
-          .then((response) => {
-            if (response.status == 200) {
-              let uncodeResponseData = JSON.parse(
-                  window.atob(response.data.datos)
-              );
-              localStorage.setItem("auth_token", response.data.datos);
-              localStorage.setItem("auth_nombre", uncodeResponseData.nombre);
-
-              if (uncodeResponseData.ou != "Bedelias") {
-                this.flashMessage.show({
-                  status: "error",
-                  title: Global.nombreSitio,
-                  message: "Error, credenciales invalidas",
-                });
-                localStorage.clear();
-              } else {
-                this.$router.push("/home");
-                location.reload();
-              }
+        .post(Global.url + "login", this.contacto, config)
+        .then((response) => {
+          if (response.status == 200) {
+            let uncodeResponseData = JSON.parse(
+              window.atob(response.data.datos)
+            );
+            localStorage.setItem("auth_token", response.data.datos);
+            if (uncodeResponseData.ou != "Bedelias") {
+              this.flashMessage.show({
+                status: "error",
+                title: Global.nombreSitio,
+                message: "Error, credenciales invalidas",
+              });
+              localStorage.clear();
+            } else {
+              this.$router.push("/home");
+              location.reload();
             }
-          })
-          .catch(() => {
-            this.flashMessage.show({
-              status: "error",
-              title: Global.nombreSitio,
-              message: "Error, credenciales invalidas",
-            });
-            document.form.reset();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error, credenciales invalidas",
           });
+          document.form.reset();
+        });
     },
   },
 };

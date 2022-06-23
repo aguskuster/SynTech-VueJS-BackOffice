@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     if (!localStorage.getItem("auth_token")) {
-      this.$router.push("/login");
+     localStorage.clear();
     } 
   },
   methods: {
