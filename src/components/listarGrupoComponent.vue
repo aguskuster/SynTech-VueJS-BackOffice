@@ -109,6 +109,9 @@
                 <img :src="b64Decode(todo.imagen_perfil)" alt="" />
               </center>
               <h2>{{ todo.nombreAlumno }}</h2>
+              <center>
+              <a href="#" style="color:red; font-size:12px">Eliminar</a>
+              </center>
             </div>
           </div>
         </div>
