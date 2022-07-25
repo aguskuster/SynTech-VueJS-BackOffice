@@ -80,7 +80,6 @@
                       class="form-select"
                       aria-label="Default select example"
                       v-model="tipoDeUser"
-                    
                     >
                       <option value="" disabled selected hidden>
                         Tipo de usuario a agregar
@@ -112,6 +111,7 @@
                       selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
                     }"
                     :search-options="{ enabled: true }"
+                    :pagination-options="pagination"
                     theme="polar-bear"
                   >
                   </vue-good-table>
@@ -137,6 +137,7 @@
                       selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
                     }"
                     :search-options="{ enabled: true }"
+                    :pagination-options="pagination"
                     theme="polar-bear"
                   >
                   </vue-good-table>
@@ -157,10 +158,11 @@
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
-                    Close
+                    Cerrar
                   </button>
+
                   <button type="button" class="btn btn-primary">
-                    Save changes
+                    Agregar Usuarios
                   </button>
                 </div>
               </div>
@@ -194,8 +196,9 @@
                 {{ todo.nombreProfesor }}
                 <span class="badge rounded-pill"
                   ><i
-                    class="fas fa-times"
+                    class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
+                    @click="eliminarMiembro(todo, 'Profesor')"
                   ></i
                 ></span>
               </li>
@@ -225,8 +228,9 @@
                 {{ todo.nombreAlumno }}
                 <span class="badge rounded-pill"
                   ><i
-                    class="fas fa-times"
+                    class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
+                    @click="eliminarMiembro(todo, 'Alumno')"
                   ></i
                 ></span>
               </li>
@@ -282,6 +286,21 @@ export default {
           field: "nombreProfesor",
         },
       ],
+      pagination: {
+        enabled: true,
+        perPage: 10,
+        position: "top",
+        jumpFirstOrLast: true,
+        firstLabel: "Primer Pagina",
+        lastLabel: "Ultima Pagina",
+        nextLabel: "sig.",
+        prevLabel: "ant.",
+        ofLabel: "de",
+        dropdownAllowAll: false,
+        dropdown: false,
+        perPageDropdown: [10, 5],
+        rowsPerPageLabel: "Filas por pagina",
+      },
       profesores: [],
       alumnos: [],
       selectedRows: "",
@@ -294,6 +313,9 @@ export default {
   methods: {
     b64Decode(img) {
       return "data:image/png;base64," + img;
+    },
+    eliminarMiembro(miembro, tipo) {
+      alert(miembro + " " + tipo);
     },
     buscarGrupoSeleccionado() {
       let config = {
