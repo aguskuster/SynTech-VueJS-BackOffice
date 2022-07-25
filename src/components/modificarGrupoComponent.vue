@@ -54,7 +54,120 @@
       >
         <h4>Administrar Integrantes</h4>
         <div style="width: 100%">
-          <button class="btn btn-primary">Agregar Miebros</button>
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalAgregarMiembros"
+          >
+            Agregar Miebros
+          </button>
+
+          <!-- INICIO Modal Agregar Miembro -->
+          <div
+            class="modal fade"
+            id="modalAgregarMiembros"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLabel">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                      v-model="tipoDeUser"
+                      v-on:change="selectedRows = ''"
+                    >
+                      <option value="" disabled selected hidden>
+                        Tipo de usuario a agregar
+                      </option>
+
+                      <option value="Profesores">Profesores</option>
+                      <option value="Alumnos">Alumnos</option>
+                    </select>
+                  </p>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body" v-if="tipoDeUser == 'Profesores'">
+                  <vue-good-table
+                    @on-selected-rows-change="selectionChanged"
+                    :columns="columnsProfesores"
+                    :rows="integrantesGrupo.profesores"
+                    :select-options="{
+                      enabled: true,
+                      selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                      selectionInfoClass: 'custom-class',
+                      selectionText: 'rows selected',
+                      clearSelectionText: 'clear',
+                      disableSelectInfo: true, // disable the select info panel on top
+                      selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+                    }"
+                    :search-options="{ enabled: true }"
+                    theme="polar-bear"
+                  >
+                  </vue-good-table>
+                  <br />
+                  <div v-for="todo in selectedRows" :key="todo.id">
+                    <span class="btn btn-primary">{{
+                      todo.nombreProfesor
+                    }}</span>
+                  </div>
+                </div>
+                <div class="modal-body" v-if="tipoDeUser == 'Alumnos'">
+                  <vue-good-table
+                    @on-selected-rows-change="selectionChanged"
+                    :columns="columnsAlumnos"
+                    :rows="integrantesGrupo.alumnos"
+                    :select-options="{
+                      enabled: true,
+                      selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                      selectionInfoClass: 'custom-class',
+                      selectionText: 'rows selected',
+                      clearSelectionText: 'clear',
+                      disableSelectInfo: true, // disable the select info panel on top
+                      selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+                    }"
+                    :search-options="{ enabled: true }"
+                    theme="polar-bear"
+                  >
+                  </vue-good-table>
+                  <br />
+                  <div style="display: flex; flex-wrap: wrap">
+                    <span
+                      class="btn btn-primary"
+                      style="margin-right: 10px"
+                      v-for="todo in selectedRows"
+                      :key="todo.id"
+                      >{{ todo.nombreAlumno }}</span
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FIN  Modal Agregar Miembro -->
         </div>
         <div class="row p-2">
           <div style="width: 45%" class="col">
@@ -63,7 +176,7 @@
             </center>
             <ul class="list-group">
               <li
-               v-for="todo in integrantesGrupo.profesores"
+                v-for="todo in integrantesGrupo.profesores"
                 :key="todo.id"
                 class="
                   list-group-item
@@ -72,11 +185,11 @@
                   align-items-center
                 "
               >
-               <img
+                <img
                   :src="b64Decode(todo.imagen_perfil)"
                   width="50px"
                   height="50px"
-                  style="border-radius: 50%;"
+                  style="border-radius: 50%"
                 />
                 {{ todo.nombreProfesor }}
                 <span class="badge rounded-pill"
@@ -86,7 +199,6 @@
                   ></i
                 ></span>
               </li>
-         
             </ul>
           </div>
           <div style="width: 45%" class="col">
@@ -108,7 +220,7 @@
                   :src="b64Decode(todo.imagen_perfil)"
                   width="50px"
                   height="50px"
-                  style="border-radius: 50%;"
+                  style="border-radius: 50%"
                 />
                 {{ todo.nombreAlumno }}
                 <span class="badge rounded-pill"
@@ -132,27 +244,42 @@
 import { Global } from "../Global";
 import axios from "axios";
 
-/* import "vue-good-table/dist/vue-good-table.css";
-import { VueGoodTable } from "vue-good-table"; */
+import "vue-good-table/dist/vue-good-table.css";
+import { VueGoodTable } from "vue-good-table";
 export default {
   name: "modificarUsuarioComponent.vue",
   components: {
-    /*    VueGoodTable, */
+    VueGoodTable,
   },
   data() {
     return {
       idGrupo: this.$route.params.idGrupo,
       modificar: false,
+      tipoDeUser: "",
       integrantesGrupo: { profesores: {}, alumnos: {} },
       grupoSeleccionado: "",
-      columns: [
+      columnsAlumnos: [
         {
           label: "ID",
-          field: "id",
+          field: "idAlumno",
         },
         {
           label: "Nombre",
-          field: "nombre",
+          field: "nombreAlumno",
+        },
+      ],
+      columnsProfesores: [
+        {
+          label: "ID",
+          field: "idProfesor",
+        },
+        {
+          label: "Nombre",
+          field: "nombreProfesor",
+        },
+        {
+          label: "Materia",
+          field: "nombreProfesor",
         },
       ],
       profesores: [],
