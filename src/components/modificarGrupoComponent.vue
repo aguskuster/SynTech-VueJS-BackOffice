@@ -80,7 +80,7 @@
                       class="form-select"
                       aria-label="Default select example"
                       v-model="tipoDeUser"
-                      v-on:change="selectedRows = ''"
+                    
                     >
                       <option value="" disabled selected hidden>
                         Tipo de usuario a agregar
