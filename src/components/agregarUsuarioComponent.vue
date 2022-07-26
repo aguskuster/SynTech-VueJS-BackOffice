@@ -157,12 +157,12 @@ export default {
         idGrupos: [],
         idMaterias: [],
         cargo: "",
-        mate: "",
+        mate: ""
       },
       materiaSelect: "",
       grupoSelect: "",
       materias: "",
-      grupos: "",
+      grupos: ""
     };
   },
 
@@ -171,10 +171,10 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
-        },
+          token: Global.token
+        }
       };
-      axios.get(Global.url + "materias", config).then((res) => {
+      axios.get(Global.url + "materias", config).then(res => {
         if (res.status == 200) {
           this.materias = res.data;
         }
@@ -193,7 +193,7 @@ export default {
       }
     },
     eliminarArray(id, array) {
-      const element = (element) => element == id;
+      const element = element => element == id;
       let index = array.findIndex(element);
       array.splice(index, 1);
     },
@@ -201,10 +201,10 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
-        },
+          token: Global.token
+        }
       };
-      axios.get(Global.url + "grupos", config).then((res) => {
+      axios.get(Global.url + "grupos", config).then(res => {
         if (res.status == 200) {
           this.grupos = res.data;
         }
@@ -215,18 +215,18 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
-        },
+          token: Global.token
+        }
       };
 
       axios
         .post(Global.url + "usuario", this.persona, config)
-        .then((response) => {
+        .then(response => {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
-              message: "Usuario Agregado",
+              message: "Usuario Agregado"
             });
             document.form.reset();
             this.materiaSelect = "";
@@ -237,10 +237,10 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
-            message: "Usuario ya existe",
+            message: "Usuario ya existe"
           });
         });
-    },
-  },
+    }
+  }
 };
 </script>

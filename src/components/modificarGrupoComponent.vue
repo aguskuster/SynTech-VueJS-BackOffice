@@ -6,7 +6,7 @@
     <div class="contenedorGeneral" style="justify-content: space-evenly">
       <div
         class="contenedorIzquierdo"
-        style="width: 30% !important; height: 47rem"
+        style="width: 30% !important; height: 47rem;position: relative;"
       >
         <h4>Grupo {{ idGrupo }}</h4>
         <div class="m-2 p-2">
@@ -34,18 +34,22 @@
             @keyup="modificar = true"
           />
         </div>
+        <div style="position: absolute; right: 10px; bottom: 10px;">
+          <div class="" v-if="modificar">
+            <button class="btn btn-success" @click="modificarGrupo()" style="margin-right:5px">
+              Actualizar
+            </button>
+            <button class="btn btn-danger" @click="getGrupo()">
+            Cancelar
+            </button>
+          </div>
+          <div v-else>
+            <button class="btn btn-danger" @click="eliminarGrupo()">
+              Eliminar Grupo
+            </button>
+          </div>
+      </div>
 
-        <div class="" v-if="modificar">
-          <button class="btn btn-success mr-" @click="modificarGrupo()">
-            Actualizar
-          </button>
-          <button class="btn btn-danger" @click="getGrupo()">Cancelar</button>
-        </div>
-        <div v-else>
-          <button class="btn btn-danger" @click="eliminarGrupo()">
-            Eliminar Grupo
-          </button>
-        </div>
       </div>
 
       <div
@@ -53,7 +57,7 @@
         style="width: 65% !important; height: 47rem"
       >
         <h4>Administrar Integrantes</h4>
-        <div style="width: 100%">
+        <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;">
           <!-- Button trigger modal -->
           <button
             type="button"
