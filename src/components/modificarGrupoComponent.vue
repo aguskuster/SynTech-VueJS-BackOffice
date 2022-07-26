@@ -6,7 +6,7 @@
     <div class="contenedorGeneral" style="justify-content: space-evenly">
       <div
         class="contenedorIzquierdo"
-        style="width: 30% !important; height: 47rem;position: relative;"
+        style="width: 30% !important; height: 47rem; position: relative"
       >
         <h4>Grupo {{ idGrupo }}</h4>
         <div class="m-2 p-2">
@@ -34,22 +34,23 @@
             @keyup="modificar = true"
           />
         </div>
-        <div style="position: absolute; right: 10px; bottom: 10px;">
+        <div style="position: absolute; right: 10px; bottom: 10px">
           <div class="" v-if="modificar">
-            <button class="btn btn-success" @click="modificarGrupo()" style="margin-right:5px">
+            <button
+              class="btn btn-success"
+              @click="modificarGrupo()"
+              style="margin-right: 5px"
+            >
               Actualizar
             </button>
-            <button class="btn btn-danger" @click="getGrupo()">
-            Cancelar
-            </button>
+            <button class="btn btn-danger" @click="getGrupo()">Cancelar</button>
           </div>
           <div v-else>
             <button class="btn btn-danger" @click="eliminarGrupo()">
               Eliminar Grupo
             </button>
           </div>
-      </div>
-
+        </div>
       </div>
 
       <div
@@ -57,13 +58,20 @@
         style="width: 65% !important; height: 47rem"
       >
         <h4>Administrar Integrantes</h4>
-        <div style="display: flex;flex-direction: row-reverse;padding-right: 10px;">
+        <div
+          style="
+            display: flex;
+            flex-direction: row-reverse;
+            padding-right: 10px;
+          "
+        >
           <!-- Button trigger modal -->
           <button
             type="button"
             class="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#modalAgregarMiembros"
+            @click="cargarUsuariosSinGrupo()"
           >
             Agregar Miebros
           </button>
@@ -104,7 +112,7 @@
                   <vue-good-table
                     @on-selected-rows-change="selectionChanged"
                     :columns="columnsProfesores"
-                    :rows="integrantesGrupo.profesores"
+                    :rows="profesores"
                     :select-options="{
                       enabled: true,
                       selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
@@ -120,17 +128,21 @@
                   >
                   </vue-good-table>
                   <br />
-                  <div v-for="todo in selectedRows" :key="todo.id">
-                    <span class="btn btn-primary">{{
-                      todo.nombreProfesor
-                    }}</span>
+                  <div style="display: flex; flex-wrap: wrap">
+                    <span
+                      class="btn btn-primary mb-2"
+                      style="margin-right: 10px"
+                      v-for="todo in selectedRows"
+                      :key="todo.id"
+                      >{{ todo.nombre }}</span
+                    >
                   </div>
                 </div>
                 <div class="modal-body" v-if="tipoDeUser == 'Alumnos'">
                   <vue-good-table
                     @on-selected-rows-change="selectionChanged"
                     :columns="columnsAlumnos"
-                    :rows="integrantesGrupo.alumnos"
+                    :rows="alumnos"
                     :select-options="{
                       enabled: true,
                       selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
@@ -152,7 +164,7 @@
                       style="margin-right: 10px"
                       v-for="todo in selectedRows"
                       :key="todo.id"
-                      >{{ todo.nombreAlumno }}</span
+                      >{{ todo.nombre }}</span
                     >
                   </div>
                 </div>
@@ -165,7 +177,12 @@
                     Cerrar
                   </button>
 
-                  <button type="button" class="btn btn-primary">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="agregarMiembrosGrupo()"
+                    data-bs-dismiss="modal"
+                  >
                     Agregar Usuarios
                   </button>
                 </div>
@@ -197,7 +214,16 @@
                   height="50px"
                   style="border-radius: 50%"
                 />
-                {{ todo.nombreProfesor }}
+                <span
+                  style="
+                    font-size: 15px;
+                    text-align: center;
+                    margin: 6px 0;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ todo.nombreProfesor }} - {{ todo.nombreMateria }}
+                </span>
                 <span class="badge rounded-pill"
                   ><i
                     class="fas fa-times btn"
@@ -229,7 +255,16 @@
                   height="50px"
                   style="border-radius: 50%"
                 />
-                {{ todo.nombreAlumno }}
+                <span
+                  style="
+                    font-size: 15px;
+                    text-align: center;
+                    margin: 6px 0;
+                    text-transform: uppercase;
+                  "
+                >
+                  {{ todo.nombreAlumno }}
+                </span>
                 <span class="badge rounded-pill"
                   ><i
                     class="fas fa-times btn"
@@ -251,7 +286,6 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 export default {
@@ -269,11 +303,11 @@ export default {
       columnsAlumnos: [
         {
           label: "ID",
-          field: "idAlumno",
+          field: "id",
         },
         {
           label: "Nombre",
-          field: "nombreAlumno",
+          field: "nombre",
         },
       ],
       columnsProfesores: [
@@ -283,11 +317,11 @@ export default {
         },
         {
           label: "Nombre",
-          field: "nombreProfesor",
+          field: "nombre",
         },
         {
           label: "Materia",
-          field: "nombreProfesor",
+          field: "nombreMateria",
         },
       ],
       pagination: {
@@ -313,6 +347,7 @@ export default {
   mounted() {
     this.getGrupo();
     this.buscarGrupoSeleccionado();
+    
   },
   methods: {
     b64Decode(img) {
@@ -321,6 +356,81 @@ export default {
     eliminarMiembro(miembro, tipo) {
       alert(miembro + " " + tipo);
     },
+    agregarMiembrosGrupo() {
+      for (let u of this.selectedRows) {
+        if (this.tipoDeUser == "Alumnos") {
+           this.agregarAlumnoGrupo(u.id,this.idGrupo)
+      
+        } else {
+          
+            this.agregarProfesorGrupo(u.idProfesor,u.idMateria,this.idGrupo)
+        }
+      }
+         this.buscarGrupoSeleccionado();
+    },
+    agregarAlumnoGrupo(idAlumno, idGrupo) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      let parametros = {
+        idGrupo: idGrupo,
+        idAlumno: idAlumno,
+      };
+      axios
+        .post(Global.url + "alumno", parametros, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Miembro se agrego al grupo",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Grupo ya tiene esta  materia",
+          });
+        });
+    },
+    agregarProfesorGrupo(idProfesor, idMateria, idGrupo) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let parametros = {
+        idGrupo: idGrupo,
+        idMateria: idMateria,
+        idProfesor: idProfesor,
+      };
+      axios
+        .post(Global.url + "curso", parametros, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Miembro se agrego al grupo",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Grupo ya tiene esta  materia",
+          });
+        });
+    },
+  
     buscarGrupoSeleccionado() {
       let config = {
         headers: {
@@ -343,8 +453,48 @@ export default {
           });
         });
     },
+    cargarUsuariosSinGrupo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "materiaSinGrupo?idGrupo=" + this.idGrupo, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.profesores = res.data;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+
+      axios
+        .get(Global.url + "alumnos?idGrupo=" + this.idGrupo, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.alumnos = res.data;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
+
     selectionChanged(params) {
+      
       this.selectedRows = params.selectedRows;
+
     },
     getGrupo() {
       this.modificar = false;
