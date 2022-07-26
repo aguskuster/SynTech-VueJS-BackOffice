@@ -347,26 +347,91 @@ export default {
   mounted() {
     this.getGrupo();
     this.buscarGrupoSeleccionado();
-    
   },
   methods: {
     b64Decode(img) {
       return "data:image/png;base64," + img;
     },
-    eliminarMiembro(miembro, tipo) {
-      alert(miembro + " " + tipo);
+    eliminarAlumno(idAlumno) {
+      axios
+        .delete(Global.url + "alumno", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            idGrupo: this.idGrupo,
+            idAlumno: idAlumno,
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+               message: "Alumno retirado de " + this.idGrupo,
+            });
+
+            this.buscarGrupoSeleccionado();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error inesperado",
+          });
+        });
+    },
+    eliminarProfesor(idProfesor,idMateria) {
+      axios
+        .delete(Global.url + "curso", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            idGrupo: this.idGrupo,
+            idProfesor: idProfesor,
+            idMateria: idMateria
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Profesor retirado de " + this.idGrupo,
+            });
+
+            this.buscarGrupoSeleccionado();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error inesperado",
+          });
+        });
+    },
+    eliminarMiembro(usuario, tipo) {
+   
+      if (tipo == "Alumno") {
+        this.eliminarAlumno(usuario.idAlumno)
+      }else{
+        this.eliminarProfesor(usuario.idProfesor,usuario.idMateria)
+      }
     },
     agregarMiembrosGrupo() {
       for (let u of this.selectedRows) {
         if (this.tipoDeUser == "Alumnos") {
-           this.agregarAlumnoGrupo(u.id,this.idGrupo)
-      
+          this.agregarAlumnoGrupo(u.id, this.idGrupo);
         } else {
-          
-            this.agregarProfesorGrupo(u.idProfesor,u.idMateria,this.idGrupo)
+          this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
         }
       }
-         this.buscarGrupoSeleccionado();
+      this.buscarGrupoSeleccionado();
     },
     agregarAlumnoGrupo(idAlumno, idGrupo) {
       let config = {
@@ -430,7 +495,7 @@ export default {
           });
         });
     },
-  
+
     buscarGrupoSeleccionado() {
       let config = {
         headers: {
@@ -492,9 +557,7 @@ export default {
     },
 
     selectionChanged(params) {
-      
       this.selectedRows = params.selectedRows;
-
     },
     getGrupo() {
       this.modificar = false;
