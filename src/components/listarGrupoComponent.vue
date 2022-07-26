@@ -67,15 +67,18 @@
           >
 
           <div class="btnGrupo" style="margin-left: auto; margin-top: -40px">
-            <span
+            <router-link
               class="btn btn-primary"
               style="text-decoration: none; color: white"
+              :to="{
+                name: 'listar-grupo-modificar',
+                params: {
+                  idGrupo: acronimoGrupo,
+                },
+              }"
             >
-              <i
-                class="fal fa-cog"
-                @click="modificarGrupo = !modificarGrupo"
-              ></i
-            ></span>
+              <i class="fal fa-cog"></i>
+            </router-link>
           </div>
           <div class="contCardGrupoo" v-if="profesores">
             <div
@@ -89,14 +92,6 @@
                 <img :src="b64Decode(todo.imagen_perfil)" alt="" />
               </center>
               <h2>{{ todo.nombreProfesor }}</h2>
-              <center>
-                <a
-                  v-if="modificarGrupo"
-                  href="#"
-                  style="color: red; font-size: 12px"
-                  >Eliminar</a
-                >
-              </center>
             </div>
           </div>
           <br />
@@ -114,30 +109,9 @@
                 <img :src="b64Decode(todo.imagen_perfil)" alt="" />
               </center>
               <h2>{{ todo.nombreAlumno }}</h2>
-              <center>
-                <a
-                  v-if="modificarGrupo"
-                  href="#"
-                  style="color: red; font-size: 12px"
-                  >Eliminar</a
-                >
-              </center>
             </div>
           </div>
         </div>
-        <router-link
-          v-if="modificarGrupo"
-          class="btn btn-primary"
-          style="text-decoration: none; color: white"
-          :to="{
-            name: 'listar-grupo-modificar',
-            params: {
-              idGrupo: acronimoGrupo,
-            },
-          }"
-        >
-          Modificar Grupo
-        </router-link>
       </div>
 
       <!--     MODAL AGREGAR GRUPO  -->
@@ -268,8 +242,6 @@ export default {
     alternaBooleanAP(alumnos, profesores) {
       this.alumnos = alumnos;
       this.profesores = profesores;
-      console.log(this.profesores);
-      console.log(this.alumnos);
     },
     procesar() {
       let config = {
