@@ -25,6 +25,7 @@
             :rows="todosMateria"
             :search-options="{ enabled: true }"
             theme="polar-bear"
+            :pagination-options="pagination"
           >
           </vue-good-table>
         </div>
@@ -85,7 +86,7 @@
         <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
         <div class="menu_buscar">
           <div class="botonesMateria">
-            <button type="button" class="btn btn-success ml-2">
+            <div class="btn btn-primary ml-2">
               <router-link
                 style="
                   text-decoration: none;
@@ -94,41 +95,26 @@
                   color: white;
                 "
                 :to="{
-                  name: 'profesorMateria',
+                  name: 'modificarMateria',
                   params: {
                     idMateria: idMateria,
                     Materia: materiaSeleccionada,
                   },
                 }"
               >
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-cog"></i>
               </router-link>
-            </button>
-            <button type="button" class="btn btn-danger ml-2">
-              <i class="fas fa-trash" @click="sacarProfesor= !sacarProfesor"></i>
-            </button>
-            <button type="button" class="btn btn-primary ml-2">
-              <i class="fas fa-cog"></i><!-- Lo manda a otra pestaña y ahi le habilta cambiar nombre del materia o borrarla -->
-            </button>
+            </div>
           </div>
         </div>
 
         <div class="contenedor_table">
           <vue-good-table
-            @on-selected-rows-change="selectionChanged"
             :columns="profesorColumnas"
             :rows="materiaProfesores"
             :search-options="{ enabled: true }"
             theme="polar-bear"
-            :select-options="{
-              enabled: true,
-              selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-              selectionInfoClass: 'custom-class',
-              selectionText: 'rows selected',
-              clearSelectionText: 'clear',
-              disableSelectInfo: true, // disable the select info panel on top
-              selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-            }"
+            :pagination-options="pagination"
           >
           </vue-good-table>
           <button v-if="sacarProfesor" class="btn-danger btn">
@@ -165,6 +151,21 @@ export default {
       idMateria: 0,
       materia: {
         nombreMateria: "",
+      },
+      pagination: {
+        enabled: true,
+        perPage: 10,
+        position: "top",
+        jumpFirstOrLast: true,
+        firstLabel: "Primer Pagina",
+        lastLabel: "Ultima Pagina",
+        nextLabel: "sig.",
+        prevLabel: "ant.",
+        ofLabel: "de",
+        dropdownAllowAll: false,
+        dropdown: false,
+        perPageDropdown: [10, 5],
+        rowsPerPageLabel: "Filas por pagina",
       },
       sacarProfesor: false,
       selectedRows: "",
@@ -255,10 +256,7 @@ export default {
     selectionChanged(params) {
       this.selectedRows = params.selectedRows;
     },
-    alternarModificar(idMateria, boolean) {
-      this.idMateria = idMateria;
-      this.modificar = boolean;
-    },
+
     crearMateria() {
       let config = {
         headers: {

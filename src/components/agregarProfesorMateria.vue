@@ -1,12 +1,9 @@
 <template>
   <div>
     <vue-headful :title="title" />
-    <div class="contenedor_menu" style="margin-bottom: 30px">
-      <vue-headful :title="title" />
-      <h2>Agregar Profesores a {{ this.$route.params.Materia }}</h2>
-    </div>
 
-    <div class="contTableProfesor">
+
+    <div class="contTableProfesor" style="background-color: white;">
       <div>
         <h3>Listado de Profesores</h3>
         <hr />
@@ -45,7 +42,7 @@
             </div>
           </div>
         </div>
-        <button @click="agregarProfesorMateria()">Agregar Profesor</button>
+        <button @click="agregarProfesorMateria()"  data-bs-dismiss="modal" class="btn btn-primary">Agregar Profesor</button>
       </div>
     </div>
   </div>
@@ -124,7 +121,7 @@ export default {
               title: Global.nombreSitio,
               message: "Profesor se agrego a la materia",
             });
-            this.$router.push("/listarMaterias");
+
           }
         })
         .catch(() => {
