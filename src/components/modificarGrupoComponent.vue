@@ -126,6 +126,7 @@
                     :pagination-options="pagination"
                     theme="polar-bear"
                   >
+               
                   </vue-good-table>
                   <br />
                   <div style="display: flex; flex-wrap: wrap">
@@ -288,6 +289,7 @@ import { Global } from "../Global";
 import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
+import $ from "jquery";
 export default {
   name: "modificarUsuarioComponent.vue",
   components: {
@@ -297,7 +299,7 @@ export default {
     return {
       idGrupo: this.$route.params.idGrupo,
       modificar: false,
-      tipoDeUser: "",
+      tipoDeUser: "Profesores",
       integrantesGrupo: { profesores: {}, alumnos: {} },
       grupoSeleccionado: "",
       columnsAlumnos: [
@@ -323,6 +325,7 @@ export default {
           label: "Materia",
           field: "nombreMateria",
         },
+       
       ],
       pagination: {
         enabled: true,
@@ -342,6 +345,7 @@ export default {
       profesores: [],
       alumnos: [],
       selectedRows: "",
+      salir: false,
     };
   },
   mounted() {
@@ -369,7 +373,7 @@ export default {
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
-               message: "Alumno retirado de " + this.idGrupo,
+              message: "Alumno retirado de " + this.idGrupo,
             });
 
             this.buscarGrupoSeleccionado();
@@ -383,7 +387,7 @@ export default {
           });
         });
     },
-    eliminarProfesor(idProfesor,idMateria) {
+    eliminarProfesor(idProfesor, idMateria) {
       axios
         .delete(Global.url + "curso", {
           headers: {
@@ -393,7 +397,7 @@ export default {
           data: {
             idGrupo: this.idGrupo,
             idProfesor: idProfesor,
-            idMateria: idMateria
+            idMateria: idMateria,
           },
         })
         .then((response) => {
@@ -416,11 +420,10 @@ export default {
         });
     },
     eliminarMiembro(usuario, tipo) {
-   
       if (tipo == "Alumno") {
-        this.eliminarAlumno(usuario.idAlumno)
-      }else{
-        this.eliminarProfesor(usuario.idProfesor,usuario.idMateria)
+        this.eliminarAlumno(usuario.idAlumno);
+      } else {
+        this.eliminarProfesor(usuario.idProfesor, usuario.idMateria);
       }
     },
     agregarMiembrosGrupo() {
@@ -519,6 +522,7 @@ export default {
         });
     },
     cargarUsuariosSinGrupo() {
+     
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -557,7 +561,36 @@ export default {
     },
 
     selectionChanged(params) {
-      this.selectedRows = params.selectedRows;
+      console.log(params.selectedRows.length);
+      $("input[type='checkbox']").change(function () {
+        if (this.checked) {
+          console.log(this);
+        }
+      });
+      /*      console.log(this.profesores)
+      console.log(this.selectedRows); */
+      /*  if (this.selectedRows) {
+        for (let i = 0; i < params.selectedRows.length; i++) {
+          
+        }
+      } else {
+        this.selectedRows = params.selectedRows;
+      } */
+
+      /*     for (let index = 0; index < params.selectedRows.length; index++) {
+        let aux = params.selectedRows[index].idMateria;
+          if(aux){
+            alert("duplicada");
+          }
+      } */
+      /*    for (let selected of params.selectedRows) {
+        if (idMateriaAnt == selected.idMateria) {
+          alert("duplicada");
+        } else {
+          idMateriaAnt = selected.idMateria;
+          this.selectedRows = params.selectedRows;
+        }
+      } */
     },
     getGrupo() {
       this.modificar = false;
