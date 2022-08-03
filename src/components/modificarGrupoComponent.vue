@@ -288,7 +288,7 @@ import { Global } from "../Global";
 import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
-import $ from "jquery";
+
 export default {
   name: "modificarUsuarioComponent.vue",
   components: {
