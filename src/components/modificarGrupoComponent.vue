@@ -126,7 +126,6 @@
                     :pagination-options="pagination"
                     theme="polar-bear"
                   >
-               
                   </vue-good-table>
                   <br />
                   <div style="display: flex; flex-wrap: wrap">
@@ -325,7 +324,6 @@ export default {
           label: "Materia",
           field: "nombreMateria",
         },
-       
       ],
       pagination: {
         enabled: true,
@@ -522,7 +520,6 @@ export default {
         });
     },
     cargarUsuariosSinGrupo() {
-     
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -561,36 +558,7 @@ export default {
     },
 
     selectionChanged(params) {
-      console.log(params.selectedRows.length);
-      $("input[type='checkbox']").change(function () {
-        if (this.checked) {
-          console.log(this);
-        }
-      });
-      /*      console.log(this.profesores)
-      console.log(this.selectedRows); */
-      /*  if (this.selectedRows) {
-        for (let i = 0; i < params.selectedRows.length; i++) {
-          
-        }
-      } else {
-        this.selectedRows = params.selectedRows;
-      } */
-
-      /*     for (let index = 0; index < params.selectedRows.length; index++) {
-        let aux = params.selectedRows[index].idMateria;
-          if(aux){
-            alert("duplicada");
-          }
-      } */
-      /*    for (let selected of params.selectedRows) {
-        if (idMateriaAnt == selected.idMateria) {
-          alert("duplicada");
-        } else {
-          idMateriaAnt = selected.idMateria;
-          this.selectedRows = params.selectedRows;
-        }
-      } */
+      this.selectedRows = params.selectedRows;
     },
     getGrupo() {
       this.modificar = false;
