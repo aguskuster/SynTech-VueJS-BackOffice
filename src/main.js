@@ -3,7 +3,8 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import FlashMessage from "@smartweb/vue-flash-message";
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
@@ -19,7 +20,7 @@ import listarMateriaComponent from './components/listarMateriaComponent.vue';
 import agregarProfesorMateria from './components/agregarProfesorMateria.vue';
 import agregarUsuarioGrupoComponent from './components/agregarUsuarioGrupoComponent.vue';
 Vue.config.productionTip = false
-
+Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);

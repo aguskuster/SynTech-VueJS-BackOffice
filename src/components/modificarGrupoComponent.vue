@@ -432,8 +432,18 @@ export default {
           this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
         }
       }
+     /*  this.filterSelectedRows(); */
       this.buscarGrupoSeleccionado();
     },
+/*     filterSelectedRows() {
+      let a = this.selectedRows.reduce((acc, materia) => {
+        acc[materia.nombreMateria] = ++acc[materia.nombreMateria] || 0;
+        return acc;
+      }, {});
+
+
+      console.log(a);
+    }, */
     agregarAlumnoGrupo(idAlumno, idGrupo) {
       let config = {
         headers: {
@@ -577,14 +587,14 @@ export default {
         });
     },
     eliminarGrupo() {
-      /*      axios
+           axios
         .delete(Global.url + "grupo", {
           headers: {
             "Content-Type": "application/json",
             token: Global.token,
           },
           data: {
-            idGrupo: this.GrupoDatos.idGrupo,
+            idGrupo: this.idGrupo,
           },
         })
         .then((response) => {
@@ -603,7 +613,7 @@ export default {
             title: Global.nombreSitio,
             message: "Error Inesperado",
           });
-        }); */
+        });
       alert("Sweet alert confirmacion");
     },
 

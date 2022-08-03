@@ -194,68 +194,7 @@ export default {
     this.getTodos();
   },
   methods: {
-    sacarProfesorMateria(profesor) {
-      axios
-        .delete(Global.url + "materia-profesor", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            idProfesor: profesor.idProfesor,
-            idMateria: profesor.idMateria,
-          },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Profesor eliminado correctamente",
-            });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error",
-          });
-        });
-    },
 
-    eliminarMateria() {
-      axios
-        .delete(Global.url + "materia", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            idMateria: this.idMateria,
-          },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.getTodos();
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Materia Eliminada",
-            });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error",
-          });
-        });
-    },
-    selectionChanged(params) {
-      this.selectedRows = params.selectedRows;
-    },
 
     crearMateria() {
       let config = {
@@ -311,38 +250,7 @@ export default {
           });
         });
     },
-    modificarMateria(idMateria) {
-      let parametros = {
-        idMateria: idMateria,
-        nuevoNombre: this.nuevoNombreMateria,
-      };
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .put(Global.url + "materia", parametros, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Materia modificada.",
-            });
-            this.getTodos();
-            this.cancelarModificar();
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error al modificar",
-          });
-        });
-    },
+
     onRowClick(params) {
       this.traerProfesoresMateria(params.row.id, params.row.nombre);
     },
@@ -370,10 +278,6 @@ export default {
             message: "Error inesperado al cargar",
           });
         });
-    },
-    cancelarModificar() {
-      this.modificar = false;
-      this.nuevoNombreMateria = "";
     },
   },
 };

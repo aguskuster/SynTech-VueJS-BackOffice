@@ -16,6 +16,7 @@
     "vue-good-table": "^2.21.11",
     "vue-headful": "^2.1.0",
     "vue-router": "^3.3.4",
+    "vue-sweetalert2": "^5.0.5",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {

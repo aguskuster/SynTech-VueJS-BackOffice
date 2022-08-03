@@ -22,6 +22,9 @@
 
         <div style="position: absolute; right: 10px; bottom: 10px">
           <div class="" v-if="modificar">
+            <button class="btn btn-success" @click="modificarMateria()">
+              Actualizar
+            </button>
             <button
               class="btn btn-danger"
               @click="defaultData()"
@@ -29,12 +32,11 @@
             >
               Cancelar
             </button>
-            <button class="btn btn-success" @click="modificarMateria()">
-              Actualizar
-            </button>
           </div>
           <div v-else>
-            <button class="btn btn-danger">Eliminar Materia</button>
+            <button class="btn btn-danger" @click="eliminarMateria()">
+              Eliminar Materia
+            </button>
           </div>
         </div>
       </div>
@@ -190,11 +192,12 @@ export default {
   },
   methods: {
     eliminarVariosProfesores() {
-        alert('Realmente desea eliminar pum lista de coso')
-    /*   for (let prof of this.selectedRows) {
+      alert("Realmente desea eliminar pum lista de coso");
+      /*   for (let prof of this.selectedRows) {
         this.eliminarProfesor(prof.idProfesor);
       } */
     },
+
     eliminarProfesor(idProfesor) {
       axios
         .delete(Global.url + "profesor", {
@@ -221,6 +224,36 @@ export default {
             status: "error",
             title: Global.nombreSitio,
             message: "Grupo se encuentra vinculado a datos.",
+          });
+        });
+    },
+    eliminarMateria() {
+      axios
+        .delete(Global.url + "materia", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            idMateria: this.idMateria,
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+           
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Materia Eliminada",
+            });
+            this.$router.push("/listarMaterias")
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error",
           });
         });
     },
