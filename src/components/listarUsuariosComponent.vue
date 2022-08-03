@@ -73,7 +73,7 @@
                 >Modificar Usuario
               </router-link>
             </div>
-            <div>
+            <div @click="eliminarUsuario(userInfo.id)">
               <i
                 class="fas fa-trash-alt"
                 style="background-color: var(--bordo)"
@@ -174,6 +174,35 @@ export default {
     this.getTodos();
   },
   methods: {
+    eliminarUsuario(idUsuario) {
+      axios
+        .delete(Global.url + "usuario", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            id: idUsuario,
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Usuario Eliminado",
+            });
+            this.getTodos();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error",
+          });
+        });
+    },
     filtrarPorRol() {
       var selectedRol = this.selectedRol;
       var listaUser = [];
