@@ -16,6 +16,7 @@ export default {
   },
   data() {
     return {
+       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       title: "BackOffice",
       nombre: "",
       nav: true,

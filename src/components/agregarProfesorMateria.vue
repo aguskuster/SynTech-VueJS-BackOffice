@@ -2,8 +2,7 @@
   <div>
     <vue-headful :title="title" />
 
-
-    <div class="contTableProfesor" style="background-color: white;">
+    <div class="contTableProfesor" style="background-color: white">
       <div>
         <h3>Listado de Profesores</h3>
         <hr />
@@ -42,7 +41,13 @@
             </div>
           </div>
         </div>
-        <button @click="agregarProfesorMateria()"  data-bs-dismiss="modal" class="btn btn-primary">Agregar Profesor</button>
+        <button
+          @click="agregarProfesorMateria()"
+          data-bs-dismiss="modal"
+          class="btn btn-primary"
+        >
+          Agregar Profesor
+        </button>
       </div>
     </div>
   </div>
@@ -62,6 +67,7 @@ export default {
   },
   data() {
     return {
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       title: "BackOffice",
       columns: [
         {
@@ -121,7 +127,6 @@ export default {
               title: Global.nombreSitio,
               message: "Profesor se agrego a la materia",
             });
-
           }
         })
         .catch(() => {

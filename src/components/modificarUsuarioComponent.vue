@@ -72,6 +72,7 @@ export default {
   name: "modificarUsuarioComponent.vue",
   data() {
     return {
+       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       usuarioDatos: "",
       nombre: "",
       apellido: "",

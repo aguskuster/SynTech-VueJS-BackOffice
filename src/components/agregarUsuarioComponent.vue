@@ -146,6 +146,7 @@ export default {
   name: "ContactoComponent",
   data() {
     return {
+       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       submited: false,
       persona: {
         samaccountname: "",
