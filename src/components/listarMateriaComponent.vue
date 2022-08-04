@@ -8,6 +8,7 @@
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#modalAgregarMateria"
+           v-if="usuario.cargo != 'Adscripto'"
         >
           Agregar Materia
         </button>
@@ -86,7 +87,7 @@
         <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
         <div class="menu_buscar">
           <div class="botonesMateria">
-            <div class="btn btn-primary ml-2">
+            <div class="btn btn-primary ml-2"  v-if="usuario.cargo != 'Adscripto'">
               <router-link
                 style="
                   text-decoration: none;

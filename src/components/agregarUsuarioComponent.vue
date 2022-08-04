@@ -52,7 +52,7 @@
       <p>
         Rol<em> *</em> :
         <select class="form-control" v-model="persona.ou" required>
-          <option value="Administrador">Administrador</option>
+          <option value="Bedelias">Administrador</option>
           <option value="Profesor">Profesor</option>
           <option value="Alumno">Alumno</option>
         </select>

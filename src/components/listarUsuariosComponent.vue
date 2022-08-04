@@ -6,9 +6,11 @@
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#modalAgregarPersona"
+        v-if="usuario.cargo != 'Adscripto'"
       >
         Agregar Persona
       </button>
+
     </div>
 
     <div class="contenedorGeneral">
@@ -55,7 +57,7 @@
               <span>Correo:</span> <span>{{ userInfo.email }}</span>
             </div>
           </div>
-          <div class="listaModificar">
+          <div class="listaModificar" v-if="usuario.cargo != 'Adscripto'">
             <div>
               <router-link
                 class="router-link-listarUsers"
@@ -81,6 +83,7 @@
               >Eliminar Usuario
             </div>
           </div>
+          <div class="listaModificar" v-else>&zwnj;</div>
         </div>
       </div>
     </div>
@@ -110,7 +113,7 @@
         </div>
       </div>
     </div>
-
+    {{ usuario }}
     <!--     FIN MODAL AGREGAR PERSONA  -->
   </div>
 </template>
@@ -129,7 +132,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       todosUsuarios: null,
       userInfo: "",
       showProfile: false,

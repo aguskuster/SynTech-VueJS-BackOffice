@@ -8,6 +8,7 @@
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#modalAgregarGrupo"
+          v-if="usuario.cargo != 'Adscripto'"
         >
           Agregar Grupo
         </button>

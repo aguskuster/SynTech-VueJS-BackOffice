@@ -46,7 +46,7 @@
             <button class="btn btn-danger" @click="getGrupo()">Cancelar</button>
           </div>
           <div v-else>
-            <button class="btn btn-danger" @click="eliminarGrupo()">
+            <button class="btn btn-danger" @click="eliminarGrupo()"    v-if="usuario.cargo != 'Adscripto'">
               Eliminar Grupo
             </button>
           </div>
