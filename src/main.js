@@ -9,15 +9,12 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
 import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
-import eliminarUsuarioComponent from './components/eliminarUsuarioComponent.vue';
 import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
 import listarGrupoComponent from './components/listarGrupoComponent.vue';
-import eliminarGrupoComponent from './components/eliminarGrupoComponent.vue';
 import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
 import modificarMateriaComponent from './components/modificarMateriaComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import listarMateriaComponent from './components/listarMateriaComponent.vue';
-import agregarProfesorMateria from './components/agregarProfesorMateria.vue';
 import agregarUsuarioGrupoComponent from './components/agregarUsuarioGrupoComponent.vue';
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
@@ -31,19 +28,13 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
     { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
-    { path: '/eliminarUsuario/:user', name: 'listar-usuario-eliminar', component: eliminarUsuarioComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
-    { path: '/eliminarGrupo/:grupo', name: 'listar-grupo-eliminar', component: eliminarGrupoComponent },
     { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
-    { path: '/profesor-materia/:idMateria/:Materia', name: 'profesorMateria', component: agregarProfesorMateria },
     { path: '/modificarMateria/:idMateria/:Materia', name: 'modificarMateria', component: modificarMateriaComponent },
     { path: '/miembro-grupo/:grupo', name: 'miembroGrupo', component: agregarUsuarioGrupoComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
-
-
-
 
 ];
 
