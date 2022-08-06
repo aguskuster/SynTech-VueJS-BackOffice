@@ -197,7 +197,7 @@
             <center>
               <h5>Profesores</h5>
             </center>
-            <ul class="list-group">
+            <ul class="list-group scroller">
               <li
                 v-for="todo in integrantesGrupo.profesores"
                 :key="todo.id"
@@ -238,7 +238,7 @@
             <center>
               <h5>Alumnos</h5>
             </center>
-            <ul class="list-group">
+            <ul class="list-group scroller" >
               <li
                 v-for="todo in integrantesGrupo.alumnos"
                 :key="todo.id"

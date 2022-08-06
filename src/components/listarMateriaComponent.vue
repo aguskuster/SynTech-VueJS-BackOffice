@@ -8,7 +8,7 @@
           class="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#modalAgregarMateria"
-           v-if="usuario.cargo != 'Adscripto'"
+          v-if="usuario.cargo != 'Adscripto'"
         >
           Agregar Materia
         </button>
@@ -84,29 +84,33 @@
       <!--     FIN MODAL AGREGAR MATERIA  -->
 
       <div class="contenedorDerechoPersona">
-        <h4>Docentes que dictan {{ materiaSeleccionada }}</h4>
-        <div class="menu_buscar">
-          <div class="botonesMateria">
-            <div class="btn btn-primary ml-2"  v-if="usuario.cargo != 'Adscripto'">
-              <router-link
-                style="
-                  text-decoration: none;
-                  font-size: 14px;
-                  padding: 0px !important;
-                  color: white;
-                "
-                :to="{
-                  name: 'modificarMateria',
-                  params: {
-                    idMateria: idMateria,
-                    Materia: materiaSeleccionada,
-                  },
-                }"
-              >
-                <i class="fas fa-cog"></i>
-              </router-link>
-            </div>
+        <h4>
+          Docentes que dictan {{ materiaSeleccionada }}
+          <div  v-if="usuario.cargo != 'Adscripto'">
+            <router-link
+              style="
+                text-decoration: none;
+                font-size: 14px;
+                padding: 5px !important;
+                border-radius: 3px;
+                background-color: #e1ad01;
+                color: black;
+                margin-left: 30px;
+              "
+              :to="{
+                name: 'modificarMateria',
+                params: {
+                  idMateria: idMateria,
+                  Materia: materiaSeleccionada,
+                },
+              }"
+            >
+              <i class="fas fa-cog"></i>
+            </router-link>
           </div>
+        </h4>
+        <div class="menu_buscar">
+          <div class="botonesMateria"></div>
         </div>
 
         <div class="contenedor_table">
@@ -142,7 +146,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       title: "BackOffice",
       nav: true,
       todosMateria: "",
@@ -156,7 +160,7 @@ export default {
       },
       pagination: {
         enabled: true,
-        perPage: 10,
+        perPage: 8,
         position: "top",
         jumpFirstOrLast: true,
         firstLabel: "Primer Pagina",
@@ -166,7 +170,7 @@ export default {
         ofLabel: "de",
         dropdownAllowAll: false,
         dropdown: false,
-        perPageDropdown: [10, 5],
+        perPageDropdown: [8, 5],
         rowsPerPageLabel: "Filas por pagina",
       },
       sacarProfesor: false,
@@ -196,8 +200,6 @@ export default {
     this.getTodos();
   },
   methods: {
-
-
     crearMateria() {
       let config = {
         headers: {

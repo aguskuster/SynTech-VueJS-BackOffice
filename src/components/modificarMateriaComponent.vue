@@ -43,7 +43,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 65% !important; height: 47rem"
+        style="width: 65% !important; height: 47rem;position: relative"
       >
         <h4>
           Administrar docentes que dictan {{ this.$route.params.Materia }}
@@ -125,7 +125,7 @@
           </vue-good-table>
 
           <div>
-            <button class="btn btn-danger" @click="eliminarVariosProfesores()">
+            <button class="btn btn-danger" style="position: absolute; right: 10px; bottom: 10px;" @click="eliminarVariosProfesores()">
               Eliminar Profesores
             </button>
           </div>

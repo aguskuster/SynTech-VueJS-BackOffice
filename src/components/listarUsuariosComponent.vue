@@ -113,7 +113,7 @@
         </div>
       </div>
     </div>
-    {{ usuario }}
+
     <!--     FIN MODAL AGREGAR PERSONA  -->
   </div>
 </template>
