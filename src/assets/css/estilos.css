@@ -393,6 +393,10 @@ label {
     border-bottom: 3px solid #cbd5e0;
 }
 
+.cog_hover:hover i {
+    color: darkgrey;
+}
+
 .router-link {
     text-decoration: none !important;
 }
@@ -577,4 +581,3 @@ label {
 ::-webkit-scrollbar-thumb {
     background: grey;
 }
-

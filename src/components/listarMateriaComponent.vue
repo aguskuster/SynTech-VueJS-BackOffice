@@ -90,13 +90,11 @@
             <router-link
               style="
                 text-decoration: none;
-                font-size: 14px;
-                padding: 5px !important;
-                border-radius: 3px;
-                background-color: #e1ad01;
-                color: black;
-                margin-left: 30px;
+                font-size: 17px;
+                color: #1D1D1F;
+                margin-left: 10px;
               "
+              class="cog_hover"
               :to="{
                 name: 'modificarMateria',
                 params: {
