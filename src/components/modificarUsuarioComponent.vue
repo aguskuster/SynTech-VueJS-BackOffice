@@ -27,37 +27,50 @@
         <div class="formModificar">
           <h3>Information Personal</h3>
           <div class="personalDetails">
-            <div>
+            <div class="mb-3">
               <p>Nombre</p>
-              <input :value="nombre" />
+              <input :value="nombre" class="form-control" />
             </div>
-            <div>
+            <div class="mb-3">
               <p>Apellido</p>
-              <input :value="apellido" />
+              <input :value="apellido" class="form-control" />
             </div>
-            <div>
+            <div class="mb-3">
               <p>Mail</p>
-              <input :value="usuarioDatos.email" />
+              <input :value="usuarioDatos.email" class="form-control" />
             </div>
-            <div>
-              <p>OU</p>
-              <input :value="usuarioDatos.ou" />
+            <div class="mb-3">
+              <p>Rol</p>
+              <input :value="usuarioDatos.ou" class="form-control" />
             </div>
-            <div>
+            <div class="mb-3">
               <p>Genero</p>
-              <input :value="usuarioDatos.genero" />
+              <input :value="usuarioDatos.genero" class="form-control" />
             </div>
           </div>
-          <div class="frmProfesor">
+
+          <div class="frmProfesor" v-if="usuarioDatos.ou == 'Bedelias'">
+            <h3>Cargo</h3>
+            <div class="frmProfesorMaterias">
+              <div>{{ usuarioInfo.cargo }}</div>
+            </div>
+          </div>
+
+          <div class="frmProfesor" v-if="usuarioDatos.ou == 'Profesor'">
             <h3>Materias</h3>
             <div class="frmProfesorMaterias">
-              <div>Matematica</div>
-              <div>Matematica</div>
-              <div>Matematica</div>
-              <div>Matematica</div>
-              <div>Matematica</div>
-              <div>Matematica</div>
-              <div>Matematica</div>
+              <div v-for="materia in usuarioInfo" :key="materia.id">
+                {{ materia.nombre }}
+              </div>
+            </div>
+          </div>
+
+          <div class="frmProfesor" v-if="usuarioDatos.ou == 'Alumno'">
+            <h3>Grupos</h3>
+            <div class="frmProfesorMaterias">
+            <div v-for="grupo in usuarioInfo" :key="grupo.id">
+                {{ grupo.idGrupo }}
+              </div>
             </div>
           </div>
         </div>
@@ -72,10 +85,11 @@ export default {
   name: "modificarUsuarioComponent.vue",
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       usuarioDatos: "",
       nombre: "",
       apellido: "",
+      usuarioInfo: "",
     };
   },
   mounted() {
@@ -93,7 +107,8 @@ export default {
         .get(Global.url + "usuario?username=" + user, config)
         .then((res) => {
           if (res.status == 200) {
-            this.usuarioDatos = res.data;
+            this.usuarioDatos = res.data.user;
+            this.usuarioInfo = res.data.info;
             this.recortarNombre();
           }
         })

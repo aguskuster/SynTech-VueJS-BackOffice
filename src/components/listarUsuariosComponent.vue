@@ -262,7 +262,7 @@ export default {
         .get(Global.url + "usuario?username=" + persona.id, config)
         .then((res) => {
           if (res.status == 200) {
-            this.userInfo = res.data;
+            this.userInfo = res.data.user;
             this.showProfile = true;
           }
         })
