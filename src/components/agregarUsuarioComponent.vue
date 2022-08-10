@@ -52,7 +52,7 @@
       <p>
         Rol<em> *</em> :
         <select class="form-control" v-model="persona.ou" required>
-          <option value="Bedelias">Administrador</option>
+          <option value="Bedelias">Bedelias</option>
           <option value="Profesor">Profesor</option>
           <option value="Alumno">Alumno</option>
         </select>
@@ -87,14 +87,14 @@
           </span>
         </div>
       </div>
-      <div v-if="persona.ou == 'Administrador'">
+      <div v-if="persona.ou == 'Bedelias'">
         <p>
           Cargo<em> *</em> :
           <select class="form-control" v-model="persona.cargo" required>
             <option value="Adscripto">Adscripto</option>
             <option value="Administrativo">Administrativo</option>
-            <option value="Director">Director</option>
             <option value="Subdirector">Subdirector</option>
+            <option value="Director">Director</option>
           </select>
         </p>
       </div>
@@ -146,7 +146,7 @@ export default {
   name: "ContactoComponent",
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       submited: false,
       persona: {
         samaccountname: "",
@@ -158,12 +158,12 @@ export default {
         idGrupos: [],
         idMaterias: [],
         cargo: "",
-        mate: ""
+        mate: "",
       },
       materiaSelect: "",
       grupoSelect: "",
       materias: "",
-      grupos: ""
+      grupos: "",
     };
   },
 
@@ -172,10 +172,10 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token
-        }
+          token: Global.token,
+        },
       };
-      axios.get(Global.url + "materias", config).then(res => {
+      axios.get(Global.url + "materias", config).then((res) => {
         if (res.status == 200) {
           this.materias = res.data;
         }
@@ -194,7 +194,7 @@ export default {
       }
     },
     eliminarArray(id, array) {
-      const element = element => element == id;
+      const element = (element) => element == id;
       let index = array.findIndex(element);
       array.splice(index, 1);
     },
@@ -202,10 +202,10 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token
-        }
+          token: Global.token,
+        },
       };
-      axios.get(Global.url + "grupos", config).then(res => {
+      axios.get(Global.url + "grupos", config).then((res) => {
         if (res.status == 200) {
           this.grupos = res.data;
         }
@@ -216,18 +216,18 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token
-        }
+          token: Global.token,
+        },
       };
 
       axios
         .post(Global.url + "usuario", this.persona, config)
-        .then(response => {
+        .then((response) => {
           if (response.status == 200) {
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
-              message: "Usuario Agregado"
+              message: "Usuario Agregado",
             });
             document.form.reset();
             this.materiaSelect = "";
@@ -238,10 +238,10 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
-            message: "Usuario ya existe"
+            message: "Usuario ya existe",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
