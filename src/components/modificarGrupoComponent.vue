@@ -430,16 +430,24 @@ export default {
       }
     },
     agregarMiembrosGrupo() {
-      for (let u of this.selectedRows) {
-        if (this.tipoDeUser == "Alumnos") {
-          this.agregarAlumnoGrupo(u.id, this.idGrupo);
-        } else {
-          this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
+      try {
+        for (let u of this.selectedRows) {
+          if (this.tipoDeUser == "Alumnos") {
+            this.agregarAlumnoGrupo(u.id, this.idGrupo);
+          } else {
+            this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
+          }
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Miembro se agrego al grupo",
+          });
         }
+      } catch (error) {
         this.flashMessage.show({
-          status: "success",
+          status: "warning",
           title: Global.nombreSitio,
-          message: "Miembro se agrego al grupo",
+          message: "Error inesperado al cargar",
         });
       }
       /*  this.filterSelectedRows(); */
