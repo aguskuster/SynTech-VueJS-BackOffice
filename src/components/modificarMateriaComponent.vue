@@ -43,7 +43,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 65% !important; height: 47rem;position: relative"
+        style="width: 65% !important; height: 47rem; position: relative"
       >
         <h4>
           Administrar docentes que dictan {{ this.$route.params.Materia }}
@@ -125,7 +125,11 @@
           </vue-good-table>
 
           <div>
-            <button class="btn btn-danger" style="position: absolute; right: 10px; bottom: 10px;" @click="eliminarVariosProfesores()">
+            <button
+              class="btn btn-danger"
+              style="position: absolute; right: 10px; bottom: 10px"
+              @click="eliminarVariosProfesores()"
+            >
               Eliminar Profesores
             </button>
           </div>
@@ -151,7 +155,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       idMateria: this.$route.params.idMateria,
       nombreMateria: this.$route.params.Materia,
       modificar: false,
@@ -193,40 +197,28 @@ export default {
   },
   methods: {
     eliminarVariosProfesores() {
-      alert("Realmente desea eliminar pum lista de coso");
-      /*   for (let prof of this.selectedRows) {
-        this.eliminarProfesor(prof.idProfesor);
-      } */
+      for (var p of this.selectedRows) {
+        this.eliminarProfesor(p.idProfesor);
+      }
+      this.flashMessage.show({
+        status: "success",
+        title: Global.nombreSitio,
+        message: "Profesores Eliminados",
+      });
+      this.traerProfesoresMateria();
     },
 
     eliminarProfesor(idProfesor) {
-      axios
-        .delete(Global.url + "profesor", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            idMateria: this.idMateria,
-            idProfesor: idProfesor,
-          },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Grupo Eliminado",
-            });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Grupo se encuentra vinculado a datos.",
-          });
-        });
+      axios.delete(Global.url + "profesor", {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+        data: {
+          idMateria: this.idMateria,
+          idProfesor: idProfesor,
+        },
+      });
     },
     eliminarMateria() {
       axios
@@ -241,13 +233,12 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-           
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
               message: "Materia Eliminada",
             });
-            this.$router.push("/listarMaterias")
+            this.$router.push("/listarMaterias");
           }
         })
         .catch(() => {
