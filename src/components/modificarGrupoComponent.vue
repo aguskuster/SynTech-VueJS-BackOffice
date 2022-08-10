@@ -46,7 +46,11 @@
             <button class="btn btn-danger" @click="getGrupo()">Cancelar</button>
           </div>
           <div v-else>
-            <button class="btn btn-danger" @click="eliminarGrupo()"    v-if="usuario.cargo != 'Adscripto'">
+            <button
+              class="btn btn-danger"
+              @click="eliminarGrupo()"
+              v-if="usuario.cargo != 'Adscripto'"
+            >
               Eliminar Grupo
             </button>
           </div>
@@ -238,7 +242,7 @@
             <center>
               <h5>Alumnos</h5>
             </center>
-            <ul class="list-group scroller" >
+            <ul class="list-group scroller">
               <li
                 v-for="todo in integrantesGrupo.alumnos"
                 :key="todo.id"
@@ -296,7 +300,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       idGrupo: this.$route.params.idGrupo,
       modificar: false,
       tipoDeUser: "Profesores",
@@ -432,11 +436,16 @@ export default {
         } else {
           this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
         }
+        this.flashMessage.show({
+          status: "success",
+          title: Global.nombreSitio,
+          message: "Miembro se agrego al grupo",
+        });
       }
-     /*  this.filterSelectedRows(); */
+      /*  this.filterSelectedRows(); */
       this.buscarGrupoSeleccionado();
     },
-/*     filterSelectedRows() {
+    /*     filterSelectedRows() {
       let a = this.selectedRows.reduce((acc, materia) => {
         acc[materia.nombreMateria] = ++acc[materia.nombreMateria] || 0;
         return acc;
@@ -456,24 +465,7 @@ export default {
         idGrupo: idGrupo,
         idAlumno: idAlumno,
       };
-      axios
-        .post(Global.url + "alumno", parametros, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Miembro se agrego al grupo",
-            });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Grupo ya tiene esta  materia",
-          });
-        });
+      axios.post(Global.url + "alumno", parametros, config);
     },
     agregarProfesorGrupo(idProfesor, idMateria, idGrupo) {
       let config = {
@@ -488,24 +480,7 @@ export default {
         idMateria: idMateria,
         idProfesor: idProfesor,
       };
-      axios
-        .post(Global.url + "curso", parametros, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Miembro se agrego al grupo",
-            });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Grupo ya tiene esta  materia",
-          });
-        });
+      axios.post(Global.url + "curso", parametros, config);
     },
 
     buscarGrupoSeleccionado() {
@@ -588,7 +563,7 @@ export default {
         });
     },
     eliminarGrupo() {
-           axios
+      axios
         .delete(Global.url + "grupo", {
           headers: {
             "Content-Type": "application/json",
