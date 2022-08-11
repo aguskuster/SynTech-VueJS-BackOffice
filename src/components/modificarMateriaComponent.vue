@@ -22,19 +22,19 @@
 
         <div style="position: absolute; right: 10px; bottom: 10px">
           <div class="" v-if="modificar">
-            <button class="btn btn-success" @click="modificarMateria()">
+            <button
+              class="btn btn-success"
+              @click="modificarMateria()"
+              style="margin-right: 10px"
+            >
               Actualizar
             </button>
-            <button
-              class="btn btn-danger"
-              @click="defaultData()"
-              style="margin-right: 5px"
-            >
+            <button class="btn btn-danger" @click="defaultData()">
               Cancelar
             </button>
           </div>
           <div v-else>
-            <button class="btn btn-danger" @click="eliminarMateria()">
+            <button class="btn btn-danger" @click="comprobarEliminar()">
               Eliminar Materia
             </button>
           </div>
@@ -61,6 +61,7 @@
             class="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#modalAgregarMiembros"
+            @click="getProfesores()"
           >
             Ingresar docentes
           </button>
@@ -126,6 +127,17 @@
 
           <div>
             <button
+              v-if="selectedRows.length > 0"
+              class="btn btn-danger"
+              style="position: absolute; right: 10px; bottom: 10px"
+              @click="eliminarVariosProfesores()"
+            >
+              Eliminar Profesores
+            </button>
+
+            <button
+              disabled
+              v-else
               class="btn btn-danger"
               style="position: absolute; right: 10px; bottom: 10px"
               @click="eliminarVariosProfesores()"
@@ -197,15 +209,32 @@ export default {
   },
   methods: {
     eliminarVariosProfesores() {
-      for (var p of this.selectedRows) {
-        this.eliminarProfesor(p.idProfesor);
-      }
-      this.flashMessage.show({
-        status: "success",
-        title: Global.nombreSitio,
-        message: "Profesores Eliminados",
-      });
-      this.traerProfesoresMateria();
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "Eliminar Materia",
+          html: "Estas a punto de eliminar profesores de " + this.nombreMateria,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            try {
+              for (var p of this.selectedRows) {
+                this.eliminarProfesor(p.idProfesor);
+              }
+              this.$swal.fire("Materia eliminada", "", "success");
+              this.traerProfesoresMateria();
+            } catch (e) {
+              this.$swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: "Algo salio mal",
+              });
+            }
+          }
+        });
     },
 
     eliminarProfesor(idProfesor) {
@@ -220,6 +249,26 @@ export default {
         },
       });
     },
+
+    comprobarEliminar() {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "Eliminar Materia",
+          html:
+            "Estas seguro que quieres eliminar la materia  <b>" +
+            this.nombreMateria +
+            "</b>",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.eliminarMateria();
+          }
+        });
+    },
     eliminarMateria() {
       axios
         .delete(Global.url + "materia", {
@@ -233,19 +282,15 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Materia Eliminada",
-            });
             this.$router.push("/listarMaterias");
+            this.$swal.fire("Materia eliminada", "", "success");
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error",
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
           });
         });
     },
@@ -299,18 +344,14 @@ export default {
           if (response.status == 200) {
             this.$route.params.Materia = this.nombreMateria;
             this.modificar = false;
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Materia modificada.",
-            });
+            this.$swal.fire("Nombre de materia actualizado", "", "success");
           }
         })
         .catch(() => {
           this.flashMessage.show({
-            status: "error",
+            status: "warning",
             title: Global.nombreSitio,
-            message: "Error al modificar",
+            message: "Error inesperado al modificar",
           });
         });
     },
