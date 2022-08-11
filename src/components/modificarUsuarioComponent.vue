@@ -31,8 +31,8 @@
             justify-content: space-evenly;
           "
         >
-          <button class="btn btn-primary">Restablercer Foto</button>
-          <button class="btn btn-primary">Restablercer Contraseña</button>
+          <button class="btn btn-primary">Restablecer Foto</button>
+          <button class="btn btn-primary">Restablecer Contraseña</button>
         </div>
       </div>
 
