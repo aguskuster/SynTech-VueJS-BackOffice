@@ -232,7 +232,7 @@
                   ><i
                     class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
-                    @click="eliminarMiembro(todo, 'Profesor')"
+                    @click="eliminarMiembro(todo, 'Profesor', todo.nombreProfesor)"
                   ></i
                 ></span>
               </li>
@@ -273,7 +273,7 @@
                   ><i
                     class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
-                    @click="eliminarMiembro(todo, 'Alumno')"
+                    @click="eliminarMiembro(todo, 'Alumno',todo.nombreAlumno)"
                   ></i
                 ></span>
               </li>
@@ -422,11 +422,31 @@ export default {
           });
         });
     },
-    eliminarMiembro(usuario, tipo) {
-      if (tipo == "Alumno") {
-        this.eliminarAlumno(usuario.idAlumno);
-      } else {
-        this.eliminarProfesor(usuario.idProfesor, usuario.idMateria);
+    comprobarEliminarMiembro(nombre) {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "Eliminar Miembro",
+          html: "Estas a punto de eliminar del grupo a " + nombre,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+    },
+    eliminarMiembro(usuario, tipo , nombre) {
+      if (this.comprobarEliminarMiembro(nombre)) {
+        if (tipo == "Alumno") {
+          this.eliminarAlumno(usuario.idAlumno);
+        } else {
+          this.eliminarProfesor(usuario.idProfesor, usuario.idMateria);
+        }
       }
     },
     agregarMiembrosGrupo() {
@@ -570,35 +590,50 @@ export default {
           }
         });
     },
-    eliminarGrupo() {
-      axios
-        .delete(Global.url + "grupo", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            idGrupo: this.idGrupo,
-          },
+    comprobarEliminarGrupo() {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "Eliminar Grupo",
+          html: "Estas a punto de eliminar el grupo " + this.idGrupo,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Grupo Eliminado",
-            });
-            this.$router.push("/listarGrupo");
+        .then((result) => {
+          if (result.isConfirmed) {
+            return true;
+          } else {
+            return false;
           }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error Inesperado",
-          });
         });
-      alert("Sweet alert confirmacion");
+    },
+    eliminarGrupo() {
+      if (this.comprobarEliminarGrupo()) {
+        axios
+          .delete(Global.url + "grupo", {
+            headers: {
+              "Content-Type": "application/json",
+              token: Global.token,
+            },
+            data: {
+              idGrupo: this.idGrupo,
+            },
+          })
+          .then((response) => {
+            if (response.status == 200) {
+              this.$swal.fire("Grupo eliminado", "", "success");
+              this.$router.push("/listarGrupo");
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
+          });
+      }
     },
 
     modificarGrupo() {
