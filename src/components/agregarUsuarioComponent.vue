@@ -52,7 +52,7 @@
       <p>
         Rol<em> *</em> :
         <select class="form-control" v-model="persona.ou" required>
-          <option value="Bedelias">Bedelias</option>
+          <option  v-if="usuario.cargo != 'Administrativo'" value="Bedelias">Bedelias</option>
           <option value="Profesor">Profesor</option>
           <option value="Alumno">Alumno</option>
         </select>
@@ -91,7 +91,7 @@
         <p>
           Cargo<em> *</em> :
           <select class="form-control" v-model="persona.cargo" required>
-            <option value="Adscripto">Adscripto</option>
+            <option  value="Adscripto">Adscripto</option>
             <option value="Administrativo">Administrativo</option>
             <option value="Subdirector">Subdirector</option>
             <option value="Director">Director</option>
