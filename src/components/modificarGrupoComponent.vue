@@ -373,21 +373,17 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Alumno retirado de " + this.idGrupo,
-            });
+             this.$swal.fire("Alumno retirado de "+ this.idGrupo, "", "success");
 
             this.buscarGrupoSeleccionado();
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error inesperado",
-          });
+           this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
     },
     eliminarProfesor(idProfesor, idMateria) {
@@ -405,21 +401,17 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Profesor retirado de " + this.idGrupo,
-            });
+             this.$swal.fire("Profesor retirado de "+ this.idGrupo, "", "success");
 
             this.buscarGrupoSeleccionado();
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error inesperado",
-          });
+          this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
     },
     comprobarEliminarMiembro(nombre) {
@@ -457,18 +449,14 @@ export default {
           } else {
             this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
           }
-          this.flashMessage.show({
-            status: "success",
-            title: Global.nombreSitio,
-            message: "Miembro se agrego al grupo",
-          });
+           this.$swal.fire("Miembro agregado con exito", "", "success");
         }
       } catch (error) {
-        this.flashMessage.show({
-          status: "warning",
-          title: Global.nombreSitio,
-          message: "Error inesperado al cargar",
-        });
+         this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
       }
       /*  this.filterSelectedRows(); */
       this.buscarGrupoSeleccionado();
@@ -526,11 +514,11 @@ export default {
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar",
-          });
+         this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
     },
     cargarUsuariosSinGrupo() {
@@ -548,11 +536,11 @@ export default {
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar",
-          });
+         this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
 
       axios
@@ -563,11 +551,11 @@ export default {
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar",
-          });
+          this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
     },
 
@@ -652,20 +640,16 @@ export default {
         .put(Global.url + "grupo", parametros, config)
         .then((response) => {
           if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Grupo Modificado.",
-            });
-            this.$router.push("/listarGrupo");
+         this.$swal.fire("Grupo Modificado", "", "success");
+        
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error inesperado.",
-          });
+           this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Algo salio mal",
+            });
         });
     },
   },
