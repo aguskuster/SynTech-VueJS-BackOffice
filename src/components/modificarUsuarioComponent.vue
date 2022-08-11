@@ -18,6 +18,22 @@
           </center>
           <p class="text-muted">CI: {{ usuarioDatos.id }}</p>
         </div>
+
+        <div
+          style="
+          margin-top:60%
+            width:100%
+            position: absolute;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            display: flex;
+            
+            justify-content: space-evenly;
+          "
+        >
+          <button class="btn btn-primary">Restablercer Foto</button>
+          <button class="btn btn-primary">Restablercer Contraseña</button>
+        </div>
       </div>
 
       <div
@@ -25,39 +41,39 @@
         style="width: 64%; background-color: whitesmoke"
       >
         <div class="formModificar">
-          <h3>Information Personal</h3>
+          <h3 style="text-transform: uppercase">Informacion Personal</h3>
           <div class="personalDetails">
             <div class="mb-3">
-              <p>Nombre</p>
-              <input :value="nombre" class="form-control" />
+              <p style="font-size:18px">Nombre</p>
+              <input :value="nombre" class="form-control inputFachero" style='height: 50px;font-size:16px'/>
             </div>
             <div class="mb-3">
-              <p>Apellido</p>
-              <input :value="apellido" class="form-control" />
+              <p style="font-size:18px">Apellido</p>
+              <input :value="apellido" class="form-control inputFachero" style='height: 50px;font-size:16px'/>
             </div>
             <div class="mb-3">
-              <p>Mail</p>
-              <input :value="usuarioDatos.email" class="form-control" />
+              <p style="font-size:18px">Mail</p>
+              <input :value="usuarioDatos.email" class="form-control inputFachero" style='height: 50px;font-size:16px'/>
             </div>
             <div class="mb-3">
-              <p>Rol</p>
-              <input :value="usuarioDatos.ou" class="form-control" />
+              <p  style="font-size:18px">Rol</p>
+              <input :value="usuarioDatos.ou" class="form-control inputFachero" style='height: 50px;font-size:16px' />
             </div>
             <div class="mb-3">
-              <p>Genero</p>
-              <input :value="usuarioDatos.genero" class="form-control" />
+              <p style="font-size:18px">Genero</p>
+              <input :value="usuarioDatos.genero" class="form-control inputFachero" style='height: 50px;font-size:16px' />
             </div>
           </div>
 
           <div class="frmProfesor" v-if="usuarioDatos.ou == 'Bedelias'">
-            <h3>Cargo</h3>
+            <h3 style="text-transform: uppercase">Cargo</h3>
             <div class="frmProfesorMaterias">
               <div>{{ usuarioInfo.cargo }}</div>
             </div>
           </div>
 
           <div class="frmProfesor" v-if="usuarioDatos.ou == 'Profesor'">
-            <h3>Materias</h3>
+            <h3 style="text-transform: uppercase">Materias</h3>
             <div class="frmProfesorMaterias">
               <div v-for="materia in usuarioInfo" :key="materia.id">
                 {{ materia.nombre }}
@@ -66,12 +82,19 @@
           </div>
 
           <div class="frmProfesor" v-if="usuarioDatos.ou == 'Alumno'">
-            <h3>Grupos</h3>
+            <h3 style="text-transform: uppercase">Grupos</h3>
             <div class="frmProfesorMaterias">
-            <div v-for="grupo in usuarioInfo" :key="grupo.id">
+              <div v-for="grupo in usuarioInfo" :key="grupo.id">
                 {{ grupo.idGrupo }}
               </div>
             </div>
+          </div>
+
+          <div style="position: absolute; right: 40px; bottom: 4.3rem">
+            <button class="btn btn-success" style="margin-right: 10px">
+              Actualizar
+            </button>
+            <button class="btn btn-danger" v-on:click='$router.back()'>Cancelar</button>
           </div>
         </div>
       </div>
