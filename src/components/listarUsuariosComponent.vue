@@ -10,7 +10,6 @@
       >
         Agregar Persona
       </button>
-
     </div>
 
     <div class="contenedorGeneral">
@@ -75,7 +74,7 @@
                 >Modificar Usuario
               </router-link>
             </div>
-            <div @click="eliminarUsuario(userInfo.id)">
+            <div @click="eliminarUsuario(userInfo)">
               <i
                 class="fas fa-trash-alt"
                 style="background-color: var(--bordo)"
@@ -178,33 +177,42 @@ export default {
     this.getTodos();
   },
   methods: {
-    eliminarUsuario(idUsuario) {
-      axios
-        .delete(Global.url + "usuario", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            id: idUsuario,
-          },
+    eliminarUsuario(userInfo) {
+      this.$swal
+        .fire({
+           icon: 'info',
+          title: "Eliminar Usuario",
+          html:
+            "Estas seguro que quieres eliminar al usuario  <b>" +
+            userInfo.nombre +
+            "</b>",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Usuario Eliminado",
-            });
-            this.getTodos();
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            axios
+              .delete(Global.url + "usuario", {
+                headers: {
+                  "Content-Type": "application/json",
+                  token: Global.token,
+                },
+                data: {
+                  id: userInfo.id,
+                },
+              })
+              .then((response) => {
+                if (response.status == 200) {
+                  this.$swal.fire("Usuario eliminado", "", "success");
+                  this.getTodos();
+                }
+              })
+              .catch(() => {
+                this.$swal.fire("Error al eliminar", "", "error");
+              });
           }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error",
-          });
         });
     },
     filtrarPorRol() {
