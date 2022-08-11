@@ -128,6 +128,7 @@ export default {
               message: "Profesor se agrego a la materia",
             });
           }
+          location.reload();
         })
         .catch(() => {
           this.flashMessage.show({
