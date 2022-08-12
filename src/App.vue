@@ -3,15 +3,14 @@
     <vue-headful :title="title" />
 
     <div class="menu" v-if="logged">
-      <h3 class="text-muted">
-        <router-link to="/home" title="Home"
-          ><img
-            src="./assets/images/LogoFinal.png"
-            alt="Logo"
-            style="width: 70px; margin: auto; display: block; margin-top: 20px"
-          />
-        </router-link>
-      </h3>
+      <div class="sidebarUser">
+        <img :src="returnImgProfile(imgB64)" />
+        <div class="userInfo">
+          <p>{{ usuario.nombre }}</p>
+
+          <small style="color:white;">{{ usuario.cargo }}</small>
+        </div>
+      </div>
 
       <ul>
         <li>
@@ -152,6 +151,8 @@
   </div>
 </template>
 <script>
+import { Global } from "./Global";
+import axios from "axios";
 import vueHeadful from "vue-headful";
 import LoginComponent from "./components/LoginComponent.vue";
 export default {
@@ -164,6 +165,7 @@ export default {
     return {
       usuario: "",
       logged: false,
+      imgB64: "",
       title: "BackOffice",
       nav: false,
     };
@@ -172,6 +174,9 @@ export default {
     this.verificarLogueo();
   },
   methods: {
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
+    },
     bajarMenu() {
       let elemento = document.getElementById("navbarSupportedContent");
       if (this.nav) {
@@ -180,10 +185,34 @@ export default {
         elemento.classList.remove("show");
       }
     },
+    getProfileImage() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "foto?id=" + this.usuario.username, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.imgB64 = res.data;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar foto",
+          });
+        });
+    },
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
-        this.usuario = localStorage.getItem("auth_nombre");
+        this.usuario = JSON.parse(
+          window.atob(localStorage.getItem("auth_token"))
+        );
+        this.getProfileImage();
       }
     },
     cerrarSesion() {
@@ -195,11 +224,38 @@ export default {
 </script>
 <style>
 body {
-  background:  url(./assets/images/background-login.png);
+  background: url(./assets/images/background-login.png);
+  --color: #50b7f5;
+  --background: #cbd5e0;
 
+  --colorLetra: #4f5468;
+  background-color: #0e0d17;
 }
 .pagina {
-  background: url(./assets/images/img.png) ;
+  background: url(./assets/images/img.png);
 }
 @import "./assets/css/estilos.css";
+
+.sidebarUser img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
+
+.sidebarUser {
+  display: flex;
+  padding: 10px;
+  margin:20px 5px  5px 5px;
+  border-radius: 5px;
+  background-color: #1b192b;
+  border: 1px solid var(--background);
+}
+
+.sidebarUser p {
+  font-size: 17px;
+  font-weight: 600;
+  margin-left: 15px;
+  text-decoration: none;
+  color: white;
+}
 </style>
