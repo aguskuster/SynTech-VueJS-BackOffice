@@ -51,9 +51,9 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/contacto" title="Contacto" class="router-link">
-            <i class="far fa-address-book"></i>
-            Contacto
+          <router-link to="/historial" class="router-link">
+          <i class="fas fa-history"></i>
+            Historial Acciones
           </router-link>
         </li>
       </ul>

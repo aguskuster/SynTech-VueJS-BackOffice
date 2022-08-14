@@ -16,6 +16,8 @@ import modificarMateriaComponent from './components/modificarMateriaComponent.vu
 import ErrorComponent from './components/ErrorComponent.vue';
 import listarMateriaComponent from './components/listarMateriaComponent.vue';
 import agregarUsuarioGrupoComponent from './components/agregarUsuarioGrupoComponent.vue';
+import historialDeAccionesComponent from './components/historialDeAccionesComponent.vue';
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -34,6 +36,7 @@ const routes = [
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },
     { path: '/modificarMateria/:idMateria/:Materia', name: 'modificarMateria', component: modificarMateriaComponent },
     { path: '/miembro-grupo/:grupo', name: 'miembroGrupo', component: agregarUsuarioGrupoComponent },
+    { path: '/historial', name: 'historial-acciones', component: historialDeAccionesComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 
 ];
