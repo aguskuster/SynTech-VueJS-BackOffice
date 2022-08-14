@@ -82,7 +82,26 @@
               >Eliminar Usuario
             </div>
           </div>
-          <div class="listaModificar" v-else>&zwnj;</div>
+       
+          <div class="listaModificar" v-else>
+               <div>
+              <router-link
+                class="router-link-listarUsers"
+                :to="{
+                  name: 'listar-usuario-modificar',
+                  params: {
+                    user: userInfo.id,
+                  },
+                }"
+              >
+                <i
+                  class="fas fa-eye"
+                  style="background-color: var(--mostaza)"
+                ></i
+                >Ver informacion del usuario
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
