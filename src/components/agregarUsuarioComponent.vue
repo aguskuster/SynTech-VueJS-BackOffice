@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form name="form" id="form" v-on:submit.prevent="procesar()">
+    <form name="form" id="form" >
       <p>
         Cedula<em> *</em> :
         <input
@@ -61,7 +61,7 @@
       <div v-if="persona.ou == 'Alumno'">
         {{ getGrupos() }}
         <p>
-          Grupo<em> *</em> :
+          Grupo :
           <select
             class="form-control"
             v-on:change="agregarArray(grupoSelect, persona.idGrupos)"
@@ -101,7 +101,7 @@
       <div v-if="persona.ou == 'Profesor'">
         {{ getMaterias() }}
         <p>
-          Materias<em> *</em> :
+          Materias :
           <select
             class="form-control"
             v-model="materiaSelect"
@@ -130,7 +130,8 @@
 
       <hr />
       <input
-        type="submit"
+        type="button"
+        @click="procesar()"
         value="Agregar Usuario"
         title="Enviar"
         class="btn btn-primary"
@@ -229,7 +230,8 @@ export default {
               title: Global.nombreSitio,
               message: "Usuario Agregado",
             });
-            document.form.reset();
+            document.getElementById("form").reset();
+         
             this.materiaSelect = "";
             this.grupoSelect = "";
           }
