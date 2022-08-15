@@ -8,7 +8,7 @@
         <div class="userInfo">
           <p>{{ usuario.nombre }}</p>
 
-          <small style="color:white;">{{ usuario.cargo }}</small>
+          <small style="color: white">{{ usuario.cargo }}</small>
         </div>
       </div>
 
@@ -52,7 +52,7 @@
         </li>
         <li>
           <router-link to="/historial" class="router-link">
-          <i class="fas fa-history"></i>
+            <i class="fas fa-history"></i>
             Historial Acciones
           </router-link>
         </li>
@@ -245,10 +245,9 @@ body {
 .sidebarUser {
   display: flex;
   padding: 10px;
-  margin:20px 5px  5px 5px;
+  margin-top: 20px;
   border-radius: 5px;
-  background-color: #1b192b;
-  border: 1px solid var(--background);
+  background-color: #13111e;
 }
 
 .sidebarUser p {
