@@ -31,13 +31,9 @@
             <input class="form-control mb-3" type="file" id="formFile" />
             <hr />
 
-            <div style="display: flex; flex-wrap: wrap; justify-content:space-around;">
-              <div style="background-color: blue; padding: 10px; color: white;margin-bottom:5px">
-                hoja de calculo
-              </div>
-              <div style="background-color: blue; padding: 10px; color: white;margin-bottom:5px">
-                hoja de calculo
-              </div>
+            <div class="contenedor_archivos">
+              <div class="archivo">hoja de calculo</div>
+              <div class="archivo">hoja de calculo</div>
             </div>
           </form>
         </div>
@@ -55,7 +51,53 @@
       >
         <h4>Listado de Noticias</h4>
 
-        <div class="d-flex justify-content-center mt-4"></div>
+        <div class="d-flex justify-content-center p-4">
+          <div class="contenedor_principal_noticias">
+            <div class="mt-2 contenedor_secundario_noticias">
+              <div class="contenedor_noticia">
+                <div class="noticia_seccion_izquierda">
+                  <img
+                    src="https://media.discordapp.net/attachments/480881732724195328/1009536092212580392/unknown.png"
+                    style="width: 60px; height: 60px; border-radius: 50%"
+                    alt=""
+                  />
+                </div>
+                <div class="noticia_seccion_derecha">
+                  <h4>Los pelados son cada vez mas calvos</h4>
+                  <br />
+                  <p>
+                    Chino: o pelado para decir niño en Colombia, que en
+                    Argentina es un chico y puede ser un pibe, un chavo en
+                    México, un gurí o botija en Uruguay, un mitaí en Paraguay,
+                    un chamo en Venezuela, un patojo en Guatemala y un crío en
+                    España
+                  </p>
+                </div>
+              </div>
+
+              <div class="contenedor_noticia">
+                <div class="noticia_seccion_izquierda">
+                  <img
+                    src="https://media.discordapp.net/attachments/480881732724195328/1009536092212580392/unknown.png"
+                    style="width: 60px; height: 60px; border-radius: 50%"
+                    alt=""
+                  />
+                </div>
+                <div class="noticia_seccion_derecha">
+                  <h4>Los pelados son cada vez mas calvos</h4>
+                  <br />
+                  <p>
+                    Chino: o pelado para decir niño en Colombia, que en
+                    Argentina es un chico y puede ser un pibe, un chavo en
+                    México, un gurí o botija en Uruguay, un mitaí en Paraguay,
+                    un chamo en Venezuela, un patojo en Guatemala y un crío en
+                    España
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
