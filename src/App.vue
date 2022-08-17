@@ -61,6 +61,13 @@
             <i class="far fa-users"></i>Listar Grupo
           </router-link>
         </li>
+            <li>
+          <router-link to="/noticias" title="Home" class="router-link">
+          <i class="fas fa-newspaper"></i>
+
+            Noticias</router-link
+          >
+        </li>
         <li>
           <router-link to="/historial" class="router-link">
             <i class="fas fa-history"></i>
