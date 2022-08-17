@@ -39,13 +39,14 @@
         />
       </p>
       <p>
-        Correo :
+        Correo<em> *</em> :
         <input
           type="email"
           name="Correo"
           placeholder="Escriba Correo..."
           class="form-control"
           v-model="persona.userPrincipalName"
+          required
         />
       </p>
 
