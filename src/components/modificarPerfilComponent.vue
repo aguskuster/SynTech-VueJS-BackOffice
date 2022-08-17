@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Modificar Personas</h2>
+      <h2>Mi Perfil</h2>
     </div>
 
     <div class="contenedorGeneral">
@@ -20,21 +20,25 @@
         </div>
         <div>
           <div style="position: absolute; bottom: 10px; left: 37px">
-            <button
-              class="btn btn-primary"
-              style="min-width: 220px"
-              @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Foto
-            </button>
+            <div class="btn btn-primary" style="min-width: 220px">
+              <label for="file-input" style="color: white">
+                Cambiar Foto
+              </label>
+
+              <input
+                @change="getFile"
+                accept=".jpg, .png, .jpeg,"
+                id="file-input"
+                type="file"
+                style="display: none"
+              />
+            </div>
             <button
               class="btn btn-primary"
               style="margin-left: 55px; min-width: 220px"
-              @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
+              @click="modalActualizarContrasenia()"
             >
-              Restablecer Contraseña
+              Cambiar contraseña
             </button>
           </div>
         </div>
@@ -47,7 +51,7 @@
         <div class="formModificar">
           <div class="informacion-izquierda">
             <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+            <div class="personalDetails">
               <div class="mb-3">
                 <p style="font-size: 18px">Nombre</p>
                 <input
@@ -84,54 +88,6 @@
               <div class="mb-3">
                 <p style="font-size: 18px">Genero</p>
                 <input
-                  v-model="usuarioDatos.genero"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-            </div>
-
-            <div class="personalDetails" v-else>
-              <div class="mb-3">
-                <p style="font-size: 18px">Nombre</p>
-                <input
-                  v-model="nombre"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Apellido</p>
-                <input
-                  v-model="apellido"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Mail</p>
-                <input
-                  v-model="usuarioDatos.email"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Rol</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.ou"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Genero</p>
-                <input
-                  disabled
                   v-model="usuarioDatos.genero"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
@@ -140,28 +96,10 @@
             </div>
           </div>
           <div class="informacion-derecha">
-            <div v-if="usuarioDatos.ou == 'Bedelias'">
+            <div>
               <h3 style="text-transform: uppercase">Cargo</h3>
               <div class="frmProfesorMaterias">
                 <div>{{ usuarioInfo.cargo }}</div>
-              </div>
-            </div>
-
-            <div v-if="usuarioDatos.ou == 'Profesor'">
-              <h3 style="text-transform: uppercase">Materias</h3>
-              <div class="frmProfesorMaterias">
-                <div v-for="materia in usuarioInfo" :key="materia.id">
-                  {{ materia.nombre }}
-                </div>
-              </div>
-            </div>
-
-            <div v-if="usuarioDatos.ou == 'Alumno'">
-              <h3 style="text-transform: uppercase">Grupos</h3>
-              <div class="frmProfesorMaterias">
-                <div v-for="grupo in usuarioInfo" :key="grupo.id">
-                  {{ grupo.idGrupo }}
-                </div>
               </div>
             </div>
           </div>
@@ -170,15 +108,10 @@
               class="btn btn-success"
               style="margin-right: 10px"
               @click="comprobarModificarInfo()"
-              v-if="usuario.cargo != 'Adscripto'"
             >
               Actualizar
             </button>
-            <button
-              class="btn btn-danger"
-              v-on:click="$router.back()"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
+            <button class="btn btn-danger" v-on:click="$router.back()">
               Cancelar
             </button>
           </div>
@@ -205,25 +138,29 @@ export default {
     this.getUsuario();
   },
   methods: {
+    getFile(event) {
+      let size = event.target.files[0].size;
+      let res = size * 0.000001;
+      if (res <= 50) {
+        this.cambiarFoto(event.target.files[0]);
+      } else {
+        this.$swal.fire(this.language.archivoMayor50, "", "info");
+      }
+    },
     comprobarModificarInfo() {
       this.$swal
         .fire({
           icon: "info",
           title: "Modificar Usuario",
-          html:
-            "¿ Estas seguro de que desea modificar la informacion del usuario <u><b>" +
-            this.usuarioDatos.nombre +
-            " </b></u> ?",
+          html: "¿ Estas seguro de que quieres actualizar tu perfil ?",
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           confirmButtonText: "Modificar",
         })
         .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
+         
           if (result.isConfirmed) {
             this.modificarUsuario();
-          } else {
-            return false;
           }
         });
     },
@@ -240,79 +177,92 @@ export default {
         genero: this.usuarioDatos.genero,
       };
 
-      console.log(user);
       axios
         .put(Global.url + "usuario", user, config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Usuario Modificado", "", "success");
+            this.$swal.fire("Perfil Actualizado", "", "success");
           }
           this.getUsuario();
         })
         .catch(() => {
-          this.$swal.fire("Error al modifcar usuario", "", "error");
+          this.$swal.fire("Error al actualizar perfil", "", "error");
         });
     },
-    comprobarAccion(accion) {
-      this.$swal
-        .fire({
-          icon: "info",
-          title: "Modificar Usuario",
-          html:
-            "Si haces click en restablecer , la " +
-            accion +
-            " volvera a tener el valor por defecto.",
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Restablecer",
-        })
-        .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            if (accion == "contraseña") {
-              this.restablecerContrasenia();
-            }
-            if (accion == "foto") {
-              this.restablecerFoto();
-            }
-          }
-        });
-    },
-    restablecerFoto() {
+
+    cambiarFoto(foto) {
       let config = {
         headers: {
+          "Content-Type": "multipart/form-data",
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
+      let formData = new FormData();
+      formData.append("id",this.usuarioDatos.id);
+      formData.append("archivo", foto);
       axios
-        .post(Global.url + "foto", user, config)
+        .post(Global.url + "foto", formData, config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Foto actualizada", "", "success");
+            this.$swal.fire({
+              icon: "success",
+              title: "Foto de perfil actualizada",
+            });
+
+            location.reload();
+         
           }
-          this.getUsuario();
         })
         .catch(() => {
-          this.$swal.fire("Error al restablecer foto", "", "error");
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
-    restablecerContrasenia() {
+    modalActualizarContrasenia() {
+      this.$swal
+        .fire({
+          title: "Ingrese nueva contraseña",
+          input: "password",
+          
+          inputAttributes: {
+            autocapitalize: "off",
+          },
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Actualizar",
+          showLoaderOnConfirm: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.actualizarContrasenia(result.value);
+          }
+        });
+
+    },
+
+    actualizarContrasenia(contrasenia) {
       let config = {
         headers: {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
+      let user = {
+        id: this.$route.params.idUsuario,
+        contrasenia: contrasenia,
+      };
       axios
         .put(Global.url + "contrasenia", user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
+            console.log(res.data)
           }
         })
         .catch(() => {
-          this.$swal.fire("Error al restablecer contraseña", "", "error");
+          this.$swal.fire("Error al cambiar contraseña", "", "error");
         });
     },
     getUsuario() {
@@ -321,7 +271,7 @@ export default {
           token: Global.token,
         },
       };
-      let user = this.$route.params.user;
+      let user = this.$route.params.idUsuario;
       axios
         .get(Global.url + "usuario?username=" + user, config)
         .then((res) => {

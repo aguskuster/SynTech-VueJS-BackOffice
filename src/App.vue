@@ -3,14 +3,25 @@
     <vue-headful :title="title" />
 
     <div class="menu" v-if="logged">
-      <div class="sidebarUser">
-        <img :src="returnImgProfile(imgB64)" />
-        <div class="userInfo">
-          <p>{{ usuario.nombre }}</p>
+  
+        <router-link
+          class="sidebarUser"
+          style="text-decoration:none"
+          :to="{
+            name: 'modificar-perfil',
+            params: {
+              idUsuario: usuario.username,
+            },
+          }"
+        >
+          <img :src="returnImgProfile(imgB64)" />
+          <div class="userInfo">
+            <p>{{ usuario.nombre }}</p>
 
-          <small style="color: white">{{ usuario.cargo }}</small>
-        </div>
-      </div>
+            <small style="color: white">{{ usuario.cargo }}</small>
+          </div>
+        </router-link>
+    
 
       <ul>
         <li>
@@ -248,6 +259,11 @@ body {
   margin-top: 20px;
   border-radius: 5px;
   background-color: #13111e;
+}
+
+.sidebarUser:hover {
+  cursor: pointer;
+  background-color: #1f1c31;
 }
 
 .sidebarUser p {
