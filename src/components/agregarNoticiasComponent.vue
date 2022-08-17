@@ -16,6 +16,7 @@
             <input
               type="text"
               id="titulo"
+              v-model="noticia.titulo"
               name="titulo"
               class="form-control mb-3"
               required
@@ -23,12 +24,18 @@
             <label for="mensaje" class="form-label"> Mensaje</label>
             <textarea
               id="mensaje"
+              v-model="noticia.mensaje"
               name="mensaje"
               class="form-control mb-5"
               rows="4"
               cols="50"
             ></textarea>
-            <input class="form-control mb-3" type="file" id="formFile" />
+            <input
+              class="form-control mb-3"
+              @change="getFile"
+              type="file"
+              id="formFile"
+            />
             <hr />
 
             <div class="contenedor_archivos">
@@ -40,7 +47,9 @@
 
         <div style="position: absolute; right: 10px; bottom: 10px">
           <div>
-            <button class="btn btn-primary">Publicar Noticia</button>
+            <button class="btn btn-primary" @click="publicarNoticia()">
+              Publicar Noticia
+            </button>
           </div>
         </div>
       </div>
@@ -104,6 +113,8 @@
 </template>
 <script>
 import vueHeadful from "vue-headful";
+import { Global } from "../Global";
+import axios from "axios";
 export default {
   name: "NoticiasComponent",
   components: {
@@ -112,7 +123,61 @@ export default {
   data() {
     return {
       title: "Noticias",
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      noticia: {
+        titulo: "",
+        mensaje: "",
+        archivos: [],
+      },
     };
+  },
+  methods: {
+    getFile(event) {
+      let size = event.target.files[0].size;
+      let res = size * 0.000001;
+      if (res <= 50) {
+        this.noticia.archivos.push(event.target.files[0]);
+      } else {
+        this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+      }
+    },
+    publicarNoticia() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+
+      let formData = new FormData();
+      formData.append("idUsuario", this.usuario.username);
+      formData.append("titulo", this.noticia.titulo);
+      formData.append("mensaje", this.noticia.mensaje);
+      for (let archivo of this.noticia.archivos) {
+        formData.append("archivos[]", archivo);
+      }
+       for (let archivo of this.noticia.archivos) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
+      axios
+        .post(Global.url + "noticia", formData, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Noticia publicada",
+            });
+            console.log(res.data)
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
+        });
+    },
   },
 };
 </script>
