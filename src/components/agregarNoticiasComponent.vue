@@ -39,8 +39,13 @@
             <hr />
 
             <div class="contenedor_archivos">
-              <div class="archivo">hoja de calculo</div>
-              <div class="archivo">hoja de calculo</div>
+              <div
+                class="archivo"
+                v-for="archivo in noticia.archivos"
+                :key="archivo.id"
+              >
+                {{ archivo.name }}
+              </div>
             </div>
           </form>
         </div>
@@ -59,49 +64,57 @@
         style="width: 65% !important; height: 49rem; position: relative"
       >
         <h4>Listado de Noticias</h4>
-
-        <div class="d-flex justify-content-center p-4">
+        <div class="p-4">
+          <div>
+            <label for="fecha" class="form-label">Filtrar por fecha :</label>
+            <input type="date" name="fecha" id="fecha" />
+          </div>
           <div class="contenedor_principal_noticias">
-            <div class="mt-2 contenedor_secundario_noticias">
-              <div class="contenedor_noticia">
+            <div class="mt-2 contenedor_secundario_noticias scroller_noticias">
+              <div
+                class="contenedor_noticia"
+                v-for="noticia in todasNoticias"
+                :key="noticia.data.id"
+              >
+                <button
+                  class="btn btn-info"
+                  @click="borrarNoticia(noticia.data)"
+                  v-if="usuario.username == noticia.data.idUsuario"
+                >
+                  Borrar
+                </button>
                 <div class="noticia_seccion_izquierda">
                   <img
-                    src="https://media.discordapp.net/attachments/480881732724195328/1009536092212580392/unknown.png"
+                    :src="returnIMGB64(noticia.data.profile_picture)"
                     style="width: 60px; height: 60px; border-radius: 50%"
-                    alt=""
                   />
                 </div>
                 <div class="noticia_seccion_derecha">
-                  <h4>Los pelados son cada vez mas calvos</h4>
+                  <h4>{{ noticia.data.titulo }}</h4>
                   <br />
-                  <p>
-                    Chino: o pelado para decir niño en Colombia, que en
-                    Argentina es un chico y puede ser un pibe, un chavo en
-                    México, un gurí o botija en Uruguay, un mitaí en Paraguay,
-                    un chamo en Venezuela, un patojo en Guatemala y un crío en
-                    España
+                  <p v-for="img in noticia.imagenes" :key="img.id">
+                    <center>
+                      <img :src="returnIMGB64(img)" alt="" width="100px" />
+                    </center>
+                    {{ noticia.data.mensaje }}
                   </p>
-                </div>
-              </div>
-
-              <div class="contenedor_noticia">
-                <div class="noticia_seccion_izquierda">
-                  <img
-                    src="https://media.discordapp.net/attachments/480881732724195328/1009536092212580392/unknown.png"
-                    style="width: 60px; height: 60px; border-radius: 50%"
-                    alt=""
-                  />
-                </div>
-                <div class="noticia_seccion_derecha">
-                  <h4>Los pelados son cada vez mas calvos</h4>
-                  <br />
                   <p>
-                    Chino: o pelado para decir niño en Colombia, que en
-                    Argentina es un chico y puede ser un pibe, un chavo en
-                    México, un gurí o botija en Uruguay, un mitaí en Paraguay,
-                    un chamo en Venezuela, un patojo en Guatemala y un crío en
-                    España
+                    {{ noticia.data.mensaje }}
                   </p>
+                  <div class="contenedor_archivos">
+                    <div
+                      class="archivo"
+                      v-for="archivo in noticia.archivos"
+                      :key="archivo.id"
+                    >
+                      <span
+                        style="cursor: pointer"
+                        @click="descargarPDF(archivo)"
+                      >
+                        {{ archivo }}</span
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,6 +137,8 @@ export default {
     return {
       title: "Noticias",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      todasNoticias: "",
+
       noticia: {
         titulo: "",
         mensaje: "",
@@ -131,15 +146,93 @@ export default {
       },
     };
   },
+  mounted() {
+    this.traerNoticias();
+  },
   methods: {
+    returnIMGB64(img) {
+      return "data:image/png;base64," + img;
+    },
+
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
-      if (res <= 50) {
-        this.noticia.archivos.push(event.target.files[0]);
+
+      if (this.noticia.archivos.length > 3) {
+        this.$swal.fire("Maximo 4 archivos por noticia", "", "info");
       } else {
-        this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+        if (res <= 50) {
+          this.noticia.archivos.push(event.target.files[0]);
+        } else {
+          this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+        }
       }
+    },
+    traerNoticias() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios.get(Global.url + "noticia", config).then((res) => {
+        if (res.status == 200) {
+          this.todasNoticias = res.data;
+        }
+      });
+    },
+
+    descargarPDF(label) {
+      console.log(label);
+      let url = Global.url + "traerArchivo?archivo=" + label;
+      axios
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: Global.token,
+          },
+        })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = this.simplificarNombre(label);
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
+    },
+    simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
+
+    borrarNoticia(noticia) {
+      axios
+        .delete(Global.url + "noticia", {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+          data: {
+            id: noticia.id,
+            idUsuario: noticia.idUsuario,
+          },
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire("Noticia Eliminada", "success");
+
+            this.traerNoticias();
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
+        });
     },
     publicarNoticia() {
       let config = {
@@ -156,7 +249,7 @@ export default {
       for (let archivo of this.noticia.archivos) {
         formData.append("archivos[]", archivo);
       }
-       for (let archivo of this.noticia.archivos) {
+      for (let archivo of this.noticia.archivos) {
         formData.append("nombresArchivo[]", archivo.name);
       }
       axios
@@ -167,7 +260,6 @@ export default {
               icon: "success",
               title: "Noticia publicada",
             });
-            console.log(res.data)
           }
         })
         .catch(() => {
