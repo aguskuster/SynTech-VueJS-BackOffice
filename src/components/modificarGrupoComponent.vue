@@ -232,7 +232,9 @@
                   ><i
                     class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
-                    @click="eliminarMiembro(todo, 'Profesor', todo.nombreProfesor)"
+                    @click="
+                      eliminarMiembro(todo, 'Profesor', todo.nombreProfesor)
+                    "
                   ></i
                 ></span>
               </li>
@@ -273,7 +275,13 @@
                   ><i
                     class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
-                    @click="eliminarMiembro(todo, 'Alumno',todo.nombreAlumno)"
+                    @click="
+                      comprobarEliminarMiembro(
+                        todo,
+                        'Alumno',
+                        todo.nombreAlumno
+                      )
+                    "
                   ></i
                 ></span>
               </li>
@@ -360,6 +368,7 @@ export default {
       return "data:image/png;base64," + img;
     },
     eliminarAlumno(idAlumno) {
+      alert("alumno");
       axios
         .delete(Global.url + "alumno", {
           headers: {
@@ -373,20 +382,25 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-             this.$swal.fire("Alumno retirado de "+ this.idGrupo, "", "success");
+            this.$swal.fire(
+              "Alumno retirado de " + this.idGrupo,
+              "",
+              "success"
+            );
 
             this.buscarGrupoSeleccionado();
           }
         })
         .catch(() => {
-           this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
     eliminarProfesor(idProfesor, idMateria) {
+      alert("profesor");
       axios
         .delete(Global.url + "curso", {
           headers: {
@@ -401,44 +415,45 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-             this.$swal.fire("Profesor retirado de "+ this.idGrupo, "", "success");
+            this.$swal.fire(
+              "Profesor retirado de " + this.idGrupo,
+              "",
+              "success"
+            );
 
             this.buscarGrupoSeleccionado();
           }
         })
         .catch(() => {
           this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
-    comprobarEliminarMiembro(nombre) {
-      this.$swal
-        .fire({
-          icon: "info",
-          title: "Eliminar Miembro",
-          html: "Estas a punto de eliminar del grupo a " + nombre,
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Eliminar",
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-    },
-    eliminarMiembro(usuario, tipo , nombre) {
-      if (this.comprobarEliminarMiembro(nombre)) {
-        if (tipo == "Alumno") {
-          this.eliminarAlumno(usuario.idAlumno);
-        } else {
-          this.eliminarProfesor(usuario.idProfesor, usuario.idMateria);
+    comprobarEliminarMiembro(usuario, tipo, nombre) {
+      this.$swal.fire({
+        title: "¿ Estas Seguro ?",
+        html: "<p>Estas a punto de eliminar a <b>"+nombre+"</b> del grupo </p",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar",
+         cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.eliminarMiembro(usuario, tipo);
         }
+      });
+
+    },
+    eliminarMiembro(usuario, tipo) {
+      if (tipo == "Alumno") {
+        this.eliminarAlumno(usuario.idAlumno);
+      } else {
+        this.eliminarProfesor(usuario.idProfesor, usuario.idMateria);
       }
     },
     agregarMiembrosGrupo() {
@@ -449,14 +464,14 @@ export default {
           } else {
             this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
           }
-           this.$swal.fire("Miembro agregado con exito", "", "success");
+          this.$swal.fire("Miembro agregado con exito", "", "success");
         }
       } catch (error) {
-         this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+        this.$swal.fire({
+          icon: "error",
+          title: "ERROR",
+          text: "Algo salio mal",
+        });
       }
       /*  this.filterSelectedRows(); */
       this.buscarGrupoSeleccionado();
@@ -514,11 +529,11 @@ export default {
           }
         })
         .catch(() => {
-         this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
     cargarUsuariosSinGrupo() {
@@ -536,11 +551,11 @@ export default {
           }
         })
         .catch(() => {
-         this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
 
       axios
@@ -552,10 +567,10 @@ export default {
         })
         .catch(() => {
           this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
 
@@ -640,16 +655,15 @@ export default {
         .put(Global.url + "grupo", parametros, config)
         .then((response) => {
           if (response.status == 200) {
-         this.$swal.fire("Grupo Modificado", "", "success");
-        
+            this.$swal.fire("Grupo Modificado", "", "success");
           }
         })
         .catch(() => {
-           this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Algo salio mal",
-            });
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
         });
     },
   },
