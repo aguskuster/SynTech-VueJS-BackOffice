@@ -167,7 +167,7 @@ export default {
   },
   data() {
     return {
-      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       idMateria: this.$route.params.idMateria,
       nombreMateria: this.$route.params.Materia,
       modificar: false,

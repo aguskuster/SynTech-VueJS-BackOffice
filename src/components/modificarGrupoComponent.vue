@@ -300,7 +300,7 @@ export default {
   },
   data() {
     return {
-      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       idGrupo: this.$route.params.idGrupo,
       modificar: false,
       tipoDeUser: "Profesores",

@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       title: "Noticias",
-      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todasNoticias: "",
 
       noticia: {

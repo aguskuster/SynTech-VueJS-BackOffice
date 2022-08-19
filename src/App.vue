@@ -225,10 +225,10 @@ export default {
         });
     },
     verificarLogueo() {
-      if (localStorage.getItem("auth_token")) {
+      if (localStorage.getItem("auth_token_BO")) {
         this.logged = true;
         this.usuario = JSON.parse(
-          window.atob(localStorage.getItem("auth_token"))
+          window.atob(localStorage.getItem("auth_token_BO"))
         );
         this.getProfileImage();
       }

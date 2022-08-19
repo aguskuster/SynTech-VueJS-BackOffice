@@ -191,7 +191,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
@@ -235,7 +235,7 @@ export default {
     };
   },
   mounted() {
-    if (!localStorage.getItem("auth_token")) {
+    if (!localStorage.getItem("auth_token_BO")) {
       localStorage.clear();
     }
     this.getTodos();

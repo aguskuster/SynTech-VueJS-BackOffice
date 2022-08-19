@@ -69,7 +69,7 @@ export default {
             let uncodeResponseData = JSON.parse(
               window.atob(response.data.datos)
             );
-            localStorage.setItem("auth_token", response.data.datos);
+            localStorage.setItem("auth_token_BO", response.data.datos);
             if (uncodeResponseData.ou != "Bedelias") {
               this.flashMessage.show({
                 status: "error",
