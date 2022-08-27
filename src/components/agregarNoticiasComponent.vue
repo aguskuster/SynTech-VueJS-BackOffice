@@ -21,6 +21,15 @@
               class="form-control mb-3"
               required
             />
+
+            <label for="encabezado">Imagen Encabezado</label>
+            <input
+              name="encabezado"
+              class="form-control mb-3"
+              @change="getEncabezado"
+              type="file"
+              id="formFile"
+            />
             <label for="mensaje" class="form-label"> Mensaje</label>
             <textarea
               id="mensaje"
@@ -138,7 +147,10 @@ export default {
       title: "Noticias",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todasNoticias: "",
-
+      imgEncabezado: {
+        nombre: "",
+        img: [],
+      },
       noticia: {
         titulo: "",
         mensaje: "",
@@ -153,7 +165,16 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
-
+    getEncabezado(event) {
+      let size = event.target.files[0].size;
+      let res = size * 0.000001;
+      if (res <= 50) {
+        this.imgEncabezado.img = event.target.files[0];
+        this.imgEncabezado.nombre = event.target.files[0].name;
+      } else {
+        this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+      }
+    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -243,9 +264,15 @@ export default {
       };
 
       let formData = new FormData();
+
       formData.append("idUsuario", this.usuario.username);
       formData.append("titulo", this.noticia.titulo);
       formData.append("mensaje", this.noticia.mensaje);
+      if (this.imgEncabezado.nombre) {
+        formData.append("nombreEncabezado", this.imgEncabezado.nombre);
+        formData.append("imagenEncabezado", this.imgEncabezado.img);
+      }
+
       for (let archivo of this.noticia.archivos) {
         formData.append("archivos[]", archivo);
       }
