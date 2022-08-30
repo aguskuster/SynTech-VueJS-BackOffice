@@ -24,11 +24,11 @@
 
             <label for="encabezado">Imagen Encabezado</label>
             <input
-              name="encabezado"
-              class="form-control mb-3"
-              @change="getEncabezado"
-              type="file"
-              id="formFile"
+                name="encabezado"
+                class="form-control mb-3"
+                @change="getEncabezado"
+                type="file"
+                id="formFile"
             />
             <label for="mensaje" class="form-label"> Mensaje</label>
             <textarea
@@ -76,7 +76,7 @@
       >
         <h4>Listado de Noticias</h4>
         <div class="p-4">
-          <div>
+          <div style="width: 85%;margin: auto;">
             <label for="fecha" class="form-label">Filtrar por fecha :</label>
             <input type="date" name="fecha" id="fecha"/>
           </div>
@@ -85,28 +85,30 @@
 
             <div class="accordion" id="accordionExample"
                  v-for="noticia in todasNoticias"
-                 :key="noticia.data.id">
+                 :key="noticia.data.id"
+                 style="width: 85%; margin: auto;">
               <div class="card">
                 <div class="card-header" id="headingOne">
                   <h2 class="mb-0">
-                    <button class="btn btn-block text-left" type="button" data-toggle="collapse"
+                    <button class="btnCustom btn-block text-left atr" type="button" data-toggle="collapse"
                             :data-target="'#col'+noticia.data.id" aria-expanded="true" aria-controls="collapseOne">
-                      <div style="display: flex;flex-direction: row;">
+                      <div style="display: flex;flex-direction: row; position: relative">
                         <div>
                           <img :src="returnIMGB64(noticia.data.imagenEncabezado)" alt="" width="100px"/>
                         </div>
                         <div style="margin-left: 1rem;display: flex;flex-direction: column">
                           <p> {{ noticia.data.titulo }}
                           </p>
-                          <p> Publicado por {{ noticia.data.nombreAutor }}</p>
-
+                          <small> Publicado por {{ noticia.data.nombreAutor }}</small>
                         </div>
+                        <small style="position: absolute;right: 0;">{{momentFechaParaHumanos(noticia.data.fecha)}}</small>
                       </div>
                     </button>
                   </h2>
                 </div>
 
-                <div :id="'col' + noticia.data.id" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div :id="'col' + noticia.data.id" class="collapse " aria-labelledby="headingOne"
+                     data-parent="#accordionExample">
                   <div class="card-body" style="padding: 10px;">
                     <p> {{ noticia.data.mensaje }}</p>
                     <div v-if="noticia.archivos != ''">
@@ -118,7 +120,7 @@
                            :key="archivo.id">
 
                       <span style="cursor: pointer" @click="descargarPDF(archivo)">
-                        {{ archivo }}
+                       {{ simplificarNombre(archivo) }}
                       </span>
                       </div>
                     </div>
@@ -137,7 +139,7 @@
 import vueHeadful from "vue-headful";
 import {Global} from "../Global";
 import axios from "axios";
-
+import moment from 'moment'
 export default {
   name: "NoticiasComponent",
   components: {
@@ -157,12 +159,17 @@ export default {
         mensaje: "",
         archivos: [],
       },
+      
     };
   },
   mounted() {
     this.traerNoticias();
   },
   methods: {
+    momentFechaParaHumanos(fecha){
+      moment.locale('ES');
+      return moment(fecha).fromNow();
+    },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
