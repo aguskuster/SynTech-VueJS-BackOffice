@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik:wght@400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100&display=swap');
 body {
+    /* font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold; */
     font-family: "Poppins", sans-serif;
     --colorFondoTabla: whitesmoke;
     --colordebarra: rgb(14, 13, 23);
@@ -39,6 +42,12 @@ label {
 
 .contenedor_res {
     width: 100%;
+}
+
+.btn-primary {
+    color: rgb(232, 230, 227)!important;
+    background-color: rgb(2, 80, 196)!important;
+    border-color: rgb(1, 71, 174)!important;
 }
 
 .table tr:nth-of-type(even) {
@@ -616,27 +625,28 @@ label {
 }
 
 .archivo {
-    background-color: blue;
     padding: 10px;
-    color: white;
-    margin-bottom: 5px;
-    width: 50%;
-    margin: auto;
-    border-radius:12px;
+    border-radius: 12px;
+    max-width: 200px;
 }
-.archivo:first-child{
-    margin-bottom: 0;
+
+.archivo:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.eplipis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .contenedor_principal_noticias {
-
     width: 100%;
-
 }
 
 .contenedor_secundario_noticias {
     width: 80%;
-
     display: flex;
     flex-direction: column;
 }
@@ -646,7 +656,8 @@ label {
     margin-top: 10px;
     flex-direction: row
 }
-.contenedor_noticia:first-child{
+
+.contenedor_noticia:first-child {
     margin-top: 0px;
 }
 
@@ -661,6 +672,7 @@ label {
     width: 80%;
     background-color: red
 }
+
 .btn {
     display: inline-block;
     font-weight: 400;
@@ -678,12 +690,14 @@ label {
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     border-radius: 0.25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
 .btn-block {
     display: block;
     width: 100%;
 }
+
 .btnCustom {
     display: inline-block;
     font-weight: 400;
@@ -700,5 +714,5 @@ label {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
