@@ -76,9 +76,21 @@
         <h4>Listado de Noticias</h4>
         <div style="width: 80%; margin: auto">
           <label for="fecha" class="form-label">Filtrar por fecha :</label>
-          <input type="date" name="fecha" id="fecha" />
+          <input
+            type="date"
+            name="fecha"
+            id="fecha"
+            v-model="fecha"
+            @change="filterByDate"
+          />
         </div>
-        <div class="p-4" style="max-height: 650px; overflow-y: auto">
+        <div class="p-4" style="max-height: 650px; overflow-y: auto" v-if=noData>
+          <center>
+          <p>No se publicaron noticias en la fecha {{fecha}}</p>
+          <p style="text-align:center"><a href="" @click="traerNoticias">Borrar flitros</a></p>
+          </center>
+        </div>
+        <div class="p-4" style="max-height: 650px; overflow-y: auto" v-else>
           <div class="contenedor_principal_noticias">
             <div
               class="accordion"
@@ -210,11 +222,13 @@ export default {
         nombre: "",
         img: [],
       },
+      fecha: "",
       noticia: {
         titulo: "",
         mensaje: "",
         archivos: [],
       },
+      noData:false,
     };
   },
   mounted() {
@@ -264,6 +278,28 @@ export default {
           this.todasNoticias = res.data;
         }
       });
+    },
+    filterByDate() {
+      let noticias = [];
+
+      for (let noticia of this.todasNoticias) {
+        if (
+          moment(noticia.data.fecha)
+            .format("YYYY-MM-DD")
+            .indexOf(this.fecha) !== -1
+        ) {
+          noticias.push(noticia);
+        }
+      }
+
+      if (noticias.length == 0) {
+        this.noData = true;
+      }else{
+        this.noData = false;
+      }
+     
+
+      this.todasNoticias = noticias;
     },
 
     descargarPDF(label) {
