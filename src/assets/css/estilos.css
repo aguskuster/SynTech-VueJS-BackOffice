@@ -50,6 +50,18 @@ label {
     border-color: rgb(1, 71, 174)!important;
 }
 
+.btn-success {
+    color: rgb(232, 230, 227)!important;
+    background-color: green !important;
+    border-color: green !important;
+}
+
+.btn-danger {
+    color: rgb(232, 230, 227)!important;
+    background-color: red !important;
+    border-color: red!important;
+}
+
 .table tr:nth-of-type(even) {
     background: rgba(138, 136, 136, 0.185);
 }
