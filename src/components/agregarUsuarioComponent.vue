@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form name="form" id="form" >
+    <form name="form" id="form" @submit="procesar()" >
       <p>
         Cedula<em> *</em> :
         <input
@@ -131,12 +131,12 @@
 
       <hr />
       <input
-        type="button"
-        @click="procesar()"
+        type="submit"
+      
         value="Agregar Usuario"
         title="Enviar"
         class="btn btn-primary"
-        data-bs-dismiss="modal"
+
       />
     </form>
   </div>

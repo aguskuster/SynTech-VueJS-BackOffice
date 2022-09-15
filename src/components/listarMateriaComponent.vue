@@ -69,7 +69,6 @@
                 </p>
 
                 <input
-                  data-bs-dismiss="modal"
                   type="submit"
                   value="Agregar Materia"
                   title="Enviar"
@@ -215,6 +214,7 @@ export default {
               title: Global.nombreSitio,
               message: "Materia Agregado",
             });
+            location.reload();
             this.getTodos();
           }
         })

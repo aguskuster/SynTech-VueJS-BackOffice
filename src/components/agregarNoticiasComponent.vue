@@ -12,7 +12,7 @@
         <h4>Crear Noticia</h4>
         <div class="m-2 p-2">
           <form action="" class="p-4">
-            <label for="titulo" class="form-label"> Titulo de la Noticia</label>
+            <label for="titulo" class="form-label"> Titulo de la Noticia <em>*</em></label>
             <input
               type="text"
               id="titulo"

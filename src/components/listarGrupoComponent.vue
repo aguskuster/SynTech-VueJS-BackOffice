@@ -165,7 +165,7 @@
                   value="Agregar Grupo"
                   title="Enviar"
                   class="btn btn-primary"
-                  data-bs-dismiss="modal"
+                 
                 />
               </form>
             </div>
@@ -191,7 +191,7 @@ export default {
   },
   data() {
     return {
-       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
@@ -241,38 +241,41 @@ export default {
     this.getTodos();
   },
   methods: {
+  
     alternaBooleanAP(alumnos, profesores) {
       this.alumnos = alumnos;
       this.profesores = profesores;
     },
     procesar() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .post(Global.url + "grupo", this.grupo, config)
-        .then((response) => {
-          if (response.status == 200) {
+     
+        let config = {
+          headers: {
+            "Content-Type": "application/json",
+            token: Global.token,
+          },
+        };
+        axios
+          .post(Global.url + "grupo", this.grupo, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.flashMessage.show({
+                status: "success",
+                title: Global.nombreSitio,
+                message: "Grupo Agregado",
+              });
+              document.form.reset();
+              location.reload();
+              this.getTodos();
+            }
+          })
+          .catch(() => {
             this.flashMessage.show({
-              status: "success",
+              status: "error",
               title: Global.nombreSitio,
-              message: "Grupo Agregado",
+              message: "Grupo ya existe",
             });
-            document.form.reset();
-
-            this.getTodos();
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Grupo ya existe",
           });
-        });
+      
     },
     getTodos() {
       let config = {
