@@ -27,7 +27,6 @@
         <li>
           <router-link to="/home" title="Home" class="router-link">
             <i class="far fa-home"></i>
-
             Home</router-link
           >
         </li>
@@ -77,6 +76,13 @@
       </ul>
 
       <div class="perfil">
+        <div style="color:white;display:flex;">
+        
+
+          <span id="google_translate_element">  </span>
+
+        </div>
+        
         <div class="contenedorPerfil">
           <i class="far fa-sign-out-alt logout" v-on:click="cerrarSesion()"></i>
         </div>
