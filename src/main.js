@@ -8,7 +8,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import HomeComponent from './components/HomeComponent.vue';
 import listarUsuariosComponent from './components/listarUsuariosComponent.vue';
-import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue';
+/* import agregarUsuarioComponent from './components/agregarUsuarioComponent.vue'; */
 import modificarUsuarioComponent from './components/modificarUsuarioComponent.vue';
 import listarGrupoComponent from './components/listarGrupoComponent.vue';
 import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
@@ -19,6 +19,9 @@ import agregarUsuarioGrupoComponent from './components/agregarUsuarioGrupoCompon
 import historialDeAccionesComponent from './components/historialDeAccionesComponent.vue';
 import modificarPerfilComponent from './components/modificarPerfilComponent.vue';
 import agregarNoticiasComponent from './components/agregarNoticiasComponent.vue';
+
+import agregarUsuariosComponent from './components/agregarUsuariosComponent.vue';
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -30,7 +33,7 @@ const routes = [
     { path: '/', redirect: 'home' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
-    { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuarioComponent },
+    { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuariosComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
     { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
