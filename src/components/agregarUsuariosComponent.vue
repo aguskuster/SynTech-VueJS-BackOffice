@@ -1,9 +1,9 @@
 <template>
   <div>
-    <form @submit="agregarUsuario">
+    <form>
       <div class="form-group">
         <label for="type">Tipo de Usuario :</label>
-    
+
         <select
           v-model="persona.ou"
           class="form-select"
@@ -70,7 +70,12 @@
       </div>
       <div class="form-group" v-if="persona.ou == 'Bedelias'">
         <label for="cargo">Cargo<em> *</em> :</label>
-        <select v-model="persona.cargo" class="form-control" name="cargo" required>
+        <select
+          v-model="persona.cargo"
+          class="form-control"
+          name="cargo"
+          required
+        >
           <option value="Adscripto">Adscripto</option>
           <option value="Administrativo">Administrativo</option>
           <option value="Subdirector">Subdirector</option>
@@ -79,22 +84,63 @@
       </div>
       <div class="form-group" v-if="persona.ou == 'Profesor'">
         <label for="cargo">Agregar Materia:</label>
-        <select class="form-control" v-model="materiaSelect">
+        <select
+          class="form-control"
+          v-model="materiaSelect"
+          v-on:change="agregarArray(materiaSelect, persona.idMaterias)"
+        >
           <option :value="m.id" v-for="m in materias" :key="m.id">
             {{ m.nombre }}
           </option>
         </select>
+        <div class="contenedorMateriaForm">
+          <span
+            class="btnAgregarComp"
+            v-for="selectedSubject in persona.idMaterias"
+            :key="selectedSubject.id"
+          >
+            <span>{{ returnSubjectNameById(selectedSubject) }}</span>
+            <i
+              @click="eliminarArray(selectedSubject, persona.idMaterias)"
+              class="fas fa-times"
+            ></i>
+          </span>
+        </div>
       </div>
       <div class="form-group" v-if="persona.ou == 'Alumno'">
         <label for="cargo">Agregar Grupo:</label>
-        <select class="form-control" v-model="grupoSelect">
+        <select
+          class="form-control"
+          v-model="grupoSelect"
+          v-on:change="agregarArray(grupoSelect, persona.idGrupos)"
+        >
           <option :value="g.idGrupo" v-for="g in grupos" :key="g.id">
             [ {{ g.idGrupo }} ] {{ g.nombreCompleto }}
           </option>
         </select>
+        <div class="contenedorMateriaForm">
+          <span
+            class="btnAgregarComp"
+            v-for="selectedGroup in persona.idGrupos"
+            :key="selectedGroup.id"
+          >
+            <span>{{ selectedGroup }}</span>
+            <i
+              @click="eliminarArray(selectedGroup, persona.idGrupos)"
+              class="fas fa-times"
+            ></i>
+          </span>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <input
+        type="button"
+        class="btn btn-primary"
+        @click="agregarUsuario"
+        data-bs-dismiss="modal"
+        data-dismiss="modal"
+        value="Crear"
+      />
     </form>
   </div>
 </template>
@@ -145,7 +191,23 @@ export default {
         }
       });
     },
-
+    returnSubjectNameById(idSub) {
+      for (let m of this.materias) {
+        if (m.id == idSub) {
+          return m.nombre;
+        }
+      }
+    },
+    agregarArray(id, array) {
+      if (!array.includes(id)) {
+        array.push(id);
+      }
+    },
+    eliminarArray(id, array) {
+      const element = (element) => element == id;
+      let index = array.findIndex(element);
+      array.splice(index, 1);
+    },
     getMaterias() {
       let config = {
         headers: {
@@ -160,34 +222,39 @@ export default {
       });
     },
     agregarUsuario() {
-       
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-    
-      axios
-        .post(Global.url + "usuario", this.persona, config)
-        .then((response) => {
-           
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Usuario Agregado",
+      this.$swal.fire({
+        title: "Creando Usuario",
+        html: "<small class='text-muted'>Aguarde a que el usario sea creado </small>",
+        allowOutsideClick: false,
+        timerProgressBar: true,
+        allowEscapeKey: false,
+        didOpen: () => {
+          this.$swal.showLoading();
+          axios
+            .post(Global.url + "usuario", this.persona, config)
+            .then((response) => {
+              if (response.status == 200) {
+                location.reload();
+              }
+            })
+            .catch(() => {
+              this.$swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo salio mal...",
+              });
             });
-         
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Usuario ya existe",
-          });
-        });
+        },
+        willClose: () => {
+          clearInterval(5);
+        },
+      });
     },
   },
 };

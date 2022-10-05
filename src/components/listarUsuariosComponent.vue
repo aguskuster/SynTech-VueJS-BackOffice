@@ -139,7 +139,7 @@
 import { Global } from "../Global";
 import axios from "axios";
 import $ from "jquery";
-import agregarUsuarioComponent from "./agregarUsuarioComponent";
+import agregarUsuarioComponent from "./agregarUsuariosComponent";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 export default {
