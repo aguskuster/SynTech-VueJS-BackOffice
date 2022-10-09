@@ -3,7 +3,14 @@
     <div class="contenedor_menu">
       <h2>Modificar Materia</h2>
     </div>
-    <div class="contenedorGeneral" style="justify-content: space-evenly">
+     <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral" style="justify-content: space-evenly">
       <div
         class="contenedorIzquierdo"
         style="width: 30% !important; height: 47rem; position: relative"
@@ -170,6 +177,7 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       idMateria: this.$route.params.idMateria,
       nombreMateria: this.$route.params.Materia,
+      loading:true,
       modificar: false,
       pagination: {
         enabled: true,
@@ -310,6 +318,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
+            this.loading=false
           }
         })
         .catch(() => {

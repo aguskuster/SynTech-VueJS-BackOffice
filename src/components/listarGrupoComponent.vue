@@ -14,8 +14,14 @@
         </button>
       </div>
     </div>
-
-    <div class="contenedorGeneral">
+       <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div  v-else class="contenedorGeneral">
       <div class="contenedorIzquierdo">
         <div class="contenedor_table mt-2">
           <vue-good-table
@@ -195,6 +201,7 @@ export default {
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
+      loading:true,
       grupo: {
         idGrupo: "",
         nombreCompleto: "",
@@ -316,6 +323,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.grupoSeleccionado = res.data;
+            this.loading=false
           }
         })
         .catch(() => {

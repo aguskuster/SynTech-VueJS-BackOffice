@@ -3,7 +3,14 @@
     <div class="contenedor_menu">
       <h2>Modificar Grupo</h2>
     </div>
-    <div class="contenedorGeneral" style="justify-content: space-evenly">
+          <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral" style="justify-content: space-evenly">
       <div
         class="contenedorIzquierdo"
         style="width: 30% !important; height: 47rem; position: relative"
@@ -233,7 +240,7 @@
                     class="fas fa-times btn"
                     style="color: red; font-size: 1rem"
                     @click="
-                      eliminarMiembro(todo, 'Profesor', todo.nombreProfesor)
+                      comprobarEliminarMiembro(todo, 'Profesor', todo.nombreProfesor)
                     "
                   ></i
                 ></span>
@@ -311,6 +318,7 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       idGrupo: this.$route.params.idGrupo,
       modificar: false,
+      loading:true,
       tipoDeUser: "Profesores",
       integrantesGrupo: { profesores: {}, alumnos: {} },
       grupoSeleccionado: "",
@@ -368,7 +376,7 @@ export default {
       return "data:image/png;base64," + img;
     },
     eliminarAlumno(idAlumno) {
-      alert("alumno");
+      
       axios
         .delete(Global.url + "alumno", {
           headers: {
@@ -400,7 +408,7 @@ export default {
         });
     },
     eliminarProfesor(idProfesor, idMateria) {
-      alert("profesor");
+      
       axios
         .delete(Global.url + "curso", {
           headers: {
@@ -465,6 +473,10 @@ export default {
             this.agregarProfesorGrupo(u.idProfesor, u.idMateria, this.idGrupo);
           }
           this.$swal.fire("Miembro agregado con exito", "", "success");
+          this.getGrupo();
+    this.buscarGrupoSeleccionado();
+       
+          
         }
       } catch (error) {
         this.$swal.fire({
@@ -526,6 +538,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.integrantesGrupo = res.data;
+            this.loading=false
           }
         })
         .catch(() => {

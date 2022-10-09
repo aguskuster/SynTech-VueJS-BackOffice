@@ -4,8 +4,14 @@
       <vue-headful :title="title" />
       <h2>Historial de Registros</h2>
     </div>
-
-    <div class="container p-3 mt-4" style='height: 50rem;'>
+      <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="container p-3 mt-4" style='height: 50rem;'>
       <div width="70%">
         <vue-good-table
           :columns="columns"
@@ -35,6 +41,7 @@ export default {
     return {
       title: "Historial Acciones",
       historialAcciones: "",
+      loading:true,
       columns: [
         {
           label: "ID Autor",
@@ -93,6 +100,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.historialAcciones = res.data;
+            this.loading=false
           }
         })
         .catch(() => {

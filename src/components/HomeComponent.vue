@@ -3,6 +3,7 @@
     <h1>Página Home</h1>
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
+      
     </div>
   </div>
 </template>

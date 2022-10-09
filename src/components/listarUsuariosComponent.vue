@@ -2,137 +2,151 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Personas</h2>
+      <button class="btn btn-primary" disabled v-if="loading">
+        Agregar Persona
+      </button>
+
       <button
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#modalAgregarPersona"
-        v-if="usuario.cargo != 'Adscripto'"
+        v-if="usuario.cargo != 'Adscripto' && !loading"
       >
         Agregar Persona
       </button>
     </div>
-
-    <div class="contenedorGeneral">
+    <center v-if="loading" style="margin-top:3rem;font-size:230px;">
       <div
-        class="contenedorIzquierdo"
-        style="width: 70%; background-color: transparent"
-      >
-        <vue-good-table
-          @on-row-click="onRowClick"
-          @on-search="onSearch"
-          :columns="columns"
-          :rows="rows"
-          :search-options="{ enabled: true }"
-          theme="polar-bear"
-          :pagination-options="pagination"
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else>
+      <div class="contenedorGeneral">
+        <div
+          class="contenedorIzquierdo"
+          style="width: 70%; background-color: transparent"
         >
-        </vue-good-table>
+          <vue-good-table
+            @on-row-click="onRowClick"
+            @on-search="onSearch"
+            :columns="columns"
+            :rows="rows"
+            :search-options="{ enabled: true }"
+            theme="polar-bear"
+            :pagination-options="pagination"
+          >
+          </vue-good-table>
+        </div>
+
+        <div
+          class="contenedorDerechoPersona"
+          v-if="showProfile"
+          style="width: 30%; background-color: transparent"
+        >
+          <div class="infoUser">
+            <div class="imgContDer">
+              <center>
+                <img :src="returnImgProfile(userInfo.imagen_perfil)" />
+              </center>
+            </div>
+
+            <div class="DerTexl">
+              <div class="derTexNombre">
+                <h4>{{ userInfo.nombre }}</h4>
+                <hr />
+              </div>
+              <div>
+                <span>Cargo:</span> <span>{{ userInfo.ou }}</span>
+              </div>
+              <div>
+                <span>Cedula:</span> <span>{{ userInfo.id }}</span>
+              </div>
+              <div>
+                <span>Correo:</span> <span>{{ userInfo.email }}</span>
+              </div>
+            </div>
+            <div class="listaModificar" v-if="usuario.cargo != 'Adscripto'">
+              <div>
+                <router-link
+                  class="router-link-listarUsers"
+                  :to="{
+                    name: 'listar-usuario-modificar',
+                    params: {
+                      user: userInfo.id,
+                    },
+                  }"
+                >
+                  <i
+                    class="fas fa-pencil-alt"
+                    style="background-color: var(--mostaza)"
+                  ></i
+                  >Modificar Usuario
+                </router-link>
+              </div>
+              <div @click="eliminarUsuario(userInfo)">
+                <i
+                  class="fas fa-trash-alt"
+                  style="background-color: var(--bordo)"
+                ></i
+                >Eliminar Usuario
+              </div>
+            </div>
+
+            <div class="listaModificar" v-else>
+              <div>
+                <router-link
+                  class="router-link-listarUsers"
+                  :to="{
+                    name: 'listar-usuario-modificar',
+                    params: {
+                      user: userInfo.id,
+                    },
+                  }"
+                >
+                  <i
+                    class="fas fa-eye"
+                    style="background-color: var(--mostaza)"
+                  ></i
+                  >Ver informacion del usuario
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
+      <!--     MODAL AGREGAR PERSONA  -->
       <div
-        class="contenedorDerechoPersona"
-        v-if="showProfile"
-        style="width: 30%; background-color: transparent"
+        class="modal fade"
+        id="modalAgregarPersona"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
       >
-        <div class="infoUser">
-          <div class="imgContDer">
-            <center>
-              <img :src="returnImgProfile(userInfo.imagen_perfil)" />
-            </center>
-          </div>
-
-          <div class="DerTexl">
-            <div class="derTexNombre">
-              <h4>{{ userInfo.nombre }}</h4>
-              <hr />
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Agregar Persona
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
-            <div>
-              <span>Cargo:</span> <span>{{ userInfo.ou }}</span>
-            </div>
-            <div>
-              <span>Cedula:</span> <span>{{ userInfo.id }}</span>
-            </div>
-            <div>
-              <span>Correo:</span> <span>{{ userInfo.email }}</span>
-            </div>
-          </div>
-          <div class="listaModificar" v-if="usuario.cargo != 'Adscripto'">
-            <div>
-              <router-link
-                class="router-link-listarUsers"
-                :to="{
-                  name: 'listar-usuario-modificar',
-                  params: {
-                    user: userInfo.id,
-                  },
-                }"
-              >
-                <i
-                  class="fas fa-pencil-alt"
-                  style="background-color: var(--mostaza)"
-                ></i
-                >Modificar Usuario
-              </router-link>
-            </div>
-            <div @click="eliminarUsuario(userInfo)">
-              <i
-                class="fas fa-trash-alt"
-                style="background-color: var(--bordo)"
-              ></i
-              >Eliminar Usuario
-            </div>
-          </div>
-       
-          <div class="listaModificar" v-else>
-               <div>
-              <router-link
-                class="router-link-listarUsers"
-                :to="{
-                  name: 'listar-usuario-modificar',
-                  params: {
-                    user: userInfo.id,
-                  },
-                }"
-              >
-                <i
-                  class="fas fa-eye"
-                  style="background-color: var(--mostaza)"
-                ></i
-                >Ver informacion del usuario
-              </router-link>
+            <div class="modal-body">
+              <agregarUsuarioComponent></agregarUsuarioComponent>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--     MODAL AGREGAR PERSONA  -->
-    <div
-      class="modal fade"
-      id="modalAgregarPersona"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Agregar Persona</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <agregarUsuarioComponent></agregarUsuarioComponent>
-          </div>
-        </div>
-      </div>
+      <!--     FIN MODAL AGREGAR PERSONA  -->
     </div>
-
-    <!--     FIN MODAL AGREGAR PERSONA  -->
   </div>
 </template>
 <script>
@@ -155,6 +169,7 @@ export default {
       userInfo: "",
       showProfile: false,
       selectedRol: "",
+      loading: true,
       columns: [
         {
           label: "ID",
@@ -199,7 +214,7 @@ export default {
     eliminarUsuario(userInfo) {
       this.$swal
         .fire({
-           icon: 'info',
+          icon: "info",
           title: "Eliminar Usuario",
           html:
             "Estas seguro que quieres eliminar al usuario  <b>" +
@@ -292,6 +307,7 @@ export default {
             this.userInfo = res.data.user;
             this.showProfile = true;
           }
+          this.loading=false
         })
         .catch(() => {
           this.flashMessage.show({
@@ -301,21 +317,7 @@ export default {
           });
         });
     },
-    filtrarPorNombre() {
-      var input = document.getElementById("filtro").value.toLowerCase();
-      var listaUser = [];
 
-      if (input == "") {
-        this.loading = true;
-        this.getTodos();
-      }
-      this.todosUsuarios.forEach(function (users) {
-        if (users.nombre.toLowerCase().indexOf(input) !== -1)
-          listaUser.push(users);
-      });
-
-      this.todosUsuarios = listaUser;
-    },
     comprobarArrayVacio(array) {
       return $.isEmptyObject(array);
     },

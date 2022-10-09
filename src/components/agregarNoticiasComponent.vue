@@ -4,7 +4,14 @@
       <vue-headful :title="title" />
       <h2>Noticias</h2>
     </div>
-    <div class="contenedorGeneral" style="justify-content: space-evenly">
+         <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral" style="justify-content: space-evenly">
       <div
         class="contenedorIzquierdo"
         style="width: 30% !important; height: 49rem; position: relative"
@@ -228,6 +235,7 @@ export default {
         mensaje: "",
         archivos: [],
       },
+      loading:true,
       noData:false,
     };
   },
@@ -249,7 +257,7 @@ export default {
         this.imgEncabezado.img = event.target.files[0];
         this.imgEncabezado.nombre = event.target.files[0].name;
       } else {
-        this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+        this.$swal.fire("El archivo que estas intentando subir es muy pesado", "", "info");
       }
     },
     getFile(event) {
@@ -262,7 +270,7 @@ export default {
         if (res <= 50) {
           this.noticia.archivos.push(event.target.files[0]);
         } else {
-          this.$swal.fire("Capo foto muy pesada , proba otra", "", "info");
+           this.$swal.fire("El archivo que estas intentando subir es muy pesado", "", "info");
         }
       }
     },
@@ -276,6 +284,7 @@ export default {
       axios.get(Global.url + "noticia", config).then((res) => {
         if (res.status == 200) {
           this.todasNoticias = res.data;
+          this.loading=false
         }
       });
     },

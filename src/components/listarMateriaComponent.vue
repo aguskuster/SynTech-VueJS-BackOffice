@@ -14,8 +14,14 @@
         </button>
       </div>
     </div>
-
-    <div class="contenedorGeneral">
+       <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div  v-else class="contenedorGeneral">
       <div class="contenedorIzquierdo">
         <h4>Asignaturas</h4>
 
@@ -152,6 +158,7 @@ export default {
       modificar: false,
       nuevoNombreMateria: "",
       idMateria: 0,
+      loading:true,
       materia: {
         nombreMateria: "",
       },
@@ -271,6 +278,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.materiaProfesores = res.data;
+            this.loading=false;
           }
         })
         .catch(() => {
