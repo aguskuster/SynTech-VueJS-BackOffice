@@ -77,7 +77,7 @@
             data-bs-target="#modalAgregarMiembros"
             @click="cargarUsuariosSinGrupo()"
           >
-            Agregar Miebros
+            Agregar Miembros
           </button>
 
           <!-- INICIO Modal Agregar Miembro -->
