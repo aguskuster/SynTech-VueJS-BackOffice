@@ -1,15 +1,24 @@
 <template>
   <div>
-    <h1>Página no encontrada (error 404)</h1>
-     <vue-headful :title="title" />
+    <h1>Página no encontrada</h1>
+    <vue-headful :title="title" />
     <br />
     <center>
-      <img
-        width="500px"
-        class="center"
-        src="https://media.giphy.com/media/idogabG8Entw4/giphy.gif"
-        alt=""
-      />
+      <div style="display: flex; flex-direction: row;justify-content:center">
+        <div style="width: 10%">
+          <img
+          width="200px"
+            src="https://i.pinimg.com/originals/76/ba/75/76ba7583218cf74f05fd5607b7d1a709.png"
+            alt=""
+          />
+        </div>
+      
+        <h5 style="width: 20%;margin-top:100px">
+          Oops, parece que te perdistes por el sendero de la vida . . .
+        </h5>
+      </div>
+
+      <small><a href="/home">Volver Inicio</a></small>
     </center>
   </div>
 </template>
@@ -22,7 +31,7 @@ export default {
   },
   data() {
     return {
-      title: "Error",
+      title: "Error 404",
     };
   },
 };
