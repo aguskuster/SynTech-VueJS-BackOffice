@@ -4,7 +4,7 @@
       <vue-headful :title="title" />
       <h2>Noticias</h2>
     </div>
-         <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+    <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
         class="spinner-border text-primary"
         role="status"
@@ -19,7 +19,9 @@
         <h4>Crear Noticia</h4>
         <div class="m-2 p-2">
           <form action="" class="p-4">
-            <label for="titulo" class="form-label"> Titulo de la Noticia <em>*</em></label>
+            <label for="titulo" class="form-label">
+              Titulo de la Noticia <em>*</em></label
+            >
             <input
               type="text"
               id="titulo"
@@ -91,10 +93,16 @@
             @change="filterByDate"
           />
         </div>
-        <div class="p-4" style="max-height: 650px; overflow-y: auto" v-if=noData>
+        <div
+          class="p-4"
+          style="max-height: 650px; overflow-y: auto"
+          v-if="noData"
+        >
           <center>
-          <p>No se publicaron noticias en la fecha {{fecha}}</p>
-          <p style="text-align:center"><a href="" @click="traerNoticias">Borrar flitros</a></p>
+            <p>No se publicaron noticias en la fecha {{ fecha }}</p>
+            <p style="text-align: center">
+              <a href="" @click="traerNoticias">Borrar flitros</a>
+            </p>
           </center>
         </div>
         <div class="p-4" style="max-height: 650px; overflow-y: auto" v-else>
@@ -154,17 +162,16 @@
                             align-items: end;
                           "
                         >
-                          {{ momentFechaParaHumanos(noticia.data.fecha) }}
-
                           <i
-                            class="fal fa-trash"
+                            class="fas fa-times"
                             style="
                               color: red;
                               font-size: 20px;
-                              margin-top: 44px;
+                              margin-bottom: 44px;
                             "
                             @click="borrarNoticia(noticia.data)"
                           ></i>
+                          {{ momentFechaParaHumanos(noticia.data.fecha) }}
                         </small>
                       </div>
                     </button>
@@ -235,8 +242,8 @@ export default {
         mensaje: "",
         archivos: [],
       },
-      loading:true,
-      noData:false,
+      loading: true,
+      noData: false,
     };
   },
   mounted() {
@@ -257,7 +264,11 @@ export default {
         this.imgEncabezado.img = event.target.files[0];
         this.imgEncabezado.nombre = event.target.files[0].name;
       } else {
-        this.$swal.fire("El archivo que estas intentando subir es muy pesado", "", "info");
+        this.$swal.fire(
+          "El archivo que estas intentando subir es muy pesado",
+          "",
+          "info"
+        );
       }
     },
     getFile(event) {
@@ -270,7 +281,11 @@ export default {
         if (res <= 50) {
           this.noticia.archivos.push(event.target.files[0]);
         } else {
-           this.$swal.fire("El archivo que estas intentando subir es muy pesado", "", "info");
+          this.$swal.fire(
+            "El archivo que estas intentando subir es muy pesado",
+            "",
+            "info"
+          );
         }
       }
     },
@@ -284,7 +299,7 @@ export default {
       axios.get(Global.url + "noticia", config).then((res) => {
         if (res.status == 200) {
           this.todasNoticias = res.data;
-          this.loading=false
+          this.loading = false;
         }
       });
     },
@@ -303,10 +318,9 @@ export default {
 
       if (noticias.length == 0) {
         this.noData = true;
-      }else{
+      } else {
         this.noData = false;
       }
-     
 
       this.todasNoticias = noticias;
     },
