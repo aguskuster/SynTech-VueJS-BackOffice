@@ -58,10 +58,11 @@
 
             <div class="contenedor_archivos">
               <div
-                class="archivo"
+                class="archivo eplipis"
                 v-for="archivo in noticia.archivos"
                 :key="archivo.id"
               >
+                <img src="/img/file.f66d58b2.svg" alt="My Happy SVG" />
                 {{ archivo.name }}
               </div>
             </div>
