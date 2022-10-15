@@ -99,11 +99,21 @@
             v-for="selectedSubject in persona.idMaterias"
             :key="selectedSubject.id"
           >
-            <span>{{ returnSubjectNameById(selectedSubject) }}</span>
-            <i
-              @click="eliminarArray(selectedSubject, persona.idMaterias)"
-              class="fas fa-times"
-            ></i>
+            <div
+              style="
+                width: 80%;
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin: 0 auto;
+              "
+            >
+              <span>{{ returnSubjectNameById(selectedSubject) }} </span>
+              <i
+                @click="eliminarArray(selectedSubject, persona.idMaterias)"
+                class="fas fa-times"
+              ></i>
+            </div>
           </span>
         </div>
       </div>

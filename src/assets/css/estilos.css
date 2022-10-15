@@ -469,21 +469,21 @@ label {
 
 .btnAgregarComp i {
     margin: 0 5px;
-    color: red;
+    color: white;
     cursor: pointer;
     font-size: 12px;
 }
 
 .talbeProfesorDerecha>div>div>div,
 .btnAgregarComp {
-    border: 3px solid skyblue;
-    background-color: skyblue;
+    background: linear-gradient(45deg, #223A8F 0%, #304FBE 100%);
     width: 150px;
     text-align: center;
     font-weight: bold;
     margin-left: 5px;
     margin-top: 5px;
-    ;
+    border-radius: 6px;
+    color: white;
 }
 
 .contProfeSelec {
