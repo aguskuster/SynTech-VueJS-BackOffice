@@ -170,7 +170,7 @@
                               font-size: 20px;
                               margin-bottom: 44px;
                             "
-                            @click="borrarNoticia(noticia.data)"
+                            @click="comprobarOpcionEliminar(noticia.data)"
                           ></i>
                           {{ momentFechaParaHumanos(noticia.data.fecha) }}
                         </small>
@@ -251,6 +251,21 @@ export default {
     this.traerNoticias();
   },
   methods: {
+    comprobarOpcionEliminar(id) {
+      this.$swal
+        .fire({
+          title: "Seguro que quieres eliminar la noticia?",
+          showDenyButton: true,
+          confirmButtonText: "Eliminar",
+          denyButtonText: "Cancelar",
+        })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.borrarNoticia(id);
+          }
+        });
+    },
     momentFechaParaHumanos(fecha) {
       moment.locale("ES");
       return moment(fecha).fromNow();
