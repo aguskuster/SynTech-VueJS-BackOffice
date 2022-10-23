@@ -93,6 +93,7 @@
           Docentes que dictan {{ materiaSeleccionada }}
           <div  v-if="usuario.cargo != 'Adscripto'">
             <router-link
+            v-if="todosMateria.length > 0"
               style="
                 text-decoration: none;
                 font-size: 17px;
@@ -245,10 +246,15 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.todosMateria = res.data;
-            this.traerProfesoresMateria(
+            this.loading=false;
+            if(this.todosMateria.length > 0){
+        this.traerProfesoresMateria(
               this.todosMateria[0].id,
               this.todosMateria[0].nombre
             );
+              
+            }
+           
           }
         })
         .catch(() => {
@@ -278,7 +284,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.materiaProfesores = res.data;
-            this.loading=false;
+          
           }
         })
         .catch(() => {

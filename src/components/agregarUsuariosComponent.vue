@@ -2,7 +2,7 @@
   <div>
     <form>
       <div class="form-group">
-        <label for="type">Tipo de Usuario :</label>
+        <label for="type">Tipo de Usuario<em> *</em> :</label>
 
         <select
           v-model="persona.ou"

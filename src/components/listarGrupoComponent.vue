@@ -75,6 +75,7 @@
 
           <div class="btnGrupo" style="margin-left: auto; margin-top: -40px">
             <router-link
+            v-if="rows.length > 0"
               class="btn btn-primary"
               style="text-decoration: none; color: white"
               :to="{
