@@ -55,7 +55,7 @@
           <div v-else>
             <button
               class="btn btn-danger"
-              @click="eliminarGrupo()"
+              @click="comprobarEliminarGrupo()"
               v-if="usuario.cargo != 'Adscripto'"
             >
               Eliminar Grupo
@@ -618,14 +618,18 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            return true;
+          
+            
+            this.eliminarGrupo();
+
           } else {
             return false;
           }
         });
     },
-    eliminarGrupo() {
-      if (this.comprobarEliminarGrupo()) {
+
+        eliminarGrupo() {
+     
         axios
           .delete(Global.url + "grupo", {
             headers: {
@@ -649,7 +653,7 @@ export default {
               text: "Algo salio mal",
             });
           });
-      }
+    
     },
 
     modificarGrupo() {

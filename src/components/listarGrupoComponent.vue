@@ -14,14 +14,14 @@
         </button>
       </div>
     </div>
-       <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+    <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
         class="spinner-border text-primary"
         role="status"
         style="color: #13111e !important"
       ></div>
     </center>
-    <div  v-else class="contenedorGeneral">
+    <div v-else class="contenedorGeneral">
       <div class="contenedorIzquierdo">
         <div class="contenedor_table mt-2">
           <vue-good-table
@@ -171,7 +171,6 @@
                   value="Agregar Grupo"
                   title="Enviar"
                   class="btn btn-primary"
-                 
                 />
               </form>
             </div>
@@ -201,7 +200,7 @@ export default {
       title: "BackOffice",
       grupoSeleccionado: { profesores: {}, alumnos: {} },
       acronimoGrupo: "",
-      loading:true,
+      loading: true,
       grupo: {
         idGrupo: "",
         nombreCompleto: "",
@@ -248,41 +247,38 @@ export default {
     this.getTodos();
   },
   methods: {
-  
     alternaBooleanAP(alumnos, profesores) {
       this.alumnos = alumnos;
       this.profesores = profesores;
     },
     procesar() {
-     
-        let config = {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-        };
-        axios
-          .post(Global.url + "grupo", this.grupo, config)
-          .then((response) => {
-            if (response.status == 200) {
-              this.flashMessage.show({
-                status: "success",
-                title: Global.nombreSitio,
-                message: "Grupo Agregado",
-              });
-              document.form.reset();
-              location.reload();
-              this.getTodos();
-            }
-          })
-          .catch(() => {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "grupo", this.grupo, config)
+        .then((response) => {
+          if (response.status == 200) {
             this.flashMessage.show({
-              status: "error",
+              status: "success",
               title: Global.nombreSitio,
-              message: "Grupo ya existe",
+              message: "Grupo Agregado",
             });
+            document.form.reset();
+            location.reload();
+            this.getTodos();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Grupo ya existe",
           });
-      
+        });
     },
     getTodos() {
       let config = {
@@ -296,7 +292,10 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
-            this.buscarGrupoSeleccionado(this.rows[0]);
+            this.loading = false;
+            if (this.rows.length > 0) {
+              this.buscarGrupoSeleccionado(this.rows[0]);
+            }
           }
         })
         .catch(() => {
@@ -323,7 +322,6 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.grupoSeleccionado = res.data;
-            this.loading=false
           }
         })
         .catch(() => {
