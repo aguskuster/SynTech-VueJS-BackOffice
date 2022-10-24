@@ -485,18 +485,10 @@ export default {
           text: "Algo salio mal",
         });
       }
-      /*  this.filterSelectedRows(); */
+      
       this.buscarGrupoSeleccionado();
     },
-    /*     filterSelectedRows() {
-      let a = this.selectedRows.reduce((acc, materia) => {
-        acc[materia.nombreMateria] = ++acc[materia.nombreMateria] || 0;
-        return acc;
-      }, {});
-
-
-      console.log(a);
-    }, */
+    
     agregarAlumnoGrupo(idAlumno, idGrupo) {
       let config = {
         headers: {

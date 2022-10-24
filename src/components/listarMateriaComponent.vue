@@ -129,7 +129,7 @@
           <button v-if="sacarProfesor" class="btn-danger btn">
             Eliminar Profesores
           </button>
-          <!--  "Sweet alert listando nombres de los profes y confirmar" -->
+     
         </div>
       </div>
     </div>
