@@ -2,32 +2,30 @@
   <div class="contenedorSupremo">
     <vue-headful :title="title" />
 
-    <div class="menu" v-if="logged">
-  
-        <router-link
-          class="sidebarUser"
-          style="text-decoration:none"
-          :to="{
-            name: 'modificar-perfil',
-            params: {
-              idUsuario: usuario.username,
-            },
-          }"
-        >
-          <img :src="returnImgProfile(imgB64)" />
-          <div class="userInfo">
-            <p>{{ usuario.nombre }}</p>
+    <div class="menu" v-if="logged" @click="checkToken()">
+      <router-link
+        class="sidebarUser"
+        style="text-decoration: none"
+        :to="{
+          name: 'modificar-perfil',
+          params: {
+            idUsuario: usuario.username,
+          },
+        }"
+      >
+        <img :src="returnImgProfile(imgB64)" />
+        <div class="userInfo">
+          <p>{{ usuario.nombre }}</p>
 
-            <small style="color: white">{{ usuario.cargo }}</small>
-          </div>
-        </router-link>
-    
+          <small style="color: white">{{ usuario.cargo }}</small>
+        </div>
+      </router-link>
 
       <ul>
         <li>
           <router-link to="/home" title="Home" class="router-link">
             <i class="far fa-home"></i>
-            Home</router-link
+            Inicio</router-link
           >
         </li>
         <li>
@@ -60,9 +58,9 @@
             <i class="far fa-users"></i>Listar Grupo
           </router-link>
         </li>
-            <li>
+        <li>
           <router-link to="/noticias" title="Home" class="router-link">
-          <i class="fas fa-newspaper"></i>
+            <i class="fas fa-newspaper"></i>
 
             Noticias</router-link
           >
@@ -76,13 +74,10 @@
       </ul>
 
       <div class="perfil">
-        <div style="color:white;display:flex;">
-        
-
-          <span id="google_translate_element">  </span>
-
+        <div style="color: white; display: flex">
+          <span id="google_translate_element"> </span>
         </div>
-        
+
         <div class="contenedorPerfil">
           <i class="far fa-sign-out-alt logout" v-on:click="cerrarSesion()"></i>
         </div>
@@ -121,7 +116,7 @@
             <li v-on:click="bajarMenu()">
               <router-link to="/home" title="Home" class="nav-link">
                 <i class="far fa-home"></i>
-                Home</router-link
+                Inicio</router-link
               >
             </li>
             <li v-on:click="bajarMenu()">
@@ -237,11 +232,30 @@ export default {
           window.atob(localStorage.getItem("auth_token_BO"))
         );
         this.getProfileImage();
+        this.checkToken();
       }
     },
     cerrarSesion() {
       localStorage.clear();
       location.reload();
+      this.logged = false;
+    },
+
+    checkToken() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "tkn", config)
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          this.cerrarSesion();
+        });
     },
   },
 };
