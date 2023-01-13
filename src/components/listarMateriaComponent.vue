@@ -242,18 +242,11 @@ export default {
         },
       };
       axios
-        .get(Global.url + "materias", config)
+        .get(Global.url + "materia", config)
         .then((res) => {
           if (res.status == 200) {
             this.todosMateria = res.data;
             this.loading=false;
-            if(this.todosMateria.length > 0){
-        this.traerProfesoresMateria(
-              this.todosMateria[0].id,
-              this.todosMateria[0].nombre
-            );
-              
-            }
            
           }
         })
@@ -266,10 +259,10 @@ export default {
         });
     },
 
-    onRowClick(params) {
-      this.traerProfesoresMateria(params.row.id, params.row.nombre);
-    },
-
+      // onRowClick(params) {
+      //   this.traerProfesoresMateria(params.row.id, params.row.nombre);
+      // },
+  // funcion de abajo deja de existir 
     traerProfesoresMateria(idMateria, nombreMateria) {
       this.idMateria = idMateria;
       this.materiaSeleccionada = nombreMateria;
