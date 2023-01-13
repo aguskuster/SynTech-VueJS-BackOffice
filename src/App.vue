@@ -241,22 +241,7 @@ export default {
       this.logged = false;
     },
 
-    checkToken() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "tkn", config)
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          this.cerrarSesion();
-        });
-    },
+
   },
 };
 </script>
