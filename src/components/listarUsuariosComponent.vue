@@ -26,7 +26,7 @@
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
-          style="width: 70%; background-color: transparent"
+          style="width: 100%; background-color: transparent"
         >
           <vue-good-table
             @on-row-click="onRowClick"
@@ -40,81 +40,7 @@
           </vue-good-table>
         </div>
 
-        <div
-          class="contenedorDerechoPersona"
-          v-if="showProfile"
-          style="width: 30%; background-color: transparent"
-        >
-          <div class="infoUser">
-            <div class="imgContDer">
-              <center>
-                <img :src="returnImgProfile(userInfo.imagen_perfil)" />
-              </center>
-            </div>
 
-            <div class="DerTexl">
-              <div class="derTexNombre">
-                <h4>{{ userInfo.nombre }}</h4>
-                <hr />
-              </div>
-              <div>
-                <span>Cargo:</span> <span>{{ userInfo.ou }}</span>
-              </div>
-              <div>
-                <span>Cedula:</span> <span>{{ userInfo.id }}</span>
-              </div>
-              <div>
-                <span>Correo:</span> <span>{{ userInfo.email }}</span>
-              </div>
-            </div>
-            <div class="listaModificar" v-if="usuario.cargo != 'Adscripto'">
-              <div>
-                <router-link
-                  class="router-link-listarUsers"
-                  :to="{
-                    name: 'listar-usuario-modificar',
-                    params: {
-                      user: userInfo.id,
-                    },
-                  }"
-                >
-                  <i
-                    class="fas fa-pencil-alt"
-                    style="background-color: var(--mostaza)"
-                  ></i
-                  >Modificar Usuario
-                </router-link>
-              </div>
-              <div @click="eliminarUsuario(userInfo)">
-                <i
-                  class="fas fa-trash-alt"
-                  style="background-color: var(--bordo)"
-                ></i
-                >Eliminar Usuario
-              </div>
-            </div>
-
-            <div class="listaModificar" v-else>
-              <div>
-                <router-link
-                  class="router-link-listarUsers"
-                  :to="{
-                    name: 'listar-usuario-modificar',
-                    params: {
-                      user: userInfo.id,
-                    },
-                  }"
-                >
-                  <i
-                    class="fas fa-eye"
-                    style="background-color: var(--mostaza)"
-                  ></i
-                  >Ver informacion del usuario
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!--     MODAL AGREGAR PERSONA  -->
@@ -271,7 +197,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "usuarios", config)
+        .get(Global.url + "usuario", config)
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
