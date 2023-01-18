@@ -2,7 +2,7 @@
   <div class="contenedorSupremo">
     <vue-headful :title="title" />
 
-    <div class="menu" v-if="logged" @click="checkToken()">
+    <div class="menu" v-if="logged">
       <router-link
         class="sidebarUser"
         style="text-decoration: none"
@@ -232,7 +232,7 @@ export default {
           window.atob(localStorage.getItem("auth_token_BO"))
         );
         this.getProfileImage();
-        this.checkToken();
+     
       }
     },
     cerrarSesion() {
@@ -241,22 +241,7 @@ export default {
       this.logged = false;
     },
 
-    checkToken() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "tkn", config)
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          this.cerrarSesion();
-        });
-    },
+
   },
 };
 </script>

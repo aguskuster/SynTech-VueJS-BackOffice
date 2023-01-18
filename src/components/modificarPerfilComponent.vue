@@ -135,6 +135,7 @@ export default {
     };
   },
   mounted() {
+  
     this.getUsuario();
   },
   methods: {
@@ -273,9 +274,11 @@ export default {
       };
       let user = this.$route.params.idUsuario;
       axios
-        .get(Global.url + "usuario?username=" + user, config)
+        .get(Global.url + "usuario/"+ user, config)
         .then((res) => {
           if (res.status == 200) {
+            console.log(res.data)
+            
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;
             this.recortarNombre();

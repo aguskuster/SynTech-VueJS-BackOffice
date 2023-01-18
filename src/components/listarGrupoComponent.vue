@@ -289,14 +289,12 @@ export default {
         },
       };
       axios
-        .get(Global.url + "grupos", config)
+        .get(Global.url + "grupo", config)
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
             this.loading = false;
-            if (this.rows.length > 0) {
-              this.buscarGrupoSeleccionado(this.rows[0]);
-            }
+           
           }
         })
         .catch(() => {
@@ -307,9 +305,10 @@ export default {
           });
         });
     },
-    onRowClick(params) {
-      this.buscarGrupoSeleccionado(params.row);
-    },
+    // onRowClick(params) {
+    //   this.buscarGrupoSeleccionado(params.row);
+    // },
+    // igual que materia la parte del "SHOW" para para otro lado 
     buscarGrupoSeleccionado(grupo) {
       this.acronimoGrupo = grupo.idGrupo;
       let config = {
