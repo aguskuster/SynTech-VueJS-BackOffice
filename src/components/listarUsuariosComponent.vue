@@ -5,15 +5,16 @@
       <button class="btn btn-primary" disabled v-if="loading">
         Agregar Persona
       </button>
-
-      <button
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#modalAgregarPersona"
-        v-if="usuario.cargo != 'Adscripto' && !loading"
-      >
-        Agregar Persona
-      </button>
+ <router-link
+   v-if="usuario.cargo != 'Adscripto' && !loading"
+            to="/usuarios/crear"
+            title="Listar Usuarios"
+            class="btn btn-primary router-link"
+          >
+           
+             Agregar Persona</router-link
+          >
+  
     </div>
     <center v-if="loading" style="margin-top:3rem;font-size:230px;">
       <div
@@ -42,36 +43,6 @@
 
 
       </div>
-
-      <!--     MODAL AGREGAR PERSONA  -->
-      <div
-        class="modal fade"
-        id="modalAgregarPersona"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Agregar Persona
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <agregarUsuarioComponent></agregarUsuarioComponent>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--     FIN MODAL AGREGAR PERSONA  -->
     </div>
   </div>
 </template>

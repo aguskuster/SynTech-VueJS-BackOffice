@@ -33,7 +33,7 @@ const routes = [
     { path: '/', redirect: 'home' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/listarUsuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
-    { path: '/usuario', name: 'usuarioAgregar', component: agregarUsuariosComponent },
+    { path: '/usuarios/crear', name: 'usuarioAgregar', component: agregarUsuariosComponent },
     { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
     { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },

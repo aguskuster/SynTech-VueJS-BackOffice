@@ -1,253 +1,214 @@
 <template>
   <div>
-    <form>
-      <div class="form-group">
-        <label for="type">Tipo de Usuario<em> *</em> :</label>
+    <div class="contenedor_menu">
+      <h2>Agregar Persona</h2>
+    </div>
+     <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral">
+      <div
+        class="contenedorIzquierdo"
+        style="width: 35%; background-color: whitesmoke"
+      >
+        <div class="imgModificarUser">
+          <center>
+            <img src="https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U" alt="" />
 
-        <select
-          v-model="persona.ou"
-          class="form-select"
-          aria-label="Default select example"
-          @change="getTypeUserData"
-        >
-          <option
-            selected
-            value="Bedelias"
-            v-if="usuario.cargo != 'Administrativo'"
-          >
-            Bedelias
-          </option>
-          <option value="Profesor">Profesor</option>
-          <option value="Alumno">Alumno</option>
-        </select>
+            <h3>Nuevo Usuario</h3>
+            <hr />
+          </center>
+        
+        </div>
+        <div>
+  
+        </div>
       </div>
-      <div class="form-group">
-        <label for="nombre">Nombre <em>*</em> :</label>
-        <input
-          v-model="persona.name"
-          type="text"
-          class="form-control"
-          id="nombre"
-          placeholder="Ingrese Nombre"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="apellido">Apellido <em>*</em> :</label>
-        <input
-          v-model="persona.surname"
-          type="text"
-          class="form-control"
-          id="apellido"
-          placeholder=" Ingrese Apellido"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="cedula">Cedula <em>*</em> :</label>
-        <input
-          type="text"
-          name="Cedula"
-          placeholder="Escriba Cedula"
-          class="form-control"
-          v-model="persona.samaccountname"
-          autocomplete="=off"
-          required
-          minlength="8"
-          maxlength="8"
-        />
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail <em>*</em> :</label>
-        <input
-          v-model="persona.userPrincipalName"
-          type="email"
-          class="form-control"
-          id="email"
-          placeholder="Ingrese Email"
-          required
-        />
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Bedelias'">
-        <label for="cargo">Cargo<em> *</em> :</label>
-        <select
-          v-model="persona.cargo"
-          class="form-control"
-          name="cargo"
-          required
-        >
-          <option value="Adscripto">Adscripto</option>
-          <option value="Administrativo">Administrativo</option>
-          <option value="Subdirector">Subdirector</option>
-          <option value="Director">Director</option>
-        </select>
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Profesor'">
-        <label for="cargo">Agregar Materia:</label>
-        <select
-          class="form-control"
-          v-model="materiaSelect"
-          v-on:change="agregarArray(materiaSelect, persona.idMaterias)"
-        >
-          <option :value="m.id" v-for="m in materias" :key="m.id">
-            {{ m.nombre }}
-          </option>
-        </select>
-        <div class="contenedorMateriaForm">
-          <span
-            class="btnAgregarComp"
-            v-for="selectedSubject in persona.idMaterias"
-            :key="selectedSubject.id"
-          >
-            <div
-              style="
-                width: 80%;
-                display: flex;
-                justify-content: space-between;
-                align-items: baseline;
-                margin: 0 auto;
-              "
-            >
-              <span>{{ returnSubjectNameById(selectedSubject) }} </span>
-              <i
-                @click="eliminarArray(selectedSubject, persona.idMaterias)"
-                class="fas fa-times"
-              ></i>
+
+      <div
+        class="contenedorDerechoPersona"
+        style="width: 64%; background-color: whitesmoke"
+      >
+        <div class="formModificar">
+          <div class="informacion-izquierda">
+            <h3 style="text-transform: uppercase">Informacion Personal</h3>
+            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+              <div class="mb-3">
+                <p style="font-size: 18px">Nombre</p>
+                <input
+                  v-model="usuarioDatos.nombre"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Apellido</p>
+                <input
+                  v-model="usuarioDatos.apellido"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Mail</p>
+                <input
+                  v-model="usuarioDatos.email"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Rol</p>
+                <input
+                  disabled
+                  v-model="usuarioDatos.ou"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Genero</p>
+                <input
+                  v-model="usuarioDatos.genero"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
             </div>
-          </span>
-        </div>
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Alumno'">
-        <label for="cargo">Agregar Grupo:</label>
-        <select
-          class="form-control"
-          v-model="grupoSelect"
-          v-on:change="agregarArray(grupoSelect, persona.idGrupos)"
-        >
-          <option :value="g.idGrupo" v-for="g in grupos" :key="g.id">
-            [ {{ g.idGrupo }} ] {{ g.nombreCompleto }}
-          </option>
-        </select>
-        <div class="contenedorMateriaForm">
-          <span
-            class="btnAgregarComp"
-            v-for="selectedGroup in persona.idGrupos"
-            :key="selectedGroup.id"
-          >
-            <span>{{ selectedGroup }}</span>
-            <i
-              @click="eliminarArray(selectedGroup, persona.idGrupos)"
-              class="fas fa-times"
-            ></i>
-          </span>
-        </div>
-      </div>
 
-      <input
-        type="button"
-        class="btn btn-primary"
-        @click="agregarUsuario"
-        data-bs-dismiss="modal"
-        data-dismiss="modal"
-        value="Crear"
-      />
-    </form>
+            <div class="personalDetails" v-else>
+              <div class="mb-3">
+                <p style="font-size: 18px">Nombre</p>
+                <input
+                  v-model="usuarioDatos.nombre"
+                  disabled
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Apellido</p>
+                <input
+                  v-model="usuarioDatos.apellido"
+                  disabled
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Mail</p>
+                <input
+                  v-model="usuarioDatos.email"
+                  disabled
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Rol</p>
+                <input
+                  disabled
+                  v-model="usuarioDatos.ou"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">Genero</p>
+                <input
+                  disabled
+                  v-model="usuarioDatos.genero"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="informacion-derecha">
+            <div v-if="usuarioDatos.ou == 'Bedelias'">
+              <h3 style="text-transform: uppercase">Cargo</h3>
+              <div class="frmProfesorMaterias">
+                <div>{{ usuarioInfo.cargo }}</div>
+              </div>
+            </div>
+
+            <div v-if="usuarioDatos.ou == 'Profesor'">
+              <h3 style="text-transform: uppercase">Materias</h3>
+              <div class="frmProfesorMaterias">
+                <div v-for="materia in usuarioInfo" :key="materia.id">
+                  {{ materia.nombre }}
+                </div>
+              </div>
+            </div>
+
+            <div v-if="usuarioDatos.ou == 'Alumno'">
+              <h3 style="text-transform: uppercase">Grupos</h3>
+              <div class="frmProfesorMaterias">
+                <div v-for="grupo in usuarioInfo" :key="grupo.id">
+                  {{ grupo.idGrupo }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; right: 40px; bottom: 10px">
+            <button
+              class="btn btn-success"
+              style="margin-right: 10px"
+              @click="comprobarModificarInfo()"
+              v-if="usuario.cargo != 'Adscripto'"
+            >
+              Actualizar
+            </button>
+            <button
+              class="btn btn-danger"
+              v-on:click="$router.back()"
+              v-if="usuario.cargo != 'Adscripto'"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import axios from "axios";
 export default {
-  name: "AgregarUsuario",
-  components: {},
+  name: "modificarUsuarioComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
-      persona: {
-        name: "",
-        surname: "",
-        userPrincipalName: "",
-        samaccountname: "",
-        ou: "",
-        idGrupos: [],
-        idMaterias: [],
-        cargo: "",
-      },
-      materiaSelect: "",
-      grupoSelect: "",
-      materias: "",
-      grupos: "",
+      usuarioDatos: {
+        email:"",
+        ou:"",
+        genero:"",
+        cargo:"",
+        nombre:"",
+        apellido:"",
+},
+       loading:false,
+      persona:"",
     };
   },
+  mounted() {
+   
+  },
   methods: {
-    getTypeUserData() {
-      if (this.persona.ou == "Profesor") {
-        this.getMaterias();
-      }
-      if (this.persona.ou == "Alumno") {
-        this.getGrupos();
-      }
-    },
-    getGrupos() {
+     agregarUsuario() {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-      axios.get(Global.url + "grupos", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-        }
-      });
-    },
-    returnSubjectNameById(idSub) {
-      for (let m of this.materias) {
-        if (m.id == idSub) {
-          return m.nombre;
-        }
-      }
-    },
-    agregarArray(id, array) {
-      if (!array.includes(id)) {
-        array.push(id);
-      }
-    },
-    eliminarArray(id, array) {
-      const element = (element) => element == id;
-      let index = array.findIndex(element);
-      array.splice(index, 1);
-    },
-    getMaterias() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "materias", config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
-    },
-    agregarUsuario() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      this.$swal.fire({
-        title: "Creando Usuario",
-        html: "<small class='text-muted'>Aguarde a que el usario sea creado </small>",
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        allowEscapeKey: false,
-        didOpen: () => {
-          this.$swal.showLoading();
           axios
-            .post(Global.url + "usuario", this.persona, config)
+            .post(Global.url + "usuario", this.usuarioDatos, config)
             .then((response) => {
               if (response.status == 200) {
                 location.reload();
@@ -260,11 +221,17 @@ export default {
                 text: "Algo salio mal...",
               });
             });
-        },
-        willClose: () => {
-          clearInterval(5);
-        },
-      });
+
+    },
+  
+    recortarNombre() {
+      let user = this.usuarioDatos.nombre;
+      let res = user.split(" ");
+      this.nombre = res[0];
+      this.apellido = res[1];
+    },
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
     },
   },
 };
