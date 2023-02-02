@@ -3,7 +3,7 @@
     <div class="contenedor_menu">
       <h2>Agregar Persona</h2>
     </div>
-     <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+    <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
         class="spinner-border text-primary"
         role="status"
@@ -17,160 +17,86 @@
       >
         <div class="imgModificarUser">
           <center>
-            <img src="https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U" alt="" />
+            <img src="../assets/images/default_profile.png" alt="" />
 
             <h3>Nuevo Usuario</h3>
             <hr />
           </center>
-        
         </div>
-        <div>
-  
-        </div>
+        <div></div>
       </div>
 
       <div
         class="contenedorDerechoPersona"
         style="width: 64%; background-color: whitesmoke"
       >
-        <div class="formModificar">
-          <div class="informacion-izquierda">
-            <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
-              <div class="mb-3">
-                <p style="font-size: 18px">Nombre</p>
-                <input
-                  v-model="usuarioDatos.nombre"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Apellido</p>
-                <input
-                  v-model="usuarioDatos.apellido"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Mail</p>
-                <input
-                  v-model="usuarioDatos.email"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Rol</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.ou"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Genero</p>
-                <input
-                  v-model="usuarioDatos.genero"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
+        <div class="w-50 ml-auto mt-4 mr-auto mb-auto">
+          <form   v-on:submit.prevent="agregarUsuario()">
+            <div class="mb-3">
+              <p style="font-size: 18px">Nombre <em>*</em></p>
+              <input
+                required
+                v-model="nuevoUsuario.name"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
             </div>
-
-            <div class="personalDetails" v-else>
-              <div class="mb-3">
-                <p style="font-size: 18px">Nombre</p>
-                <input
-                  v-model="usuarioDatos.nombre"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Apellido</p>
-                <input
-                  v-model="usuarioDatos.apellido"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Mail</p>
-                <input
-                  v-model="usuarioDatos.email"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Rol</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.ou"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Genero</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.genero"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Apellido <em>*</em></p>
+              <input
+                required
+                v-model="nuevoUsuario.surname"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
             </div>
-          </div>
-          <div class="informacion-derecha">
-            <div v-if="usuarioDatos.ou == 'Bedelias'">
-              <h3 style="text-transform: uppercase">Cargo</h3>
-              <div class="frmProfesorMaterias">
-                <div>{{ usuarioInfo.cargo }}</div>
-              </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Cedula <em>*</em></p>
+              <input
+                maxlength=8
+                minlength=8
+                type="phone"
+                v-model="nuevoUsuario.samaccountname"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              />
             </div>
-
-            <div v-if="usuarioDatos.ou == 'Profesor'">
-              <h3 style="text-transform: uppercase">Materias</h3>
-              <div class="frmProfesorMaterias">
-                <div v-for="materia in usuarioInfo" :key="materia.id">
-                  {{ materia.nombre }}
-                </div>
-              </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Email <em>*</em></p>
+              <input
+                required
+                type="email"
+                v-model="nuevoUsuario.userPrincipalName"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
             </div>
-
-            <div v-if="usuarioDatos.ou == 'Alumno'">
-              <h3 style="text-transform: uppercase">Grupos</h3>
-              <div class="frmProfesorMaterias">
-                <div v-for="grupo in usuarioInfo" :key="grupo.id">
-                  {{ grupo.idGrupo }}
-                </div>
-              </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Rol <em>*</em></p>
+              <select
+                v-model="nuevoUsuario.ou"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              >
+                <option value="Profesor">Profesor</option>
+                <option value="Alumno">Alumno</option>
+                <option v-if="usuario.ou != roles.administrativo || usuario.ou != roles.adscripto" value="Bedelias">Bedelias</option>
+              </select>
             </div>
-          </div>
-          <div style="position: absolute; right: 40px; bottom: 10px">
-            <button
-              class="btn btn-success"
-              style="margin-right: 10px"
-              @click="comprobarModificarInfo()"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Actualizar
-            </button>
-            <button
-              class="btn btn-danger"
-              v-on:click="$router.back()"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Cancelar
-            </button>
-          </div>
+            <div class="mb-3" v-if="nuevoUsuario.ou == 'Bedelias'">
+              <p style="font-size: 18px">Cargo</p>
+              <input
+                v-model="usuario.cargo"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
+            </div>
+            <div class="d-flex justify-content-end">
+              <input type="submit" value="Agregar usuario" class="btn btn-primary">
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -178,58 +104,56 @@
 </template>
 <script>
 import { Global } from "../Global";
+import { roles } from "../Global";
 import axios from "axios";
 export default {
-  name: "modificarUsuarioComponent.vue",
+  name: "agregarUsuarioComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
-      usuarioDatos: {
-        email:"",
-        ou:"",
-        genero:"",
-        cargo:"",
-        nombre:"",
-        apellido:"",
-},
-       loading:false,
-      persona:"",
+      loading: false,
+      nuevoUsuario: {
+        name: "",
+        surname: "",
+        samaccountname: "",
+        userPrincipalName: "",
+        ou: "",
+        cargo: "",
+      },
+      roles: roles
     };
   },
-  mounted() {
-   
-  },
+  mounted() {},
   methods: {
-     agregarUsuario() {
+    agregarUsuario() {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-          axios
-            .post(Global.url + "usuario", this.usuarioDatos, config)
-            .then((response) => {
-              if (response.status == 200) {
-                location.reload();
-              }
-            })
-            .catch(() => {
-              this.$swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Algo salio mal...",
-              });
+     
+      axios
+        .post(Global.url + "usuario", this.nuevoUsuario, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Usuario agregado",
+              text: "El usuario se agrego correctamente",
             });
+            this.$router.push("/usuarios");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal...",
+          });
+        });
+    },
 
-    },
-  
-    recortarNombre() {
-      let user = this.usuarioDatos.nombre;
-      let res = user.split(" ");
-      this.nombre = res[0];
-      this.apellido = res[1];
-    },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },

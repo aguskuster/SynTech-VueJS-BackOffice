@@ -30,7 +30,7 @@
         </li>
         <li>
           <router-link
-            to="/listarUsuarios"
+            to="/usuarios"
             title="Listar Usuarios"
             class="router-link"
           >
