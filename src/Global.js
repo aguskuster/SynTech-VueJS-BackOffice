@@ -11,5 +11,4 @@ export var roles = {
     "subdirector": "Subdirector",
     "administrativo": "Administrativo",
     "adscripto": "Adscripto",
-    "administrador": "Administrador",
 }
