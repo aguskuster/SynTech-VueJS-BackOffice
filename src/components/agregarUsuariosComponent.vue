@@ -107,23 +107,25 @@
 
             <div class="mb-3" v-if="nuevoUsuario.ou == 'Profesor'">
               <p style="font-size: 18px">Materias</p>
-              <input
-                type="submit"
-                v-model="usuario.materias"
-                class="btn btn-primary"
+                  <select
+                v-model="nuevoUsuario.materias"
+                class="form-control inputFachero"
                 style="height: 50px; font-size: 16px"
-                value="Asignar Materias"
-              />
+                required
+              >
+                <option v-for="materia in materias" v-bind:key="materia.id"  :value=materia>{{materia.nombre}}</option>
+              </select>
             </div>
             <div class="mb-3" v-if="nuevoUsuario.ou == 'Alumno'">
               <p style="font-size: 18px">Grupos</p>
-              <input
-                type="submit"
-                v-model="usuario.grupos"
-               class="btn btn-primary"
+                <select
+                v-model="nuevoUsuario.grupos"
+                class="form-control inputFachero"
                 style="height: 50px; font-size: 16px"
-                value="Asignar Grupo"
-              />
+                required
+              >
+                <option v-for="grupo in grupos" v-bind:key="grupo.id"  :value=grupo>{{grupo.idGrupo}} - {{grupo.nombreCompleto}}</option>
+              </select>
             </div>
             <div class="d-flex justify-content-end">
               <input
@@ -157,10 +159,45 @@ export default {
         cargo: "",
       },
       roles: roles,
+      materias:[],
+      grupos:[],
     };
   },
-  mounted() {},
+  mounted() {
+    this.getAllMaterias();
+    this.getAllGrupos();
+  },
   methods: {
+    getAllMaterias(){
+         let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "materia", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.materias = res.data;
+          }
+        });
+    },
+    getAllGrupos(){
+          let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "grupo", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupos = res.data;
+          }
+        });
+    },
     agregarUsuario() {
       let config = {
         headers: {
