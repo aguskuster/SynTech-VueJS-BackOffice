@@ -1,22 +1,21 @@
  <template>
   <div>
     <div class="contenedor_menu">
+    
       <h2>Listado de Personas</h2>
       <button class="btn btn-primary" disabled v-if="loading">
         Agregar Persona
       </button>
- <router-link
-   v-if="usuario.cargo != 'Adscripto' && !loading"
-            to="/usuarios/crear"
-            title="Listar Usuarios"
-            class="btn btn-primary router-link"
-          >
-           
-             Agregar Persona</router-link
-          >
-  
+      <router-link
+        v-if="usuario.cargo != 'Adscripto' && !loading"
+        to="/usuarios/crear"
+        title="Listar Usuarios"
+        class="btn btn-primary router-link"
+      >
+        Agregar Persona</router-link
+      >
     </div>
-    <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+    <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
         class="spinner-border text-primary"
         role="status"
@@ -24,13 +23,15 @@
       ></div>
     </center>
     <div v-else>
+     
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
           style="width: 100%; background-color: transparent"
         >
           <vue-good-table
-            @on-row-click="onRowClick"
+            @on-row-dblclick="onRowDoubleClick"
+           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -40,8 +41,6 @@
           >
           </vue-good-table>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -49,9 +48,16 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import $ from "jquery";
+
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
+import $ from 'jquery'
+import 'popper.js'
+
+window.jQuery = $
+window.$ = $
 export default {
   name: "listarUsuarios",
   components: {
@@ -78,6 +84,10 @@ export default {
           label: "Rol",
           field: "ou",
         },
+        {
+          label: "Email",
+          field: "email",
+        },
       ],
       pagination: {
         enabled: true,
@@ -102,7 +112,6 @@ export default {
     if (!localStorage.getItem("auth_token_BO")) {
       localStorage.clear();
     }
-
     this.getTodos();
   },
   methods: {
@@ -170,7 +179,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
-            this.buscarUser(this.rows[0]);
+            this.loading = false;
           }
         })
         .catch(() => {
@@ -186,31 +195,8 @@ export default {
         this.getTodos();
       }
     },
-    onRowClick(usuario) {
-      this.buscarUser(usuario.row);
-    },
-    buscarUser(persona) {
-      let config = {
-        headers: {
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "usuario?username=" + persona.id, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.userInfo = res.data.user;
-            this.showProfile = true;
-          }
-          this.loading=false
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar ",
-          });
-        });
+    onRowDoubleClick(usuario) {
+       this.$router.push('/modificarUsuario/'+usuario.row.id);
     },
 
     comprobarArrayVacio(array) {

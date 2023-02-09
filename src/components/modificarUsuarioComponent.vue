@@ -17,7 +17,9 @@
       >
         <div class="imgModificarUser">
           <center>
-            <img :src="usuarioDatos.imagen_perfil" alt="" />
+            <img :src="returnImgProfile(
+              usuarioDatos.imagen_perfil
+            )" alt="" />
 
             <h3>{{ usuarioDatos.nombre }}</h3>
             <hr />
@@ -247,7 +249,6 @@ export default {
         genero: this.usuarioDatos.genero,
       };
 
-      console.log(user);
       axios
         .put(Global.url + "usuario", user, config)
         .then((res) => {
@@ -328,18 +329,16 @@ export default {
           token: Global.token,
         },
       };
-      let user = this.$route.params.user;
+
       axios
-        .get(Global.url + "usuario?username=" + user, config)
+        .get(Global.url+ "usuario/"+ this.$route.params.user, config)
         .then((res) => {
           if (res.status == 200) {
+            console.log(res.data)
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;
             this.recortarNombre();
-            this.usuarioDatos.imagen_perfil = this.returnImgProfile(
-              this.usuarioDatos.imagen_perfil
-            );
-            this.loading=false
+            this.loading=false;
           }
         })
         .catch(() => {
@@ -357,6 +356,7 @@ export default {
       this.apellido = res[1];
     },
     returnImgProfile(img) {
+      
       return "data:image/png;base64," + img;
     },
   },
