@@ -173,8 +173,19 @@
               </div>
             </div>
           </div>
-          <div style="position: absolute; right: 40px; bottom: 10px">
-            <button
+        
+      
+          <div style="width:85%;display:flex;justify-content:space-between; position: absolute; right: 40px; bottom: 10px">
+             <button
+              class="btn btn-danger"
+              style="margin-right: 10px;width: 200px"
+              @click="eliminarUsuario(usuarioDatos.id)"
+              v-if="usuario.cargo != 'Adscripto'"
+            >
+              Eliminar Usuario
+            </button>
+            <div>
+                 <button
               class="btn btn-success"
               style="margin-right: 10px"
               @click="comprobarModificarInfo()"
@@ -189,7 +200,10 @@
             >
               Cancelar
             </button>
+            </div>
+         
           </div>
+
         </div>
       </div>
     </div>
@@ -198,6 +212,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
+import { roles } from "../Global";
 export default {
   name: "modificarUsuarioComponent.vue",
   data() {
@@ -207,7 +222,8 @@ export default {
       nombre: "",
       apellido: "",
       usuarioInfo: "",
-      loading:true
+      loading:true,
+      roles: roles
     };
   },
   mounted() {
@@ -304,6 +320,28 @@ export default {
         .catch(() => {
           this.$swal.fire("Error al restablecer foto", "", "error");
         });
+    },
+    eliminarUsuario(){
+      
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      let user =  this.$route.params.user ;
+     
+      axios
+        .delete(Global.url + "usuario/"+user, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$swal.fire("Usuario eliminado", "", "success");
+            this.$router.push("/usuarios");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire("Error al eliminar usuario", "", "error");
+        });
+
     },
     restablecerContrasenia() {
       let config = {
