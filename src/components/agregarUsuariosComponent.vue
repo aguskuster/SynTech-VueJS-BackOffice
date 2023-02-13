@@ -1,235 +1,202 @@
 <template>
   <div>
-    <form>
-      <div class="form-group">
-        <label for="type">Tipo de Usuario<em> *</em> :</label>
+    <div class="contenedor_menu">
+      <h2>Agregar Persona</h2>
+    </div>
+    <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral">
+      <div
+        class="contenedorIzquierdo"
+        style="width: 35%; background-color: whitesmoke"
+      >
+        <div class="imgModificarUser">
+          <center>
+            <img src="../assets/images/default_profile.png" alt="" />
 
-        <select
-          v-model="persona.ou"
-          class="form-select"
-          aria-label="Default select example"
-          @change="getTypeUserData"
-        >
-          <option
-            selected
-            value="Bedelias"
-            v-if="usuario.cargo != 'Administrativo'"
-          >
-            Bedelias
-          </option>
-          <option value="Profesor">Profesor</option>
-          <option value="Alumno">Alumno</option>
-        </select>
+            <h3>Nuevo Usuario</h3>
+            <hr />
+          </center>
+        </div>
+        <div></div>
       </div>
-      <div class="form-group">
-        <label for="nombre">Nombre <em>*</em> :</label>
-        <input
-          v-model="persona.name"
-          type="text"
-          class="form-control"
-          id="nombre"
-          placeholder="Ingrese Nombre"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="apellido">Apellido <em>*</em> :</label>
-        <input
-          v-model="persona.surname"
-          type="text"
-          class="form-control"
-          id="apellido"
-          placeholder=" Ingrese Apellido"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="cedula">Cedula <em>*</em> :</label>
-        <input
-          type="text"
-          name="Cedula"
-          placeholder="Escriba Cedula"
-          class="form-control"
-          v-model="persona.samaccountname"
-          autocomplete="=off"
-          required
-          minlength="8"
-          maxlength="8"
-        />
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail <em>*</em> :</label>
-        <input
-          v-model="persona.userPrincipalName"
-          type="email"
-          class="form-control"
-          id="email"
-          placeholder="Ingrese Email"
-          required
-        />
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Bedelias'">
-        <label for="cargo">Cargo<em> *</em> :</label>
-        <select
-          v-model="persona.cargo"
-          class="form-control"
-          name="cargo"
-          required
-        >
-          <option value="Adscripto">Adscripto</option>
-          <option value="Administrativo">Administrativo</option>
-          <option value="Subdirector">Subdirector</option>
-          <option value="Director">Director</option>
-        </select>
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Profesor'">
-        <label for="cargo">Agregar Materia:</label>
-        <select
-          class="form-control"
-          v-model="materiaSelect"
-          v-on:change="agregarArray(materiaSelect, persona.idMaterias)"
-        >
-          <option :value="m.id" v-for="m in materias" :key="m.id">
-            {{ m.nombre }}
-          </option>
-        </select>
-        <div class="contenedorMateriaForm">
-          <span
-            class="btnAgregarComp"
-            v-for="selectedSubject in persona.idMaterias"
-            :key="selectedSubject.id"
-          >
-            <div
-              style="
-                width: 80%;
-                display: flex;
-                justify-content: space-between;
-                align-items: baseline;
-                margin: 0 auto;
-              "
-            >
-              <span>{{ returnSubjectNameById(selectedSubject) }} </span>
-              <i
-                @click="eliminarArray(selectedSubject, persona.idMaterias)"
-                class="fas fa-times"
-              ></i>
+
+      <div
+        class="contenedorDerechoPersona"
+        style="width: 64%; background-color: whitesmoke"
+      >
+        <div class="w-50 ml-auto mt-4 mr-auto mb-auto">
+          <form v-on:submit.prevent="agregarUsuario()">
+            <div class="mb-3">
+              <p style="font-size: 18px">Nombre <em>*</em></p>
+              <input
+                required
+                v-model="nuevoUsuario.name"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
             </div>
-          </span>
-        </div>
-      </div>
-      <div class="form-group" v-if="persona.ou == 'Alumno'">
-        <label for="cargo">Agregar Grupo:</label>
-        <select
-          class="form-control"
-          v-model="grupoSelect"
-          v-on:change="agregarArray(grupoSelect, persona.idGrupos)"
-        >
-          <option :value="g.idGrupo" v-for="g in grupos" :key="g.id">
-            [ {{ g.idGrupo }} ] {{ g.nombreCompleto }}
-          </option>
-        </select>
-        <div class="contenedorMateriaForm">
-          <span
-            class="btnAgregarComp"
-            v-for="selectedGroup in persona.idGrupos"
-            :key="selectedGroup.id"
-          >
-            <span>{{ selectedGroup }}</span>
-            <i
-              @click="eliminarArray(selectedGroup, persona.idGrupos)"
-              class="fas fa-times"
-            ></i>
-          </span>
-        </div>
-      </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Apellido <em>*</em></p>
+              <input
+                required
+                v-model="nuevoUsuario.surname"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
+            </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Cedula <em>*</em></p>
+              <input
+                maxlength="8"
+                minlength="8"
+                type="phone"
+                v-model="nuevoUsuario.samaccountname"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Email <em>*</em></p>
+              <input
+                required
+                type="email"
+                v-model="nuevoUsuario.userPrincipalName"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+              />
+            </div>
+            <div class="mb-3">
+              <p style="font-size: 18px">Rol <em>*</em></p>
+              <select
+                v-model="nuevoUsuario.ou"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              >
+                <option value="Profesor">Profesor</option>
+                <option value="Alumno">Alumno</option>
+                <option
+                  v-if="
+                    usuario.ou != roles.administrativo ||
+                    usuario.ou != roles.adscripto
+                  "
+                  value="Bedelias"
+                >
+                  Bedelias
+                </option>
+              </select>
+            </div>
+            <div class="mb-3" v-if="nuevoUsuario.ou == 'Bedelias'">
+              <p style="font-size: 18px">Cargo</p>
+                 <select
+                v-model="nuevoUsuario.cargo"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              >
+                <option v-for="rol in roles" v-bind:key="rol.id"  :value=rol>{{rol}}</option>
+              </select>
+            </div>
 
-      <input
-        type="button"
-        class="btn btn-primary"
-        @click="agregarUsuario"
-        data-bs-dismiss="modal"
-        data-dismiss="modal"
-        value="Crear"
-      />
-    </form>
+            <div class="mb-3" v-if="nuevoUsuario.ou == 'Profesor'">
+              <p style="font-size: 18px">Materias</p>
+                  <select
+                v-model="nuevoUsuario.materias"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              >
+                <option v-for="materia in materias" v-bind:key="materia.id"  :value=materia>{{materia.nombre}}</option>
+              </select>
+            </div>
+            <div class="mb-3" v-if="nuevoUsuario.ou == 'Alumno'">
+              <p style="font-size: 18px">Grupos</p>
+                <select
+                v-model="nuevoUsuario.grupos"
+                class="form-control inputFachero"
+                style="height: 50px; font-size: 16px"
+                required
+              >
+                <option v-for="grupo in grupos" v-bind:key="grupo.id"  :value=grupo>{{grupo.idGrupo}} - {{grupo.nombreCompleto}}</option>
+              </select>
+            </div>
+            <div class="d-flex justify-content-end">
+              <input
+                type="submit"
+                value="Agregar usuario"
+                class="btn btn-primary"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
+import { roles } from "../Global";
 import axios from "axios";
 export default {
-  name: "AgregarUsuario",
-  components: {},
+  name: "agregarUsuarioComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
-      persona: {
+      loading: false,
+      nuevoUsuario: {
         name: "",
         surname: "",
-        userPrincipalName: "",
         samaccountname: "",
+        userPrincipalName: "",
         ou: "",
-        idGrupos: [],
-        idMaterias: [],
         cargo: "",
       },
-      materiaSelect: "",
-      grupoSelect: "",
-      materias: "",
-      grupos: "",
+      roles: roles,
+      materias:[],
+      grupos:[],
     };
   },
+  mounted() {
+    this.getAllMaterias();
+    this.getAllGrupos();
+  },
   methods: {
-    getTypeUserData() {
-      if (this.persona.ou == "Profesor") {
-        this.getMaterias();
-      }
-      if (this.persona.ou == "Alumno") {
-        this.getGrupos();
-      }
-    },
-    getGrupos() {
-      let config = {
+    getAllMaterias(){
+         let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-      axios.get(Global.url + "grupos", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-        }
-      });
+      axios
+        .get(Global.url + "materia", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.materias = res.data;
+          }
+        });
     },
-    returnSubjectNameById(idSub) {
-      for (let m of this.materias) {
-        if (m.id == idSub) {
-          return m.nombre;
-        }
-      }
-    },
-    agregarArray(id, array) {
-      if (!array.includes(id)) {
-        array.push(id);
-      }
-    },
-    eliminarArray(id, array) {
-      const element = (element) => element == id;
-      let index = array.findIndex(element);
-      array.splice(index, 1);
-    },
-    getMaterias() {
-      let config = {
+    getAllGrupos(){
+          let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-      axios.get(Global.url + "materias", config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
+      axios
+        .get(Global.url + "grupo", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupos = res.data;
+          }
+        });
     },
     agregarUsuario() {
       let config = {
@@ -238,33 +205,30 @@ export default {
           token: Global.token,
         },
       };
-      this.$swal.fire({
-        title: "Creando Usuario",
-        html: "<small class='text-muted'>Aguarde a que el usario sea creado </small>",
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        allowEscapeKey: false,
-        didOpen: () => {
-          this.$swal.showLoading();
-          axios
-            .post(Global.url + "usuario", this.persona, config)
-            .then((response) => {
-              if (response.status == 200) {
-                location.reload();
-              }
-            })
-            .catch(() => {
-              this.$swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Algo salio mal...",
-              });
+
+      axios
+        .post(Global.url + "usuario", this.nuevoUsuario, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Usuario agregado",
+              text: "El usuario se agrego correctamente",
             });
-        },
-        willClose: () => {
-          clearInterval(5);
-        },
-      });
+            this.$router.push("/usuarios");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal...",
+          });
+        });
+    },
+
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
     },
   },
 };
