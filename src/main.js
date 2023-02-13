@@ -34,7 +34,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/usuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
     { path: '/usuarios/crear', name: 'usuarioAgregar', component: agregarUsuariosComponent },
-    { path: '/modificarUsuario/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
+    { path: '/usuarios/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
     { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
     { path: '/listarMaterias', name: 'listarMateria', component: listarMateriaComponent },

@@ -196,7 +196,7 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/modificarUsuario/'+usuario.row.id);
+       this.$router.push('/usuarios/'+usuario.row.id);
     },
 
     comprobarArrayVacio(array) {
