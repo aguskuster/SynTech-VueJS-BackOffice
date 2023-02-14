@@ -39,6 +39,12 @@
           >
         </li>
         <li>
+          <router-link to="/carrera" class="router-link">
+            <i class="fas fa-history"></i>
+            Carreras
+          </router-link>
+        </li>
+        <li>
           <router-link
             to="/listarMaterias"
             title="Listar Materia"
@@ -120,10 +126,16 @@
               >
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/listarUsuarios" title="Listar Usuarios">
+              <router-link to="/usuarios" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Listar Personas</router-link
               >
+            </li>
+            <li v-on:click="bajarMenu()">
+              <router-link to="/carrera" class="router-link">
+                <i class="fas fa-history"></i>
+                Carreras
+              </router-link>
             </li>
             <li v-on:click="bajarMenu()">
               <router-link to="/listarMaterias" title="Listar Materia">
@@ -138,11 +150,19 @@
               </router-link>
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/contacto" title="Contacto">
-                <i class="far fa-address-book"></i>
-                Contacto
+              <router-link to="/noticias" title="Home" class="router-link">
+                <i class="fas fa-newspaper"></i>
+
+                Noticias</router-link
+              >
+            </li>
+            <li v-on:click="bajarMenu()">
+              <router-link to="/historial" class="router-link">
+                <i class="fas fa-history"></i>
+                Historial Acciones
               </router-link>
             </li>
+
             <li>
               <i
                 class="far fa-sign-out-alt logout"
@@ -232,7 +252,6 @@ export default {
           window.atob(localStorage.getItem("auth_token_BO"))
         );
         this.getProfileImage();
-     
       }
     },
     cerrarSesion() {
@@ -240,8 +259,6 @@ export default {
       location.reload();
       this.logged = false;
     },
-
-
   },
 };
 </script>

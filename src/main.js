@@ -19,8 +19,10 @@ import agregarUsuarioGrupoComponent from './components/agregarUsuarioGrupoCompon
 import historialDeAccionesComponent from './components/historialDeAccionesComponent.vue';
 import modificarPerfilComponent from './components/modificarPerfilComponent.vue';
 import agregarNoticiasComponent from './components/agregarNoticiasComponent.vue';
-
 import agregarUsuariosComponent from './components/agregarUsuariosComponent.vue';
+
+import listarCarreraComponent from './components/listarCarreraComponent.vue';
+import agregarCarreraComponent from './components/agregarCarreraComponent.vue';
 
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
@@ -43,6 +45,10 @@ const routes = [
     { path: '/historial', name: 'historial-acciones', component: historialDeAccionesComponent },
     { path: '/noticias', name: 'noticias', component: agregarNoticiasComponent },
     { path: '/perfil/:idUsuario', name: 'modificar-perfil', component: modificarPerfilComponent },
+
+    { path: '/carrera', name: 'listado-carrera', component: listarCarreraComponent },
+    { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
+
     { path: '*', name: 'error404', component: ErrorComponent },
 
 ];
