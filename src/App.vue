@@ -40,7 +40,7 @@
         </li>
         <li>
           <router-link to="/carrera" class="router-link">
-            <i class="fas fa-history"></i>
+            <i class="fas fa-graduation-cap"></i>
             Carreras
           </router-link>
         </li>
@@ -51,7 +51,6 @@
             class="router-link"
           >
             <i class="fal fa-books"></i>
-
             Listar Materia
           </router-link>
         </li>
@@ -68,8 +67,7 @@
           <router-link to="/noticias" title="Home" class="router-link">
             <i class="fas fa-newspaper"></i>
 
-            Noticias</router-link
-          >
+            Noticias</router-link>
         </li>
         <li>
           <router-link to="/historial" class="router-link">
