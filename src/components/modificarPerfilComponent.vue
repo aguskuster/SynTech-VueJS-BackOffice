@@ -186,9 +186,9 @@ export default {
         email: this.usuarioDatos.email,
         genero: this.usuarioDatos.genero,
       };
-
+    
       axios
-        .put(Global.url + "usuario/"+user.idUsuario, user, config)
+        .put(Global.url + "usuario/"+this.usuario.username, user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Perfil Actualizado", "", "success");
@@ -268,7 +268,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
-            console.log(res.data)
+        
           }
         })
         .catch(() => {
@@ -286,7 +286,7 @@ export default {
         .get(Global.url + "usuario/"+ user, config)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data)
+           
             
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;

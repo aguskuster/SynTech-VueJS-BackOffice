@@ -260,18 +260,20 @@ export default {
       };
       let user = {
         idUsuario: this.usuarioDatos.id,
-        nombre: this.nombre + " " + this.apellido,
+        nombre: this.nombre,
+        apellido: this.apellido,
         email: this.usuarioDatos.email,
         genero: this.usuarioDatos.genero,
       };
 
       axios
-        .put(Global.url + "usuario", user, config)
+        .put(Global.url + "usuario/"+user.idUsuario, user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Usuario Modificado", "", "success");
           }
-          this.getUsuario();
+        
+        this.$router.push("/usuarios");
         })
         .catch(() => {
           this.$swal.fire("Error al modifcar usuario", "", "error");
