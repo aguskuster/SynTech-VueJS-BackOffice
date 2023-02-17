@@ -374,7 +374,7 @@ export default {
         .get(Global.url+ "usuario/"+ this.$route.params.user, config)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data)
+           
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;
             this.recortarNombre();
