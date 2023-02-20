@@ -35,7 +35,27 @@
             class="router-link"
           >
             <i class="far fa-user"></i>
-            Listar Usuarios</router-link
+            Usuarios</router-link
+          >
+        </li>
+         <li>
+          <router-link
+            to="/alumnos"
+            title="Listar Usuarios"
+            class="router-link"
+          >
+           <i class="far fa-users"></i>
+            Alumnos</router-link
+          >
+        </li>
+         <li>
+          <router-link
+            to="/profesores"
+            title="Listar Usuarios"
+            class="router-link"
+          >
+            <i class="far fa-chalkboard-teacher"></i>
+            Profesores</router-link
           >
         </li>
         <li>
@@ -60,7 +80,7 @@
             title="Listar Grupo"
             class="router-link"
           >
-            <i class="far fa-users"></i>Listar Grupo
+            <i class="far fa-users-class"></i>Listar Grupo
           </router-link>
         </li>
         <li>

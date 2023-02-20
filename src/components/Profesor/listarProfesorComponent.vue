@@ -143,7 +143,7 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/usuarios/'+usuario.row.id);
+       this.$router.push('/profesores/'+usuario.row.id);
     },
 
     returnImgProfile(img) {

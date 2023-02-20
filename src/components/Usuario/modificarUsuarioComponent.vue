@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Modificar Personas</h2>
+      <h2>Modificar Usuario</h2>
     </div>
      <center v-if="loading" style="margin-top:3rem;font-size:230px;">
       <div
