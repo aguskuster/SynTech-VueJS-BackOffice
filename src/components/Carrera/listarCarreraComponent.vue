@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
+import { Global } from "../../Global";
 import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";

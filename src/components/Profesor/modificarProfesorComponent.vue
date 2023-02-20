@@ -454,7 +454,7 @@ export default {
           if (res.status == 200) {
             this.usuarioDatos = res.data.user;
             this.usuarioInfo.materias = this.parseInfoUser(res.data.info);
-        
+
             this.recortarNombre();
             this.loading = false;
           }
@@ -468,7 +468,6 @@ export default {
         });
     },
     parseInfoUser(materias) {
-       
       let arrayIdMaterias = [];
       for (let materia of materias) {
         arrayIdMaterias.push(materia.id);

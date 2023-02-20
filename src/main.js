@@ -19,10 +19,10 @@ import modificarPerfilComponent from './components/modificarPerfilComponent.vue'
 import agregarNoticiasComponent from './components/agregarNoticiasComponent.vue';
 
 import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
-import listarCarreraComponent from './components/listarCarreraComponent.vue';
-import agregarCarreraComponent from './components/agregarCarreraComponent.vue';
 
 
+import listarCarreraComponent from './components/Carrera/listarCarreraComponent.vue';
+import agregarCarreraComponent from './components/Carrera/agregarCarreraComponent.vue';
 
 import listarUsuariosComponent from './components/Usuario/listarUsuariosComponent.vue';
 import agregarUsuariosComponent from './components/Usuario/agregarUsuariosComponent.vue';
@@ -57,8 +57,7 @@ const routes = [
     { path: '/noticias', name: 'noticias', component: agregarNoticiasComponent },
     { path: '/perfil/:idUsuario', name: 'modificar-perfil', component: modificarPerfilComponent },
 
-    { path: '/carrera', name: 'listado-carrera', component: listarCarreraComponent },
-    { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
+   
 
    
 
@@ -73,6 +72,9 @@ const routes = [
     { path: '/profesores', name: 'listar-profesor', component: listarProfesorComponent },
     { path: '/profesores/crear', name: 'agregar-profesor', component: agregarProfesorComponent },
     { path: '/profesores/:user', name: 'modificar-profesor', component: modificarProfesorComponent },
+
+    { path: '/carrera', name: 'listar-carrera', component: listarCarreraComponent },
+    { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
 
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
