@@ -4,14 +4,17 @@
       <vue-headful :title="title" />
       <h2>Listado de Materias</h2>
       <div>
-        <button
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#modalAgregarMateria"
-          v-if="usuario.cargo != 'Adscripto'"
-        >
-          Agregar Materia
-        </button>
+         <button class="btn btn-primary" disabled v-if="loading">
+        Agregar Materia
+      </button>
+      <router-link
+        v-if="!loading"
+        to="/materias/crear"
+        title="Listar Materias"
+        class="btn btn-primary router-link"
+      >
+        Agregar Materia</router-link
+      >
       </div>
     </div>
        <center v-if="loading" style="margin-top:3rem;font-size:230px;">
@@ -27,7 +30,6 @@
 
         <div class="contenedor_table">
           <vue-good-table
-            @on-row-click="onRowClick"
             :columns="materiasColumnas"
             :rows="todosMateria"
             :search-options="{ enabled: true }"
@@ -38,55 +40,7 @@
         </div>
       </div>
 
-      <!--     MODAL AGREGAR MATERIA  -->
-      <div
-        class="modal fade"
-        id="modalAgregarMateria"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Agregar materia
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form name="form" id="form" v-on:submit.prevent="crearMateria()">
-                <p>
-                  Nombre Materia<em> *</em> :
-                  <input
-                    type="text"
-                    name="nombreMateria"
-                    placeholder="Ejemplo: Matematica"
-                    class="form-control"
-                    v-model="materia.nombreMateria"
-                    autocomplete="=off"
-                    required
-                  />
-                </p>
-
-                <input
-                  type="submit"
-                  value="Agregar Materia"
-                  title="Enviar"
-                  class="btn btn-primary"
-                />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--     FIN MODAL AGREGAR MATERIA  -->
+     
 
       <div class="contenedorDerechoPersona">
         <h4>
@@ -205,35 +159,7 @@ export default {
     this.getTodos();
   },
   methods: {
-    crearMateria() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .post(Global.url + "materia", this.materia, config)
-        .then((response) => {
-          if (response.status == 200) {
-            console.log(response.data);
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Materia Agregado",
-            });
-            location.reload();
-            this.getTodos();
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Materia ya existe",
-          });
-        });
-    },
+ 
     getTodos() {
       let config = {
         headers: {

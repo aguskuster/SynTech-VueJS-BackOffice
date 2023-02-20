@@ -2,9 +2,9 @@
   <div>
     <div class="contenedor_menu">
     
-      <h2>Listado de Personas</h2>
+      <h2>Listado de Profesores</h2>
       <button class="btn btn-primary" disabled v-if="loading">
-        Agregar Persona
+        Agregar Profesor
       </button>
       <router-link
         v-if="usuario.cargo != 'Adscripto' && !loading"
@@ -12,7 +12,7 @@
         title="Listar Usuarios"
         class="btn btn-primary router-link"
       >
-        Agregar Persona</router-link
+        Agregar Profesor</router-link
       >
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
+import { Global } from "../../Global";
 import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
@@ -59,16 +59,15 @@ import 'popper.js'
 window.jQuery = $
 window.$ = $
 export default {
-  name: "listarUsuarios",
+  name: "listar-profesores",
   components: {
     VueGoodTable,
   },
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
-      todosUsuarios: null,
+      todoProfesres: null,
       userInfo: "",
-      showProfile: false,
       selectedRol: "",
       loading: true,
       columns: [
@@ -115,59 +114,7 @@ export default {
     this.getTodos();
   },
   methods: {
-    eliminarUsuario(userInfo) {
-      this.$swal
-        .fire({
-          icon: "info",
-          title: "Eliminar Usuario",
-          html:
-            "Estas seguro que quieres eliminar al usuario  <b>" +
-            userInfo.nombre +
-            "</b>",
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Eliminar",
-        })
-        .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            axios
-              .delete(Global.url + "usuario", {
-                headers: {
-                  "Content-Type": "application/json",
-                  token: Global.token,
-                },
-                data: {
-                  id: userInfo.id,
-                },
-              })
-              .then((response) => {
-                if (response.status == 200) {
-                  this.$swal.fire("Usuario eliminado", "", "success");
-                  this.getTodos();
-                }
-              })
-              .catch(() => {
-                this.$swal.fire("Error al eliminar", "", "error");
-              });
-          }
-        });
-    },
-    filtrarPorRol() {
-      var selectedRol = this.selectedRol;
-      var listaUser = [];
-      if (selectedRol.length != 0 && selectedRol.trim() !== "") {
-        this.todosUsuarios.forEach(function (users) {
-          if (users.ou == selectedRol) {
-            listaUser.push(users);
-          }
-        });
-      } else {
-        listaUser = this.todosUsuarios;
-      }
-
-      return listaUser;
-    },
+ 
     getTodos() {
       let config = {
         headers: {
@@ -199,9 +146,6 @@ export default {
        this.$router.push('/usuarios/'+usuario.row.id);
     },
 
-    comprobarArrayVacio(array) {
-      return $.isEmptyObject(array);
-    },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },

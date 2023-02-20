@@ -210,9 +210,9 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
+import { Global } from "../../Global";
 import axios from "axios";
-import { roles } from "../Global";
+import { roles } from "../../Global";
 export default {
   name: "modificarUsuarioComponent.vue",
   data() {

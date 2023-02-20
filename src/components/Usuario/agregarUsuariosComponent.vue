@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Persona</h2>
+      <h2>Agregar Usuario</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -17,7 +17,7 @@
       >
         <div class="imgModificarUser">
           <center>
-            <img src="../assets/images/default_profile.png" alt="" />
+            <img src="../../assets/images/default_profile.png" alt="" />
 
             <h3>Nuevo Usuario</h3>
             <hr />
@@ -141,8 +141,8 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
-import { roles } from "../Global";
+import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 export default {
   name: "agregarUsuarioComponent.vue",

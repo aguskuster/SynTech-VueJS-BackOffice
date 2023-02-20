@@ -46,7 +46,7 @@
         </li>
         <li>
           <router-link
-            to="/listarMaterias"
+            to="/materias"
             title="Listar Materia"
             class="router-link"
           >
@@ -136,7 +136,7 @@
               </router-link>
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/listarMaterias" title="Listar Materia">
+              <router-link to="/materias" title="Listar Materia">
                 <i class="fal fa-books"></i>
 
                 Listar Materia
