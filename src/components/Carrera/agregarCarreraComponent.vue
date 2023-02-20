@@ -60,7 +60,12 @@
               <option value="otro">Otro</option>
             </select>
             <p style="font-size: 18px">Grado <em>*</em></p>
-            <input type="text" disabled v-if="grado.tipo == null" class="form-control">
+            <input
+              type="text"
+              disabled
+              v-if="grado.tipo == null"
+              class="form-control"
+            />
             <select
               class="form-control"
               v-model="grado.nombre"
@@ -85,7 +90,12 @@
               <option value="5to Semestre">5to Semestre</option>
               <option value="6to Semestre">6to Semestre</option>
             </select>
-            <input type="text"  class="form-control" v-model="grado.nombre" v-if="grado.tipo == 'otro'">
+            <input
+              type="text"
+              class="form-control"
+              v-model="grado.nombre"
+              v-if="grado.tipo == 'otro'"
+            />
           </div>
           <div class="mb-3">
             <p style="font-size: 18px">Materias <em>*</em></p>
@@ -123,11 +133,7 @@
               </span>
             </div>
           </div>
-           <input
-                type="submit"
-                value="Agregar Grado"
-                class="btn btn-primary"
-              />
+          <input type="submit" value="Agregar Grado" class="btn btn-primary" />
         </form>
       </div>
 
@@ -135,7 +141,21 @@
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-      {{carrera.grados}}
+        <h6>Resumen:</h6>
+
+        <p>Nombre : {{ carrera.nombre }}</p>
+        <p>Categoria : {{ carrera.categoria }}</p>
+        <p>Plan : {{ carrera.plan }}</p>
+
+        <p>Grados</p>
+        <div v-for="g in carrera.grados" :key="g.id">
+          <p>Nombre: {{ g.nombre }}</p>
+          <p>Materias:</p>
+          <div v-for="m in g.materias" :key="m.id">
+            <p>{{ returnSubjectNameById(m) }}</p>
+          </div>
+        </div>
+
         <div class="w-50 ml-auto mt-4 mr-auto mb-auto">
           <form v-on:submit.prevent="agregarCarrera()">
             <div class="d-flex justify-content-end">
@@ -166,10 +186,11 @@ export default {
         nombre: "",
         categoria: "",
         plan: "",
-        grados:[],
+        grados: [],
       },
       grado: {
         nombre: "",
+        tipo:"",
         materias: [],
       },
     };
@@ -186,12 +207,11 @@ export default {
         array.push(id);
       }
     },
-    agregarGradoCarrera(){
+    agregarGradoCarrera() {
       this.carrera.grados.push(this.grado);
-      this.grado = {
-        nombre: "",
-        materias: [],
-      };
+      this.grado.nombre =""
+      this.grado.materias=[]
+    
     },
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
