@@ -62,17 +62,17 @@ const routes = [
 
    
 
-    { path: '/usuarios', name: 'listarUsuarios', component: listarUsuariosComponent },
-    { path: '/usuarios/crear', name: 'usuarioAgregar', component: agregarUsuariosComponent },
-    { path: '/usuarios/:user', name: 'listar-usuario-modificar', component: modificarUsuarioComponent },
+    { path: '/usuarios', name: 'listar-usuario', component: listarUsuariosComponent },
+    { path: '/usuarios/crear', name: 'agregar-usuario', component: agregarUsuariosComponent },
+    { path: '/usuarios/:user', name: 'modificar-usuario', component: modificarUsuarioComponent },
 
-    { path: '/alumnos', name: 'listarUsuarios', component: listarAlumnoComponent },
-    { path: '/alumnos/crear', name: 'usuarioAgregar', component: agregarAlumnoComponent },
-    { path: '/alumnos/:user', name: 'listar-usuario-modificar', component: modificarAlumnoComponent },
+    { path: '/alumnos', name: 'listar-alumno', component: listarAlumnoComponent },
+    { path: '/alumnos/crear', name: 'agregar-alumno', component: agregarAlumnoComponent },
+    { path: '/alumnos/:user', name: 'modificar-alumno', component: modificarAlumnoComponent },
 
-    { path: '/profesores', name: 'listarUsuarios', component: listarProfesorComponent },
-    { path: '/profesores/crear', name: 'usuarioAgregar', component: agregarProfesorComponent },
-    { path: '/profesores/:user', name: 'listar-usuario-modificar', component: modificarProfesorComponent },
+    { path: '/profesores', name: 'listar-profesor', component: listarProfesorComponent },
+    { path: '/profesores/crear', name: 'agregar-profesor', component: agregarProfesorComponent },
+    { path: '/profesores/:user', name: 'modificar-profesor', component: modificarProfesorComponent },
 
     { path: '*', name: 'error404', component: ErrorComponent },
 ];

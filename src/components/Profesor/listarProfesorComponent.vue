@@ -8,7 +8,7 @@
       </button>
       <router-link
         v-if="usuario.cargo != 'Adscripto' && !loading"
-        to="/usuarios/crear"
+        to="/profesores/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
       >
@@ -122,7 +122,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "usuario", config)
+        .get(Global.url + "usuario?ou=Profesor", config)
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;

@@ -24,12 +24,7 @@
       >
         <div class="w-50 ml-auto mt-4 mr-auto mb-auto">
           <form v-on:submit.prevent="agregarCarrera()">
-            
-         
-          
-      
-
-           
+                
             
             <div class="d-flex justify-content-end">
               <input
