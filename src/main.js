@@ -41,7 +41,7 @@ Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
-
+Vue.component('vue-multiselect', window.VueMultiselect.default)
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
     { path: '/', redirect: 'home' },
@@ -86,3 +86,8 @@ new Vue({
     router,
     render: h => h(App),
 }).$mount('#app')
+
+
+
+
+

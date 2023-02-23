@@ -51,10 +51,9 @@ import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
+
 import $ from 'jquery'
-import 'popper.js'
+
 
 window.jQuery = $
 window.$ = $

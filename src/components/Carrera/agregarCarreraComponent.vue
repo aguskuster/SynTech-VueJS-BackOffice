@@ -51,10 +51,11 @@
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
+      
         <form v-on:submit.prevent="agregarGradoCarrera()">
           <div class="mb-3">
             <p style="font-size: 18px">Tipo <em>*</em></p>
-            <select class="form-control" v-model="grado.tipo">
+            <select class="form-control" v-model="grado.tipo" v-on:change="grado.nombre = null">
               <option value="año">Año</option>
               <option value="semestre">Semestre</option>
               <option value="otro">Otro</option>
@@ -141,31 +142,30 @@
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-        <h6>Resumen:</h6>
-
+       <div class="w-90 ml-auto mt-1 mr-auto mb-auto">
+        <h5 style='text-align:center'>Resumen</h5>
+        <div class="p-1 mt-4">
         <p>Nombre : {{ carrera.nombre }}</p>
         <p>Categoria : {{ carrera.categoria }}</p>
         <p>Plan : {{ carrera.plan }}</p>
 
+        <div v-if="carrera.grados.length != 0">
         <p>Grados</p>
         <div v-for="g in carrera.grados" :key="g.id">
           <p>Nombre: {{ g.nombre }}</p>
-          <p>Materias:</p>
-          <div v-for="m in g.materias" :key="m.id">
-            <p>{{ returnSubjectNameById(m) }}</p>
-          </div>
+          <p>Materias: <span v-for="m in g.materias" :key="m.id">{{ returnSubjectNameById(m) }} </span> </p>
+         
         </div>
-
-        <div class="w-50 ml-auto mt-4 mr-auto mb-auto">
-          <form v-on:submit.prevent="agregarCarrera()">
+        </div>
+      </div>
             <div class="d-flex justify-content-end">
               <input
+                v-on:click="agregarCarrera()"
                 type="submit"
-                value="Agregar usuario"
+                value="Agregar carrera"
                 class="btn btn-primary"
               />
             </div>
-          </form>
         </div>
       </div>
     </div>
@@ -190,7 +190,6 @@ export default {
       },
       grado: {
         nombre: "",
-        tipo:"",
         materias: [],
       },
     };
@@ -200,6 +199,7 @@ export default {
   },
   methods: {
     agregarCarrera() {
+      console.log(this.carrera)
       alert("hola");
     },
     agregarArray(id, array) {
@@ -209,9 +209,10 @@ export default {
     },
     agregarGradoCarrera() {
       this.carrera.grados.push(this.grado);
-      this.grado.nombre =""
-      this.grado.materias=[]
-    
+      this.grado = {
+        nombre: "",
+        materias: [],
+      };
     },
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
