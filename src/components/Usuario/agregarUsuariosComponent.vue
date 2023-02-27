@@ -252,32 +252,31 @@ export default {
       });
     },
     agregarUsuario() {
-      // let config = {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     token: Global.token,
-      //   },
-      // };
-    console.log(this.nuevoUsuario)
-      // axios
-      //   .post(Global.url + "usuario", this.nuevoUsuario, config)
-      //   .then((response) => {
-      //     if (response.status == 200) {
-      //       this.$swal.fire({
-      //         icon: "success",
-      //         title: "Usuario agregado",
-      //         text: "El usuario se agrego correctamente",
-      //       });
-      //       this.$router.push("/usuarios");
-      //     }
-      //   })
-      //   .catch(() => {
-      //     this.$swal.fire({
-      //       icon: "error",
-      //       title: "Oops...",
-      //       text: "Algo salio mal...",
-      //     });
-      //   });
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "usuario", this.nuevoUsuario, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Usuario agregado",
+              text: "El usuario se agrego correctamente",
+            });
+            this.$router.push("/usuarios");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal...",
+          });
+        });
     },
 
     returnImgProfile(img) {
