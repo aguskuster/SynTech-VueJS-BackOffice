@@ -187,7 +187,6 @@ export default {
         }
       });
     },
-  
     agregarUsuario() {
       let config = {
         headers: {

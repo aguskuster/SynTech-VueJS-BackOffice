@@ -30,12 +30,12 @@
         </li>
         <li>
           <router-link
-            to="/usuarios"
+            to="/bedelias"
             title="Listar Usuarios"
             class="router-link"
           >
             <i class="far fa-user"></i>
-            Usuarios</router-link
+            Bedelias</router-link
           >
         </li>
          <li>
@@ -144,11 +144,24 @@
               >
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/usuarios" title="Listar Usuarios">
+              <router-link to="/bedelias" title="Listar Usuarios">
                 <i class="far fa-user"></i>
-                Listar Personas</router-link
+                Bedelia</router-link
               >
             </li>
+              <li v-on:click="bajarMenu()">
+              <router-link to="/alumno" title="Listar Usuarios">
+                <i class="far fa-user"></i>
+               Alumno</router-link
+              >
+            </li>
+              <li v-on:click="bajarMenu()">
+              <router-link to="/profesor" title="Listar Usuarios">
+                <i class="far fa-user"></i>
+                Profesor</router-link
+              >
+            </li>
+            
             <li v-on:click="bajarMenu()">
               <router-link to="/carrera" class="router-link">
                 <i class="fas fa-history"></i>

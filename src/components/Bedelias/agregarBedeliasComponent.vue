@@ -74,38 +74,21 @@
               </div>
             </div>
             <div class="user-rol" style="width: 35% !important">
-        
-    
-
               <div class="mb-3">
-                <p style="font-size: 18px">Grupo</p>
+                <p style="font-size: 18px">Cargo</p>
                 <select
-                  v-model="grupoSelect"
+                  v-model="nuevoUsuario.cargo"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                  v-on:change="
-                    agregarArray(materiaSelect, nuevoUsuario.materias)
-                  "
+                  required
                 >
-                  <option
-                    v-for="materia in materias"
-                    v-bind:key="materia.id"
-                    :value="materia.id"
-                  >
-                    {{ materia.nombre }}
+                  <option v-for="rol in roles" v-bind:key="rol.id" :value="rol">
+                    {{ rol }}
                   </option>
                 </select>
-
-                <ul class="list-group mt-4">
-                  <li
-                    class="list-group-item"
-                    v-for="grupo in nuevoUsuario.grupos"
-                    v-bind:key="grupo.id"
-                  >
-                    {{grupo}}
-                  </li>
-                </ul>
               </div>
+
+          
               <div class="d-flex justify-content-end">
                 <input
                   type="submit"
@@ -135,62 +118,15 @@ export default {
         surname: "",
         samaccountname: "",
         userPrincipalName: "",
-        ou: "Alumno",
-        grupos: [],
+        ou: "Bedelias",
+        cargo: "",
       },
-      grupoSelect: "",
       roles: roles,
-      grupos: [],
+
     };
   },
-  mounted() {
-    this.getAllMaterias();
-    this.getAllGrupos();
-  },
+
   methods: {
-    agregarArray(id, array) {
-      if (!array.includes(id)) {
-        array.push(id);
-      }
-    },
-    returnSubjectNameById(idSub) {
-      for (let m of this.materias) {
-        if (m.id == idSub) {
-          return { nombre: m.nombre, id: m.id };
-        }
-      }
-    },
-    eliminarArray(id, array) {
-      const element = (element) => element == id;
-      let index = array.findIndex(element);
-      array.splice(index, 1);
-    },
-    getAllMaterias() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "materia", config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
-    },
-    getAllGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "grupo", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-        }
-      });
-    },
     agregarUsuario() {
       let config = {
         headers: {

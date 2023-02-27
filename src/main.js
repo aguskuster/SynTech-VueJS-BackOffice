@@ -28,6 +28,10 @@ import listarUsuariosComponent from './components/Usuario/listarUsuariosComponen
 import agregarUsuariosComponent from './components/Usuario/agregarUsuariosComponent.vue';
 import modificarUsuarioComponent from './components/Usuario/modificarUsuarioComponent.vue';
 
+import listarBedeliasComponent from './components/Bedelias/listarBedeliasComponent.vue';
+import agregarBedeliasComponent from './components/Bedelias/agregarBedeliasComponent.vue';
+import modificarBedeliasComponent from './components/Bedelias/modificarBedeliasComponent.vue';
+
 import listarAlumnoComponent from './components/Alumno/listarAlumnoComponent.vue';
 import agregarAlumnoComponent from './components/Alumno/agregarAlumnoComponent.vue';
 import modificarAlumnoComponent from './components/Alumno/modificarAlumnoComponent.vue';
@@ -64,6 +68,10 @@ const routes = [
     { path: '/usuarios', name: 'listar-usuario', component: listarUsuariosComponent },
     { path: '/usuarios/crear', name: 'agregar-usuario', component: agregarUsuariosComponent },
     { path: '/usuarios/:user', name: 'modificar-usuario', component: modificarUsuarioComponent },
+
+    { path: '/bedelias', name: 'listar-bedelias', component: listarBedeliasComponent },
+    { path: '/bedelias/crear', name: 'agregar-usuario', component: agregarBedeliasComponent },
+    { path: '/bedelias/:user', name: 'modificar-usuario', component: modificarBedeliasComponent },
 
     { path: '/alumnos', name: 'listar-alumno', component: listarAlumnoComponent },
     { path: '/alumnos/crear', name: 'agregar-alumno', component: agregarAlumnoComponent },
