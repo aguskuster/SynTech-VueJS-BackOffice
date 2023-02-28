@@ -8,7 +8,7 @@
       </button>
       <router-link
         v-if="usuario.cargo != 'Adscripto' && !loading"
-        to="/profesores/crear"
+        to="/profesor/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
       >
@@ -119,7 +119,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "usuario", config) // profesor
+        .get(Global.url + "profesor", config) // profesor
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
@@ -140,7 +140,7 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/profesores/'+usuario.row.id);
+       this.$router.push('/profesor/'+usuario.row.id);
     },
 
     returnImgProfile(img) {

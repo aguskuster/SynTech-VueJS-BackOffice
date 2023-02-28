@@ -74,11 +74,71 @@
               </div>
             </div>
             <div class="user-rol" style="width: 35% !important">
-            
-         
+              <!-- Modal agregar materia -->
 
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Crear una nueva materia
+                      </h5>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <form
+                        name="form"
+                        id="form"
+                        v-on:submit.prevent="agregarMateria()"
+                      >
+                        <p>
+                          Nombre de Materia<em> *</em> :
+                          <br />
+                          <input
+                            type="text"
+                            v-model="nuevaMateria.nombre"
+                            class="form-control"
+                            required
+                          />
+                        </p>
+                        <input
+                          type="submit"
+                          value="Agregar Materia"
+                          title="Enviar"
+                          class="btn btn-primary"
+                          data-dismiss="modal"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Fin Modal -->
               <div class="mb-3" v-if="nuevoUsuario.ou == 'Profesor'">
-                <p style="font-size: 18px">Materias</p>
+                <p style="font-size: 18px">
+                  <span> Materias</span>
+                  <i
+                    class="fa fa-plus-square ml-2"
+                    style="color: #006799; cursor: pointer"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                  ></i>
+                </p>
                 <select
                   v-model="materiaSelect"
                   class="form-control inputFachero"
@@ -114,7 +174,7 @@
                   </li>
                 </ul>
               </div>
-     
+
               <div class="d-flex justify-content-end">
                 <input
                   type="submit"
@@ -150,13 +210,43 @@ export default {
       materiaSelect: "",
       roles: roles,
       materias: [],
+      nuevaMateria: {
+        nombre: "",
+      },
     };
   },
   mounted() {
     this.getAllMaterias();
-
   },
   methods: {
+    agregarMateria() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "materia", this.nuevaMateria, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Nueva materia agregada",
+            });
+            this.nuevoUsuario.push(response.data.id);
+            this.getAllMaterias();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya existente",
+          });
+        });
+    },
     agregarArray(id, array) {
       if (!array.includes(id)) {
         array.push(id);

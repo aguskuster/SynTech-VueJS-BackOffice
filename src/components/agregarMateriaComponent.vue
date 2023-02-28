@@ -60,9 +60,7 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
 
-import axios from "axios";
 export default {
   name: "agregarUsuarioComponent.vue",
   data() {
@@ -76,33 +74,7 @@ export default {
   },
   mounted() {},
   methods: {
-    agregarMateria() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .post(Global.url + "materia", this.materia, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Nueva materia agregada",
-            });
-            location.reload();
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Materia ya existente",
-          });
-        });
-    },
+ 
   },
 };
 </script>

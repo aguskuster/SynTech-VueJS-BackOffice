@@ -70,16 +70,16 @@ const routes = [
     { path: '/usuarios/:user', name: 'modificar-usuario', component: modificarUsuarioComponent },
 
     { path: '/bedelias', name: 'listar-bedelias', component: listarBedeliasComponent },
-    { path: '/bedelias/crear', name: 'agregar-usuario', component: agregarBedeliasComponent },
-    { path: '/bedelias/:user', name: 'modificar-usuario', component: modificarBedeliasComponent },
+    { path: '/bedelia/crear', name: 'agregar-usuario', component: agregarBedeliasComponent },
+    { path: '/bedelia/:user', name: 'modificar-usuario', component: modificarBedeliasComponent },
 
     { path: '/alumnos', name: 'listar-alumno', component: listarAlumnoComponent },
-    { path: '/alumnos/crear', name: 'agregar-alumno', component: agregarAlumnoComponent },
-    { path: '/alumnos/:user', name: 'modificar-alumno', component: modificarAlumnoComponent },
+    { path: '/alumno/crear', name: 'agregar-alumno', component: agregarAlumnoComponent },
+    { path: '/alumno/:user', name: 'modificar-alumno', component: modificarAlumnoComponent },
 
     { path: '/profesores', name: 'listar-profesor', component: listarProfesorComponent },
-    { path: '/profesores/crear', name: 'agregar-profesor', component: agregarProfesorComponent },
-    { path: '/profesores/:user', name: 'modificar-profesor', component: modificarProfesorComponent },
+    { path: '/profesor/crear', name: 'agregar-profesor', component: agregarProfesorComponent },
+    { path: '/profesor/:user', name: 'modificar-profesor', component: modificarProfesorComponent },
 
     { path: '/carrera', name: 'listar-carrera', component: listarCarreraComponent },
     { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },

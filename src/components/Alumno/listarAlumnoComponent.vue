@@ -8,7 +8,7 @@
       </button>
       <router-link
         v-if="usuario.cargo != 'Adscripto' && !loading"
-        to="/profesores/crear"
+        to="/alumno/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
       >
@@ -142,7 +142,7 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/alumnos/'+usuario.row.id);
+       this.$router.push('/alumno/'+usuario.row.id);
     },
 
     returnImgProfile(img) {
