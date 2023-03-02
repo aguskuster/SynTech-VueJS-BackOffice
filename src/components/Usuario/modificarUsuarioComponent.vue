@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Modificar Personas</h2>
+      <h2>Modificar Usuario</h2>
     </div>
      <center v-if="loading" style="margin-top:3rem;font-size:230px;">
       <div
@@ -210,9 +210,9 @@
   </div>
 </template>
 <script>
-import { Global } from "../Global";
+import { Global } from "../../Global";
 import axios from "axios";
-import { roles } from "../Global";
+import { roles } from "../../Global";
 export default {
   name: "modificarUsuarioComponent.vue",
   data() {
@@ -260,18 +260,20 @@ export default {
       };
       let user = {
         idUsuario: this.usuarioDatos.id,
-        nombre: this.nombre + " " + this.apellido,
+        nombre: this.nombre,
+        apellido: this.apellido,
         email: this.usuarioDatos.email,
         genero: this.usuarioDatos.genero,
       };
 
       axios
-        .put(Global.url + "usuario", user, config)
+        .put(Global.url + "usuario/"+user.idUsuario, user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Usuario Modificado", "", "success");
           }
-          this.getUsuario();
+        
+        this.$router.push("/usuarios");
         })
         .catch(() => {
           this.$swal.fire("Error al modifcar usuario", "", "error");
@@ -372,7 +374,7 @@ export default {
         .get(Global.url+ "usuario/"+ this.$route.params.user, config)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data)
+           
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;
             this.recortarNombre();
