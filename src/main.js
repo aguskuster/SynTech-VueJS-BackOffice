@@ -69,9 +69,9 @@ const routes = [
     { path: '/usuarios/crear', name: 'agregar-usuario', component: agregarUsuariosComponent },
     { path: '/usuarios/:user', name: 'modificar-usuario', component: modificarUsuarioComponent },
 
-    { path: '/bedelias', name: 'listar-bedelias', component: listarBedeliasComponent },
-    { path: '/bedelia/crear', name: 'agregar-usuario', component: agregarBedeliasComponent },
-    { path: '/bedelia/:user', name: 'modificar-usuario', component: modificarBedeliasComponent },
+    { path: '/bedelias', name: 'listar-bedelia', component: listarBedeliasComponent },
+    { path: '/bedelia/crear', name: 'agregar-bedelia', component: agregarBedeliasComponent },
+    { path: '/bedelia/:user', name: 'modificar-bedelia', component: modificarBedeliasComponent },
 
     { path: '/alumnos', name: 'listar-alumno', component: listarAlumnoComponent },
     { path: '/alumno/crear', name: 'agregar-alumno', component: agregarAlumnoComponent },

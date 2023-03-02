@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Usuario</h2>
+      <h2>Agregar Profesor</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Usuario</h3>
+            <h3>Nuevo Profesor</h3>
             <hr />
           </center>
         </div>
@@ -91,6 +91,7 @@
                         Crear una nueva materia
                       </h5>
                       <button
+                        id="closeModal"
                         type="button"
                         class="close"
                         data-dismiss="modal"
@@ -121,7 +122,6 @@
                           value="Agregar Materia"
                           title="Enviar"
                           class="btn btn-primary"
-                          data-dismiss="modal"
                         />
                       </form>
                     </div>
@@ -193,6 +193,8 @@
 import { Global } from "../../Global";
 import { roles } from "../../Global";
 import axios from "axios";
+
+import $ from "jquery";
 export default {
   name: "agregarUsuarioComponent.vue",
   data() {
@@ -235,8 +237,9 @@ export default {
               title: Global.nombreSitio,
               message: "Nueva materia agregada",
             });
-            this.nuevoUsuario.push(response.data.id);
             this.getAllMaterias();
+            this.cerrarModal("closeModal");
+            this.nuevaMateria = "";
           }
         })
         .catch(() => {
@@ -293,7 +296,7 @@ export default {
               title: "Usuario agregado",
               text: "El usuario se agrego correctamente",
             });
-            this.$router.push("/usuarios");
+            this.$router.push("/profesores");
           }
         })
         .catch(() => {
@@ -307,6 +310,9 @@ export default {
 
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
+    },
+    cerrarModal(id) {
+      $("#" + id).click();
     },
   },
 };

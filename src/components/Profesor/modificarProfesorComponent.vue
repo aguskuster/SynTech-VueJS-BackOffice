@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Modificar Profesor</h2>
+      <h2>Agregar Profesor</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -13,262 +13,238 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: whitesmoke"
+        style="width: 35%; background-color: whitesmoke"
       >
         <div class="imgModificarUser">
           <center>
-            <img :src="returnImgProfile(usuarioDatos.imagen_perfil)" alt="" />
+            <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>{{ usuarioDatos.nombre }}</h3>
+            <h3>Nuevo Profesor</h3>
             <hr />
           </center>
-          <p class="text-muted">CI: {{ usuarioDatos.id }}</p>
-        </div>
-        <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Foto
-            </button>
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Contraseña
-            </button>
-          </div>
         </div>
       </div>
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: whitesmoke"
+        style="width: 64%; background-color: whitesmoke"
       >
-        <div class="formModificar">
-          <div class="informacion-izquierda">
-            <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+        <form v-on:submit.prevent="agregarUsuario()">
+          <div class="d-flex justify-content-around p-4 mt-3">
+            <div class="personal-info" style="width: 40% !important">
               <div class="mb-3">
-                <p style="font-size: 18px">Nombre</p>
+                <p style="font-size: 18px">Nombre <em>*</em></p>
                 <input
-                  v-model="nombre"
+                  required
+                  v-model="nuevoUsuario.name"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                 />
               </div>
               <div class="mb-3">
-                <p style="font-size: 18px">Apellido</p>
+                <p style="font-size: 18px">Apellido <em>*</em></p>
                 <input
-                  v-model="apellido"
+                  required
+                  v-model="nuevoUsuario.surname"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                 />
               </div>
               <div class="mb-3">
-                <p style="font-size: 18px">Mail</p>
+                <p style="font-size: 18px">Cedula <em>*</em></p>
                 <input
-                  v-model="usuarioDatos.email"
+                  maxlength="8"
+                  minlength="8"
+                  type="phone"
+                  v-model="nuevoUsuario.samaccountname"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
+                  required
                 />
               </div>
               <div class="mb-3">
-                <p style="font-size: 18px">Rol</p>
+                <p style="font-size: 18px">Email <em>*</em></p>
                 <input
-                  disabled
-                  v-model="usuarioDatos.ou"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Genero</p>
-                <input
-                  v-model="usuarioDatos.genero"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-            </div>
-
-            <div class="personalDetails" v-else>
-              <div class="mb-3">
-                <p style="font-size: 18px">Nombre</p>
-                <input
-                  v-model="nombre"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Apellido</p>
-                <input
-                  v-model="apellido"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Mail</p>
-                <input
-                  v-model="usuarioDatos.email"
-                  disabled
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Rol</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.ou"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                />
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">Genero</p>
-                <input
-                  disabled
-                  v-model="usuarioDatos.genero"
+                  required
+                  type="email"
+                  v-model="nuevoUsuario.userPrincipalName"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                 />
               </div>
             </div>
-          </div>
-          <div class="informacion-derecha">
-            <div v-if="usuarioDatos.ou == 'Profesor'">
-              <h3 style="text-transform: uppercase">
-                Materias
-                <i
-                  style="font-size: 16px"
-                  class="fas fa-edit"
-                  v-on:click="modificar = !modificar"
-                ></i>
-              </h3>
+            <div class="user-rol" style="width: 35% !important">
+              <!-- Modal agregar materia -->
 
-              <div class="frmProfesorMaterias" v-if="modificar">
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Crear una nueva materia
+                      </h5>
+                      <button
+                        id="closeModal"
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <form
+                        name="form"
+                        id="form"
+                        v-on:submit.prevent="agregarMateria()"
+                      >
+                        <p>
+                          Nombre de Materia<em> *</em> :
+                          <br />
+                          <input
+                            type="text"
+                            v-model="nuevaMateria.nombre"
+                            class="form-control"
+                            required
+                          />
+                        </p>
+                        <input
+                          type="submit"
+                          value="Agregar Materia"
+                          title="Enviar"
+                          class="btn btn-primary"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Fin Modal -->
+              <div class="mb-3" v-if="nuevoUsuario.ou == 'Profesor'">
+                <p style="font-size: 18px">
+                  <span> Materias</span>
+                  <i
+                    class="fa fa-plus-square ml-2"
+                    style="color: #006799; cursor: pointer"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                  ></i>
+                </p>
                 <select
-                  class="form-control"
                   v-model="materiaSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
                   v-on:change="
-                    agregarArray(materiaSelect, usuarioInfo.materias)
+                    agregarArray(materiaSelect, nuevoUsuario.materias)
                   "
                 >
-                  <option :value="m.id" v-for="m in todosMateria" :key="m.id">
-                    {{ m.nombre }}
+                  <option
+                    v-for="materia in materias"
+                    v-bind:key="materia.id"
+                    :value="materia.id"
+                  >
+                    {{ materia.nombre }}
                   </option>
                 </select>
-                <div class="contenedorMateriaForm">
-                  <span
-                    class="btnAgregarComp"
-                    v-for="selectedSubject in usuarioInfo.materias"
-                    :key="selectedSubject.id"
+
+                <ul class="list-group mt-4">
+                  <li
+                    class="list-group-item"
+                    v-for="materia in nuevoUsuario.materias"
+                    v-bind:key="materia.id"
                   >
-                    <div
-                      style="
-                        width: 80%;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: baseline;
-                        margin: 0 auto;
-                      "
-                    >
-                      <span>{{ returnSubjectNameById(selectedSubject) }} </span>
+                    <span class="d-flex justify-content-between">
+                      {{ returnSubjectNameById(materia).nombre }}
                       <i
-                        @click="
-                          eliminarArray(selectedSubject, persona.idMaterias)
+                        class="fal fa-times"
+                        v-on:click="
+                          eliminarArray(materia, nuevoUsuario.materias)
                         "
-                        class="fas fa-times"
-                      ></i>
-                    </div>
-                  </span>
-                </div>
+                      ></i
+                    ></span>
+                  </li>
+                </ul>
               </div>
 
-              <div class="frmProfesorMaterias" v-else>
-                <div v-for="materia in usuarioInfo.materias" :key="materia.id">
-                  {{ returnSubjectNameById(materia) }}
-                </div>
+              <div class="d-flex justify-content-end">
+                <input
+                  type="submit"
+                  value="Agregar usuario"
+                  class="btn btn-primary"
+                />
               </div>
             </div>
           </div>
-
-          <div
-            style="
-              width: 85%;
-              display: flex;
-              justify-content: space-between;
-              position: absolute;
-              right: 40px;
-              bottom: 10px;
-            "
-          >
-            <button
-              class="btn btn-danger"
-              style="margin-right: 10px; width: 200px"
-              @click="eliminarUsuario(usuarioDatos.id)"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Eliminar Usuario
-            </button>
-            <div>
-              <button
-                class="btn btn-success"
-                style="margin-right: 10px"
-                @click="comprobarModificarInfo()"
-                v-if="usuario.cargo != 'Adscripto'"
-              >
-                Actualizar
-              </button>
-              <button
-                class="btn btn-danger"
-                v-on:click="$router.back()"
-                v-if="usuario.cargo != 'Adscripto'"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../../Global";
-import axios from "axios";
 import { roles } from "../../Global";
+import axios from "axios";
+
+import $ from "jquery";
 export default {
-  name: "modificarUsuarioComponent.vue",
+  name: "agregarUsuarioComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
-      usuarioDatos: "",
-      nombre: "",
-      apellido: "",
-      usuarioInfo: {
-        materias: [],
-      },
-      loading: true,
-      roles: roles,
-      modificar: false,
-      todosMateria: "",
+      loading: false,
+      nuevoUsuario:"",
       materiaSelect: "",
+      roles: roles,
+      materias: [],
+      nuevaMateria: {
+        nombre: "",
+      },
+      idProfesor:this.$route.params.user,
     };
   },
   mounted() {
-    this.getUsuario();
     this.getAllMaterias();
+    this.getUsuario();
   },
   methods: {
+    agregarMateria() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "materia", this.nuevaMateria, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Nueva materia agregada",
+            });
+            this.getAllMaterias();
+            this.cerrarModal("closeModal");
+            this.nuevaMateria = "";
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya existente",
+          });
+        });
+    },
     agregarArray(id, array) {
       if (!array.includes(id)) {
         array.push(id);
@@ -277,7 +253,7 @@ export default {
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
         if (m.id == idSub) {
-          return m.nombre;
+          return { nombre: m.nombre, id: m.id };
         }
       }
     },
@@ -286,28 +262,6 @@ export default {
       let index = array.findIndex(element);
       array.splice(index, 1);
     },
-    comprobarModificarInfo() {
-      this.$swal
-        .fire({
-          icon: "info",
-          title: "Modificar Usuario",
-          html:
-            "¿ Estas seguro de que desea modificar la informacion del usuario <u><b>" +
-            this.usuarioDatos.nombre +
-            " </b></u> ?",
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Modificar",
-        })
-        .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            this.modificarUsuario();
-          } else {
-            return false;
-          }
-        });
-    },
     getAllMaterias() {
       let config = {
         headers: {
@@ -315,149 +269,34 @@ export default {
           token: Global.token,
         },
       };
-      axios
-        .get(Global.url + "materia", config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.todosMateria = res.data;
-            this.loading = false;
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar",
-          });
-        });
+      axios.get(Global.url + "profesor/"+this.idProfesor+"/materias", config).then((res) => {
+        if (res.status == 200) {
+          this.materias = res.data;
+        }
+      });
     },
-    modificarUsuario() {
+       getUsuario() {
       let config = {
         headers: {
           token: Global.token,
         },
       };
-      let user = {
-        idUsuario: this.usuarioDatos.id,
-        nombre: this.nombre,
-        apellido: this.apellido,
-        email: this.usuarioDatos.email,
-        materias: this.usuarioInfo.materias,
-        genero: this.usuarioDatos.genero,
-      };
-
+    
       axios
-        .put(Global.url + "usuario/" + user.idUsuario, user, config)
+        .get(Global.url + "profesor/"+ this.idProfesor, config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Usuario Modificado", "", "success");
-          }
-
-          this.$router.push("/usuarios");
-        })
-        .catch(() => {
-          this.$swal.fire("Error al modifcar usuario", "", "error");
-        });
-    },
-    comprobarAccion(accion) {
-      this.$swal
-        .fire({
-          icon: "info",
-          title: "Modificar Usuario",
-          html:
-            "Si haces click en restablecer , la " +
-            accion +
-            " volvera a tener el valor por defecto.",
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Restablecer",
-        })
-        .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            if (accion == "contraseña") {
-              this.restablecerContrasenia();
-            }
-            if (accion == "foto") {
-              this.restablecerFoto();
-            }
-          }
-        });
-    },
-    restablecerFoto() {
-      let config = {
-        headers: {
-          token: Global.token,
-        },
-      };
-      let user = { id: this.$route.params.user };
-      axios
-        .post(Global.url + "foto", user, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire("Foto actualizada", "", "success");
-          }
-          this.getUsuario();
-        })
-        .catch(() => {
-          this.$swal.fire("Error al restablecer foto", "", "error");
-        });
-    },
-    eliminarUsuario() {
-      let config = {
-        headers: {
-          token: Global.token,
-        },
-      };
-      let user = this.$route.params.user;
-
-      axios
-        .delete(Global.url + "usuario/" + user, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire("Profesor eliminado", "", "success");
-            this.$router.push("/profesores");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire("Error al eliminar usuario", "", "error");
-        });
-    },
-    restablecerContrasenia() {
-      let config = {
-        headers: {
-          token: Global.token,
-        },
-      };
-      let user = { id: this.$route.params.user };
-      axios
-        .put(Global.url + "contrasenia", user, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire("Contraseña actualizada", "", "success");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire("Error al restablecer contraseña", "", "error");
-        });
-    },
-    getUsuario() {
-      let config = {
-        headers: {
-          token: Global.token,
-        },
-      };
-
-      axios
-        .get(Global.url + "usuario/" + this.$route.params.user, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.usuarioDatos = res.data.user;
-            this.usuarioInfo.materias = this.parseInfoUser(res.data.info);
-
+           
+            this.nuevoUsuario.user = res.data.usuario;
+            this.nuevoUsuario.info = res.data.materia;
+        
             this.recortarNombre();
-            this.loading = false;
+            this.usuarioDatos.imagen_perfil = this.returnImgProfile(
+              this.usuarioDatos.imagen_perfil
+            );
+
           }
+          this.loading = false;
         })
         .catch(() => {
           this.flashMessage.show({
@@ -467,21 +306,12 @@ export default {
           });
         });
     },
-    parseInfoUser(materias) {
-      let arrayIdMaterias = [];
-      for (let materia of materias) {
-        arrayIdMaterias.push(materia.id);
-      }
-      return arrayIdMaterias;
-    },
-    recortarNombre() {
-      let user = this.usuarioDatos.nombre;
-      let res = user.split(" ");
-      this.nombre = res[0];
-      this.apellido = res[1];
-    },
+
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
+    },
+    cerrarModal(id) {
+      $("#" + id).click();
     },
   },
 };
