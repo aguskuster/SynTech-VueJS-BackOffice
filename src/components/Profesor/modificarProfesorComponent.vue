@@ -86,14 +86,14 @@
                   style="height: 50px; font-size: 16px"
                 />
               </div>
-              <div class="mb-3 w-100">
+              <div class="mb-3">
                 <p style="font-size: 18px">Genero</p>
                 <select
                   class="form-control inputFachero"
-                  id=""
+                  style="height: 50px; font-size: 16px"
                   v-model="profesor.info.genero"
                 >
-                  <option  value="Masculino">Masculino</option>
+                  <option value="Masculino">Masculino</option>
                   <option value="Femenino">Femenino</option>
                   <option value="Otro">Otro</option>
                   <option value="Otro">Prefiero no decirlo</option>
