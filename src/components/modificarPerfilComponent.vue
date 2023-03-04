@@ -203,24 +203,21 @@ export default {
     cambiarFoto(foto) {
       let config = {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data;",
           token: Global.token,
         },
       };
       let formData = new FormData();
-      formData.append("id",this.usuarioDatos.id);
       formData.append("archivo", foto);
       axios
-        .post(Global.url + "foto", formData, config)
+        .post(Global.url + "usuario/"+this.usuarioDatos.id+"/imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire({
               icon: "success",
               title: "Foto de perfil actualizada",
             });
-
             location.reload();
-         
           }
         })
         .catch(() => {
