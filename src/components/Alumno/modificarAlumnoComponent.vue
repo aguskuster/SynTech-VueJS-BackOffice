@@ -406,9 +406,9 @@ export default {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
+   
       axios
-        .post(Global.url + "foto", user, config)
+        .post(Global.url + "usuario/"+this.idAlumno+"/imagen-perfil", config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Foto actualizada", "", "success");

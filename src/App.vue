@@ -262,7 +262,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "foto?id=" + this.usuario.username, config)
+        .get(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", config)
         .then((res) => {
           if (res.status == 200) {
             this.imgB64 = res.data;
