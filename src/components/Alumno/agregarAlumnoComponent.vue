@@ -334,7 +334,7 @@ export default {
               title: "Usuario agregado",
               text: "El usuario se agrego correctamente",
             });
-            this.$router.push("/profesores");
+            this.$router.push("/alumnos");
           }
         })
         .catch(() => {
