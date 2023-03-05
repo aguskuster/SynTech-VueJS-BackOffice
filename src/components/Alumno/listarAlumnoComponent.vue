@@ -39,6 +39,16 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+          <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
+            <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarAlumno(props.row.id)" >  
+              <i class="far fa-pencil" style='color:white;cursor:pointer;'></i>
+            </span>
+            <span style="font-weight: bold; color: blue" @click="eliminarAlumno(props.row.id)">  
+              <i class="far fa-trash" style='color:red;cursor: pointer;'></i>
+            </span>
+          </span>
+          </template>
           </vue-good-table>
         </div>
       </div>
@@ -85,6 +95,11 @@ export default {
         {
           label: "Email",
           field: "email",
+        },
+        {
+          label: "Action",
+          field: "btn",
+          html: true,
         },
       ],
       pagination: {
@@ -147,6 +162,48 @@ export default {
 
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
+    },
+    modificarAlumno(id) {
+      this.$router.push("/alumno/" + id);
+    },
+    eliminarAlumno(id) {
+       this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar el usuario?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(Global.url + "usuario/" + id, config)
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Usuario eliminado correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.getTodos();
+                }
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message: "Error inesperado al cargar ",
+                });
+              });
+          }
+        });
     },
   },
 };

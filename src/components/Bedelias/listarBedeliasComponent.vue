@@ -136,7 +136,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "bedelia", config) // profesor
+        .get(Global.url + "bedelia", config) 
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
