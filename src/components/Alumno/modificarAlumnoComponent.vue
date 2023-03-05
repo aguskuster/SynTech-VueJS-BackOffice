@@ -150,29 +150,103 @@
               </div>
             </div>
           </div>
-          <div class="user-rol" style="width: 35% !important">
-        
-            <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
-              <p style="font-size: 18px">
-                <span> Grupos</span>
-              </p>
-
-              <select
-                v-model="grupoSelect"
-                class="form-control inputFachero"
-                style="height: 50px; font-size: 16px"
-                v-on:change="agregarArray(grupoSelect, alumno.grupos)"
-              >
-                <option
-                  v-for="grupo in grupos"
-                  v-bind:key="grupo.id"
-                  :value="grupo.id"
+            <div class="user-rol" style="width: 35% !important">
+             <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
+              <div class="mb-3">
+                <p style="font-size: 18px">
+                  <span> Carrera</span>
+                </p>
+                <select
+                  v-model="carreraSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                  v-on:change="
+                   cargarGrados(carreraSelect)
+                  "
                 >
-                  {{ grupo.idGrupo +" - "+ grupo.nombreCompleto }}
-                </option>
-              </select>
+                  <option
+                    v-for="carrera in carreras"
+                    v-bind:key="carrera.id"
+                    :value="carrera"
+                  >
+                    {{ carrera.nombre +"-"+ carrera.plan}}
+                  </option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">
+                  <span> Grado</span>
+                </p>
+                <select
+                  v-model="gradoSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                  v-on:change="
+                   cargarGrupos(gradoSelect)
+                  "
+                >
+                  <option
+                    v-for="grado in grados"
+                    v-bind:key="grado.id"
+                    :value="grado.id"
+                  >
+                    {{ grado.grado }}
+                  </option>
+                </select>
+              </div>
+             
+               <div class="mb-3">
+                <p style="font-size: 18px">
+                  <span> Grupos</span>
+                
+                </p>
+                <select
+                  v-model="grupoSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                  v-on:change="
+                    agregarArray(grupoSelect, alumno.grupos)
+                  "
+                >
+                  <option
+                    v-for="grupo in grupos"
+                    v-bind:key="grupo.id"
+                    :value="grupo.id"
+                  >
+                    {{ grupo.idGrupo +"-"+grupo.nombreCompleto }}
+                  </option>
+                </select>
 
-              <ul class="list-group mt-4">
+                <ul class="list-group mt-4">
+                  <li
+                    class="list-group-item"
+                    v-for="grupo in alumno.grupos"
+                    v-bind:key="grupo.id"
+                  >
+                    <span class="d-flex justify-content-between">
+                      {{ returnGroupName(grupo).nombre }}
+                      <i
+                        class="fal fa-times"
+                        v-on:click="
+                          eliminarArray(grupo, alumno.grupos)
+                        "
+                      ></i
+                    ></span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <input
+                  type="submit"
+                  value="Agregar usuario"
+                  class="btn btn-primary"
+                />
+              </div>
+
+             </div>
+               <div v-else>
+               <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
                   v-for="grupo in alumno.grupos"
@@ -188,19 +262,8 @@
                 </li>
               </ul>
             </div>
-
-            <div v-else>
-              <p>A</p>
             </div>
-
-            <div class="d-flex justify-content-end">
-              <input
-                type="submit"
-                value="Agregar usuario"
-                class="btn btn-primary"
-              />
-            </div>
-          </div>
+        
 
           <div
             style="
@@ -272,6 +335,13 @@ export default {
       
       nombre: "",
       apellido: "",
+
+       carreraSelect: "",
+      gradoSelect: "",
+      
+      carreras:"",
+      grados:"",
+    
     };
   },
   mounted() {
@@ -279,6 +349,32 @@ export default {
     this.getAllGrupos();
   },
   methods: {
+      cargarGrados(carrera){
+      console.log(carrera)
+      this.grados = carrera.grado; 
+    },
+    cargarGrupos(){
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "grado/"+this.gradoSelect, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.grupos = response.data.grupos;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error al cargar grupos",
+          });
+        });
+    },
  
     agregarArray(id, array) {
       if (!array.includes(id)) {

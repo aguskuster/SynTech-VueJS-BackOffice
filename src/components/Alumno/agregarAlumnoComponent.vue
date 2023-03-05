@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Usuario</h2>
+      <h2>Agregar Alumno</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Usuario</h3>
+            <h3>Nuevo Alumno</h3>
             <hr />
           </center>
         </div>
@@ -74,25 +74,69 @@
               </div>
             </div>
             <div class="user-rol" style="width: 35% !important">
-        
-    
-
+         
               <div class="mb-3">
-                <p style="font-size: 18px">Grupo</p>
+                <p style="font-size: 18px">
+                  <span> Carrera</span>
+                </p>
+                <select
+                  v-model="carreraSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                  v-on:change="
+                   cargarGrados(carreraSelect)
+                  "
+                >
+                  <option
+                    v-for="carrera in carreras"
+                    v-bind:key="carrera.id"
+                    :value="carrera"
+                  >
+                    {{ carrera.nombre +"-"+ carrera.plan}}
+                  </option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <p style="font-size: 18px">
+                  <span> Grado</span>
+                </p>
+                <select
+                  v-model="gradoSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                  v-on:change="
+                   cargarGrupos(gradoSelect)
+                  "
+                >
+                  <option
+                    v-for="grado in grados"
+                    v-bind:key="grado.id"
+                    :value="grado.id"
+                  >
+                    {{ grado.grado }}
+                  </option>
+                </select>
+              </div>
+             
+               <div class="mb-3">
+                <p style="font-size: 18px">
+                  <span> Grupos</span>
+                
+                </p>
                 <select
                   v-model="grupoSelect"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                   v-on:change="
-                    agregarArray(materiaSelect, nuevoUsuario.materias)
+                    agregarArray(grupoSelect, nuevoUsuario.grupos)
                   "
                 >
                   <option
-                    v-for="materia in materias"
-                    v-bind:key="materia.id"
-                    :value="materia.id"
+                    v-for="grupo in grupos"
+                    v-bind:key="grupo.id"
+                    :value="grupo.id"
                   >
-                    {{ materia.nombre }}
+                    {{ grupo.idGrupo +"-"+grupo.nombreCompleto }}
                   </option>
                 </select>
 
@@ -102,10 +146,19 @@
                     v-for="grupo in nuevoUsuario.grupos"
                     v-bind:key="grupo.id"
                   >
-                    {{grupo}}
+                    <span class="d-flex justify-content-between">
+                      {{ returnGroupName(grupo).nombre }}
+                      <i
+                        class="fal fa-times"
+                        v-on:click="
+                          eliminarArray(grupo, nuevoUsuario.grupos)
+                        "
+                      ></i
+                    ></span>
                   </li>
                 </ul>
               </div>
+
               <div class="d-flex justify-content-end">
                 <input
                   type="submit"
@@ -124,6 +177,8 @@
 import { Global } from "../../Global";
 import { roles } from "../../Global";
 import axios from "axios";
+
+import $ from "jquery";
 export default {
   name: "agregarUsuarioComponent.vue",
   data() {
@@ -138,25 +193,110 @@ export default {
         ou: "Alumno",
         grupos: [],
       },
-      grupoSelect: "",
+ 
       roles: roles,
-      grupos: [],
+  
+      carreraSelect: "",
+      gradoSelect: "",
+      grupoSelect: "",
+      carreras:"",
+      grados:"",
+      grupos:"",
     };
   },
   mounted() {
-    this.getAllMaterias();
-    this.getAllGrupos();
+    this.getAllCareras();
   },
   methods: {
+    getAllCareras(){
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "carrera", config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.carreras = response.data;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error al cargar carreras",
+          });
+        });
+    },
+
+    cargarGrados(carrera){
+      console.log(carrera)
+      this.grados = carrera.grado; 
+    },
+    cargarGrupos(){
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "grado/"+this.gradoSelect, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.grupos = response.data.grupos;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Error al cargar grupos",
+          });
+        });
+    },
+    
+   
+    agregarMateria() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "materia", this.nuevaMateria, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Nueva materia agregada",
+            });
+            this.getAllMaterias();
+            this.cerrarModal("closeModal");
+            this.nuevaMateria = "";
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya existente",
+          });
+        });
+    },
     agregarArray(id, array) {
       if (!array.includes(id)) {
         array.push(id);
       }
     },
-    returnSubjectNameById(idSub) {
-      for (let m of this.materias) {
-        if (m.id == idSub) {
-          return { nombre: m.nombre, id: m.id };
+     returnGroupName(idGrupo) {
+      for (let g of this.grupos) {
+        if (g.id == idGrupo) {
+          return { nombre: g.idGrupo+" - "+g.nombreCompleto, id: g.id };
         }
       }
     },
@@ -178,19 +318,6 @@ export default {
         }
       });
     },
-    getAllGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "grupo", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-        }
-      });
-    },
     agregarUsuario() {
       let config = {
         headers: {
@@ -207,7 +334,7 @@ export default {
               title: "Usuario agregado",
               text: "El usuario se agrego correctamente",
             });
-            this.$router.push("/usuarios");
+            this.$router.push("/alumnos");
           }
         })
         .catch(() => {
@@ -221,6 +348,9 @@ export default {
 
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
+    },
+    cerrarModal(id) {
+      $("#" + id).click();
     },
   },
 };
