@@ -42,7 +42,7 @@
                 
              
                 <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarUsuarioBedelia(props.row.id)" >  
-                  <i class="far fa-pencil" style='color:white;cursor:pointer;'></i>
+                  <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
                 </span>
 
                 <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)">  

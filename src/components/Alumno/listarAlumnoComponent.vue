@@ -42,7 +42,7 @@
           <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
             <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarAlumno(props.row.id)" >  
-              <i class="far fa-pencil" style='color:white;cursor:pointer;'></i>
+              <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
             </span>
             <span style="font-weight: bold; color: blue" @click="eliminarAlumno(props.row.id)">  
               <i class="far fa-trash" style='color:red;cursor: pointer;'></i>
