@@ -143,7 +143,7 @@ export default {
               title: "Usuario agregado",
               text: "El usuario se agrego correctamente",
             });
-            this.$router.push("/usuarios");
+            this.$router.push("/bedelias");
           }
         })
         .catch(() => {
