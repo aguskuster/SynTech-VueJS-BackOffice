@@ -1,7 +1,6 @@
  <template>
   <div>
     <div class="contenedor_menu">
-    
       <h2>Listado de Bedelias</h2>
       <button class="btn btn-primary" disabled v-if="loading">
         Agregar Bedelia
@@ -23,7 +22,6 @@
       ></div>
     </center>
     <div v-else>
-     
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
@@ -31,7 +29,6 @@
         >
           <vue-good-table
             @on-row-dblclick="onRowDoubleClick"
-           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -39,6 +36,22 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+            <template slot="table-row" slot-scope="props">
+
+              <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
+                
+             
+                <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarUsuarioBedelia(props.row.id)" >  
+                  <i class="far fa-pencil" style='color:white;cursor:pointer;'></i>
+                </span>
+
+                <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)">  
+                  <i class="far fa-trash" style='color:red;cursor:pointer;'></i>
+                </span>
+
+              </span>
+         
+            </template>
           </vue-good-table>
         </div>
       </div>
@@ -51,10 +64,10 @@ import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
-import $ from 'jquery'
+import $ from "jquery";
 
-window.jQuery = $
-window.$ = $
+window.jQuery = $;
+window.$ = $;
 export default {
   name: "listar-profesores",
   components: {
@@ -84,6 +97,11 @@ export default {
           label: "Email",
           field: "email",
         },
+        {
+          label: "Action",
+          field: "btn",
+          html: true,
+        },
       ],
       pagination: {
         enabled: true,
@@ -111,7 +129,6 @@ export default {
     this.getTodos();
   },
   methods: {
- 
     getTodos() {
       let config = {
         headers: {
@@ -140,11 +157,55 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/bedelia/'+usuario.row.id);
+      this.$router.push("/bedelia/" + usuario.row.id);
     },
 
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
+    },
+
+    modificarUsuarioBedelia(usuario) {
+      this.$router.push("/bedelia/" + usuario);
+    },
+
+    eliminarUsuarioBedelia(id) {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar el usuario?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(Global.url + "usuario/" + id, config)
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Usuario eliminado correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.getTodos();
+                }
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message: "Error inesperado al cargar ",
+                });
+              });
+          }
+        });
     },
   },
 };
