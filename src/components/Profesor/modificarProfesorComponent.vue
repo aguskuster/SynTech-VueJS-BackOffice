@@ -250,7 +250,21 @@
             </div>
 
             <div v-else>
-              <p>A</p>
+                 <ul class="list-group mt-4">
+                <li
+                  class="list-group-item"
+                  v-for="materia in profesor.materias"
+                  v-bind:key="materia.id"
+                >
+                  <span class="d-flex justify-content-between">
+                    {{ returnSubjectNameById(materia).nombre }}
+                    <i
+                      class="fal fa-times"
+                      v-on:click="eliminarArray(materia, profesor.materias)"
+                    ></i
+                  ></span>
+                </li>
+              </ul>
             </div>
 
           
