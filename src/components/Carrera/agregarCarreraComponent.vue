@@ -199,7 +199,7 @@ export default {
   },
   methods: {
     agregarCarrera() {
-      console.log(this.carrera)
+  
       alert("hola");
     },
     agregarArray(id, array) {

@@ -253,13 +253,7 @@
               <p>A</p>
             </div>
 
-            <div class="d-flex justify-content-end">
-              <input
-                type="submit"
-                value="Agregar usuario"
-                class="btn btn-primary"
-              />
-            </div>
+          
           </div>
 
           <div
@@ -441,7 +435,7 @@ export default {
         genero: this.profesor.info.genero,
         materias: this.profesor.materias,
       };
-      console.log(user);
+   
 
       axios
         .put(Global.url + "profesor/" + this.idProfesor, user, config)

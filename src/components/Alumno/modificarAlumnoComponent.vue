@@ -350,7 +350,7 @@ export default {
   },
   methods: {
       cargarGrados(carrera){
-      console.log(carrera)
+     
       this.grados = carrera.grado; 
     },
     cargarGrupos(){

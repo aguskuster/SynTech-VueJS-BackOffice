@@ -162,7 +162,7 @@
               <div class="d-flex justify-content-end">
                 <input
                   type="submit"
-                  value="Agregar usuario"
+                  value="Agregar alumno"
                   class="btn btn-primary"
                 />
               </div>
@@ -232,7 +232,7 @@ export default {
     },
 
     cargarGrados(carrera){
-      console.log(carrera)
+  
       this.grados = carrera.grado; 
     },
     cargarGrupos(){
