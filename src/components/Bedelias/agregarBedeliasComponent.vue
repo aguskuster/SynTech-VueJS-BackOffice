@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Usuario</h2>
+      <h2>Agregar Profesor</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Usuario</h3>
+            <h3>Nuevo Profesor</h3>
             <hr />
           </center>
         </div>
@@ -74,25 +74,23 @@
               </div>
             </div>
             <div class="user-rol" style="width: 35% !important">
+           
               <div class="mb-3">
-                <p style="font-size: 18px">Cargo</p>
+                <p style="font-size: 18px">Rol <em>*</em></p>
                 <select
-                  v-model="nuevoUsuario.cargo"
-                  class="form-control inputFachero"
+                  v-model="nuevoUsuario.rol"
+                  class="form-select inputFachero"
                   style="height: 50px; font-size: 16px"
-                  required
                 >
-                  <option v-for="rol in roles" v-bind:key="rol.id" :value="rol">
-                    {{ rol }}
-                  </option>
+                  <option value="" disabled selected>Seleccione un rol</option>
+                  <option v-for="rol in roles" :value="rol" :key="rol.id">{{ rol }}</option>
                 </select>
               </div>
 
-          
               <div class="d-flex justify-content-end">
                 <input
                   type="submit"
-                  value="Agregar usuario"
+                  value="Agregar bedelia"
                   class="btn btn-primary"
                 />
               </div>
@@ -107,8 +105,10 @@
 import { Global } from "../../Global";
 import { roles } from "../../Global";
 import axios from "axios";
+
+
 export default {
-  name: "agregarUsuarioComponent.vue",
+  name: "agregarBedeliasComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
@@ -119,14 +119,16 @@ export default {
         samaccountname: "",
         userPrincipalName: "",
         ou: "Bedelias",
-        cargo: "",
+        rol:"",
       },
-      roles: roles,
 
+      roles: roles,
+    
     };
   },
 
   methods: {
+
     agregarUsuario() {
       let config = {
         headers: {
@@ -158,6 +160,7 @@ export default {
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
+   
   },
 };
 </script>

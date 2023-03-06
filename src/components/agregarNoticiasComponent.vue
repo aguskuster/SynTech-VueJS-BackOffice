@@ -342,7 +342,7 @@ export default {
     },
 
     descargarPDF(label) {
-      console.log(label);
+       
       let url = Global.url + "traerArchivo?archivo=" + label;
       axios
         .get(url, {
