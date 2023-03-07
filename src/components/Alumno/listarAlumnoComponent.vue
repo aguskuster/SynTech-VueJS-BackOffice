@@ -45,7 +45,7 @@
               <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
             </span>
             <span style="font-weight: bold; color: blue" @click="eliminarAlumno(props.row.id)"  v-if="
-              usuario.cargo != 'Adscripto' && usuario.cargo != 'Administrativo'
+              usuario.cargo != 'Adscripto'
             " >  
               <i class="far fa-trash" style='color:red;cursor: pointer;'></i>
             </span>
