@@ -45,7 +45,9 @@
                   <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
                 </span>
 
-                <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)">  
+                <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)"  v-if="
+              usuario.cargo != 'Adscripto' && usuario.cargo != 'Administrativo'
+            ">  
                   <i class="far fa-trash" style='color:red;cursor:pointer;'></i>
                 </span>
 

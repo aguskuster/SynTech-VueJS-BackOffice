@@ -44,7 +44,9 @@
             <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarProfesor(props.row.id)" >  
               <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
             </span>
-            <span style="font-weight: bold; color: blue" @click="eliminarProfesor(props.row.id)">  
+            <span style="font-weight: bold; color: blue" @click="eliminarProfesor(props.row.id)"  v-if="
+              usuario.cargo != 'Adscripto' && usuario.cargo != 'Administrativo'
+            ">  
               <i class="far fa-trash" style='color:red;cursor:pointer;'></i>
             </span>
           </span>
