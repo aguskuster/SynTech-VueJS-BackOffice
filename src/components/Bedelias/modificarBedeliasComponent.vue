@@ -150,22 +150,39 @@
               </div>
             </div>
           </div>
-              <div class="user-rol" style="width: 35% !important" v-if="usuario.cargo != 'Adscripto' &&  usuario.cargo != 'Administrativo'">
-           
-              <div class="mb-3">
-                <p style="font-size: 18px">Rol <em>*</em></p>
-                <select
-                  v-model="bedelia.cargo"
-                  class="form-select inputFachero"
-                  style="height: 50px; font-size: 16px"
-                >
-                  <option value="" disabled selected>Seleccione un rol</option>
-                  <option v-for="rol in roles" :value="rol" :key="rol.id">{{ rol }}</option>
-                </select>
-              </div>
-
-              
+          <div
+            class="user-rol"
+            style="width: 35% !important"
+            v-if="
+              usuario.cargo != 'Adscripto' && usuario.cargo != 'Administrativo'
+            "
+          >
+            <div class="mb-3">
+              <p style="font-size: 18px">Rol <em>*</em></p>
+              <select
+                v-model="bedelia.cargo"
+                class="form-select inputFachero"
+                style="height: 50px; font-size: 16px"
+              >
+                <option value="" disabled selected>Seleccione un rol</option>
+                <option v-for="rol in roles" :value="rol" :key="rol.id">
+                  {{ rol }}
+                </option>
+              </select>
             </div>
+          </div>
+
+          <div v-else>
+             <div class="mb-3">
+                <p style="font-size: 18px">Cargo</p>
+                <input
+                  disabled
+                  v-model="bedelia.cargo"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                />
+              </div>
+          </div>
 
           <div
             style="
@@ -224,19 +241,17 @@ export default {
         info: "",
         cargo: "",
       },
-    
+
       idBedelia: this.$route.params.user,
-   
+
       nombre: "",
       apellido: "",
     };
   },
   mounted() {
     this.getUsuario();
-
   },
-  methods: { 
-
+  methods: {
     comprobarModificarInfo() {
       this.$swal
         .fire({
@@ -276,7 +291,6 @@ export default {
         genero: this.bedelia.info.genero,
         cargo: this.bedelia.cargo,
       };
-    
 
       axios
         .put(Global.url + "bedelia/" + this.idBedelia, user, config)
@@ -329,9 +343,12 @@ export default {
           token: Global.token,
         },
       };
-   
+
       axios
-        .post(Global.url + "usuario/"+this.idBedelia+"/imagen-perfil", config)
+        .post(
+          Global.url + "usuario/" + this.idBedelia + "/imagen-perfil",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Foto actualizada", "", "success");
@@ -393,7 +410,7 @@ export default {
           if (res.status == 200) {
             this.bedelia.info = res.data.usuario;
             this.bedelia.cargo = res.data.cargo;
-         
+
             this.recortarNombre();
             this.loading = false;
           }

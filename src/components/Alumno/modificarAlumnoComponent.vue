@@ -246,6 +246,10 @@
 
              </div>
                <div v-else>
+                <p style="font-size: 18px">
+                  <span> Grupos</span>
+                
+                </p>
                <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
@@ -254,11 +258,7 @@
                 >
                   <span class="d-flex justify-content-between">
                     {{ returnGroupName(grupo).nombre }}
-                    <i
-                      class="fal fa-times"
-                      v-on:click="eliminarArray(grupo, alumno.grupos)"
-                    ></i
-                  ></span>
+                  </span>
                 </li>
               </ul>
             </div>
