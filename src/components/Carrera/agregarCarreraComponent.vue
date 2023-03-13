@@ -26,21 +26,21 @@
           />
         </div>
         <div class="mb-3">
-          <p style="font-size: 18px">Categoria <em>*</em></p>
-          <input
-            required
-            type="text"
-            v-model="carrera.categoria"
-            class="form-control inputFachero"
-            style="height: 50px; font-size: 16px"
-          />
-        </div>
-        <div class="mb-3">
           <p style="font-size: 18px">Plan <em>*</em></p>
           <input
             required
             type="text"
             v-model="carrera.plan"
+            class="form-control inputFachero"
+            style="height: 50px; font-size: 16px"
+          />
+        </div>
+        <div class="mb-3">
+          <p style="font-size: 18px">Categoria <em>*</em></p>
+          <input
+            required
+            type="text"
+            v-model="carrera.categoria"
             class="form-control inputFachero"
             style="height: 50px; font-size: 16px"
           />
@@ -51,26 +51,32 @@
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-      
         <form v-on:submit.prevent="agregarGradoCarrera()">
-          <div class="mb-3">
-            <p style="font-size: 18px">Tipo <em>*</em></p>
-            <select class="form-control" v-model="grado.tipo" v-on:change="grado.nombre = null">
+          <div class="mb-3" style="display: flex">
+            <!-- <p style="font-size: 18px">Tipo <em>*</em></p> -->
+
+            <select
+              class="form-control"
+              v-model="grado.tipo"
+              v-on:change="grado.nombre = null"
+              style="width: 350px"
+            >
               <option value="año">Año</option>
               <option value="semestre">Semestre</option>
-              <option value="otro">Otro</option>
             </select>
-            <p style="font-size: 18px">Grado <em>*</em></p>
+            <!-- <p style="font-size: 18px">Grado <em>*</em></p> -->
             <input
               type="text"
               disabled
               v-if="grado.tipo == null"
               class="form-control"
+              style="width: 135px; margin-left: 20px"
             />
             <select
               class="form-control"
               v-model="grado.nombre"
               v-if="grado.tipo == 'año'"
+              style="width: 135px; margin-left: 20px"
             >
               <option value="1er Año">1er Año</option>
               <option value="2do Año">2do Año</option>
@@ -83,6 +89,7 @@
               class="form-control"
               v-model="grado.nombre"
               v-if="grado.tipo == 'semestre'"
+              style="width: 135px; margin-left: 20px"
             >
               <option value="1er Semestre">1er Semestre</option>
               <option value="2do Semestre">2do Semestre</option>
@@ -98,9 +105,23 @@
               v-if="grado.tipo == 'otro'"
             />
           </div>
-          <div class="mb-3">
-            <p style="font-size: 18px">Materias <em>*</em></p>
 
+          <div>
+            <span>Categoria:{{ this.carrera.categoria }}</span>
+            <br />
+            <span>nombre : {{ this.carrera.nombre }}</span>
+            <br />
+
+            <span>plan : {{ this.carrera.plan }}</span>
+            <br />
+
+            <span>grados : {{ this.carrera.grados }}</span>
+            <br />
+          </div>
+          <input type="submit" value="Agregar Grado" class="btn btn-primary" />
+
+          <div class="mb-3 mt-4">
+            <p style="font-size: 18px">Listado de Materias <em>*</em></p>
             <select
               class="form-control"
               v-model="materiaSelect"
@@ -134,38 +155,40 @@
               </span>
             </div>
           </div>
-          <input type="submit" value="Agregar Grado" class="btn btn-primary" />
         </form>
       </div>
-
       <div
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-       <div class="w-90 ml-auto mt-1 mr-auto mb-auto">
-        <h5 style='text-align:center'>Resumen</h5>
-        <div class="p-1 mt-4">
-        <p>Nombre : {{ carrera.nombre }}</p>
-        <p>Categoria : {{ carrera.categoria }}</p>
-        <p>Plan : {{ carrera.plan }}</p>
+        <div class="w-90 ml-auto mt-1 mr-auto mb-auto">
+          <h5 style="text-align: center">Resumen</h5>
+          <div class="p-1 mt-4">
+            <p>Nombre : {{ carrera.nombre }}</p>
+            <p>Categoria : {{ carrera.categoria }}</p>
+            <p>Plan : {{ carrera.plan }}</p>
 
-        <div v-if="carrera.grados.length != 0">
-        <p>Grados</p>
-        <div v-for="g in carrera.grados" :key="g.id">
-          <p>Nombre: {{ g.nombre }}</p>
-          <p>Materias: <span v-for="m in g.materias" :key="m.id">{{ returnSubjectNameById(m) }} </span> </p>
-         
-        </div>
-        </div>
-      </div>
-            <div class="d-flex justify-content-end">
-              <input
-                v-on:click="agregarCarrera()"
-                type="submit"
-                value="Agregar carrera"
-                class="btn btn-primary"
-              />
+            <div v-if="carrera.grados.length != 0">
+              <p>Grados</p>
+              <div v-for="g in carrera.grados" :key="g.id">
+                <p>Nombre: {{ g.nombre }}</p>
+                <p>
+                  Materias:
+                  <span v-for="m in g.materias" :key="m.id"
+                    >{{ returnSubjectNameById(m) }}
+                  </span>
+                </p>
+              </div>
             </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <input
+              v-on:click="agregarCarrera()"
+              type="submit"
+              value="Agregar carrera"
+              class="btn btn-primary"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -199,7 +222,6 @@ export default {
   },
   methods: {
     agregarCarrera() {
-  
       alert("hola");
     },
     agregarArray(id, array) {
@@ -209,10 +231,10 @@ export default {
     },
     agregarGradoCarrera() {
       this.carrera.grados.push(this.grado);
-      this.grado = {
-        nombre: "",
-        materias: [],
-      };
+      // this.grado = {
+      //   nombre: "",
+      //   materias: [],
+      // };
     },
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
@@ -247,6 +269,36 @@ export default {
             status: "warning",
             title: Global.nombreSitio,
             message: "Error inesperado al cargar",
+          });
+        });
+    },
+
+    agregarGrado() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .post(Global.url + "grupo", "ada", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Grado agregado",
+            });
+            setTimeout(() => {
+              location.reload();
+            }, "3000");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
           });
         });
     },
