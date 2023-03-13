@@ -150,107 +150,12 @@
               </div>
             </div>
           </div>
-            <div class="user-rol" style="width: 35% !important">
-             <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
-              <div class="mb-3">
-                <p style="font-size: 18px">
-                  <span> Carrera</span>
-                </p>
-                <select
-                  v-model="carreraSelect"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                  v-on:change="
-                   cargarGrados(carreraSelect)
-                  "
-                >
-                  <option
-                    v-for="carrera in carreras"
-                    v-bind:key="carrera.id"
-                    :value="carrera"
-                  >
-                    {{ carrera.nombre +"-"+ carrera.plan}}
-                  </option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <p style="font-size: 18px">
-                  <span> Grado</span>
-                </p>
-                <select
-                  v-model="gradoSelect"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                  v-on:change="
-                   cargarGrupos(gradoSelect)
-                  "
-                >
-                  <option
-                    v-for="grado in grados"
-                    v-bind:key="grado.id"
-                    :value="grado.id"
-                  >
-                    {{ grado.grado }}
-                  </option>
-                </select>
-              </div>
-             
-               <div class="mb-3">
-                <p style="font-size: 18px">
-                  <span> Grupos</span>
-                
-                </p>
-                <select
-                  v-model="grupoSelect"
-                  class="form-control inputFachero"
-                  style="height: 50px; font-size: 16px"
-                  v-on:change="
-                    agregarArray(grupoSelect, alumno.grupos)
-                  "
-                >
-                  <option
-                    v-for="grupo in grupos"
-                    v-bind:key="grupo.id"
-                    :value="grupo.id"
-                  >
-                    {{ grupo.idGrupo +"-"+grupo.nombreCompleto }}
-                  </option>
-                </select>
-
-                <ul class="list-group mt-4">
-                  <li
-                    class="list-group-item"
-                    v-for="grupo in alumno.grupos"
-                    v-bind:key="grupo.id"
-                  >
-                    <span class="d-flex justify-content-between">
-                      {{ returnGroupName(grupo).nombre }}
-                      <i
-                        class="fal fa-times"
-                        v-on:click="
-                          eliminarArray(grupo, alumno.grupos)
-                        "
-                      ></i
-                    ></span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="d-flex justify-content-end">
-                <input
-                  type="submit"
-                  value="Agregar usuario"
-                  class="btn btn-primary"
-                />
-              </div>
-
-             </div>
-               <div v-else>
-                <p style="font-size: 18px">
-                  <span> Grupos</span>
-                
-                </p>
-               <ul class="list-group mt-4">
+          <div class="user-rol" style="width: 35% !important">
+            <div>
+              <p style="font-size: 18px">
+                <span> Grupos</span>
+              </p>
+              <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
                   v-for="grupo in alumno.grupos"
@@ -262,8 +167,7 @@
                 </li>
               </ul>
             </div>
-            </div>
-        
+          </div>
 
           <div
             style="
@@ -332,16 +236,15 @@ export default {
       },
       grupos: "",
       idAlumno: this.$route.params.user,
-      
+
       nombre: "",
       apellido: "",
 
-       carreraSelect: "",
+      carreraSelect: "",
       gradoSelect: "",
-      
-      carreras:"",
-      grados:"",
-    
+
+      carreras: "",
+      grados: "",
     };
   },
   mounted() {
@@ -349,11 +252,8 @@ export default {
     this.getAllGrupos();
   },
   methods: {
-      cargarGrados(carrera){
-     
-      this.grados = carrera.grado; 
-    },
-    cargarGrupos(){
+   
+    cargarGrupos() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -361,7 +261,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "grado/"+this.gradoSelect, config)
+        .get(Global.url + "grado/" + this.gradoSelect, config)
         .then((response) => {
           if (response.status == 200) {
             this.grupos = response.data.grupos;
@@ -375,24 +275,16 @@ export default {
           });
         });
     },
- 
-    agregarArray(id, array) {
-      if (!array.includes(id)) {
-        array.push(id);
-      }
-    },
+
+
     returnGroupName(idGrupo) {
       for (let g of this.grupos) {
         if (g.id == idGrupo) {
-          return { nombre: g.idGrupo+" - "+g.nombreCompleto, id: g.id };
+          return { nombre: g.idGrupo + " - " + g.nombreCompleto, id: g.id };
         }
       }
     },
-    eliminarArray(id, array) {
-      const element = (element) => element == id;
-      let index = array.findIndex(element);
-      array.splice(index, 1);
-    },
+ 
     getAllGrupos() {
       let config = {
         headers: {
@@ -403,7 +295,7 @@ export default {
       axios.get(Global.url + "grupo", config).then((res) => {
         if (res.status == 200) {
           this.grupos = res.data;
-         
+
           this.loading = false;
         }
       });
@@ -448,8 +340,6 @@ export default {
         genero: this.alumno.info.genero,
         grupos: this.alumno.grupos,
       };
-
-     
 
       axios
         .put(Global.url + "alumno/" + this.idAlumno, user, config)
@@ -502,9 +392,12 @@ export default {
           token: Global.token,
         },
       };
-   
+
       axios
-        .post(Global.url + "usuario/"+this.idAlumno+"/imagen-perfil", config)
+        .post(
+          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Foto actualizada", "", "success");
@@ -521,7 +414,6 @@ export default {
           token: Global.token,
         },
       };
-
 
       axios
         .delete(Global.url + "usuario/" + this.idAlumno, config)
@@ -560,15 +452,13 @@ export default {
         },
       };
 
-      axios
-        .get(Global.url + "alumno/" + this.idAlumno, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.alumno.info = res.data.usuario;
-            this.alumno.grupos = this.returnOnlyId(res.data.grupos);
-            this.recortarNombre();
-          }
-        });
+      axios.get(Global.url + "alumno/" + this.idAlumno, config).then((res) => {
+        if (res.status == 200) {
+          this.alumno.info = res.data.usuario;
+          this.alumno.grupos = this.returnOnlyId(res.data.grupos);
+          this.recortarNombre();
+        }
+      });
     },
     recortarNombre() {
       let user = this.alumno.info.nombre;
