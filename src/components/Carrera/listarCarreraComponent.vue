@@ -39,6 +39,16 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+            <template slot="table-row" slot-scope="props">
+         
+          <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
+            <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarCarerra(props.row.id)" >  
+              <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
+            </span>
+           
+          </span>
+          
+          </template>
           </vue-good-table>
         </div>
       </div>
@@ -87,6 +97,11 @@ export default {
           label: "Fecha de creacion",
           field: "created_at",
         },
+         {
+          label: "Action",
+          field: "btn",
+          html: true,
+        },
       ],
       pagination: {
         enabled: true,
@@ -114,6 +129,9 @@ export default {
     this.getTodos();
   },
   methods: {
+    modificarCarerra(id) {
+      this.$router.push("/carrera/" + id);
+    },
     getTodos() {
       let config = {
         headers: {

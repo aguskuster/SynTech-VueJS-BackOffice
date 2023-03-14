@@ -118,6 +118,7 @@
           <i
             class="fa fa-plus-square ml-2"
             style="color: #006799; cursor: pointer"
+           
           ></i>
         </p>
         <select
@@ -141,8 +142,9 @@
             v-for="m in grado.materias"
             v-bind:key="m.id"
           >
+         
             <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m) }}
+              {{ returnSubjectNameById(m)}}
               <button
                 class="btn btn-danger"
                 v-on:click="eliminarArray(m, grado.materias)"
@@ -153,30 +155,25 @@
           </li>
         </ul>
 
-        <p style="font-size: 18px">
+
+         <p style="font-size: 18px">
           <span> Grupo</span>
           <i
             class="fa fa-plus-square ml-2"
             style="color: #006799; cursor: pointer"
-            @click="agregarArray(grupoSelect, grado.grupos)"
+            @click="agregarArray(grupoSelect,grado.grupos)"
           ></i>
         </p>
         <label for="nombreGrupo">Acronimo de grupo</label>
-        <input
-          type="text"
-          id="nombreGrupo"
-          maxlength="5"
-          minlength="2"
-          class="form-control inputFachero"
-          v-model="grupoSelect"
-        />
-
+        <input type="text" id="nombreGrupo" maxlength="5" minlength="2"  class="form-control inputFachero" v-model=grupoSelect  > 
+  
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
             v-for="g in grado.grupos"
             v-bind:key="g.id"
           >
+         
             <span class="d-flex justify-content-between">
               {{ g }}
               <button
@@ -188,6 +185,7 @@
             </span>
           </li>
         </ul>
+      
       </div>
     </div>
   </div>
@@ -211,18 +209,19 @@ export default {
       },
       tipoSelect: "año",
       gradoSelect: "",
-
+  
       grado: {
         materias: [],
         grupos: [],
       },
-      grupoSelect: "",
+      grupoSelect:"",
       acronimoGrupo: "",
-
+      
       groupAccess: false,
     };
   },
   mounted() {
+    alert("hola");
     this.getAllMaterias();
   },
   methods: {
@@ -237,12 +236,14 @@ export default {
       axios
         .post(Global.url + "carrera", this.carrera, config)
         .then((res) => {
+          
+          this.$router.push("/carreras/"+res.data.id+"/modificar");
+         
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
             message: "Carrera creada correctamente",
           });
-          this.$router.push("/carrera/" + res.data.id);
         })
         .catch(() => {
           this.flashMessage.show({
@@ -272,15 +273,16 @@ export default {
       return gradosConTipo;
     },
     agregarArray(id, array) {
-      if (id == "" || id == null) {
+      if(id == "" || id == null){
         return;
       }
       if (!array.includes(id)) {
         array.push(id);
       }
+   
     },
-
     returnSubjectNameById(idSub) {
+     
       for (let m of this.materias) {
         if (m.id == idSub) {
           return m.nombre;

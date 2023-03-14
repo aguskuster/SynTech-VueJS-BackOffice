@@ -23,6 +23,7 @@ import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
 
 import listarCarreraComponent from './components/Carrera/listarCarreraComponent.vue';
 import agregarCarreraComponent from './components/Carrera/agregarCarreraComponent.vue';
+import modificarCarreraComponent from './components/Carrera/modificarCarreraComponent.vue';
 
 import listarUsuariosComponent from './components/Usuario/listarUsuariosComponent.vue';
 import agregarUsuariosComponent from './components/Usuario/agregarUsuariosComponent.vue';
@@ -83,7 +84,7 @@ const routes = [
 
     { path: '/carrera', name: 'listar-carrera', component: listarCarreraComponent },
     { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
-
+    { path: '/carrera/:carrera', name: 'modificar-carrera', component: modificarCarreraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
 
