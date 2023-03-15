@@ -109,11 +109,13 @@
           />
         </div>
       </div>
+      
       <div
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-        <p style="font-size: 18px">
+      <h5 style="text-align:center">Administrar Materias y grupos</h5>
+        <p style="font-size: 18px" class="mt-4">
           <span> Materias</span>
           <i
             class="fa fa-plus-square ml-2"
@@ -125,6 +127,7 @@
           class="form-control inputFachero"
           style="height: 50px; font-size: 16px"
           v-on:change="agregarArray(materiaSelect, grado.materias)"
+          disabled
         >
           <option
             v-for="materia in materias"
@@ -169,6 +172,7 @@
           minlength="2"
           class="form-control inputFachero"
           v-model="grupoSelect"
+          disabled
         />
 
         <ul class="list-group mt-4">
