@@ -45,13 +45,14 @@
             style="height: 50px; font-size: 16px"
           />
         </div>
+        {{ carrera }}
       </div>
 
       <div
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-        <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
+        <!-- <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
           <div class="mb-3" style="display: flex">
             <select
               class="form-control"
@@ -81,51 +82,66 @@
               class="btn btn-primary"
             />
           </div>
-        </form>
+        </form> -->
 
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
-            v-for="grado in carrera.grados"
+            v-for="grado in carrera.grado"
             v-bind:key="grado.id"
           >
-            <span class="d-flex justify-content-between">
-              {{ grado + " " + tipoSelect }}
-              <button
-                class="btn btn-danger"
-                v-on:click="eliminarArray(grado, carrera.grados)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
+            <span
+              class="d-flex justify-content-between"
+              @click="cargarGrado(grado)"
+            >
+              {{ grado.grado }}
             </span>
           </li>
         </ul>
-        <div class="d-flex justify-content-end mt-5">
-          <input
-            v-on:click="agregarCarrera()"
-            type="submit"
-            value="Agregar carrera"
-            class="btn btn-primary"
-          />
-        </div>
       </div>
       <div
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
+        v-if="gradoPicked == ''"
       >
+        <h5>Seleccione un grado para habilitar esta funcion</h5>
+        <br />
         <p style="font-size: 18px">
           <span> Materias</span>
           <i
             class="fa fa-plus-square ml-2"
             style="color: #006799; cursor: pointer"
-           
+          ></i>
+        </p>
+        <input class="form-control inputFachero" type="text" disabled />
+        <br /><br />
+        <p style="font-size: 18px">
+          <span> Grupo</span>
+          <i
+            class="fa fa-plus-square ml-2"
+            style="color: #006799; cursor: pointer"
+          ></i>
+        </p>
+        <input class="form-control inputFachero" type="text" disabled />
+      </div>
+      <div
+        v-else
+        class="contenedorDerechoPersona p-4"
+        style="width: 32%; background-color: whitesmoke"
+      >
+        <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
+        <p style="font-size: 18px">
+          <span> Materias</span>
+          <i
+            class="fa fa-plus-square ml-2"
+            style="color: #006799; cursor: pointer"
           ></i>
         </p>
         <select
           v-model="materiaSelect"
           class="form-control inputFachero"
           style="height: 50px; font-size: 16px"
-          v-on:change="agregarArray(materiaSelect, grado.materias)"
+          v-on:change="agregarArray(materiaSelect, gradoPicked.materias)"
         >
           <option
             v-for="materia in materias"
@@ -139,15 +155,14 @@
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
-            v-for="m in grado.materias"
+            v-for="m in gradoPicked.materias"
             v-bind:key="m.id"
           >
-         
             <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m)}}
+              {{ returnSubjectNameById(m) }}
               <button
                 class="btn btn-danger"
-                v-on:click="eliminarArray(m, grado.materias)"
+                v-on:click="eliminarArray(m, gradoPicked.materias)"
               >
                 <i class="fas fa-trash-alt"></i>
               </button>
@@ -155,37 +170,57 @@
           </li>
         </ul>
 
-
-         <p style="font-size: 18px">
+        <p style="font-size: 18px">
           <span> Grupo</span>
-          <i
-            class="fa fa-plus-square ml-2"
-            style="color: #006799; cursor: pointer"
-            @click="agregarArray(grupoSelect,grado.grupos)"
-          ></i>
         </p>
-        <label for="nombreGrupo">Acronimo de grupo</label>
-        <input type="text" id="nombreGrupo" maxlength="5" minlength="2"  class="form-control inputFachero" v-model=grupoSelect  > 
-  
+        <input
+          type="text"
+          id="nombreGrupo"
+          maxlength="5"
+          minlength="2"
+          class="form-control inputFachero"
+          v-model="grupoSelect.idGrupo"
+        />
+        <p style="font-size: 18px">
+          <span> Año Electivo</span>
+        </p>
+        <input
+          type="text"
+          id="nombreGrupo"
+          maxlength="4"
+          minlength="4"
+          class="form-control inputFachero"
+          v-model="grupoSelect.anioElectivo"
+        />
+
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
-            v-for="g in grado.grupos"
+            v-for="g in gradoPicked.grupos"
             v-bind:key="g.id"
           >
-         
             <span class="d-flex justify-content-between">
-              {{ g }}
-              <button
-                class="btn btn-danger"
-                v-on:click="eliminarArray(g, grado.grupos)"
-              >
+              {{ g.idGrupo }}
+              <button class="btn btn-danger" v-on:click="eliminarGrupo(g)">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </span>
           </li>
         </ul>
-      
+        <input
+          type="submit"
+          value="Agregar Grupo"
+          class="btn btn-primary"
+          @click="agregarGrupo()"
+        />
+
+
+         <input
+          type="submit"
+          value="Actualizar Grado"
+          class="btn btn-primary"
+          @click="actualizarGrado()"
+        />
       </div>
     </div>
   </div>
@@ -194,77 +229,156 @@
 import { Global } from "../../Global";
 import axios from "axios";
 export default {
-  name: "agregarUsuarioComponent.vue",
+  name: "modificarCarreraComponent.vue",
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: false,
+      carrera: "",
+      gradoPicked: "",
       materias: "",
-      materiaSelect: "",
-      carrera: {
-        nombre: "",
-        categoria: "",
-        plan: "",
-        grados: [],
-      },
-      tipoSelect: "año",
       gradoSelect: "",
-  
-      grado: {
-        materias: [],
-        grupos: [],
+      tipoSelect: "",
+      materiaSelect: "",
+      grado: "",
+      grupoSelect:{
+        idGrupo: "",
+        anioElectivo: "",
       },
-      grupoSelect:"",
-      acronimoGrupo: "",
-      
-      groupAccess: false,
     };
   },
   mounted() {
-    alert("hola");
+    
+    this.getCarrera();
     this.getAllMaterias();
   },
   methods: {
-    agregarCarrera() {
+    eliminarGrupo(grupo){
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-      this.carrera.grados = this.addTipoGrado(this.carrera.grados);
       axios
-        .post(Global.url + "carrera", this.carrera, config)
-        .then((res) => {
-          
-          this.$router.push("/carreras/"+res.data.id+"/modificar");
-         
-          this.flashMessage.show({
+        .delete(Global.url + "grupo/" + grupo.idGrupo, config)
+        .then(() => {
+           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
-            message: "Carrera creada correctamente",
+            message: "Grupo eliminado correctamente",
           });
+          this.cargarGrado(this.gradoPicked);
         })
         .catch(() => {
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
-            message: "Error inesperado al crear",
+            message: "Error al eliminar",
+          });
+        });
+
+    },
+    agregarGrupo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      let grupo = {
+        idGrupo: this.grupoSelect.idGrupo,
+        nombreCompleto: this.gradoPicked.grado + " " + this.grupoSelect,
+        grado_id: this.gradoPicked.id,
+        anioElectivo: this.grupoSelect.anioElectivo,
+      };
+      axios
+        .post(Global.url + "grupo", grupo, config)
+        .then(() => {
+          this.cargarGrado(this.gradoPicked);
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Grupo existente",
           });
         });
     },
-    parseResultData(data) {
-      let carrera = {
-        nombre: data.nombre,
-        categoria: data.categoria,
-        plan: data.plan,
-        grados: [],
+    cargarGrado(grado) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
       };
-      for (let g of data.grados) {
-        carrera.grados.push(g.grado);
-      }
-      return carrera;
+      axios
+        .get(Global.url + "grado/" + grado.id, config)
+        .then((response) => {
+          this.gradoPicked = response.data;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
     },
+    actualizarGrado() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      let grado = {
+        carrera_id: this.$route.params.carrera,
+        grado: this.gradoPicked.grado,
+        materias: {},
+      };
+      axios
+        .put(Global.url + "grado/" + this.gradoPicked.id, grado, config)
+        .then(() => {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Grado actualizado correctamente",
+          });
+         
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
+    getCarrera() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      this.loading = true;
+      axios
+        .get(Global.url + "carrera/" + this.$route.params.carrera, config)
+        .then((response) => {
+          this.carrera = response.data;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
+
     addTipoGrado(grados, tipo) {
       let gradosConTipo = [];
       for (let g of grados) {
@@ -273,16 +387,14 @@ export default {
       return gradosConTipo;
     },
     agregarArray(id, array) {
-      if(id == "" || id == null){
+      if (id == "" || id == null) {
         return;
       }
       if (!array.includes(id)) {
         array.push(id);
       }
-   
     },
     returnSubjectNameById(idSub) {
-     
       for (let m of this.materias) {
         if (m.id == idSub) {
           return m.nombre;
