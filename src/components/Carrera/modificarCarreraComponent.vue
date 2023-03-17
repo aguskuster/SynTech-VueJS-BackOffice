@@ -138,10 +138,9 @@
           ></i>
         </p>
         <select
-          v-model="materiaSelect"
+          v-model="materiaSelect.materia_id"
           class="form-control inputFachero"
           style="height: 50px; font-size: 16px"
-          v-on:change="agregarArray(materiaSelect, gradoPicked.materias)"
         >
           <option
             v-for="materia in materias"
@@ -152,6 +151,15 @@
           </option>
         </select>
 
+        <input type="text" v-model="materiaSelect.cantidad_horas">
+
+        <button
+          class="btn btn-primary"
+          v-on:click="agregarArray(materiaSelect, gradoPicked.materias)"
+        >
+          Agregar Materia
+        </button>
+
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
@@ -159,7 +167,7 @@
             v-bind:key="m.id"
           >
             <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m) }}
+              {{ returnSubjectNameById(m.materia_id) }}
               <button
                 class="btn btn-danger"
                 v-on:click="eliminarArray(m, gradoPicked.materias)"
@@ -181,17 +189,7 @@
           class="form-control inputFachero"
           v-model="grupoSelect.idGrupo"
         />
-        <p style="font-size: 18px">
-          <span> Año Electivo</span>
-        </p>
-        <input
-          type="text"
-          id="nombreGrupo"
-          maxlength="4"
-          minlength="4"
-          class="form-control inputFachero"
-          v-model="grupoSelect.anioElectivo"
-        />
+ 
 
         <ul class="list-group mt-4">
           <li
@@ -239,11 +237,15 @@ export default {
       materias: "",
       gradoSelect: "",
       tipoSelect: "",
-      materiaSelect: "",
+      materiaSelect: {
+        materia_id: "",
+        cantidad_horas:"",
+        carrera_id:this.$route.params.carrera 
+      },
       grado: "",
       grupoSelect:{
         idGrupo: "",
-        anioElectivo: "",
+    
       },
     };
   },
@@ -290,8 +292,10 @@ export default {
         idGrupo: this.grupoSelect.idGrupo,
         nombreCompleto: this.gradoPicked.grado + " " + this.grupoSelect,
         grado_id: this.gradoPicked.id,
-        anioElectivo: this.grupoSelect.anioElectivo,
+        anioElectivo: new Date().getFullYear(),
       };
+
+   
       axios
         .post(Global.url + "grupo", grupo, config)
         .then(() => {
@@ -336,7 +340,7 @@ export default {
       let grado = {
         carrera_id: this.$route.params.carrera,
         grado: this.gradoPicked.grado,
-        materias: {},
+        materias: this.gradoPicked.materias,
       };
       axios
         .put(Global.url + "grado/" + this.gradoPicked.id, grado, config)
