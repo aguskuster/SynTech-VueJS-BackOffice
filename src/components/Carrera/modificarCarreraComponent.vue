@@ -52,7 +52,7 @@
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-        <!-- <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
+        <form v-on:submit.prevent="updateCarrera()">
           <div class="mb-3" style="display: flex">
             <select
               class="form-control"
@@ -68,12 +68,12 @@
               v-model="gradoSelect"
               style="width: 135px; margin-left: 20px"
             >
-              <option value="1er">1er</option>
-              <option value="2do">2do</option>
-              <option value="3er">3er</option>
-              <option value="4to">4to</option>
-              <option value="5to">5to</option>
-              <option value="6to">6to</option>
+              <option :value="'1er ' + tipoSelect">1er</option>
+              <option :value="'2do ' + tipoSelect">2do</option>
+              <option :value="'3er ' + tipoSelect">3er</option>
+              <option :value="'4to ' + tipoSelect">4to</option>
+              <option :value="'5to ' + tipoSelect">5to</option>
+              <option :value="'6to ' + tipoSelect">6to</option>
             </select>
 
             <input
@@ -82,7 +82,7 @@
               class="btn btn-primary"
             />
           </div>
-        </form> -->
+        </form>
 
         <ul class="list-group mt-4">
           <li
@@ -90,11 +90,12 @@
             v-for="grado in carrera.grado"
             v-bind:key="grado.id"
           >
-            <span
-              class="d-flex justify-content-between"
-              @click="cargarGrado(grado)"
-            >
-              {{ grado.grado }}
+            <span class="d-flex justify-content-between">
+              <span @click="cargarGrado(grado)"> {{ grado.grado }}</span>
+
+              <button class="btn btn-danger" v-on:click="eliminarGrado(grado)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </span>
           </li>
         </ul>
@@ -151,7 +152,7 @@
           </option>
         </select>
 
-        <input type="text" v-model="materiaSelect.cantidad_horas">
+        <input type="text" v-model="materiaSelect.cantidad_horas" />
 
         <button
           class="btn btn-primary"
@@ -167,7 +168,7 @@
             v-bind:key="m.id"
           >
             <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m.materia_id) }}
+              {{ returnSubjectNameById(m.id) }}
               <button
                 class="btn btn-danger"
                 v-on:click="eliminarArray(m, gradoPicked.materias)"
@@ -189,7 +190,6 @@
           class="form-control inputFachero"
           v-model="grupoSelect.idGrupo"
         />
- 
 
         <ul class="list-group mt-4">
           <li
@@ -212,8 +212,7 @@
           @click="agregarGrupo()"
         />
 
-
-         <input
+        <input
           type="submit"
           value="Actualizar Grado"
           class="btn btn-primary"
@@ -239,23 +238,86 @@ export default {
       tipoSelect: "",
       materiaSelect: {
         materia_id: "",
-        cantidad_horas:"",
-        carrera_id:this.$route.params.carrera 
+        cantidad_horas: "",
+        carrera_id: this.$route.params.carrera,
       },
       grado: "",
-      grupoSelect:{
+      grupoSelect: {
         idGrupo: "",
-    
       },
     };
   },
   mounted() {
-    
     this.getCarrera();
     this.getAllMaterias();
   },
   methods: {
-    eliminarGrupo(grupo){
+    eliminarGrado(grado) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .delete(
+          Global.url + "carrera/" + this.carrera.id + "/grado/" + grado.id,
+          config
+        )
+        .then(() => {
+          this.getCarrera();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getOnlyGrados() {
+      let grados = [];
+      for (let grado of this.carrera.grado) {
+        grados.push(grado.grado);
+      }
+      if (this.gradoSelect != "") {
+        if (!grados.includes(this.gradoSelect)) {
+          grados.push(this.gradoSelect);
+        }
+      }
+      return grados;
+    },
+
+    updateCarrera() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      let carrera = {
+        nombre: this.carrera.nombre,
+        plan: this.carrera.plan,
+        categoria: this.carrera.categoria,
+        grados: this.getOnlyGrados(this.carrera.grados),
+      };
+
+      axios
+        .put(Global.url + "carrera/" + this.carrera.id, carrera, config)
+        .then(() => {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Carrera actualizada correctamente",
+          });
+          this.getCarrera();
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error al actualizar",
+          });
+        });
+    },
+
+    eliminarGrupo(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -265,7 +327,7 @@ export default {
       axios
         .delete(Global.url + "grupo/" + grupo.idGrupo, config)
         .then(() => {
-           this.flashMessage.show({
+          this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
             message: "Grupo eliminado correctamente",
@@ -279,7 +341,6 @@ export default {
             message: "Error al eliminar",
           });
         });
-
     },
     agregarGrupo() {
       let config = {
@@ -295,7 +356,6 @@ export default {
         anioElectivo: new Date().getFullYear(),
       };
 
-   
       axios
         .post(Global.url + "grupo", grupo, config)
         .then(() => {
@@ -350,7 +410,6 @@ export default {
             title: Global.nombreSitio,
             message: "Grado actualizado correctamente",
           });
-         
         })
         .catch(() => {
           this.flashMessage.show({
