@@ -9,7 +9,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import HomeComponent from './components/HomeComponent.vue';
 
 import listarGrupoComponent from './components/listarGrupoComponent.vue';
-import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
+// import modificarGrupoComponent from './components/modificarGrupoComponent.vue';
 import modificarMateriaComponent from './components/modificarMateriaComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import listarMateriaComponent from './components/listarMateriaComponent.vue';
@@ -41,6 +41,8 @@ import listarProfesorComponent from './components/Profesor/listarProfesorCompone
 import agregarProfesorComponent from './components/Profesor/agregarProfesorComponent.vue';
 import modificarProfesorComponent from './components/Profesor/modificarProfesorComponent.vue';
 
+import modificarGrupoComponent from './components/Grupo/modificarGrupoComponent.vue';
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -53,7 +55,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     
     { path: '/listarGrupo', name: 'listarGrupo', component: listarGrupoComponent },
-    { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
+    // { path: '/modificarGrupo/:idGrupo', name: 'listar-grupo-modificar', component: modificarGrupoComponent },
     { path: '/materias', name: 'listarMateria', component: listarMateriaComponent },
     { path: '/materias/crear', name: 'agregar-materia', component: agregarMateriaComponent },
     { path: '/modificarMateria/:idMateria/:Materia', name: 'modificarMateria', component: modificarMateriaComponent },
@@ -85,6 +87,9 @@ const routes = [
     { path: '/carrera', name: 'listar-carrera', component: listarCarreraComponent },
     { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
     { path: '/carrera/:carrera', name: 'modificar-carrera', component: modificarCarreraComponent },
+
+    { path: '/grupo/:idGrupo', name: 'modificar-grupo', component: modificarGrupoComponent },
+   
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
 

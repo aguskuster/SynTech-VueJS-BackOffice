@@ -151,24 +151,33 @@
             {{ materia.nombre }}
           </option>
         </select>
-
-        <input type="text" v-model="materiaSelect.cantidad_horas" />
-
-        <button
-          class="btn btn-primary"
-          v-on:click="agregarArray(materiaSelect, gradoPicked.materias)"
-        >
-          Agregar Materia
-        </button>
-
+        <br />
+        <p style="font-size: 18px">
+          <span> Cantidad de horas semanales</span>
+        </p>
+        <input
+          type="text"
+          class="form-control inputFachero"
+          v-model="materiaSelect.cantidad_horas"
+        />
+        <div class="d-flex justify-content-end mt-2">
+          <button
+            class="btn btn-primary"
+            v-on:click="agregarArray(materiaSelect, gradoPicked.materias)"
+          >
+            Agregar Materia
+          </button>
+        </div>
+ 
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
             v-for="m in gradoPicked.materias"
             v-bind:key="m.id"
           >
+        
             <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m.id) }}
+              {{ returnSubjectNameById(m) }}
               <button
                 class="btn btn-danger"
                 v-on:click="eliminarArray(m, gradoPicked.materias)"
@@ -199,9 +208,14 @@
           >
             <span class="d-flex justify-content-between">
               {{ g.idGrupo }}
-              <button class="btn btn-danger" v-on:click="eliminarGrupo(g)">
-                <i class="fas fa-trash-alt"></i>
-              </button>
+              <span>
+                <button class="btn btn-danger" v-on:click="eliminarGrupo(g)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-warning" v-on:click="modificarGrupo(g)">
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+              </span>
             </span>
           </li>
         </ul>
@@ -315,6 +329,9 @@ export default {
             message: "Error al actualizar",
           });
         });
+    },
+    modificarGrupo(grupo) {
+       this.$router.push("/grupo/" + grupo.id);
     },
 
     eliminarGrupo(grupo) {
@@ -459,7 +476,7 @@ export default {
     },
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
-        if (m.id == idSub) {
+        if (m.id == idSub.id || m.id == idSub.materia_id) {
           return m.nombre;
         }
       }

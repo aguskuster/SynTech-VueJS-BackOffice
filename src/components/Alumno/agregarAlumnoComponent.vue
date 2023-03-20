@@ -134,7 +134,7 @@
                   <option
                     v-for="grupo in grupos"
                     v-bind:key="grupo.id"
-                    :value="grupo.id"
+                    :value="grupo.idGrupo"
                   >
                     {{ grupo.idGrupo +"-"+grupo.nombreCompleto }}
                   </option>
