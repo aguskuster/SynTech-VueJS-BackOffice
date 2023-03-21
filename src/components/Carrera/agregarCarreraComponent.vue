@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Carrea</h2>
+      <h2>Agregar Carrera</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -67,12 +67,12 @@
               v-model="gradoSelect"
               style="width: 135px; margin-left: 20px"
             >
-              <option value="1er">1er</option>
-              <option value="2do">2do</option>
-              <option value="3er">3er</option>
-              <option value="4to">4to</option>
-              <option value="5to">5to</option>
-              <option value="6to">6to</option>
+             <option :value="'1er ' + tipoSelect">1er</option>
+              <option :value="'2do ' + tipoSelect">2do</option>
+              <option :value="'3er ' + tipoSelect">3er</option>
+              <option :value="'4to ' + tipoSelect">4to</option>
+              <option :value="'5to ' + tipoSelect">5to</option>
+              <option :value="'6to ' + tipoSelect">6to</option>
             </select>
 
             <input
@@ -90,7 +90,7 @@
             v-bind:key="grado.id"
           >
             <span class="d-flex justify-content-between">
-              {{ grado + " " + tipoSelect }}
+              {{ grado }}
               <button
                 class="btn btn-danger"
                 v-on:click="eliminarArray(grado, carrera.grados)"
@@ -237,7 +237,7 @@ export default {
           token: Global.token,
         },
       };
-      this.carrera.grados = this.addTipoGrado(this.carrera.grados);
+      
       axios
         .post(Global.url + "carrera", this.carrera, config)
         .then((res) => {
@@ -268,13 +268,7 @@ export default {
       }
       return carrera;
     },
-    addTipoGrado(grados, tipo) {
-      let gradosConTipo = [];
-      for (let g of grados) {
-        gradosConTipo.push(g + " " + tipo);
-      }
-      return gradosConTipo;
-    },
+ 
     agregarArray(id, array) {
       if (id == "" || id == null) {
         return;

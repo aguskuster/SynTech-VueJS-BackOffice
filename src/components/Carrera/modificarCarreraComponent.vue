@@ -163,7 +163,7 @@
         <div class="d-flex justify-content-end mt-2">
           <button
             class="btn btn-primary"
-            v-on:click="agregarArray(materiaSelect, gradoPicked.materias)"
+            @click="actualizarGrado()"
           >
             Agregar Materia
           </button>
@@ -226,12 +226,6 @@
           @click="agregarGrupo()"
         />
 
-        <input
-          type="submit"
-          value="Actualizar Grado"
-          class="btn btn-primary"
-          @click="actualizarGrado()"
-        />
       </div>
     </div>
   </div>
@@ -414,14 +408,16 @@ export default {
           token: Global.token,
         },
       };
+
       let grado = {
         carrera_id: this.$route.params.carrera,
         grado: this.gradoPicked.grado,
-        materias: this.gradoPicked.materias,
+        materias: this.getOnlySubjectId(this.gradoPicked.materias),
       };
       axios
         .put(Global.url + "grado/" + this.gradoPicked.id, grado, config)
         .then(() => {
+          this.cargarGrado(this.gradoPicked);
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -436,6 +432,15 @@ export default {
           });
         });
     },
+    getOnlySubjectId(materias){
+      let materiasId = [];
+      for (let materia of materias) {
+        materiasId.push(materia.id);
+      }
+      return materiasId;
+    },
+
+   
     getCarrera() {
       let config = {
         headers: {
