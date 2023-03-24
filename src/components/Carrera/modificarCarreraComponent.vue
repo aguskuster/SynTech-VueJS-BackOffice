@@ -15,65 +15,63 @@
         class="contenedorIzquierdo p-4"
         style="width: 33%; background-color: whitesmoke"
       >
-        <div class="mb-3">
-          <p style="font-size: 18px">Nombre <em>*</em></p>
+        <form v-on:submit.prevent="updateCarrera()">
+          <div class="mb-3">
+            <p style="font-size: 18px">Nombre <em>*</em></p>
+            <input
+              required
+              type="text"
+              v-model="carrera.nombre"
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+          <div class="mb-3">
+            <p style="font-size: 18px">Plan <em>*</em></p>
+            <input
+              required
+              type="text"
+              v-model="carrera.plan"
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+          <div class="mb-3">
+            <p style="font-size: 18px">Categoria <em>*</em></p>
+            <input
+              required
+              type="text"
+              v-model="carrera.categoria"
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+
           <input
-            required
-            type="text"
-            v-model="carrera.nombre"
-            class="form-control inputFachero"
-            style="height: 50px; font-size: 16px"
+            type="submit"
+            value="Actualizar carrera"
+            class="btn btn-primary"
           />
-        </div>
-        <div class="mb-3">
-          <p style="font-size: 18px">Plan <em>*</em></p>
-          <input
-            required
-            type="text"
-            v-model="carrera.plan"
-            class="form-control inputFachero"
-            style="height: 50px; font-size: 16px"
-          />
-        </div>
-        <div class="mb-3">
-          <p style="font-size: 18px">Categoria <em>*</em></p>
-          <input
-            required
-            type="text"
-            v-model="carrera.categoria"
-            class="form-control inputFachero"
-            style="height: 50px; font-size: 16px"
-          />
-        </div>
-        {{ carrera }}
+        </form>
       </div>
 
       <div
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-        <form v-on:submit.prevent="updateCarrera()">
+        <form v-on:submit.prevent="agregarGrado()">
           <div class="mb-3" style="display: flex">
-            <select
-              class="form-control"
-              v-model="tipoSelect"
-              style="width: 350px"
-            >
-              <option value="año">Año</option>
-              <option value="semestre">Semestre</option>
-            </select>
-
             <select
               class="form-control"
               v-model="gradoSelect"
               style="width: 135px; margin-left: 20px"
             >
-              <option :value="'1er ' + tipoSelect">1er</option>
-              <option :value="'2do ' + tipoSelect">2do</option>
-              <option :value="'3er ' + tipoSelect">3er</option>
-              <option :value="'4to ' + tipoSelect">4to</option>
-              <option :value="'5to ' + tipoSelect">5to</option>
-              <option :value="'6to ' + tipoSelect">6to</option>
+              <option :value="'1er ' + tipoSelect">1er {{ tipoSelect }}</option>
+              <option :value="'2do ' + tipoSelect">2do {{ tipoSelect }}</option>
+              <option :value="'3er ' + tipoSelect">3er {{ tipoSelect }}</option>
+              <option :value="'4to ' + tipoSelect">4to {{ tipoSelect }}</option>
+              <option :value="'5to ' + tipoSelect">5to {{ tipoSelect }}</option>
+              <option :value="'6to ' + tipoSelect">6to {{ tipoSelect }}</option>
             </select>
 
             <input
@@ -139,14 +137,14 @@
           ></i>
         </p>
         <select
-          v-model="materiaSelect.materia_id"
+          v-model="materiaSelect"
           class="form-control inputFachero"
           style="height: 50px; font-size: 16px"
         >
           <option
             v-for="materia in materias"
             v-bind:key="materia.id"
-            :value="materia.id"
+            :value="materia"
           >
             {{ materia.nombre }}
           </option>
@@ -161,26 +159,22 @@
           v-model="materiaSelect.cantidad_horas"
         />
         <div class="d-flex justify-content-end mt-2">
-          <button
-            class="btn btn-primary"
-            @click="actualizarGrado()"
-          >
+          <button class="btn btn-primary" @click="agregarMateriaGrado()">
             Agregar Materia
           </button>
         </div>
- 
+
         <ul class="list-group mt-4">
           <li
             class="list-group-item"
             v-for="m in gradoPicked.materias"
             v-bind:key="m.id"
           >
-        
             <span class="d-flex justify-content-between">
               {{ returnSubjectNameById(m) }}
               <button
                 class="btn btn-danger"
-                v-on:click="eliminarArray(m, gradoPicked.materias)"
+                v-on:click="eliminarMateriaGrado(m)"
               >
                 <i class="fas fa-trash-alt"></i>
               </button>
@@ -225,7 +219,6 @@
           class="btn btn-primary"
           @click="agregarGrupo()"
         />
-
       </div>
     </div>
   </div>
@@ -260,6 +253,54 @@ export default {
     this.getAllMaterias();
   },
   methods: {
+    agregarGrado() {
+      for (let grado of this.carrera.grado) {
+        if (grado.grado == this.gradoSelect || this.gradoSelect == "") {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Grado ya pertenece a la carrera",
+          });
+          this.gradoSelect = "";
+          return;
+        }
+      }
+
+      this.updateCarrera();
+    },
+    eliminarMateriaGrado(materia) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(
+          Global.url +
+            "grado/" +
+            this.gradoPicked.id +
+            "/materia/" +
+            materia.id,
+          config
+        )
+        .then((res) => {
+          this.gradoPicked = res.data;
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Grado actualizado correctamente",
+          });
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar",
+          });
+        });
+    },
     eliminarGrado(grado) {
       let config = {
         headers: {
@@ -325,7 +366,7 @@ export default {
         });
     },
     modificarGrupo(grupo) {
-       this.$router.push("/grupo/" + grupo.id);
+      this.$router.push("/grupo/" + grupo.idGrupo);
     },
 
     eliminarGrupo(grupo) {
@@ -371,6 +412,9 @@ export default {
         .post(Global.url + "grupo", grupo, config)
         .then(() => {
           this.cargarGrado(this.gradoPicked);
+          this.grupoSelect = {
+            idGrupo: "",
+          };
         })
         .catch(() => {
           this.flashMessage.show({
@@ -401,7 +445,7 @@ export default {
           });
         });
     },
-    actualizarGrado() {
+    agregarMateriaGrado() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -409,15 +453,35 @@ export default {
         },
       };
 
+      for (let materia of this.gradoPicked.materias) {
+        if (materia.id == this.materiaSelect.id) {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Materia ya pertenece al grado",
+          });
+          this.materiaSelect = {
+            materia_id: "",
+            cantidad_horas: "",
+            carrera_id: this.$route.params.carrera,
+          };
+          return;
+        }
+      }
+
       let grado = {
-        carrera_id: this.$route.params.carrera,
-        grado: this.gradoPicked.grado,
-        materias: this.getOnlySubjectId(this.gradoPicked.materias),
+        materia_id: this.materiaSelect.id,
+        cantidad_horas: this.materiaSelect.cantidad_horas,
       };
+
       axios
-        .put(Global.url + "grado/" + this.gradoPicked.id, grado, config)
-        .then(() => {
-          this.cargarGrado(this.gradoPicked);
+        .put(
+          Global.url + "grado/" + this.gradoPicked.id + "/materia",
+          grado,
+          config
+        )
+        .then((res) => {
+          this.gradoPicked = res.data;
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -432,7 +496,20 @@ export default {
           });
         });
     },
-    getOnlySubjectId(materias){
+
+    parseSubjectForBackend(materias) {
+      let aux = [];
+      for (let m of materias) {
+        aux.push({
+          materia_id: m.id,
+          cantidad_horas: m.cantidad_horas,
+          carrera_id: this.$route.params.carrera,
+        });
+      }
+
+      return aux;
+    },
+    getOnlySubjectId(materias) {
       let materiasId = [];
       for (let materia of materias) {
         materiasId.push(materia.id);
@@ -440,7 +517,6 @@ export default {
       return materiasId;
     },
 
-   
     getCarrera() {
       let config = {
         headers: {
@@ -454,6 +530,7 @@ export default {
         .then((response) => {
           this.carrera = response.data;
           this.loading = false;
+          this.tipoSelect = this.getTypeOfGrado();
         })
         .catch(() => {
           this.flashMessage.show({
@@ -462,6 +539,10 @@ export default {
             message: "Error inesperado al cargar",
           });
         });
+    },
+    getTypeOfGrado() {
+      let tipo = this.carrera.grado[0].grado.split(" ")[1];
+      return tipo;
     },
 
     addTipoGrado(grados, tipo) {
