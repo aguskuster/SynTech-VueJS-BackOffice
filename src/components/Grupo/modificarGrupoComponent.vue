@@ -39,14 +39,53 @@
                 </button>
               </div>
               <div class="modal-body">
-                <vue-good-table
-                  :columns="columnsProfesores"
-                  :rows="profesores"
-                  :search-options="{ enabled: true }"
-                  theme="polar-bear"
-                  :pagination-options="pagination"
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  style="display: none"
+                  id="emptySelect"
                 >
-                </vue-good-table>
+                  Seleccione una materia para buscar profesores
+                </div>
+                <div class="d-flex" >
+                <select
+                  v-model="materiaSelect"
+                  class="form-control"
+                  style="height: 50px; font-size: 16px"
+                >
+                  <option value="">Seleccione una materia</option>
+                  <option
+                    v-for="materia in materiasLibres"
+                    v-bind:key="materia.id"
+                    :value="materia"
+                  >
+                    {{ materia.nombre }}
+                  </option>
+                </select>
+                  <button @click="buscarProfesores()" class="btn btn-primary">Buscar</button>
+                </div>
+                <br>
+              
+
+                <div v-if="loadingProfesores">
+                  <center style="margin-top: 3rem; font-size: 230px">
+                    <div
+                      class="spinner-border text-primary"
+                      role="status"
+                      style="color: #13111e !important"
+                    ></div>
+                  </center>
+                </div>
+                <div v-else>
+                  <vue-good-table
+                    :columns="columnsProfesores"
+                    :rows="profesores"
+                    :search-options="{ enabled: true }"
+                    theme="polar-bear"
+                    :pagination-options="pagination"
+                  >
+                  </vue-good-table>
+                </div>
               </div>
             </div>
           </div>
@@ -184,6 +223,8 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: false,
       grupo: "",
+      loadingProfesores: false,
+      materiaSelect: "",
       columnsAlumnos: [
         {
           label: "Nombre",
@@ -197,7 +238,7 @@ export default {
       columnsProfesores: [
         {
           label: "Nombre",
-          field: "nombreProfesor",
+          field: "nombre",
         },
       ],
       columnsProfesoresAsignados: [
@@ -237,14 +278,14 @@ export default {
         perPageDropdown: [10, 5],
         rowsPerPageLabel: "Filas por pagina",
       },
-
+      materiasLibres: "",
       profesores: "",
       alumnos: "",
     };
   },
   mounted() {
     this.getGrupo();
-    this.getProfesoresNoAsignados();
+    this.getMateriasNoAsignadas();
     this.getAlumnosNoAsignados();
   },
   methods: {
@@ -254,8 +295,35 @@ export default {
     eliminarProfesor(id) {
       alert("profesor" + id + "eliminado");
     },
+    buscarProfesores() {
+      if (this.materiaSelect == "") {
+        document.getElementById("emptySelect").style.display = "block";
+        return;
+      } else {
+        document.getElementById("emptySelect").style.display = "none";
+      }
 
-    getProfesoresNoAsignados() {
+      this.loadingProfesores = true;
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(Global.url + "profesor?idMateria=" + this.materiaSelect.id, config)
+        .then((response) => {
+          this.profesores = response.data;
+          this.loadingProfesores = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loadingProfesores = false;
+        });
+    },
+
+    getMateriasNoAsignadas() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -264,11 +332,14 @@ export default {
       };
       axios
         .get(
-          Global.url + "grupo/" + this.$route.params.idGrupo + "/profesores",
+          Global.url +
+            "grupo/" +
+            this.$route.params.idGrupo +
+            "/materias-libres",
           config
         )
         .then((response) => {
-          this.profesores = response.data;
+          this.materiasLibres = response.data;
         })
         .catch((error) => {
           console.log(error);
