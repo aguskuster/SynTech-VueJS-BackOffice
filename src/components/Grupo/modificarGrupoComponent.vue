@@ -26,9 +26,7 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">
-                  Agregar Profesor a <b>{{ grupo.idGrupo }}</b>
-                </h5>
+                <h5 class="modal-title">Agregar Profesor de :</h5>
                 <button
                   type="button"
                   class="close"
@@ -47,25 +45,26 @@
                 >
                   Seleccione una materia para buscar profesores
                 </div>
-                <div class="d-flex" >
-                <select
-                  v-model="materiaSelect"
-                  class="form-control"
-                  style="height: 50px; font-size: 16px"
-                >
-                  <option value="">Seleccione una materia</option>
-                  <option
-                    v-for="materia in materiasLibres"
-                    v-bind:key="materia.id"
-                    :value="materia"
+                <div class="d-flex">
+                  <select
+                    v-model="materiaSelect"
+                    class="form-control"
+                    style="height: 50px; font-size: 16px"
                   >
-                    {{ materia.nombre }}
-                  </option>
-                </select>
-                  <button @click="buscarProfesores()" class="btn btn-primary">Buscar</button>
+                    <option value="">Seleccione una materia</option>
+                    <option
+                      v-for="materia in materiasLibres"
+                      v-bind:key="materia.id"
+                      :value="materia"
+                    >
+                      {{ materia.nombre }}
+                    </option>
+                  </select>
+                  <button @click="buscarProfesores()" class="btn btn-primary">
+                    Buscar
+                  </button>
                 </div>
-                <br>
-              
+                <br />
 
                 <div v-if="loadingProfesores">
                   <center style="margin-top: 3rem; font-size: 230px">
@@ -84,7 +83,31 @@
                     theme="polar-bear"
                     :pagination-options="pagination"
                   >
+                    <template slot="table-row" slot-scope="props">
+                      <span
+                        v-if="props.column.field == 'btn'"
+                        style="display: flex; justify-content: space-evenly"
+                      >
+                        <span
+                          style="
+                            font-weight: bold;
+                            color: blue;
+                            margin-right: 10px;
+                            cursor: pointer;
+                          "
+                          @click="agregarProfesorGrupo(props.row)"
+                        >
+                          <i
+                            class="far fa-plus-square"
+                            style="color: green; cursor: pointer"
+                          ></i>
+                          Agregar Profesor
+                        </span>
+                      </span>
+                    </template>
                   </vue-good-table>
+
+                  <div></div>
                 </div>
               </div>
             </div>
@@ -240,11 +263,20 @@ export default {
           label: "Nombre",
           field: "nombre",
         },
+        {
+          label: "Action",
+          field: "btn",
+          html: true,
+        },
       ],
       columnsProfesoresAsignados: [
         {
           label: "Nombre",
           field: "nombre",
+        },
+        {
+          label: "Materia",
+          field: "materia",
         },
         {
           label: "Action",
@@ -281,6 +313,7 @@ export default {
       materiasLibres: "",
       profesores: "",
       alumnos: "",
+      profesorSelected: "",
     };
   },
   mounted() {
@@ -294,6 +327,49 @@ export default {
     },
     eliminarProfesor(id) {
       alert("profesor" + id + "eliminado");
+    },
+    agregarProfesorGrupo(row) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      // let profesores = this.parseProfesoresField(row);
+      let grupo = {
+        profesores: {
+          idProfesor: row.idProfesor,
+          idMateria: this.materiaSelect.id,
+          idGrupo: this.$route.params.idGrupo,
+        },
+      };
+
+      axios
+        .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
+        .then(() => {
+          location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    parseProfesoresField(row) {
+      let profesores = [];
+      this.grupo.profesores.forEach((profesor) => {
+        profesores.push({
+          idProfesor: profesor.id,
+          idMateria: profesor.idMateria,
+          idGrupo: this.$route.params.idGrupo,
+        });
+      });
+      if (row != null) {
+        profesores.push({
+          idProfesor: row.idProfesor,
+          idMateria: row.idMateria,
+          idGrupo: this.$route.params.idGrupo,
+        });
+      }
+      return profesores;
     },
     buscarProfesores() {
       if (this.materiaSelect == "") {
@@ -380,7 +456,6 @@ export default {
         .get(Global.url + "grupo/" + this.$route.params.idGrupo, config)
         .then((response) => {
           this.grupo = response.data;
-          console.log(this.grupo);
         })
         .catch((error) => {
           console.log(error);

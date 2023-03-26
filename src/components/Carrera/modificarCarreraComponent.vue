@@ -475,7 +475,7 @@ export default {
       };
 
       axios
-        .put(
+        .post(
           Global.url + "grado/" + this.gradoPicked.id + "/materia",
           grado,
           config
