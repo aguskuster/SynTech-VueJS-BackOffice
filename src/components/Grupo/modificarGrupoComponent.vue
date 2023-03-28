@@ -32,6 +32,7 @@
                   class="close"
                   data-dismiss="modal"
                   aria-label="Close"
+                  id="cerrarModalProfesor"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -155,6 +156,7 @@
 
         <div
           class="modal fade bd-example-modal-lg agregarAlumno"
+          id="agregarAlumno"
           tabindex="-1"
           role="dialog"
           aria-labelledby="myLargeModalLabel"
@@ -171,19 +173,36 @@
                   class="close"
                   data-dismiss="modal"
                   aria-label="Close"
+                  id="cerrarModalAlumno"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <vue-good-table
+                  @on-selected-rows-change="selectedAlumnos"
                   :columns="columnsAlumnos"
                   :rows="alumnos"
+                  :select-options="{
+                    enabled: true,
+                    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                    selectionInfoClass: 'custom-class',
+                    selectionText: 'rows selected',
+                    clearSelectionText: 'clear',
+                    disableSelectInfo: true, // disable the select info panel on top
+                    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+                  }"
                   :search-options="{ enabled: true }"
                   theme="polar-bear"
                   :pagination-options="pagination"
                 >
                 </vue-good-table>
+
+                <div>
+                  <button class="btn btn-primary" @click="agregarAlumno()">
+                    Agregar alumnos
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -233,7 +252,6 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
-
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 export default {
@@ -314,6 +332,7 @@ export default {
       profesores: "",
       alumnos: "",
       profesorSelected: "",
+      selectedAlumnosArray: [],
     };
   },
   mounted() {
@@ -322,12 +341,105 @@ export default {
     this.getAlumnosNoAsignados();
   },
   methods: {
+    selectedAlumnos(params) {
+      this.selectedAlumnosArray = params.selectedRows;
+    },
     elimniarAlumno(id) {
-      alert("alumno" + id + "eliminado");
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(
+          Global.url + "grupo/" + this.$route.params.idGrupo + "/alumno/" + id,
+          config
+        )
+        .then((response) => {
+          this.grupo = response.data;
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Alumno Eliminado",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     eliminarProfesor(id) {
-      alert("profesor" + id + "eliminado");
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(
+          Global.url +
+            "grupo/" +
+            this.$route.params.idGrupo +
+            "/profesor/" +
+            id,
+          config
+        )
+        .then((response) => {
+          this.grupo = response.data;
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Profesor Eliminado",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+    agregarAlumno() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      if (this.selectedAlumnosArray.length == 0) {
+        document.getElementById("cerrarModalAlumno").click();
+        return;
+      }
+
+      let grupo = {
+        alumnos: this.parseAlumnosArray(this.selectedAlumnosArray),
+      };
+
+      axios
+        .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
+        .then((response) => {
+          this.grupo = response.data;
+          document.getElementById("cerrarModalAlumno").click();
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Alumnos Agregados",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    parseAlumnosArray(alumnos) {
+      let alumnosArray = [];
+      alumnos.forEach((alumno) => {
+        alumnosArray.push({
+          idAlumno: alumno.id,
+          idGrupo: this.$route.params.idGrupo,
+        });
+      });
+      return alumnosArray;
+    },
+
     agregarProfesorGrupo(row) {
       let config = {
         headers: {
@@ -335,7 +447,7 @@ export default {
           token: Global.token,
         },
       };
-      // let profesores = this.parseProfesoresField(row);
+
       let grupo = {
         profesores: {
           idProfesor: row.idProfesor,
@@ -346,31 +458,20 @@ export default {
 
       axios
         .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
-        .then(() => {
-          location.reload();
+        .then((response) => {
+          this.grupo = response.data;
+          document.getElementById("cerrarModalProfesor").click();
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Profesor Agregado",
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    parseProfesoresField(row) {
-      let profesores = [];
-      this.grupo.profesores.forEach((profesor) => {
-        profesores.push({
-          idProfesor: profesor.id,
-          idMateria: profesor.idMateria,
-          idGrupo: this.$route.params.idGrupo,
-        });
-      });
-      if (row != null) {
-        profesores.push({
-          idProfesor: row.idProfesor,
-          idMateria: row.idMateria,
-          idGrupo: this.$route.params.idGrupo,
-        });
-      }
-      return profesores;
-    },
+
     buscarProfesores() {
       if (this.materiaSelect == "") {
         document.getElementById("emptySelect").style.display = "block";
