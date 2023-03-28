@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Carrea</h2>
+      <h2>Agregar Carrera</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -26,21 +26,21 @@
           />
         </div>
         <div class="mb-3">
-          <p style="font-size: 18px">Categoria <em>*</em></p>
-          <input
-            required
-            type="text"
-            v-model="carrera.categoria"
-            class="form-control inputFachero"
-            style="height: 50px; font-size: 16px"
-          />
-        </div>
-        <div class="mb-3">
           <p style="font-size: 18px">Plan <em>*</em></p>
           <input
             required
             type="text"
             v-model="carrera.plan"
+            class="form-control inputFachero"
+            style="height: 50px; font-size: 16px"
+          />
+        </div>
+        <div class="mb-3">
+          <p style="font-size: 18px">Categoria <em>*</em></p>
+          <input
+            required
+            type="text"
+            v-model="carrera.categoria"
             class="form-control inputFachero"
             style="height: 50px; font-size: 16px"
           />
@@ -51,122 +51,147 @@
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-      
-        <form v-on:submit.prevent="agregarGradoCarrera()">
-          <div class="mb-3">
-            <p style="font-size: 18px">Tipo <em>*</em></p>
-            <select class="form-control" v-model="grado.tipo" v-on:change="grado.nombre = null">
+        <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
+          <div class="mb-3" style="display: flex">
+            <select
+              class="form-control"
+              v-model="tipoSelect"
+              style="width: 350px"
+            >
               <option value="año">Año</option>
               <option value="semestre">Semestre</option>
-              <option value="otro">Otro</option>
             </select>
-            <p style="font-size: 18px">Grado <em>*</em></p>
-            <input
-              type="text"
-              disabled
-              v-if="grado.tipo == null"
-              class="form-control"
-            />
-            <select
-              class="form-control"
-              v-model="grado.nombre"
-              v-if="grado.tipo == 'año'"
-            >
-              <option value="1er Año">1er Año</option>
-              <option value="2do Año">2do Año</option>
-              <option value="3er Año">3er Año</option>
-              <option value="4to Año">4to Año</option>
-              <option value="5to Año">5to Año</option>
-              <option value="6to Año">6to Año</option>
-            </select>
-            <select
-              class="form-control"
-              v-model="grado.nombre"
-              v-if="grado.tipo == 'semestre'"
-            >
-              <option value="1er Semestre">1er Semestre</option>
-              <option value="2do Semestre">2do Semestre</option>
-              <option value="3er Semestre">3er Semestre</option>
-              <option value="4to Semestre">4to Semestre</option>
-              <option value="5to Semestre">5to Semestre</option>
-              <option value="6to Semestre">6to Semestre</option>
-            </select>
-            <input
-              type="text"
-              class="form-control"
-              v-model="grado.nombre"
-              v-if="grado.tipo == 'otro'"
-            />
-          </div>
-          <div class="mb-3">
-            <p style="font-size: 18px">Materias <em>*</em></p>
 
             <select
               class="form-control"
-              v-model="materiaSelect"
-              v-on:change="agregarArray(materiaSelect, grado.materias)"
+              v-model="gradoSelect"
+              style="width: 135px; margin-left: 20px"
             >
-              <option :value="m.id" v-for="m in materias" :key="m.id">
-                {{ m.nombre }}
-              </option>
+             <option :value="'1er ' + tipoSelect">1er</option>
+              <option :value="'2do ' + tipoSelect">2do</option>
+              <option :value="'3er ' + tipoSelect">3er</option>
+              <option :value="'4to ' + tipoSelect">4to</option>
+              <option :value="'5to ' + tipoSelect">5to</option>
+              <option :value="'6to ' + tipoSelect">6to</option>
             </select>
-            <div class="contenedorMateriaForm">
-              <span
-                class="btnAgregarComp"
-                v-for="selectedSubject in grado.materias"
-                :key="selectedSubject.id"
-              >
-                <div
-                  style="
-                    width: 80%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: baseline;
-                    margin: 0 auto;
-                  "
-                >
-                  <span>{{ returnSubjectNameById(selectedSubject) }} </span>
-                  <i
-                    @click="eliminarArray(selectedSubject, grado.materias)"
-                    class="fas fa-times"
-                  ></i>
-                </div>
-              </span>
-            </div>
+
+            <input
+              type="submit"
+              value="Agregar Grado"
+              class="btn btn-primary"
+            />
           </div>
-          <input type="submit" value="Agregar Grado" class="btn btn-primary" />
         </form>
-      </div>
 
+        <ul class="list-group mt-4">
+          <li
+            class="list-group-item"
+            v-for="grado in carrera.grados"
+            v-bind:key="grado.id"
+          >
+            <span class="d-flex justify-content-between">
+              {{ grado }}
+              <button
+                class="btn btn-danger"
+                v-on:click="eliminarArray(grado, carrera.grados)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </span>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-end mt-5">
+          <input
+            v-on:click="agregarCarrera()"
+            type="submit"
+            value="Agregar carrera"
+            class="btn btn-primary"
+          />
+        </div>
+      </div>
+      
       <div
         class="contenedorDerechoPersona p-4"
         style="width: 32%; background-color: whitesmoke"
       >
-       <div class="w-90 ml-auto mt-1 mr-auto mb-auto">
-        <h5 style='text-align:center'>Resumen</h5>
-        <div class="p-1 mt-4">
-        <p>Nombre : {{ carrera.nombre }}</p>
-        <p>Categoria : {{ carrera.categoria }}</p>
-        <p>Plan : {{ carrera.plan }}</p>
+      <h5 style="text-align:center">Administrar Materias y grupos</h5>
+        <p style="font-size: 18px" class="mt-4">
+          <span> Materias</span>
+          <i
+            class="fa fa-plus-square ml-2"
+            style="color: #006799; cursor: pointer"
+          ></i>
+        </p>
+        <select
+          v-model="materiaSelect"
+          class="form-control inputFachero"
+          style="height: 50px; font-size: 16px"
+          v-on:change="agregarArray(materiaSelect, grado.materias)"
+          disabled
+        >
+          <option
+            v-for="materia in materias"
+            v-bind:key="materia.id"
+            :value="materia.id"
+          >
+            {{ materia.nombre }}
+          </option>
+        </select>
 
-        <div v-if="carrera.grados.length != 0">
-        <p>Grados</p>
-        <div v-for="g in carrera.grados" :key="g.id">
-          <p>Nombre: {{ g.nombre }}</p>
-          <p>Materias: <span v-for="m in g.materias" :key="m.id">{{ returnSubjectNameById(m) }} </span> </p>
-         
-        </div>
-        </div>
-      </div>
-            <div class="d-flex justify-content-end">
-              <input
-                v-on:click="agregarCarrera()"
-                type="submit"
-                value="Agregar carrera"
-                class="btn btn-primary"
-              />
-            </div>
-        </div>
+        <ul class="list-group mt-4">
+          <li
+            class="list-group-item"
+            v-for="m in grado.materias"
+            v-bind:key="m.id"
+          >
+            <span class="d-flex justify-content-between">
+              {{ returnSubjectNameById(m) }}
+              <button
+                class="btn btn-danger"
+                v-on:click="eliminarArray(m, grado.materias)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </span>
+          </li>
+        </ul>
+
+        <p style="font-size: 18px">
+          <span> Grupo</span>
+          <i
+            class="fa fa-plus-square ml-2"
+            style="color: #006799; cursor: pointer"
+            @click="agregarArray(grupoSelect, grado.grupos)"
+          ></i>
+        </p>
+        <label for="nombreGrupo">Acronimo de grupo</label>
+        <input
+          type="text"
+          id="nombreGrupo"
+          maxlength="5"
+          minlength="2"
+          class="form-control inputFachero"
+          v-model="grupoSelect"
+          disabled
+        />
+
+        <ul class="list-group mt-4">
+          <li
+            class="list-group-item"
+            v-for="g in grado.grupos"
+            v-bind:key="g.id"
+          >
+            <span class="d-flex justify-content-between">
+              {{ g }}
+              <button
+                class="btn btn-danger"
+                v-on:click="eliminarArray(g, grado.grupos)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -188,10 +213,17 @@ export default {
         plan: "",
         grados: [],
       },
+      tipoSelect: "año",
+      gradoSelect: "",
+
       grado: {
-        nombre: "",
         materias: [],
+        grupos: [],
       },
+      grupoSelect: "",
+      acronimoGrupo: "",
+
+      groupAccess: false,
     };
   },
   mounted() {
@@ -199,21 +231,53 @@ export default {
   },
   methods: {
     agregarCarrera() {
-  
-      alert("hola");
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      
+      axios
+        .post(Global.url + "carrera", this.carrera, config)
+        .then((res) => {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Carrera creada correctamente",
+          });
+          this.$router.push("/carrera/" + res.data.id);
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al crear",
+          });
+        });
     },
+    parseResultData(data) {
+      let carrera = {
+        nombre: data.nombre,
+        categoria: data.categoria,
+        plan: data.plan,
+        grados: [],
+      };
+      for (let g of data.grados) {
+        carrera.grados.push(g.grado);
+      }
+      return carrera;
+    },
+ 
     agregarArray(id, array) {
+      if (id == "" || id == null) {
+        return;
+      }
       if (!array.includes(id)) {
         array.push(id);
       }
     },
-    agregarGradoCarrera() {
-      this.carrera.grados.push(this.grado);
-      this.grado = {
-        nombre: "",
-        materias: [],
-      };
-    },
+
     returnSubjectNameById(idSub) {
       for (let m of this.materias) {
         if (m.id == idSub) {

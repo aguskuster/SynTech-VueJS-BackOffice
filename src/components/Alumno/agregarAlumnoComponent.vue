@@ -134,7 +134,7 @@
                   <option
                     v-for="grupo in grupos"
                     v-bind:key="grupo.id"
-                    :value="grupo.id"
+                    :value="grupo.idGrupo"
                   >
                     {{ grupo.idGrupo +"-"+grupo.nombreCompleto }}
                   </option>
@@ -296,7 +296,7 @@ export default {
      returnGroupName(idGrupo) {
       for (let g of this.grupos) {
         if (g.id == idGrupo) {
-          return { nombre: g.idGrupo+" - "+g.nombreCompleto, id: g.id };
+          return { nombre: g.idGrupo, id: g.id };
         }
       }
     },
