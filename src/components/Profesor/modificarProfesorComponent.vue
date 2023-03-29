@@ -207,6 +207,7 @@
             </div>
             <!--Fin Modal -->
             <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
+            
               <p style="font-size: 18px">
                 <span> Materias</span>
                 <i
@@ -250,10 +251,8 @@
             </div>
 
             <div v-else>
-               <p style="font-size: 18px">
-                  <span> Materias</span>
-              
-                </p>
+               <h3 style="text-transform: uppercase">Listado de materias</h3>
+  
                  <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
