@@ -10,12 +10,12 @@ import HomeComponent from './components/HomeComponent.vue';
 
 
 import ErrorComponent from './components/ErrorComponent.vue';
-import listarMateriaComponent from './components/listarMateriaComponent.vue';
+
 import historialDeAccionesComponent from './components/historialDeAccionesComponent.vue';
 import modificarPerfilComponent from './components/modificarPerfilComponent.vue';
 import agregarNoticiasComponent from './components/agregarNoticiasComponent.vue';
 
-import agregarMateriaComponent from './components/agregarMateriaComponent.vue';
+
 
 
 import listarCarreraComponent from './components/Carrera/listarCarreraComponent.vue';
@@ -51,10 +51,6 @@ const routes = [
     { path: '/', redirect: 'home' },
     { path: '/home', name: 'home', component: HomeComponent },
     
-
-
-    { path: '/materias', name: 'listarMateria', component: listarMateriaComponent },
-    { path: '/materias/crear', name: 'agregar-materia', component: agregarMateriaComponent },
 
     { path: '/historial', name: 'historial-acciones', component: historialDeAccionesComponent },
     { path: '/noticias', name: 'noticias', component: agregarNoticiasComponent },
