@@ -5,3 +5,10 @@ export var Global = {
     nombreSitio: 'BackOffice',
     spinnerUrl: 'https://www.sanandreasregional.org/app/plugins/unyson/framework/extensions/forms/static/img/ajax-loader.gif',
 }
+
+export var roles = {
+    "director": "Director",
+    "subdirector": "Subdirector",
+    "administrativo": "Administrativo",
+    "adscripto": "Adscripto",
+}
