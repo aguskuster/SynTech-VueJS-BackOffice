@@ -3,8 +3,15 @@
     <div class="contenedor_menu">
       <h2>Mi Perfil</h2>
     </div>
-
-    <div class="contenedorGeneral">
+   <center v-if="loading" style="margin-top:3rem;font-size:230px;">
+      <div
+        class="spinner-border text-primary"
+        role="status"
+        style="color: #13111e !important"
+      ></div>
+    </center>
+    <div v-else class="contenedorGeneral">
+      
       <div
         class="contenedorIzquierdo"
         style="width: 35%; background-color: whitesmoke"
@@ -132,10 +139,11 @@ export default {
       nombre: "",
       apellido: "",
       usuarioInfo: "",
+      loading: false,
     };
   },
   mounted() {
-  
+  this.loading = true;
     this.getUsuario();
   },
   methods: {
@@ -173,13 +181,14 @@ export default {
       };
       let user = {
         idUsuario: this.usuarioDatos.id,
-        nombre: this.nombre + " " + this.apellido,
+        nombre: this.nombre,
+        apellido: this.apellido,
         email: this.usuarioDatos.email,
         genero: this.usuarioDatos.genero,
       };
-
+    
       axios
-        .put(Global.url + "usuario", user, config)
+        .put(Global.url + "usuario/"+this.usuario.username, user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Perfil Actualizado", "", "success");
@@ -194,24 +203,21 @@ export default {
     cambiarFoto(foto) {
       let config = {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data;",
           token: Global.token,
         },
       };
       let formData = new FormData();
-      formData.append("id",this.usuarioDatos.id);
       formData.append("archivo", foto);
       axios
-        .post(Global.url + "foto", formData, config)
+        .post(Global.url + "usuario/"+this.usuarioDatos.id+"/imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire({
               icon: "success",
               title: "Foto de perfil actualizada",
             });
-
             location.reload();
-         
           }
         })
         .catch(() => {
@@ -259,7 +265,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
-            console.log(res.data)
+        
           }
         })
         .catch(() => {
@@ -277,7 +283,7 @@ export default {
         .get(Global.url + "usuario/"+ user, config)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data)
+           
             
             this.usuarioDatos = res.data.user;
             this.usuarioInfo = res.data.info;
@@ -285,7 +291,9 @@ export default {
             this.usuarioDatos.imagen_perfil = this.returnImgProfile(
               this.usuarioDatos.imagen_perfil
             );
+
           }
+          this.loading = false;
         })
         .catch(() => {
           this.flashMessage.show({

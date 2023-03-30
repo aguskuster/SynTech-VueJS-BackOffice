@@ -30,22 +30,47 @@
         </li>
         <li>
           <router-link
-            to="/listarUsuarios"
+            to="/bedelias"
             title="Listar Usuarios"
             class="router-link"
           >
             <i class="far fa-user"></i>
-            Listar Usuarios</router-link
+            Bedelias</router-link
+          >
+        </li>
+         <li>
+          <router-link
+            to="/alumnos"
+            title="Listar Usuarios"
+            class="router-link"
+          >
+           <i class="far fa-users"></i>
+            Alumnos</router-link
+          >
+        </li>
+         <li>
+          <router-link
+            to="/profesores"
+            title="Listar Usuarios"
+            class="router-link"
+          >
+            <i class="far fa-chalkboard-teacher"></i>
+            Profesores</router-link
           >
         </li>
         <li>
+          <router-link to="/carrera" class="router-link">
+            <i class="fas fa-graduation-cap"></i>
+            Carreras
+          </router-link>
+        </li>
+        <li>
           <router-link
-            to="/listarMaterias"
+            to="/materias"
             title="Listar Materia"
             class="router-link"
           >
             <i class="fal fa-books"></i>
-
             Listar Materia
           </router-link>
         </li>
@@ -55,15 +80,14 @@
             title="Listar Grupo"
             class="router-link"
           >
-            <i class="far fa-users"></i>Listar Grupo
+            <i class="far fa-users-class"></i>Listar Grupo
           </router-link>
         </li>
         <li>
           <router-link to="/noticias" title="Home" class="router-link">
             <i class="fas fa-newspaper"></i>
 
-            Noticias</router-link
-          >
+            Noticias</router-link>
         </li>
         <li>
           <router-link to="/historial" class="router-link">
@@ -120,13 +144,32 @@
               >
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/listarUsuarios" title="Listar Usuarios">
+              <router-link to="/bedelias" title="Listar Usuarios">
                 <i class="far fa-user"></i>
-                Listar Personas</router-link
+                Bedelia</router-link
               >
             </li>
+              <li v-on:click="bajarMenu()">
+              <router-link to="/alumno" title="Listar Usuarios">
+                <i class="far fa-user"></i>
+               Alumno</router-link
+              >
+            </li>
+              <li v-on:click="bajarMenu()">
+              <router-link to="/profesor" title="Listar Usuarios">
+                <i class="far fa-user"></i>
+                Profesor</router-link
+              >
+            </li>
+            
             <li v-on:click="bajarMenu()">
-              <router-link to="/listarMaterias" title="Listar Materia">
+              <router-link to="/carrera" class="router-link">
+                <i class="fas fa-history"></i>
+                Carreras
+              </router-link>
+            </li>
+            <li v-on:click="bajarMenu()">
+              <router-link to="/materias" title="Listar Materia">
                 <i class="fal fa-books"></i>
 
                 Listar Materia
@@ -138,11 +181,19 @@
               </router-link>
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/contacto" title="Contacto">
-                <i class="far fa-address-book"></i>
-                Contacto
+              <router-link to="/noticias" title="Home" class="router-link">
+                <i class="fas fa-newspaper"></i>
+
+                Noticias</router-link
+              >
+            </li>
+            <li v-on:click="bajarMenu()">
+              <router-link to="/historial" class="router-link">
+                <i class="fas fa-history"></i>
+                Historial Acciones
               </router-link>
             </li>
+
             <li>
               <i
                 class="far fa-sign-out-alt logout"
@@ -211,7 +262,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "foto?id=" + this.usuario.username, config)
+        .get(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", config)
         .then((res) => {
           if (res.status == 200) {
             this.imgB64 = res.data;
@@ -232,7 +283,6 @@ export default {
           window.atob(localStorage.getItem("auth_token_BO"))
         );
         this.getProfileImage();
-     
       }
     },
     cerrarSesion() {
@@ -240,8 +290,6 @@ export default {
       location.reload();
       this.logged = false;
     },
-
-
   },
 };
 </script>
