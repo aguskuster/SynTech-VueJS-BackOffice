@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: whitesmoke"
+        style="width: 30%; background-color: #FFFFFF"
       >
         <div class="imgModificarUser">
           <center>
@@ -46,7 +46,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: whitesmoke"
+        style="width: 69%; background-color: #FFFFFF"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -151,10 +151,9 @@
             </div>
           </div>
           <div class="user-rol" style="width: 35% !important">
+             <h3 style="text-transform: uppercase">Grupo</h3>
             <div>
-              <p style="font-size: 18px">
-                <span> Grupos</span>
-              </p>
+          
               <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
@@ -162,7 +161,7 @@
                   v-bind:key="grupo.id"
                 >
                   <span class="d-flex justify-content-between">
-                    {{ returnGroupName(grupo).nombre }}
+                    {{ grupo.idGrupo }}
                   </span>
                 </li>
               </ul>
@@ -249,57 +248,8 @@ export default {
   },
   mounted() {
     this.getUsuario();
-    this.getAllGrupos();
   },
   methods: {
-   
-    cargarGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "grado/" + this.gradoSelect, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.grupos = response.data.grupos;
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error al cargar grupos",
-          });
-        });
-    },
-
-
-    returnGroupName(idGrupo) {
-      for (let g of this.grupos) {
-        if (g.id == idGrupo) {
-          return { nombre: g.idGrupo , id: g.id };
-        }
-      }
-    },
- 
-    getAllGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "grupo", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-
-          this.loading = false;
-        }
-      });
-    },
 
     comprobarModificarInfo() {
       this.$swal
@@ -379,13 +329,7 @@ export default {
           }
         });
     },
-    returnOnlyId(grupos) {
-      let aux = [];
-      for (let g of grupos) {
-        aux.push(g.id);
-      }
-      return aux;
-    },
+  
     restablecerFoto() {
       let config = {
         headers: {
@@ -455,8 +399,9 @@ export default {
       axios.get(Global.url + "alumno/" + this.idAlumno, config).then((res) => {
         if (res.status == 200) {
           this.alumno.info = res.data.usuario;
-          this.alumno.grupos = this.returnOnlyId(res.data.grupos);
+          this.alumno.grupos = res.data.grupos;
           this.recortarNombre();
+          this.loading = false;
         }
       });
     },
