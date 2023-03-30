@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Carrea</h2>
+      <h2>Agregar Carrera</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 33%; background-color: whitesmoke"
+        style="width: 33%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="updateCarrera()">
           <div class="mb-3">
@@ -57,28 +57,39 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="agregarGrado()">
           <div class="mb-3" style="display: flex">
-            <select
-              class="form-control"
-              v-model="gradoSelect"
-              style="width: 135px; margin-left: 20px"
-            >
-              <option :value="'1er ' + tipoSelect">1er {{ tipoSelect }}</option>
-              <option :value="'2do ' + tipoSelect">2do {{ tipoSelect }}</option>
-              <option :value="'3er ' + tipoSelect">3er {{ tipoSelect }}</option>
-              <option :value="'4to ' + tipoSelect">4to {{ tipoSelect }}</option>
-              <option :value="'5to ' + tipoSelect">5to {{ tipoSelect }}</option>
-              <option :value="'6to ' + tipoSelect">6to {{ tipoSelect }}</option>
-            </select>
-
-            <input
-              type="submit"
-              value="Agregar Grado"
-              class="btn btn-primary"
-            />
+            <div style="width: 100%">
+              <select class="form-control" v-model="gradoSelect">
+                <option :value="'1er ' + tipoSelect">
+                  1er {{ tipoSelect }}
+                </option>
+                <option :value="'2do ' + tipoSelect">
+                  2do {{ tipoSelect }}
+                </option>
+                <option :value="'3er ' + tipoSelect">
+                  3er {{ tipoSelect }}
+                </option>
+                <option :value="'4to ' + tipoSelect">
+                  4to {{ tipoSelect }}
+                </option>
+                <option :value="'5to ' + tipoSelect">
+                  5to {{ tipoSelect }}
+                </option>
+                <option :value="'6to ' + tipoSelect">
+                  6to {{ tipoSelect }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <input
+                type="submit"
+                value="Agregar Grado"
+                class="btn btn-primary"
+              />
+            </div>
           </div>
         </form>
 
@@ -89,7 +100,9 @@
             v-bind:key="grado.id"
           >
             <span class="d-flex justify-content-between">
-              <span @click="cargarGrado(grado)"> {{ grado.grado }}</span>
+              <span @click="cargarGrado(grado)"
+                ><a href="javascript:void(0)"> {{ grado.grado }}</a></span
+              >
 
               <button class="btn btn-danger" v-on:click="eliminarGrado(grado)">
                 <i class="fas fa-trash-alt"></i>
@@ -99,9 +112,22 @@
         </ul>
       </div>
       <div
+        v-if="loadGrado"
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
-        v-if="gradoPicked == ''"
+        style="width: 32%; background-color: #FFFFFF"
+      >
+        <center style="margin-top: 3rem; font-size: 230px">
+          <div
+            class="spinner-border text-primary"
+            role="status"
+            style="color: #13111e !important"
+          ></div>
+        </center>
+      </div>
+      <div
+        class="contenedorDerechoPersona p-4"
+        style="width: 32%; background-color: #FFFFFF"
+        v-else-if="gradoPicked == ''"
       >
         <h5>Seleccione un grado para habilitar esta funcion</h5>
         <br />
@@ -126,7 +152,7 @@
       <div
         v-else
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
         <p style="font-size: 18px">
@@ -246,6 +272,7 @@ export default {
       grupoSelect: {
         idGrupo: "",
       },
+      loadGrado: false,
     };
   },
   mounted() {
@@ -425,6 +452,7 @@ export default {
         });
     },
     cargarGrado(grado) {
+      this.loadGrado = true;
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -436,6 +464,7 @@ export default {
         .then((response) => {
           this.gradoPicked = response.data;
           this.loading = false;
+          this.loadGrado = false;
         })
         .catch(() => {
           this.flashMessage.show({

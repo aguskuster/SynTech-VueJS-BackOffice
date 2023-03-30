@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: whitesmoke"
+        style="width: 49%; background-color: #FFFFFF"
       >
         <!-- Modal Agregar Profesor -->
         <div
@@ -150,7 +150,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: whitesmoke"
+        style="width: 49%; background-color: #FFFFFF"
       >
         <!-- Modal Agregar Alumno -->
 

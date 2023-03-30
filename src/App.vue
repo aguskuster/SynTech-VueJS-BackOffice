@@ -64,25 +64,8 @@
             Carreras
           </router-link>
         </li>
-        <li>
-          <router-link
-            to="/materias"
-            title="Listar Materia"
-            class="router-link"
-          >
-            <i class="fal fa-books"></i>
-            Listar Materia
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            to="/listarGrupo"
-            title="Listar Grupo"
-            class="router-link"
-          >
-            <i class="far fa-users-class"></i>Listar Grupo
-          </router-link>
-        </li>
+    
+     
         <li>
           <router-link to="/noticias" title="Home" class="router-link">
             <i class="fas fa-newspaper"></i>
@@ -168,18 +151,7 @@
                 Carreras
               </router-link>
             </li>
-            <li v-on:click="bajarMenu()">
-              <router-link to="/materias" title="Listar Materia">
-                <i class="fal fa-books"></i>
-
-                Listar Materia
-              </router-link>
-            </li>
-            <li v-on:click="bajarMenu()">
-              <router-link to="/listarGrupo" title="Listar Grupo">
-                <i class="far fa-users"></i>Listar Grupo
-              </router-link>
-            </li>
+          
             <li v-on:click="bajarMenu()">
               <router-link to="/noticias" title="Home" class="router-link">
                 <i class="fas fa-newspaper"></i>
@@ -303,7 +275,7 @@ body {
   background-color: #0e0d17;
 }
 .pagina {
-  background: url(./assets/images/img.png);
+  background-color:#EBE9F1; 
 }
 @import "./assets/css/estilos.css";
 

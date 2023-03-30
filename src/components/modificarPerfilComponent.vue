@@ -14,7 +14,7 @@
       
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: whitesmoke"
+        style="width: 35%; background-color: #FFFFFF"
       >
         <div class="imgModificarUser">
           <center>
@@ -53,7 +53,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: whitesmoke"
+        style="width: 64%; background-color: #FFFFFF"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -92,14 +92,20 @@
                   style="height: 50px; font-size: 16px"
                 />
               </div>
-              <div class="mb-3">
+                <div class="mb-3">
                 <p style="font-size: 18px">Genero</p>
-                <input
-                  v-model="usuarioDatos.genero"
+                <select
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                />
+                  v-model="usuarioDatos.genero"
+                >
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                  <option value="Otro">Prefiero no decirlo</option>
+                </select>
               </div>
+              
             </div>
           </div>
           <div class="informacion-derecha">

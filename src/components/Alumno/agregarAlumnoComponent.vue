@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: whitesmoke"
+        style="width: 35%; background-color: #FFFFFF"
       >
         <div class="imgModificarUser">
           <center>
@@ -27,7 +27,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: whitesmoke"
+        style="width: 64%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="agregarUsuario()">
           <div class="d-flex justify-content-around p-4 mt-3">
