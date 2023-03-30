@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 33%; background-color: whitesmoke"
+        style="width: 33%; background-color: #FFFFFF"
       >
         <div class="mb-3">
           <p style="font-size: 18px">Nombre <em>*</em></p>
@@ -49,7 +49,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
           <div class="mb-3" style="display: flex">
@@ -112,7 +112,7 @@
       
       <div
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
       <h5 style="text-align:center">Administrar Materias y grupos</h5>
         <p style="font-size: 18px" class="mt-4">

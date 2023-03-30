@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color:whitesmoke;height:2000px;margin-top:-70px">
+  <div style="background-color:#FFFFFF;height:105%;margin-top:-70px">
  
     <vue-headful :title="title" />
     <br />

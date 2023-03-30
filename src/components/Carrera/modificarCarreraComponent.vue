@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 33%; background-color: whitesmoke"
+        style="width: 33%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="updateCarrera()">
           <div class="mb-3">
@@ -57,7 +57,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <form v-on:submit.prevent="agregarGrado()">
           <div class="mb-3" style="display: flex">
@@ -114,7 +114,7 @@
       <div
         v-if="loadGrado"
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <center style="margin-top: 3rem; font-size: 230px">
           <div
@@ -126,7 +126,7 @@
       </div>
       <div
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
         v-else-if="gradoPicked == ''"
       >
         <h5>Seleccione un grado para habilitar esta funcion</h5>
@@ -152,7 +152,7 @@
       <div
         v-else
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #FFFFFF"
       >
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
         <p style="font-size: 18px">

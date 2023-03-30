@@ -275,7 +275,7 @@ body {
   background-color: #0e0d17;
 }
 .pagina {
-  background: url(./assets/images/img.png);
+  background-color:#EBE9F1; 
 }
 @import "./assets/css/estilos.css";
 

@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: whitesmoke"
+        style="width: 30%; background-color: #FFFFFF"
       >
         <div class="imgModificarUser">
           <center>
@@ -46,7 +46,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: whitesmoke"
+        style="width: 69%; background-color: #FFFFFF"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
