@@ -33,7 +33,7 @@
             :columns="columns"
             :rows="rows"
             :search-options="{ enabled: true }"
-            theme="polar-bear"
+            theme="black-rhino"
             :pagination-options="pagination"
           >
             <template slot="table-row" slot-scope="props">
