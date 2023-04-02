@@ -139,6 +139,7 @@
                     data-target="#exampleModal"
                   ></i>
                 </p>
+                
                 <select
                   v-model="materiaSelect"
                   class="form-control inputFachero"
@@ -232,17 +233,18 @@ export default {
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
           if (response.status == 200) {
+            this.materias.push(response.data);
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
               message: "Nueva materia agregada",
             });
-            this.getAllMaterias();
+            this.nuevaMateria.nombre = "";
             this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
           }
         })
         .catch(() => {
+          this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
