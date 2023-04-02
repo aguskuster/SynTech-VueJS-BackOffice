@@ -282,7 +282,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -297,7 +297,7 @@ export default {
           field: "materia",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -308,7 +308,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
