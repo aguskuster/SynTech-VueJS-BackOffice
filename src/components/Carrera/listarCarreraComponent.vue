@@ -98,7 +98,7 @@ export default {
           field: "created_at",
         },
          {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },

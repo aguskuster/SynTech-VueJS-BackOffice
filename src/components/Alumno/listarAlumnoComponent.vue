@@ -99,7 +99,7 @@ export default {
           field: "email",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
