@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Carrera</h2>
+      <h2>Modificar Carrera</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -133,19 +133,13 @@
         <br />
         <p style="font-size: 18px">
           <span> Materias</span>
-          <i
-            class="fa fa-plus-square ml-2"
-            style="color: #006799; cursor: pointer"
-          ></i>
+         
         </p>
         <input class="form-control inputFachero" type="text" disabled />
         <br /><br />
         <p style="font-size: 18px">
           <span> Grupo</span>
-          <i
-            class="fa fa-plus-square ml-2"
-            style="color: #006799; cursor: pointer"
-          ></i>
+       
         </p>
         <input class="form-control inputFachero" type="text" disabled />
       </div>
@@ -157,10 +151,7 @@
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
         <p style="font-size: 18px">
           <span> Materias</span>
-          <i
-            class="fa fa-plus-square ml-2"
-            style="color: #006799; cursor: pointer"
-          ></i>
+         
         </p>
         <select
           v-model="materiaSelect"
