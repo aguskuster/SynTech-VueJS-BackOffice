@@ -28,7 +28,6 @@
           style="width: 100%; background-color: transparent"
         >
           <vue-good-table
-            @on-row-dblclick="onRowDoubleClick"
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -36,23 +35,61 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+            <div slot="table-actions">
+              <button
+                class="btn btn-primary"
+                v-if="listarEliminados"
+                @click="getTodos()"
+              >
+                Activos
+              </button>
+              <button
+                class="btn btn-primary"
+                v-else
+                @click="listarUsuariosEliminados()"
+              >
+                Elimnados
+              </button>
+            </div>
             <template slot="table-row" slot-scope="props">
-
-              <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
-                
-             
-                <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarUsuarioBedelia(props.row.id)" >  
-                  <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
+              <span
+                v-if="props.column.field == 'btn'"
+                style="display: flex; justify-content: space-evenly"
+              >
+                <span
+                  v-if="!listarEliminados"
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="modificarUsuarioBedelia(props.row.id)"
+                >
+                  <i
+                    class="far fa-pencil"
+                    style="color: orange; cursor: pointer"
+                  ></i>
                 </span>
 
-                <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)"  v-if="
-              usuario.cargo != 'Adscripto'
-            ">  
-                  <i class="far fa-trash" style='color:red;cursor:pointer;'></i>
+                <span
+                 v-if="!listarEliminados && usuario.cargo != 'Adscripto'"
+                  style="font-weight: bold; color: blue"
+                  @click="eliminarUsuarioBedelia(props.row.id)"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
+                  ></i>
                 </span>
 
+                <span v-if=listarEliminados    
+                style="color: green; cursor: pointer"
+                  @click="activarUsuarioBedelia(props.row.id)">
+                  <i
+                    class="fas fa-check"
+                    style="color: green; cursor: pointer"
+                  ></i>
+                  Activar
+                </span>
               </span>
-         
+
+        
             </template>
           </vue-good-table>
         </div>
@@ -82,6 +119,7 @@ export default {
       userInfo: "",
       selectedRol: "",
       loading: true,
+      listarEliminados: false,
       columns: [
         {
           label: "ID",
@@ -131,14 +169,71 @@ export default {
     this.getTodos();
   },
   methods: {
-    getTodos() {
+      // Route::put('/usuario/{id}/activar','App\Http\Controllers\usuariosController@activarUsuario');
+    activarUsuarioBedelia(id){
+      this.loading = true;
       let config = {
         headers: {
           token: Global.token,
         },
       };
       axios
-        .get(Global.url + "bedelia", config) 
+        .put(Global.url + "usuario/"+id+"/activar", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.listarUsuariosEliminados()
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Usuario activado correctamente",
+            });
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+           this.loading = false;
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+
+    },
+    listarUsuariosEliminados() {
+      this.loading = true;
+      this.listarEliminados = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "bedelia?eliminados=true", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+    getTodos() {
+      this.listarEliminados = false;
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "bedelia", config)
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
@@ -157,9 +252,6 @@ export default {
       if (params.searchTerm.length == 1) {
         this.getTodos();
       }
-    },
-    onRowDoubleClick(usuario) {
-      this.$router.push("/bedelia/" + usuario.row.id);
     },
 
     returnImgProfile(img) {
