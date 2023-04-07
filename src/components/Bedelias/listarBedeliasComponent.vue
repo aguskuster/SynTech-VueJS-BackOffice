@@ -68,7 +68,7 @@
                 </span>
 
                 <span
-                 v-if="!listarEliminados && usuario.cargo != 'Adscripto'"
+                  v-if="!listarEliminados && usuario.cargo != 'Adscripto'"
                   style="font-weight: bold; color: blue"
                   @click="eliminarUsuarioBedelia(props.row.id)"
                 >
@@ -78,9 +78,11 @@
                   ></i>
                 </span>
 
-                <span v-if=listarEliminados    
-                style="color: green; cursor: pointer"
-                  @click="activarUsuarioBedelia(props.row.id)">
+                <span
+                  v-if="listarEliminados"
+                  style="color: green; cursor: pointer"
+                  @click="activarUsuarioBedelia(props.row.id)"
+                >
                   <i
                     class="fas fa-check"
                     style="color: green; cursor: pointer"
@@ -88,8 +90,6 @@
                   Activar
                 </span>
               </span>
-
-        
             </template>
           </vue-good-table>
         </div>
@@ -169,8 +169,7 @@ export default {
     this.getTodos();
   },
   methods: {
-      // Route::put('/usuario/{id}/activar','App\Http\Controllers\usuariosController@activarUsuario');
-    activarUsuarioBedelia(id){
+    activarUsuarioBedelia(id) {
       this.loading = true;
       let config = {
         headers: {
@@ -178,10 +177,10 @@ export default {
         },
       };
       axios
-        .put(Global.url + "usuario/"+id+"/activar", config)
+        .put(Global.url + "usuario/" + id + "/activar", null, config)
         .then((res) => {
           if (res.status == 200) {
-            this.listarUsuariosEliminados()
+            this.listarUsuariosEliminados();
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
@@ -191,14 +190,13 @@ export default {
           }
         })
         .catch(() => {
-           this.loading = false;
+          this.loading = false;
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
             message: "Error inesperado al cargar ",
           });
         });
-
     },
     listarUsuariosEliminados() {
       this.loading = true;

@@ -1,7 +1,6 @@
  <template>
   <div>
     <div class="contenedor_menu">
-    
       <h2>Listado de Alumnos</h2>
       <button class="btn btn-primary" disabled v-if="loading">
         Agregar Alumno
@@ -23,7 +22,6 @@
       ></div>
     </center>
     <div v-else>
-     
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
@@ -31,7 +29,6 @@
         >
           <vue-good-table
             @on-row-dblclick="onRowDoubleClick"
-           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -39,18 +36,61 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
-          <template slot="table-row" slot-scope="props">
-          <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
-            <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarAlumno(props.row.id)" >  
-              <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
-            </span>
-            <span style="font-weight: bold; color: blue" @click="eliminarAlumno(props.row.id)"  v-if="
-              usuario.cargo != 'Adscripto'
-            " >  
-              <i class="far fa-trash" style='color:red;cursor: pointer;'></i>
-            </span>
-          </span>
-          </template>
+            <div slot="table-actions">
+              <button
+                class="btn btn-primary"
+                v-if="listarEliminados"
+                @click="getTodos()"
+              >
+                Activos
+              </button>
+              <button
+                class="btn btn-primary"
+                v-else
+                @click="listarUsuariosEliminados()"
+              >
+                Elimnados
+              </button>
+            </div>
+            <template slot="table-row" slot-scope="props">
+              <span
+                v-if="props.column.field == 'btn'"
+                style="display: flex; justify-content: space-evenly"
+              >
+                <span
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="modificarAlumno(props.row.id)"
+                  v-if="!listarEliminados"
+                >
+                  <i
+                    class="far fa-pencil"
+                    style="color: orange; cursor: pointer"
+                  ></i>
+                </span>
+                <span
+                  style="font-weight: bold; color: blue"
+                  @click="eliminarAlumno(props.row.id)"
+                  v-if="usuario.cargo != 'Adscripto ' && !listarEliminados"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
+                  ></i>
+                </span>
+
+                <span
+                  v-if="listarEliminados"
+                  style="color: green; cursor: pointer"
+                  @click="activarUsuario(props.row.id)"
+                >
+                  <i
+                    class="fas fa-check"
+                    style="color: green; cursor: pointer"
+                  ></i>
+                  Activar
+                </span>
+              </span>
+            </template>
           </vue-good-table>
         </div>
       </div>
@@ -64,11 +104,10 @@ import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 
-import $ from 'jquery'
+import $ from "jquery";
 
-
-window.jQuery = $
-window.$ = $
+window.jQuery = $;
+window.$ = $;
 export default {
   name: "listar-alumnos",
   components: {
@@ -81,6 +120,7 @@ export default {
       userInfo: "",
       selectedRol: "",
       loading: true,
+      listarEliminados: false,
       columns: [
         {
           label: "ID",
@@ -130,8 +170,64 @@ export default {
     this.getTodos();
   },
   methods: {
- 
+    activarUsuario(id) {
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+
+      axios
+        .put(Global.url + "usuario/" + id + "/activar", null, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.listarUsuariosEliminados();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Usuario activado correctamente",
+            });
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+    listarUsuariosEliminados() {
+      this.loading = true;
+      this.listarEliminados = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "alumno?eliminados=true", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+
     getTodos() {
+      this.loading = true;
+      this.listarEliminados = false;
       let config = {
         headers: {
           token: Global.token,
@@ -159,7 +255,7 @@ export default {
       }
     },
     onRowDoubleClick(usuario) {
-       this.$router.push('/alumno/'+usuario.row.id);
+      this.$router.push("/alumno/" + usuario.row.id);
     },
 
     returnImgProfile(img) {
@@ -169,7 +265,7 @@ export default {
       this.$router.push("/alumno/" + id);
     },
     eliminarAlumno(id) {
-       this.$swal
+      this.$swal
         .fire({
           icon: "info",
           title: "¿Estas seguro de eliminar el usuario?",
