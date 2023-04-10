@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 33%; background-color: #FFFFFF"
+        style="width: 33%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="updateCarrera()">
           <div class="mb-3">
@@ -57,7 +57,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 32%; background-color: #FFFFFF"
+        style="width: 32%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="agregarGrado()">
           <div class="mb-3" style="display: flex">
@@ -114,7 +114,7 @@
       <div
         v-if="loadGrado"
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: #FFFFFF"
+        style="width: 32%; background-color: #ffffff"
       >
         <center style="margin-top: 3rem; font-size: 230px">
           <div
@@ -126,116 +126,213 @@
       </div>
       <div
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: #FFFFFF"
+        style="width: 32%; background-color: #ffffff"
         v-else-if="gradoPicked == ''"
       >
         <h5>Seleccione un grado para habilitar esta funcion</h5>
         <br />
-        <p style="font-size: 18px">
-          <span> Materias</span>
-         
-        </p>
-        <input class="form-control inputFachero" type="text" disabled />
-        <br /><br />
-        <p style="font-size: 18px">
-          <span> Grupo</span>
-       
-        </p>
-        <input class="form-control inputFachero" type="text" disabled />
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseTwo2"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo2"
+                >
+                  Adminsitrar Materias
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseTwo2"
+              class="collapse"
+              aria-labelledby="headingTwo2"
+              data-parent="#accordion"
+            ></div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  data-toggle="collapse"
+                  data-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree"
+                >
+                  Administrar Grupo
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseThree"
+              class="collapse"
+              aria-labelledby="headingThree"
+              data-parent="#accordion"
+            ></div>
+          </div>
+        </div>
       </div>
       <div
         v-else
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: #FFFFFF"
+        style="width: 32%; background-color: #ffffff"
       >
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
-        <p style="font-size: 18px">
-          <span> Materias</span>
-         
-        </p>
-        <select
-          v-model="materiaSelect"
-          class="form-control inputFachero"
-          style="height: 50px; font-size: 16px"
-        >
-          <option
-            v-for="materia in materias"
-            v-bind:key="materia.id"
-            :value="materia"
-          >
-            {{ materia.nombre }}
-          </option>
-        </select>
-        <br />
-        <p style="font-size: 18px">
-          <span> Cantidad de horas semanales</span>
-        </p>
-        <input
-          type="text"
-          class="form-control inputFachero"
-          v-model="materiaSelect.cantidad_horas"
-        />
-        <div class="d-flex justify-content-end mt-2">
-          <button class="btn btn-primary" @click="agregarMateriaGrado()">
-            Agregar Materia
-          </button>
+
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                 <a href="javascript:void(0)" @click="hiddeCollapse('collapseTwo')"> Administrar Materias</a>
+                  
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseOne"
+              class="collapse show "
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <p style="font-size: 18px">
+                  <span> Materias</span>
+                </p>
+                <select
+                  v-model="materiaSelect"
+                  class="form-control inputFachero"
+                  style="height: 50px; font-size: 16px"
+                >
+                  <option
+                    v-for="materia in materias"
+                    v-bind:key="materia.id"
+                    :value="materia"
+                  >
+                    {{ materia.nombre }}
+                  </option>
+                </select>
+                <br />
+                <p style="font-size: 18px">
+                  <span> Cantidad de horas semanales</span>
+                </p>
+                <input
+                  type="text"
+                  class="form-control inputFachero"
+                  v-model="materiaSelect.cantidad_horas"
+                />
+                <div class="d-flex justify-content-end mt-2">
+                  <button
+                    class="btn btn-primary"
+                    @click="agregarMateriaGrado()"
+                  >
+                    Agregar Materia
+                  </button>
+                </div>
+
+                <ul class="list-group mt-4 mb-4">
+                  <li
+                    class="list-group-item"
+                    v-for="m in gradoPicked.materias"
+                    v-bind:key="m.id"
+                  >
+                    <span class="d-flex justify-content-between">
+                      {{ returnSubjectNameById(m) }}
+                      <button
+                        class="btn btn-danger"
+                        v-on:click="eliminarMateriaGrado(m)"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  <a href="javascript:void(0)"  @click="hiddeCollapse('collapseOne')"> Administrar Grupos</a>
+                </button>
+              </h5>
+            </div>
+
+            <div
+              id="collapseTwo"
+              class="collapse "
+              aria-labelledby="headingTwo"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <p style="font-size: 18px">
+                  <span> Grupo</span>
+                </p>
+                <input
+                  type="text"
+                  id="nombreGrupo"
+                  maxlength="5"
+                  minlength="2"
+                  class="form-control inputFachero"
+                  v-model="grupoSelect.idGrupo"
+                />
+
+                <ul class="list-group mt-4">
+                  <li
+                    class="list-group-item"
+                    v-for="g in gradoPicked.grupos"
+                    v-bind:key="g.id"
+                  >
+                    <span class="d-flex justify-content-between">
+                      {{ g.idGrupo }}
+                      <span>
+                        <button
+                          class="btn btn-danger"
+                          v-on:click="eliminarGrupo(g)"
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button
+                          class="btn btn-warning"
+                          v-on:click="modificarGrupo(g)"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                        </button>
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+                <div class="d-flex justify-content-end mt-4">
+                  <input
+                    type="submit"
+                    value="Agregar Grupo"
+                    class="btn btn-primary"
+                    @click="agregarGrupo()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <ul class="list-group mt-4">
-          <li
-            class="list-group-item"
-            v-for="m in gradoPicked.materias"
-            v-bind:key="m.id"
-          >
-            <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m) }}
-              <button
-                class="btn btn-danger"
-                v-on:click="eliminarMateriaGrado(m)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </span>
-          </li>
-        </ul>
-
-        <p style="font-size: 18px">
-          <span> Grupo</span>
-        </p>
-        <input
-          type="text"
-          id="nombreGrupo"
-          maxlength="5"
-          minlength="2"
-          class="form-control inputFachero"
-          v-model="grupoSelect.idGrupo"
-        />
-
-        <ul class="list-group mt-4">
-          <li
-            class="list-group-item"
-            v-for="g in gradoPicked.grupos"
-            v-bind:key="g.id"
-          >
-            <span class="d-flex justify-content-between">
-              {{ g.idGrupo }}
-              <span>
-                <button class="btn btn-danger" v-on:click="eliminarGrupo(g)">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-                <button class="btn btn-warning" v-on:click="modificarGrupo(g)">
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-              </span>
-            </span>
-          </li>
-        </ul>
-        <input
-          type="submit"
-          value="Agregar Grupo"
-          class="btn btn-primary"
-          @click="agregarGrupo()"
-        />
       </div>
     </div>
   </div>
@@ -271,6 +368,9 @@ export default {
     this.getAllMaterias();
   },
   methods: {
+    hiddeCollapse(id){
+      document.getElementById(id).classList.remove("show");
+    },
     agregarGrado() {
       for (let grado of this.carrera.grado) {
         if (grado.grado == this.gradoSelect || this.gradoSelect == "") {

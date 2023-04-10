@@ -38,17 +38,17 @@
             Bedelias</router-link
           >
         </li>
-         <li>
+        <li>
           <router-link
             to="/alumnos"
             title="Listar Usuarios"
             class="router-link"
           >
-           <i class="far fa-users"></i>
+            <i class="far fa-users"></i>
             Alumnos</router-link
           >
         </li>
-         <li>
+        <li>
           <router-link
             to="/profesores"
             title="Listar Usuarios"
@@ -64,13 +64,13 @@
             Carreras
           </router-link>
         </li>
-    
-     
+
         <li>
           <router-link to="/noticias" title="Home" class="router-link">
             <i class="fas fa-newspaper"></i>
 
-            Noticias</router-link>
+            Noticias</router-link
+          >
         </li>
         <li>
           <router-link to="/historial" class="router-link">
@@ -132,26 +132,26 @@
                 Bedelia</router-link
               >
             </li>
-              <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()">
               <router-link to="/alumno" title="Listar Usuarios">
                 <i class="far fa-user"></i>
-               Alumno</router-link
+                Alumno</router-link
               >
             </li>
-              <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()">
               <router-link to="/profesor" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Profesor</router-link
               >
             </li>
-            
+
             <li v-on:click="bajarMenu()">
               <router-link to="/carrera" class="router-link">
                 <i class="fas fa-history"></i>
                 Carreras
               </router-link>
             </li>
-          
+
             <li v-on:click="bajarMenu()">
               <router-link to="/noticias" title="Home" class="router-link">
                 <i class="fas fa-newspaper"></i>
@@ -234,7 +234,10 @@ export default {
         },
       };
       axios
-        .get(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", config)
+        .get(
+          Global.url + "usuario/" + this.usuario.username + "/imagen-perfil",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.imgB64 = res.data;
@@ -258,9 +261,32 @@ export default {
       }
     },
     cerrarSesion() {
-      localStorage.clear();
-      location.reload();
-      this.logged = false;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "logout", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Sesion cerrada correctamente",
+            });
+            this.logged = false;
+            localStorage.clear();
+            location.reload();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cerrar sesion",
+          });
+        });
     },
   },
 };
@@ -275,7 +301,7 @@ body {
   background-color: #0e0d17;
 }
 .pagina {
-  background-color:#EBE9F1; 
+  background-color: #ebe9f1;
 }
 @import "./assets/css/estilos.css";
 

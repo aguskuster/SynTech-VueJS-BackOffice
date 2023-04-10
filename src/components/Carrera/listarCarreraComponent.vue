@@ -3,22 +3,29 @@
     <div class="contenedor_menu">
       <h2>Listado de Carreras</h2>
       <div v-if="loading">
-         <button class="btn btn-primary mr-2" disabled v-if="usuario.cargo != 'Adscripto'">
+        <button
+          class="btn btn-primary mr-2"
+          disabled
+          v-if="usuario.cargo != 'Adscripto'"
+        >
           Administrar Asignaturas
         </button>
-        <button class="btn btn-primary" disabled v-if="usuario.cargo != 'Adscripto'">
+        <button
+          class="btn btn-primary"
+          disabled
+          v-if="usuario.cargo != 'Adscripto'"
+        >
           Agregar Carrera
         </button>
-       
       </div>
 
       <div v-else-if="usuario.cargo != 'Adscripto' && !loading">
-          <router-link
+        <router-link
           to="/materia"
           title="Administrar Asignaturas"
           class="btn btn-primary router-link mr-2"
         >
-            Administrar Asignaturas</router-link
+          Administrar Asignaturas</router-link
         >
         <router-link
           to="/carrera/crear"
@@ -63,6 +70,16 @@
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
+                  ></i>
+                </span>
+
+                <span
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="eliminarCarrera(props.row.id)"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
                   ></i>
                 </span>
               </span>
@@ -111,10 +128,6 @@ export default {
           field: "plan",
         },
         {
-          label: "Fecha de creacion",
-          field: "created_at",
-        },
-        {
           label: "Accion",
           field: "btn",
           html: true,
@@ -146,8 +159,35 @@ export default {
     this.getTodos();
   },
   methods: {
+   
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
+    },
+    eliminarCarrera(id){
+  let config = {
+          headers: {
+            token: Global.token,
+          },
+        };
+      axios
+        .delete(Global.url + "carrera/"+id, config)
+        .then((res) => {
+          if (res.status == 200) {
+           this.getTodos();
+           this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Carrera eliminada correctamente",
+          });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Compruebe que la carrera selecionada no contenga grupos ni materias",
+          });
+        });
     },
     getTodos() {
       let config = {
