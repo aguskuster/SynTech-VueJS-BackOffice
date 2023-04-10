@@ -47,7 +47,7 @@
         style="width: 49%; background-color: #ffffff"
       >
         <div class="form-group" v-if="materiaSelect">
-          <h2>Modificar Materia</h2>
+          <h4 class="d-block">Modificar Materia</h4>
           <form v-on:submit.prevent="modificarMateria()">
             <div class="d-flex">
               <input
@@ -78,7 +78,7 @@
         </div>
 
         <div class="form-group" v-else>
-          <h2>Agregar Materia</h2>
+          <h4 class="d-block">Agregar Materia</h4>
           <form v-on:submit.prevent="agregarMateria()">
             <input
               type="text"

@@ -111,10 +111,6 @@ export default {
           field: "plan",
         },
         {
-          label: "Fecha de creacion",
-          field: "created_at",
-        },
-        {
           label: "Accion",
           field: "btn",
           html: true,
@@ -146,6 +142,7 @@ export default {
     this.getTodos();
   },
   methods: {
+   
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
     },
