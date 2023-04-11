@@ -73,7 +73,7 @@
                   ></i>
                 </span>
 
-                <span
+                <!-- <span
                   style="font-weight: bold; color: blue; margin-right: 10px"
                   @click="eliminarCarrera(props.row.id)"
                 >
@@ -81,7 +81,7 @@
                     class="far fa-trash"
                     style="color: red; cursor: pointer"
                   ></i>
-                </span>
+                </span> -->
               </span>
             </template>
           </vue-good-table>
