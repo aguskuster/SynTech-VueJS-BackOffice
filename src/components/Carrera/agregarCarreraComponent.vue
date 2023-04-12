@@ -45,6 +45,18 @@
             style="height: 50px; font-size: 16px"
           />
         </div>
+        <div class="mb-3">
+          <p style="font-size: 18px">Tipo <em>*</em></p>
+          <select
+            required
+            class="form-control inputFachero"
+            v-model="tipoSelect"
+            style="width: 350px"
+          >
+            <option value="año">Año</option>
+            <option value="semestre">Semestre</option>
+          </select>
+        </div>
       </div>
 
       <div
@@ -53,28 +65,28 @@
       >
         <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
           <div class="mb-3" style="display: flex">
-            <select
-              class="form-control"
-              v-model="tipoSelect"
-              style="width: 350px"
-            >
-              <option value="año">Año</option>
-              <option value="semestre">Semestre</option>
-            </select>
-
-            <select
-              class="form-control"
-              v-model="gradoSelect"
-              style="width: 135px; margin-left: 20px"
-            >
-              <option :value="'1er ' + tipoSelect">1er</option>
-              <option :value="'2do ' + tipoSelect">2do</option>
-              <option :value="'3er ' + tipoSelect">3er</option>
-              <option :value="'4to ' + tipoSelect">4to</option>
-              <option :value="'5to ' + tipoSelect">5to</option>
-              <option :value="'6to ' + tipoSelect">6to</option>
-            </select>
-
+            <div style="width: 100%">
+              <select class="form-control" v-model="gradoSelect">
+                <option :value="'1er ' + tipoSelect">
+                  1er {{ tipoSelect }}
+                </option>
+                <option :value="'2do ' + tipoSelect">
+                  2do {{ tipoSelect }}
+                </option>
+                <option :value="'3er ' + tipoSelect">
+                  3er {{ tipoSelect }}
+                </option>
+                <option :value="'4to ' + tipoSelect">
+                  4to {{ tipoSelect }}
+                </option>
+                <option :value="'5to ' + tipoSelect">
+                  5to {{ tipoSelect }}
+                </option>
+                <option :value="'6to ' + tipoSelect">
+                  6to {{ tipoSelect }}
+                </option>
+              </select>
+            </div>
             <input
               type="submit"
               value="Agregar Grado"

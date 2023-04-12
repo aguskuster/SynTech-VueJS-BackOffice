@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: #FFFFFF"
+        style="width: 49%; background-color: #ffffff"
       >
         <!-- Modal Agregar Profesor -->
         <div
@@ -150,7 +150,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: #FFFFFF"
+        style="width: 49%; background-color: #ffffff"
       >
         <!-- Modal Agregar Alumno -->
 
@@ -282,7 +282,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -297,7 +297,7 @@ export default {
           field: "materia",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -308,7 +308,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -359,6 +359,7 @@ export default {
         )
         .then((response) => {
           this.grupo = response.data;
+          this.getAlumnosNoAsignados();
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -388,6 +389,8 @@ export default {
         )
         .then((response) => {
           this.grupo = response.data;
+          this.getMateriasNoAsignadas();
+          this.profesores = "";
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -418,6 +421,7 @@ export default {
         .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
         .then((response) => {
           this.grupo = response.data;
+          this.getAlumnosNoAsignados();
           document.getElementById("cerrarModalAlumno").click();
           this.flashMessage.show({
             status: "success",
@@ -460,6 +464,8 @@ export default {
         .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
         .then((response) => {
           this.grupo = response.data;
+          this.profesores = "";
+          this.getMateriasNoAsignadas();
           document.getElementById("cerrarModalProfesor").click();
           this.flashMessage.show({
             status: "success",

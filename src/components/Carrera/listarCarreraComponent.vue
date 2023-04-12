@@ -1,19 +1,40 @@
  <template>
   <div>
     <div class="contenedor_menu">
-    
       <h2>Listado de Carreras</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
-        Agregar Carrera
-      </button>
-      <router-link
-        v-if="usuario.cargo != 'Adscripto' && !loading"
-        to="/carrera/crear"
-        title="Listar carrera"
-        class="btn btn-primary router-link"
-      >
-        Agregar Carrera</router-link
-      >
+      <div v-if="loading">
+        <button
+          class="btn btn-primary mr-2"
+          disabled
+          v-if="usuario.cargo != 'Adscripto'"
+        >
+          Administrar Asignaturas
+        </button>
+        <button
+          class="btn btn-primary"
+          disabled
+          v-if="usuario.cargo != 'Adscripto'"
+        >
+          Agregar Carrera
+        </button>
+      </div>
+
+      <div v-else-if="usuario.cargo != 'Adscripto' && !loading">
+        <router-link
+          to="/materia"
+          title="Administrar Asignaturas"
+          class="btn btn-primary router-link mr-2"
+        >
+          Administrar Asignaturas</router-link
+        >
+        <router-link
+          to="/carrera/crear"
+          title="Listar carrera"
+          class="btn btn-primary router-link"
+        >
+          Agregar Carrera</router-link
+        >
+      </div>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -23,7 +44,6 @@
       ></div>
     </center>
     <div v-else>
-     
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
@@ -31,7 +51,6 @@
         >
           <vue-good-table
             @on-row-dblclick="onRowDoubleClick"
-           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -40,15 +59,31 @@
             :pagination-options="pagination"
           >
             <template slot="table-row" slot-scope="props">
-         
-          <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
-            <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarCarerra(props.row.id)" >  
-              <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
-            </span>
-           
-          </span>
-          
-          </template>
+              <span
+                v-if="props.column.field == 'btn'"
+                style="display: flex; justify-content: space-evenly"
+              >
+                <span
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="modificarCarerra(props.row.id)"
+                >
+                  <i
+                    class="far fa-pencil"
+                    style="color: orange; cursor: pointer"
+                  ></i>
+                </span>
+
+                <!-- <span
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="eliminarCarrera(props.row.id)"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
+                  ></i>
+                </span> -->
+              </span>
+            </template>
           </vue-good-table>
         </div>
       </div>
@@ -62,11 +97,10 @@ import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 
-import $ from 'jquery'
+import $ from "jquery";
 
-
-window.jQuery = $
-window.$ = $
+window.jQuery = $;
+window.$ = $;
 export default {
   name: "listarUsuarios",
   components: {
@@ -94,11 +128,7 @@ export default {
           field: "plan",
         },
         {
-          label: "Fecha de creacion",
-          field: "created_at",
-        },
-         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -129,8 +159,35 @@ export default {
     this.getTodos();
   },
   methods: {
+   
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
+    },
+    eliminarCarrera(id){
+  let config = {
+          headers: {
+            token: Global.token,
+          },
+        };
+      axios
+        .delete(Global.url + "carrera/"+id, config)
+        .then((res) => {
+          if (res.status == 200) {
+           this.getTodos();
+           this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Carrera eliminada correctamente",
+          });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Compruebe que la carrera selecionada no contenga grupos ni materias",
+          });
+        });
     },
     getTodos() {
       let config = {
@@ -160,10 +217,8 @@ export default {
       }
     },
     onRowDoubleClick() {
-        alert('Double Click')
+      alert("Double Click");
     },
-
-   
   },
 };
 </script>

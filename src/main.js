@@ -40,6 +40,8 @@ import modificarProfesorComponent from './components/Profesor/modificarProfesorC
 
 import modificarGrupoComponent from './components/Grupo/modificarGrupoComponent.vue';
 
+import listarMateriaComponent from './components/Materia/listarMateriaComponent.vue';
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -76,6 +78,11 @@ const routes = [
     { path: '/carrera', name: 'listar-carrera', component: listarCarreraComponent },
     { path: '/carrera/crear', name: 'crear-carrera', component: agregarCarreraComponent },
     { path: '/carrera/:carrera', name: 'modificar-carrera', component: modificarCarreraComponent },
+
+    { path: '/materia', name: 'listar-materia', component: listarMateriaComponent },
+   
+   
+
 
     { path: '/grupo/:idGrupo', name: 'modificar-grupo', component: modificarGrupoComponent },
    

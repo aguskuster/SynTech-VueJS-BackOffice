@@ -21,14 +21,19 @@ em {
 }
 
 h2 {
+    color:#4B4B4B !important;
     font-family: "Permanent Marker", cursive;
     font-family: "Rubik", sans-serif;
 }
 
 h1 {
+    color:#4B4B4B !important;
     text-align: center;
     font-family: "Permanent Marker", cursive;
     font-family: "Rubik", sans-serif;
+}
+h4{
+    color:#4B4B4B !important;
 }
 
 h4,
