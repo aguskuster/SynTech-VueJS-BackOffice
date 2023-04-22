@@ -232,7 +232,7 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status == 201) {
             this.materias.push(response.data);
             this.flashMessage.show({
               status: "success",

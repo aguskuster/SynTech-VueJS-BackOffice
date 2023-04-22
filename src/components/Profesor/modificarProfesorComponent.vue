@@ -358,7 +358,7 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status == 201) {
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,

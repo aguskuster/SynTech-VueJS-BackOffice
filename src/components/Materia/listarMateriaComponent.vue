@@ -160,7 +160,7 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status == 201) {
             this.getAllMaterias();
             this.loadingMateria = false;
             this.flashMessage.show({
