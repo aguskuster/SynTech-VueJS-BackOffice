@@ -34,9 +34,11 @@
             <label for="encabezado">Imagen Encabezado</label>
             <input
               name="encabezado"
+    
               class="form-control mb-3"
               @change="getEncabezado"
               type="file"
+               accept=".jpg, .png , .jpeg"
               id="formFile"
             />
             <label for="mensaje" class="form-label"> Mensaje</label>
@@ -52,7 +54,8 @@
               class="form-control mb-3"
               @change="getFile"
               type="file"
-              id="formFile"
+              accept=".pdf, .doc"
+              id="formFile2"
             />
             <hr />
 
@@ -84,16 +87,7 @@
         style="width: 65% !important; height: 49rem; position: relative"
       >
         <h4>Listado de Noticias</h4>
-        <div style="width: 80%; margin: auto">
-          <label for="fecha" class="form-label">Filtrar por fecha :</label>
-          <input
-            type="date"
-            name="fecha"
-            id="fecha"
-            v-model="fecha"
-            @change="filterByDate"
-          />
-        </div>
+   
         <div
           class="p-4"
           style="max-height: 650px; overflow-y: auto"
@@ -380,7 +374,10 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Noticia Eliminada", "success");
+            this.$swal.fire({
+            icon: "success",
+            text: "Noticia eliminada con exito",
+          });
 
             this.traerNoticias();
           }
@@ -434,9 +431,8 @@ export default {
               icon: "success",
               title: "Noticia publicada",
             });
-            setTimeout(() => {
-              location.reload();
-            }, "3000");
+            this.traerNoticias();
+            this.limpiarCampos();
           }
         })
         .catch(() => {
@@ -446,6 +442,15 @@ export default {
             text: "Algo salio mal",
           });
         });
+    },
+    limpiarCampos() {
+      this.noticia.titulo = "";
+      this.noticia.mensaje = "";
+      this.noticia.archivos = [];
+      this.imgEncabezado.img = "";
+      this.imgEncabezado.nombre = "";
+      document.getElementById("formFile").value = "";
+      document.getElementById("formFile2").value = "";
     },
   },
 };
