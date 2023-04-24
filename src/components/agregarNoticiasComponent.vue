@@ -362,7 +362,7 @@ export default {
 
     borrarNoticia(noticia) {
       axios
-        .delete(Global.url + "noticia", {
+        .delete(Global.url + "noticia/"+noticia.id, {
           headers: {
             "Content-Type": "application/json",
             token: Global.token,
