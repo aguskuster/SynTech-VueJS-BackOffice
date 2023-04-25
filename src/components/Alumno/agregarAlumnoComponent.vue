@@ -257,37 +257,7 @@ export default {
           });
         });
     },
-    
-   
-    agregarMateria() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .post(Global.url + "materia", this.nuevaMateria, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Nueva materia agregada",
-            });
-            this.getAllMaterias();
-            this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Materia ya existente",
-          });
-        });
-    },
+  
     agregarArray(id, array) {
       if (!array.includes(id)) {
         array.push(id);
@@ -305,19 +275,7 @@ export default {
       let index = array.findIndex(element);
       array.splice(index, 1);
     },
-    getAllMaterias() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "materia", config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
-    },
+
     agregarUsuario() {
       let config = {
         headers: {

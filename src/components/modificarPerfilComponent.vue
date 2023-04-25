@@ -263,15 +263,13 @@ export default {
         },
       };
       let user = {
-        id: this.$route.params.idUsuario,
         contrasenia: contrasenia,
       };
       axios
-        .put(Global.url + "contrasenia", user, config)
+        .put(Global.url + "usuario/"+this.$route.params.idUsuario+"/contrasenia", user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
-        
           }
         })
         .catch(() => {
