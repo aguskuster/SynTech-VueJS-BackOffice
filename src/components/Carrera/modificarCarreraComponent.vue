@@ -199,7 +199,61 @@
                 </button>
               </h5>
             </div>
+                  <!-- Modal agregar materia -->
 
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Crear una nueva materia
+                      </h5>
+                      <button
+                        id="closeModal"
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <form
+                        name="form"
+                        id="form"
+                        v-on:submit.prevent="agregarMateria()"
+                      >
+                        <p>
+                          Nombre de Materia<em> *</em> :
+                          <br />
+                          <input
+                            type="text"
+                            v-model="nuevaMateria.nombre"
+                            class="form-control"
+                            required
+                          />
+                        </p>
+                        <input
+                          type="submit"
+                          value="Agregar Materia"
+                          title="Enviar"
+                          class="btn btn-primary"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Fin Modal -->
             <div
               id="collapseOne"
               class="collapse show "
@@ -209,6 +263,12 @@
               <div class="card-body">
                 <p style="font-size: 18px">
                   <span> Materias</span>
+                   <i
+                  class="fa fa-plus-square ml-2"
+                  style="color: #006799; cursor: pointer"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                ></i>
                 </p>
                 <select
                   v-model="materiaSelect"
@@ -340,6 +400,7 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
+import $ from "jquery";
 export default {
   name: "modificarCarreraComponent.vue",
   data() {
@@ -347,6 +408,9 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: false,
       carrera: "",
+        nuevaMateria: {
+        nombre: "",
+      },
       gradoPicked: "",
       materias: "",
       gradoSelect: "",
@@ -368,6 +432,39 @@ export default {
     this.getAllMaterias();
   },
   methods: {
+         agregarMateria() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "materia", this.nuevaMateria, config)
+        .then((response) => {
+          if (response.status == 201) {
+            this.materias.push(response.data);
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Nueva materia agregada",
+            });
+            this.nuevaMateria.nombre = "";
+            this.cerrarModal("closeModal");
+          }
+        })
+          .catch(() => {
+          this.cerrarModal("closeModal");
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "Materia ya existente",
+          });
+        });
+    },
+     cerrarModal(id) {
+      $("#" + id).click();
+    },
     hiddeCollapse(id){
       document.getElementById(id).classList.remove("show");
     },
