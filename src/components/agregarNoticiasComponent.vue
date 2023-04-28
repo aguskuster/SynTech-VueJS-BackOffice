@@ -426,7 +426,7 @@ export default {
       axios
         .post(Global.url + "noticia", formData, config)
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status == 201) {
             this.$swal.fire({
               icon: "success",
               title: "Noticia publicada",
