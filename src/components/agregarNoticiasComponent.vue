@@ -418,7 +418,7 @@ export default {
       if (this.noticia.titulo == "" || this.noticia.mensaje == "") {
         this.$swal.fire({
           icon: "warning",
-          title: "Faltan capos por completar",
+          title: "Faltan campos por completar",
         });
         return;
       }
