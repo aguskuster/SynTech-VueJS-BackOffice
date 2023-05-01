@@ -8,7 +8,7 @@
           disabled
           v-if="usuario.cargo != 'Adscripto'"
         >
-          Administrar Asignaturas
+          Administrar Materias
         </button>
         <button
           class="btn btn-primary"
@@ -22,10 +22,10 @@
       <div v-else-if="usuario.cargo != 'Adscripto' && !loading">
         <router-link
           to="/materia"
-          title="Administrar Asignaturas"
+          title="Administrar Materias"
           class="btn btn-primary router-link mr-2"
         >
-          Administrar Asignaturas</router-link
+          Administrar Materias</router-link
         >
         <router-link
           to="/carrera/crear"
