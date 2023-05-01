@@ -223,7 +223,7 @@
       </div>
       <div
         v-else
-        class="contenedorDerechoPersona p-4"
+        class="contenedorDerechoPersona p-4 scrollbar"
         style="width: 32%; background-color: #ffffff"
       >
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
@@ -344,7 +344,7 @@
                 </p>
                 <input
                   v-if="usuario.cargo != roles.adscripto"
-                  type="text"
+                  type="number"
                   class="form-control inputFachero"
                   v-model="materiaSelect.cantidad_horas"
                 />
@@ -366,7 +366,7 @@
                     v-for="m in gradoPicked.materias"
                     v-bind:key="m.id"
                   >
-                    <span class="d-flex justify-content-between">
+                    <span class="d-flex justify-content-between " >
                       {{ returnSubjectNameById(m) }}
                       <button
                         class="btn btn-danger"
@@ -535,7 +535,12 @@ export default {
     cerrarModal(id) {
       $("#" + id).click();
     },
-    hiddeCollapse(id) {
+    hiddeCollapse(id){
+          this.materiaSelect = {
+            materia_id: "",
+            cantidad_horas: "",
+            carrera_id: this.$route.params.carrera,
+          };
       document.getElementById(id).classList.remove("show");
     },
     agregarGrado() {
@@ -741,11 +746,11 @@ export default {
       };
 
       for (let materia of this.gradoPicked.materias) {
-        if (materia.id == this.materiaSelect.id) {
+        if (materia.id == this.materiaSelect.id || this.materiaSelect.cantidad_horas.length > 2 ||this.materiaSelect.cantidad_horas > 168) {
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
-            message: "Materia ya pertenece al grado",
+            message: "Compruebe la informacion y vuelva a intentar",
           });
           this.materiaSelect = {
             materia_id: "",
@@ -774,6 +779,11 @@ export default {
             title: Global.nombreSitio,
             message: "Grado actualizado correctamente",
           });
+          this.materiaSelect = {
+            materia_id: "",
+            cantidad_horas: "",
+            carrera_id: this.$route.params.carrera,
+          };
         })
         .catch(() => {
           this.flashMessage.show({
@@ -886,3 +896,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.scrollbar {
+  overflow-y: scroll;
+}
+</style>

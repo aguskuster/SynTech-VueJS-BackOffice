@@ -35,6 +35,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+          <div slot="emptystate" style="text-align:center">
+            No hay bedelias para listar
+           </div>
             <div slot="table-actions">
               <button
                 class="btn btn-primary"
@@ -272,7 +275,7 @@ export default {
         });
     },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getTodos();
       }
     },

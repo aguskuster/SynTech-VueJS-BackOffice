@@ -24,12 +24,14 @@
           </center>
           <p class="text-muted">CI: {{ alumno.info.id }}</p>
         </div>
-        <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
+
+        <div style="position: absolute; bottom: 10px; width: 100%">
+          <div style="display: flex; justify-content: space-between">
             <button
               class="btn btn-primary"
               @click="comprobarAccion('foto')"
               v-if="usuario.cargo != roles.adscripto"
+              style="width: 48%"
             >
               Restablecer Foto
             </button>
@@ -37,6 +39,7 @@
               class="btn btn-primary"
               @click="comprobarAccion('contraseña')"
               v-if="usuario.cargo != roles.adscripto"
+              style="width: 48%"
             >
               Restablecer Contraseña
             </button>
@@ -172,7 +175,7 @@
 
           <div
             style="
-              width: 85%;
+              width: 93%;
               display: flex;
               justify-content: space-between;
               position: absolute;
@@ -340,7 +343,7 @@ export default {
 
       axios
         .post(
-          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",
+          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",null,
           config
         )
         .then((res) => {
@@ -378,12 +381,13 @@ export default {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
       axios
-        .put(Global.url + "contrasenia", user, config)
+       .put(Global.url + "usuario/"+this.$route.params.user+"/contrasenia", {
+          contrasenia: "",
+       },config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Contraseña actualizada", "", "success");
+            this.$swal.fire("Contraseña restaurada", "", "success");
           }
         })
         .catch(() => {

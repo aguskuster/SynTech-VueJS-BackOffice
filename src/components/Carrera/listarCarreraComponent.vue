@@ -7,7 +7,7 @@
           class="btn btn-primary mr-2"
           disabled
         >
-          Administrar Asignaturas
+          Administrar Materias
         </button>
         <button
           class="btn btn-primary"
@@ -21,10 +21,10 @@
       <div v-else-if="!loading">
         <router-link
           to="/materia"
-          title="Administrar Asignaturas"
+          title="Administrar Materias"
           class="btn btn-primary router-link mr-2"
         >
-          Administrar Asignaturas</router-link
+          Administrar Materias</router-link
         >
         <router-link
         v-if="usuario.cargo != roles.adscripto"
@@ -58,6 +58,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+          <div slot="emptystate" style="text-align:center">
+            No hay carreras para listar
+           </div>
             <template slot="table-row" slot-scope="props">
               <span
                 v-if="props.column.field == 'btn'"
@@ -79,7 +82,7 @@
                   ></i>
                 </span>
 
-                <!-- <span
+                <span
                   style="font-weight: bold; color: blue; margin-right: 10px"
                   @click="eliminarCarrera(props.row.id)"
                 >
@@ -87,7 +90,7 @@
                     class="far fa-trash"
                     style="color: red; cursor: pointer"
                   ></i>
-                </span> -->
+                </span>
               </span>
             </template>
           </vue-good-table>
@@ -242,7 +245,7 @@ export default {
         })
     },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getTodos();
       }
     },

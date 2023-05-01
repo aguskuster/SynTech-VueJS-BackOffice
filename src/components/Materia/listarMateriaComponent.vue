@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Administrar Asignaturas</h2>
+      <h2>Administrar Materias</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -23,6 +23,9 @@
           theme="polar-bear"
           :pagination-options="pagination"
         >
+          <div slot="emptystate" style="text-align:center">
+              No hay materias para listar
+            </div>
           <template slot="table-row" slot-scope="props">
             <span
               v-if="props.column.field == 'btn'"
@@ -314,7 +317,7 @@ export default {
         });
     },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getAllMaterias();
       }
     },
