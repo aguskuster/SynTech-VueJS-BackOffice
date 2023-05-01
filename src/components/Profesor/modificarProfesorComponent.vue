@@ -548,12 +548,14 @@ export default {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
+    
       axios
-        .put(Global.url + "contrasenia", user, config)
+         .put(Global.url + "usuario/"+this.$route.params.user+"/contrasenia", {
+          contrasenia: "",
+       },config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Contraseña actualizada", "", "success");
+            this.$swal.fire("Contraseña restaurada", "", "success");
           }
         })
         .catch(() => {
