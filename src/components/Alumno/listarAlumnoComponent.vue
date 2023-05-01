@@ -2,11 +2,12 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Alumnos</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
+      <button class="btn btn-primary" disabled v-if="usuario.cargo != roles.adscripto && loading ">
         Agregar Alumno
       </button>
       <router-link
-        v-if="usuario.cargo != 'Adscripto' && !loading"
+
+        v-if="usuario.cargo != roles.adscripto && !loading"
         to="/alumno/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
@@ -65,12 +66,18 @@
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
+                    v-if="usuario.cargo != roles.adscripto "
+                  ></i>
+                     <i
+                    class="far fa-eye"
+                    style="color: orange; cursor: pointer"
+                    v-else
                   ></i>
                 </span>
                 <span
                   style="font-weight: bold; color: blue"
                   @click="eliminarAlumno(props.row.id)"
-                  v-if="usuario.cargo != 'Adscripto ' && !listarEliminados"
+                  v-if="usuario.cargo != roles.adscripto && !listarEliminados"
                 >
                   <i
                     class="far fa-trash"
@@ -100,7 +107,7 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
-
+import { roles } from "../../Global";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 
@@ -115,6 +122,7 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todoAlumnos: null,
       userInfo: "",
