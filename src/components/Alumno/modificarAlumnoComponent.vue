@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: #FFFFFF"
+        style="width: 30%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -24,12 +24,14 @@
           </center>
           <p class="text-muted">CI: {{ alumno.info.id }}</p>
         </div>
-        <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
+
+        <div style="position: absolute; bottom: 10px; width: 100%">
+          <div style="display: flex; justify-content: space-between">
             <button
               class="btn btn-primary"
               @click="comprobarAccion('foto')"
               v-if="usuario.cargo != 'Adscripto'"
+              style="width: 48%"
             >
               Restablecer Foto
             </button>
@@ -37,6 +39,7 @@
               class="btn btn-primary"
               @click="comprobarAccion('contraseña')"
               v-if="usuario.cargo != 'Adscripto'"
+              style="width: 48%"
             >
               Restablecer Contraseña
             </button>
@@ -46,7 +49,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: #FFFFFF"
+        style="width: 69%; background-color: #ffffff"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -151,9 +154,8 @@
             </div>
           </div>
           <div class="user-rol" style="width: 35% !important">
-             <h3 style="text-transform: uppercase">Grupo</h3>
+            <h3 style="text-transform: uppercase">Grupo</h3>
             <div>
-          
               <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
@@ -170,7 +172,7 @@
 
           <div
             style="
-              width: 85%;
+              width: 93%;
               display: flex;
               justify-content: space-between;
               position: absolute;
@@ -250,7 +252,6 @@ export default {
     this.getUsuario();
   },
   methods: {
-
     comprobarModificarInfo() {
       this.$swal
         .fire({
@@ -329,7 +330,7 @@ export default {
           }
         });
     },
-  
+
     restablecerFoto() {
       let config = {
         headers: {

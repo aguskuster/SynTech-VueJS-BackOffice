@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: #FFFFFF"
+        style="width: 30%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -25,28 +25,32 @@
           <p class="text-muted">CI: {{ profesor.info.id }}</p>
         </div>
         <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Foto
-            </button>
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Contraseña
-            </button>
+          <div style="position: absolute; bottom: 10px; width: 100%">
+            <div style="display: flex; justify-content: space-between">
+              <button
+                class="btn btn-primary"
+                @click="comprobarAccion('foto')"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Restablecer Foto
+              </button>
+              <button
+                class="btn btn-primary"
+                @click="comprobarAccion('contraseña')"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Restablecer Contraseña
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: #FFFFFF"
+        style="width: 69%; background-color: #ffffff"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -153,61 +157,60 @@
           <div class="user-rol" style="width: 35% !important">
             <!-- Modal agregar materia -->
 
-              <div
-                class="modal fade"
-                id="exampleModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
-                        Crear una nueva materia
-                      </h5>
-                      <button
-                        id="closeModal"
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Crear una nueva materia
+                    </h5>
+                    <button
+                      id="closeModal"
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
 
-                    <div class="modal-body">
-                      <form
-                        name="form"
-                        id="form"
-                        v-on:submit.prevent="agregarMateria()"
-                      >
-                        <p>
-                          Nombre de Materia<em> *</em> :
-                          <br />
-                          <input
-                            type="text"
-                            v-model="nuevaMateria.nombre"
-                            class="form-control"
-                            required
-                          />
-                        </p>
+                  <div class="modal-body">
+                    <form
+                      name="form"
+                      id="form"
+                      v-on:submit.prevent="agregarMateria()"
+                    >
+                      <p>
+                        Nombre de Materia<em> *</em> :
+                        <br />
                         <input
-                          type="submit"
-                          value="Agregar Materia"
-                          title="Enviar"
-                          class="btn btn-primary"
+                          type="text"
+                          v-model="nuevaMateria.nombre"
+                          class="form-control"
+                          required
                         />
-                      </form>
-                    </div>
+                      </p>
+                      <input
+                        type="submit"
+                        value="Agregar Materia"
+                        title="Enviar"
+                        class="btn btn-primary"
+                      />
+                    </form>
                   </div>
                 </div>
               </div>
-              <!--Fin Modal -->
+            </div>
+            <!--Fin Modal -->
             <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
-            
               <p style="font-size: 18px">
                 <span> Materias</span>
                 <i
@@ -251,9 +254,9 @@
             </div>
 
             <div v-else>
-               <h3 style="text-transform: uppercase">Listado de materias</h3>
-  
-                 <ul class="list-group mt-4">
+              <h3 style="text-transform: uppercase">Listado de materias</h3>
+
+              <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
                   v-for="materia in profesor.materias"
@@ -261,17 +264,15 @@
                 >
                   <span class="d-flex justify-content-between">
                     {{ returnSubjectNameById(materia).nombre }}
-                   </span>
+                  </span>
                 </li>
               </ul>
             </div>
-
-          
           </div>
 
           <div
             style="
-              width: 85%;
+              width: 93%;
               display: flex;
               justify-content: space-between;
               position: absolute;
@@ -337,7 +338,7 @@ export default {
       },
       materias: "",
       idProfesor: this.$route.params.user,
-       nuevaMateria: {
+      nuevaMateria: {
         nombre: "",
       },
       nombre: "",
@@ -349,7 +350,7 @@ export default {
     this.getAllMaterias();
   },
   methods: {
-     agregarMateria() {
+    agregarMateria() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -370,7 +371,7 @@ export default {
             this.cerrarModal("closeModal");
           }
         })
-          .catch(() => {
+        .catch(() => {
           this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
@@ -379,7 +380,7 @@ export default {
           });
         });
     },
-     cerrarModal(id) {
+    cerrarModal(id) {
       $("#" + id).click();
     },
     agregarArray(id, array) {
@@ -453,7 +454,6 @@ export default {
         genero: this.profesor.info.genero,
         materias: this.profesor.materias,
       };
-   
 
       axios
         .put(Global.url + "profesor/" + this.idProfesor, user, config)
@@ -506,9 +506,12 @@ export default {
           token: Global.token,
         },
       };
-   
+
       axios
-        .post(Global.url + "usuario/"+this.idProfesor+"/imagen-perfil", config)
+        .post(
+          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Foto actualizada", "", "success");
