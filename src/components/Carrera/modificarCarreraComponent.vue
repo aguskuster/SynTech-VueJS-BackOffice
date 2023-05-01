@@ -288,7 +288,7 @@
                   <span> Cantidad de horas semanales</span>
                 </p>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control inputFachero"
                   v-model="materiaSelect.cantidad_horas"
                 />
