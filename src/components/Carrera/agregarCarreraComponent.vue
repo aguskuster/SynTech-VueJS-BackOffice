@@ -185,6 +185,7 @@
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 export default {
   name: "agregarUsuarioComponent.vue",
@@ -211,9 +212,13 @@ export default {
       acronimoGrupo: "",
 
       groupAccess: false,
+      roles: roles,
     };
   },
   mounted() {
+    if (this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/carrera");
+    }
     this.getAllMaterias();
   },
   methods: {

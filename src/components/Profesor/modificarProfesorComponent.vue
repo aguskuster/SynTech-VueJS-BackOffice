@@ -153,59 +153,59 @@
           <div class="user-rol" style="width: 35% !important">
             <!-- Modal agregar materia -->
 
-            <div
-              class="modal fade"
-              id="exampleModal"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                      Crear una nueva materia
-                    </h5>
-                    <button
-                      id="closeModal"
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Crear una nueva materia
+                      </h5>
+                      <button
+                        id="closeModal"
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
 
-                  <div class="modal-body">
-                    <form
-                      name="form"
-                      id="form"
-                      v-on:submit.prevent="agregarMateria()"
-                    >
-                      <p>
-                        Nombre de Materia<em> *</em> :
-                        <br />
+                    <div class="modal-body">
+                      <form
+                        name="form"
+                        id="form"
+                        v-on:submit.prevent="agregarMateria()"
+                      >
+                        <p>
+                          Nombre de Materia<em> *</em> :
+                          <br />
+                          <input
+                            type="text"
+                            v-model="nuevaMateria.nombre"
+                            class="form-control"
+                            required
+                          />
+                        </p>
                         <input
-                          type="text"
-                          v-model="nuevaMateria.nombre"
-                          class="form-control"
-                          required
+                          type="submit"
+                          value="Agregar Materia"
+                          title="Enviar"
+                          class="btn btn-primary"
                         />
-                      </p>
-                      <input
-                        type="submit"
-                        value="Agregar Materia"
-                        title="Enviar"
-                        class="btn btn-primary"
-                      />
-                    </form>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!--Fin Modal -->
+              <!--Fin Modal -->
             <div class="mb-3" v-if="usuario.cargo != 'Adscripto'">
             
               <p style="font-size: 18px">
@@ -314,6 +314,7 @@
 import { Global } from "../../Global";
 import axios from "axios";
 import { roles } from "../../Global";
+import $ from "jquery";
 export default {
   name: "modificarProfesorComponent.vue",
   data() {
@@ -336,7 +337,7 @@ export default {
       },
       materias: "",
       idProfesor: this.$route.params.user,
-      nuevaMateria: {
+       nuevaMateria: {
         nombre: "",
       },
       nombre: "",
@@ -348,7 +349,7 @@ export default {
     this.getAllMaterias();
   },
   methods: {
-    agregarMateria() {
+     agregarMateria() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -358,24 +359,28 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status == 201) {
+            this.materias.push(response.data);
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
               message: "Nueva materia agregada",
             });
-            this.getAllMaterias();
+            this.nuevaMateria.nombre = "";
             this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
           }
         })
-        .catch(() => {
+          .catch(() => {
+          this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
             message: "Materia ya existente",
           });
         });
+    },
+     cerrarModal(id) {
+      $("#" + id).click();
     },
     agregarArray(id, array) {
       if (!array.includes(id)) {

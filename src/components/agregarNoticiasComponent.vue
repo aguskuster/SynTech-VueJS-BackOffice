@@ -37,6 +37,7 @@
               class="form-control mb-3"
               @change="getEncabezado"
               type="file"
+              accept=".jpg, .png , .jpeg"
               id="formFile"
             />
             <label for="mensaje" class="form-label"> Mensaje</label>
@@ -52,7 +53,8 @@
               class="form-control mb-3"
               @change="getFile"
               type="file"
-              id="formFile"
+              accept=".pdf, .doc"
+              id="formFile2"
             />
             <hr />
 
@@ -84,16 +86,7 @@
         style="width: 65% !important; height: 49rem; position: relative"
       >
         <h4>Listado de Noticias</h4>
-        <div style="width: 80%; margin: auto">
-          <label for="fecha" class="form-label">Filtrar por fecha :</label>
-          <input
-            type="date"
-            name="fecha"
-            id="fecha"
-            v-model="fecha"
-            @change="filterByDate"
-          />
-        </div>
+
         <div
           class="p-4"
           style="max-height: 650px; overflow-y: auto"
@@ -312,10 +305,39 @@ export default {
           token: Global.token,
         },
       };
-      axios.get(Global.url + "noticia", config).then((res) => {
+      axios
+        .get(Global.url + "noticia", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.todasNoticias = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.cerrarSesion()
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+        });
+    },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios.post(Global.url + "logout", config).then((res) => {
         if (res.status == 200) {
-          this.todasNoticias = res.data;
-          this.loading = false;
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
         }
       });
     },
@@ -342,7 +364,6 @@ export default {
     },
 
     descargarPDF(label) {
-       
       let url = Global.url + "traerArchivo?archivo=" + label;
       axios
         .get(url, {
@@ -368,7 +389,7 @@ export default {
 
     borrarNoticia(noticia) {
       axios
-        .delete(Global.url + "noticia", {
+        .delete(Global.url + "noticia/" + noticia.id, {
           headers: {
             "Content-Type": "application/json",
             token: Global.token,
@@ -380,7 +401,10 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Noticia Eliminada", "success");
+            this.$swal.fire({
+              icon: "success",
+              text: "Noticia eliminada con exito",
+            });
 
             this.traerNoticias();
           }
@@ -421,7 +445,7 @@ export default {
       if (this.noticia.titulo == "" || this.noticia.mensaje == "") {
         this.$swal.fire({
           icon: "warning",
-          title: "Faltan capos por completar",
+          title: "Faltan campos por completar",
         });
         return;
       }
@@ -429,14 +453,13 @@ export default {
       axios
         .post(Global.url + "noticia", formData, config)
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status == 201) {
             this.$swal.fire({
               icon: "success",
               title: "Noticia publicada",
             });
-            setTimeout(() => {
-              location.reload();
-            }, "3000");
+            this.traerNoticias();
+            this.limpiarCampos();
           }
         })
         .catch(() => {
@@ -446,6 +469,15 @@ export default {
             text: "Algo salio mal",
           });
         });
+    },
+    limpiarCampos() {
+      this.noticia.titulo = "";
+      this.noticia.mensaje = "";
+      this.noticia.archivos = [];
+      this.imgEncabezado.img = "";
+      this.imgEncabezado.nombre = "";
+      document.getElementById("formFile").value = "";
+      document.getElementById("formFile2").value = "";
     },
   },
 };

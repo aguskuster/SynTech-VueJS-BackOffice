@@ -2,7 +2,7 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Profesores</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
+      <button class="btn btn-primary" disabled v-if="loading && usuario.cargo != roles.adscripto">
         Agregar Profesor
       </button>
       <router-link
@@ -65,6 +65,12 @@
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
+                    v-if="usuario.cargo != roles.adscripto"
+                  ></i>
+                  <i
+                    class="far fa-eye"
+                    style="color: orange; cursor: pointer"
+                    v-else
                   ></i>
                 </span>
                 <span
@@ -78,7 +84,7 @@
                   ></i>
                 </span>
                 <span
-                  v-if="listarEliminados"
+                  v-if="listarEliminados && usuario.cargo != roles.adscripto"
                   style="color: green; cursor: pointer"
                   @click="activarUsuario(props.row.id)"
                 >
@@ -99,7 +105,7 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
-
+import { roles } from "../../Global";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import $ from "jquery";
@@ -118,6 +124,7 @@ export default {
       userInfo: "",
       selectedRol: "",
       loading: true,
+      roles:roles,
       columns: [
         {
           label: "ID",
@@ -176,7 +183,7 @@ export default {
         },
       };
       axios
-        .put(Global.url + "usuario/" + id + "/activar",null,config)
+        .put(Global.url + "usuario/" + id + "/activar", null, config)
         .then((res) => {
           if (res.status == 200) {
             this.listarUsuariosEliminados();
@@ -221,9 +228,27 @@ export default {
           });
         });
     },
-
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios.post(Global.url + "logout", config).then((res) => {
+        if (res.status == 200) {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
+        }
+      });
+    },
     getTodos() {
-      this.loading=true;
+      this.loading = true;
       this.listarEliminados = false;
       let config = {
         headers: {
@@ -239,6 +264,7 @@ export default {
           }
         })
         .catch(() => {
+          this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,

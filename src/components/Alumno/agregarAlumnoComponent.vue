@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: #FFFFFF"
+        style="width: 35%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -27,7 +27,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: #FFFFFF"
+        style="width: 64%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="agregarUsuario()">
           <div class="d-flex justify-content-around p-4 mt-3">
@@ -73,8 +73,16 @@
                 />
               </div>
             </div>
+
             <div class="user-rol" style="width: 35% !important">
+              <div
+                class="alert alert-warning"
+                role="alert"
+                v-if="carreras.length == 0 && loading == false"
+              >
+                Para activar esta funcion primero debes crera una carrera.
          
+              </div>
               <div class="mb-3">
                 <p style="font-size: 18px">
                   <span> Carrera</span>
@@ -83,16 +91,14 @@
                   v-model="carreraSelect"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                  v-on:change="
-                   cargarGrados(carreraSelect)
-                  "
+                  v-on:change="cargarGrados(carreraSelect)"
                 >
                   <option
                     v-for="carrera in carreras"
                     v-bind:key="carrera.id"
                     :value="carrera"
                   >
-                    {{ carrera.nombre +"-"+ carrera.plan}}
+                    {{ carrera.nombre + "-" + carrera.plan }}
                   </option>
                 </select>
               </div>
@@ -104,9 +110,7 @@
                   v-model="gradoSelect"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                  v-on:change="
-                   cargarGrupos(gradoSelect)
-                  "
+                  v-on:change="cargarGrupos(gradoSelect)"
                 >
                   <option
                     v-for="grado in grados"
@@ -117,19 +121,16 @@
                   </option>
                 </select>
               </div>
-             
-               <div class="mb-3">
+
+              <div class="mb-3">
                 <p style="font-size: 18px">
                   <span> Grupos</span>
-                
                 </p>
                 <select
                   v-model="grupoSelect"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                  v-on:change="
-                    agregarArray(grupoSelect, nuevoUsuario.grupos)
-                  "
+                  v-on:change="agregarArray(grupoSelect, nuevoUsuario.grupos)"
                 >
                   <option
                     v-for="grupo in grupos"
@@ -150,9 +151,7 @@
                       {{ returnGroupName(grupo).nombre }}
                       <i
                         class="fal fa-times"
-                        v-on:click="
-                          eliminarArray(grupo, nuevoUsuario.grupos)
-                        "
+                        v-on:click="eliminarArray(grupo, nuevoUsuario.grupos)"
                       ></i
                     ></span>
                   </li>
@@ -193,22 +192,27 @@ export default {
         ou: "Alumno",
         grupos: [],
       },
- 
+
       roles: roles,
-  
+
       carreraSelect: "",
       gradoSelect: "",
       grupoSelect: "",
-      carreras:"",
-      grados:"",
-      grupos:"",
+      carreras: "",
+      grados: "",
+      grupos: "",
     };
   },
   mounted() {
+    if (this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/alumnos");
+    }
+
     this.getAllCareras();
   },
   methods: {
-    getAllCareras(){
+    getAllCareras() {
+      this.loading = true;
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -220,6 +224,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.carreras = response.data;
+            this.loading = false;
           }
         })
         .catch(() => {
@@ -231,11 +236,10 @@ export default {
         });
     },
 
-    cargarGrados(carrera){
-  
-      this.grados = carrera.grado; 
+    cargarGrados(carrera) {
+      this.grados = carrera.grado;
     },
-    cargarGrupos(){
+    cargarGrupos() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -243,7 +247,7 @@ export default {
         },
       };
       axios
-        .get(Global.url + "grado/"+this.gradoSelect, config)
+        .get(Global.url + "grado/" + this.gradoSelect, config)
         .then((response) => {
           if (response.status == 200) {
             this.grupos = response.data.grupos;
@@ -257,43 +261,13 @@ export default {
           });
         });
     },
-    
-   
-    agregarMateria() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .post(Global.url + "materia", this.nuevaMateria, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Nueva materia agregada",
-            });
-            this.getAllMaterias();
-            this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Materia ya existente",
-          });
-        });
-    },
+
     agregarArray(id, array) {
       if (!array.includes(id)) {
         array.push(id);
       }
     },
-     returnGroupName(idGrupo) {
+    returnGroupName(idGrupo) {
       for (let g of this.grupos) {
         if (g.id == idGrupo) {
           return { nombre: g.idGrupo, id: g.id };
@@ -305,19 +279,7 @@ export default {
       let index = array.findIndex(element);
       array.splice(index, 1);
     },
-    getAllMaterias() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "materia", config).then((res) => {
-        if (res.status == 200) {
-          this.materias = res.data;
-        }
-      });
-    },
+
     agregarUsuario() {
       let config = {
         headers: {
