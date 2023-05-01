@@ -178,7 +178,7 @@
       </div>
       <div
         v-else
-        class="contenedorDerechoPersona p-4"
+        class="contenedorDerechoPersona p-4 scrollbar"
         style="width: 32%; background-color: #ffffff"
       >
         <h5>Modificar grado : {{ gradoPicked.grado }}</h5>
@@ -307,7 +307,7 @@
                     v-for="m in gradoPicked.materias"
                     v-bind:key="m.id"
                   >
-                    <span class="d-flex justify-content-between">
+                    <span class="d-flex justify-content-between " >
                       {{ returnSubjectNameById(m) }}
                       <button
                         class="btn btn-danger"
@@ -466,6 +466,11 @@ export default {
       $("#" + id).click();
     },
     hiddeCollapse(id){
+          this.materiaSelect = {
+            materia_id: "",
+            cantidad_horas: "",
+            carrera_id: this.$route.params.carrera,
+          };
       document.getElementById(id).classList.remove("show");
     },
     agregarGrado() {
@@ -704,6 +709,11 @@ export default {
             title: Global.nombreSitio,
             message: "Grado actualizado correctamente",
           });
+          this.materiaSelect = {
+            materia_id: "",
+            cantidad_horas: "",
+            carrera_id: this.$route.params.carrera,
+          };
         })
         .catch(() => {
           this.flashMessage.show({
@@ -816,3 +826,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.scrollbar {
+  overflow-y: scroll;
+}
+</style>
