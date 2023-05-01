@@ -86,9 +86,10 @@
                 </span>
 
                 <span
-                  v-if="listarEliminados"
+                  v-if="listarEliminados && usuario.cargo != roles.adscripto"
                   style="color: green; cursor: pointer"
                   @click="activarUsuario(props.row.id)"
+
                 >
                   <i
                     class="fas fa-check"

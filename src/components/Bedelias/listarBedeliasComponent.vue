@@ -79,7 +79,7 @@
                 </span>
 
                 <span
-                  v-if="listarEliminados"
+                  v-if="listarEliminados && usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo"
                   style="color: green; cursor: pointer"
                   @click="activarUsuarioBedelia(props.row.id)"
                 >

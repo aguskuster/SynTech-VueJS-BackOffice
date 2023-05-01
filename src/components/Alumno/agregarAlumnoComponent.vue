@@ -78,7 +78,7 @@
               <div
                 class="alert alert-warning"
                 role="alert"
-                v-if="carreras.length == 1 && loading == false"
+                v-if="carreras.length == 0 && loading == false"
               >
                 Para activar esta funcion primero debes crera una carrera.
          
