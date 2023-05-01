@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <vue-headful :title="title" />
+ 
       <h2>Historial de Registros</h2>
     </div>
       <center v-if="loading" style="margin-top:3rem;font-size:230px;">
@@ -33,12 +33,12 @@ import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { Global } from "../Global";
 import axios from "axios";
-import vueHeadful from "vue-headful";
+
 export default {
   name: "HistorialAcciones",
   components: {
     VueGoodTable,
-    vueHeadful,
+
   },
   data() {
     return {
