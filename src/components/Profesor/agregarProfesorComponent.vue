@@ -219,6 +219,9 @@ export default {
     };
   },
   mounted() {
+     if(this.usuario.cargo == roles.adscripto){
+      this.$router.push("/profesores");
+    }
     this.getAllMaterias();
   },
   methods: {
