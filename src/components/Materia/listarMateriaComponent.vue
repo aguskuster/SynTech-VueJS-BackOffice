@@ -289,7 +289,7 @@ export default {
         });
     },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getAllMaterias();
       }
     },
