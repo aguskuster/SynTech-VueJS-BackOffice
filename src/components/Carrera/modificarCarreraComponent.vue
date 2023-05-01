@@ -15,7 +15,10 @@
         class="contenedorIzquierdo p-4"
         style="width: 33%; background-color: #ffffff"
       >
-        <form v-on:submit.prevent="updateCarrera()">
+        <form
+          v-on:submit.prevent="updateCarrera()"
+          v-if="usuario.cargo != roles.adscripto"
+        >
           <div class="mb-3">
             <p style="font-size: 18px">Nombre <em>*</em></p>
             <input
@@ -53,13 +56,48 @@
             class="btn btn-primary"
           />
         </form>
+        <div v-else>
+          <div class="mb-3">
+            <p style="font-size: 18px">Nombre <em>*</em></p>
+            <input
+              disabled
+              type="text"
+              v-model="carrera.nombre"
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+          <div class="mb-3">
+            <p style="font-size: 18px">Plan <em>*</em></p>
+            <input
+              disabled
+              type="text"
+              v-model="carrera.plan"
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+          <div class="mb-3">
+            <p style="font-size: 18px">Categoria <em>*</em></p>
+            <input
+              type="text"
+              v-model="carrera.categoria"
+              disabled
+              class="form-control inputFachero"
+              style="height: 50px; font-size: 16px"
+            />
+          </div>
+        </div>
       </div>
 
       <div
         class="contenedorIzquierdo p-4"
         style="width: 32%; background-color: #ffffff"
       >
-        <form v-on:submit.prevent="agregarGrado()">
+        <form
+          v-on:submit.prevent="agregarGrado()"
+          v-if="usuario.cargo != roles.adscripto"
+        >
           <div class="mb-3" style="display: flex">
             <div style="width: 100%">
               <select class="form-control" v-model="gradoSelect">
@@ -92,6 +130,9 @@
             </div>
           </div>
         </form>
+        <div v-else>
+          <h5>Haz click en un grado para listar mas informacion</h5>
+        </div>
 
         <ul class="list-group mt-4">
           <li
@@ -104,7 +145,11 @@
                 ><a href="javascript:void(0)"> {{ grado.grado }}</a></span
               >
 
-              <button class="btn btn-danger" v-on:click="eliminarGrado(grado)">
+              <button
+                class="btn btn-danger"
+                v-on:click="eliminarGrado(grado)"
+                v-if="usuario.cargo != roles.adscripto"
+              >
                 <i class="fas fa-trash-alt"></i>
               </button>
             </span>
@@ -194,86 +239,92 @@
                   aria-expanded="true"
                   aria-controls="collapseOne"
                 >
-                 <a href="javascript:void(0)" @click="hiddeCollapse('collapseTwo')"> Administrar Materias</a>
-                  
+                  <a
+                    href="javascript:void(0)"
+                    @click="hiddeCollapse('collapseTwo')"
+                  >
+                    Administrar Materias</a
+                  >
                 </button>
               </h5>
             </div>
-                  <!-- Modal agregar materia -->
+            <!-- Modal agregar materia -->
 
-              <div
-                class="modal fade"
-                id="exampleModal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
-                        Crear una nueva materia
-                      </h5>
-                      <button
-                        id="closeModal"
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Crear una nueva materia
+                    </h5>
+                    <button
+                      id="closeModal"
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
 
-                    <div class="modal-body">
-                      <form
-                        name="form"
-                        id="form"
-                        v-on:submit.prevent="agregarMateria()"
-                      >
-                        <p>
-                          Nombre de Materia<em> *</em> :
-                          <br />
-                          <input
-                            type="text"
-                            v-model="nuevaMateria.nombre"
-                            class="form-control"
-                            required
-                          />
-                        </p>
+                  <div class="modal-body">
+                    <form
+                      name="form"
+                      id="form"
+                      v-on:submit.prevent="agregarMateria()"
+                    >
+                      <p>
+                        Nombre de Materia<em> *</em> :
+                        <br />
                         <input
-                          type="submit"
-                          value="Agregar Materia"
-                          title="Enviar"
-                          class="btn btn-primary"
+                          type="text"
+                          v-model="nuevaMateria.nombre"
+                          class="form-control"
+                          required
                         />
-                      </form>
-                    </div>
+                      </p>
+                      <input
+                        type="submit"
+                        value="Agregar Materia"
+                        title="Enviar"
+                        class="btn btn-primary"
+                      />
+                    </form>
                   </div>
                 </div>
               </div>
-              <!--Fin Modal -->
+            </div>
+            <!--Fin Modal -->
             <div
               id="collapseOne"
-              class="collapse show "
+              class="collapse show"
               aria-labelledby="headingOne"
               data-parent="#accordion"
             >
               <div class="card-body">
                 <p style="font-size: 18px">
                   <span> Materias</span>
-                   <i
-                  class="fa fa-plus-square ml-2"
-                  style="color: #006799; cursor: pointer"
-                  data-toggle="modal"
-                  data-target="#exampleModal"
-                ></i>
+                  <i
+                    class="fa fa-plus-square ml-2"
+                    style="color: #006799; cursor: pointer"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    v-if="usuario.cargo != roles.adscripto"
+                  ></i>
                 </p>
                 <select
                   v-model="materiaSelect"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
+                  v-if="usuario.cargo != roles.adscripto"
                 >
                   <option
                     v-for="materia in materias"
@@ -283,16 +334,24 @@
                     {{ materia.nombre }}
                   </option>
                 </select>
-                <br />
-                <p style="font-size: 18px">
+
+                <br v-if="usuario.cargo != roles.adscripto" />
+                <p
+                  style="font-size: 18px"
+                  v-if="usuario.cargo != roles.adscripto"
+                >
                   <span> Cantidad de horas semanales</span>
                 </p>
                 <input
+                  v-if="usuario.cargo != roles.adscripto"
                   type="number"
                   class="form-control inputFachero"
                   v-model="materiaSelect.cantidad_horas"
                 />
-                <div class="d-flex justify-content-end mt-2">
+                <div
+                  class="d-flex justify-content-end mt-2"
+                  v-if="usuario.cargo != roles.adscripto"
+                >
                   <button
                     class="btn btn-primary"
                     @click="agregarMateriaGrado()"
@@ -312,6 +371,7 @@
                       <button
                         class="btn btn-danger"
                         v-on:click="eliminarMateriaGrado(m)"
+                        v-if="usuario.cargo != roles.adscripto"
                       >
                         <i class="fas fa-trash-alt"></i>
                       </button>
@@ -332,14 +392,19 @@
                   aria-expanded="false"
                   aria-controls="collapseTwo"
                 >
-                  <a href="javascript:void(0)"  @click="hiddeCollapse('collapseOne')"> Administrar Grupos</a>
+                  <a
+                    href="javascript:void(0)"
+                    @click="hiddeCollapse('collapseOne')"
+                  >
+                    Administrar Grupos</a
+                  >
                 </button>
               </h5>
             </div>
 
             <div
               id="collapseTwo"
-              class="collapse "
+              class="collapse"
               aria-labelledby="headingTwo"
               data-parent="#accordion"
             >
@@ -354,6 +419,7 @@
                   minlength="2"
                   class="form-control inputFachero"
                   v-model="grupoSelect.idGrupo"
+                  v-if="usuario.cargo != roles.adscripto"
                 />
 
                 <ul class="list-group mt-4">
@@ -368,6 +434,7 @@
                         <button
                           class="btn btn-danger"
                           v-on:click="eliminarGrupo(g)"
+                          v-if="usuario.cargo != roles.adscripto"
                         >
                           <i class="fas fa-trash-alt"></i>
                         </button>
@@ -387,6 +454,7 @@
                     value="Agregar Grupo"
                     class="btn btn-primary"
                     @click="agregarGrupo()"
+                    v-if="usuario.cargo != roles.adscripto"
                   />
                 </div>
               </div>
@@ -399,16 +467,18 @@
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 import $ from "jquery";
 export default {
   name: "modificarCarreraComponent.vue",
   data() {
     return {
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: false,
       carrera: "",
-        nuevaMateria: {
+      nuevaMateria: {
         nombre: "",
       },
       gradoPicked: "",
@@ -432,7 +502,7 @@ export default {
     this.getAllMaterias();
   },
   methods: {
-         agregarMateria() {
+    agregarMateria() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -453,7 +523,7 @@ export default {
             this.cerrarModal("closeModal");
           }
         })
-          .catch(() => {
+        .catch(() => {
           this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
@@ -462,7 +532,7 @@ export default {
           });
         });
     },
-     cerrarModal(id) {
+    cerrarModal(id) {
       $("#" + id).click();
     },
     hiddeCollapse(id){

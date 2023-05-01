@@ -30,7 +30,7 @@
             <button
               class="btn btn-primary"
               @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
               style="width: 48%"
             >
               Restablecer Foto
@@ -38,7 +38,7 @@
             <button
               class="btn btn-primary"
               @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
               style="width: 48%"
             >
               Restablecer Contraseña
@@ -54,7 +54,10 @@
         <div class="formModificar">
           <div class="informacion-izquierda">
             <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+            <div
+              class="personalDetails"
+              v-if="usuario.cargo != roles.adscripto"
+            >
               <div class="mb-3">
                 <p style="font-size: 18px">Nombre</p>
                 <input
@@ -184,7 +187,7 @@
               class="btn btn-danger"
               style="margin-right: 10px; width: 200px"
               @click="eliminarUsuario(idAlumno)"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
             >
               Eliminar Alumno
             </button>
@@ -193,14 +196,14 @@
                 class="btn btn-success"
                 style="margin-right: 10px"
                 @click="comprobarModificarInfo()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Actualizar
               </button>
               <button
                 class="btn btn-danger"
                 v-on:click="$router.back()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Cancelar
               </button>

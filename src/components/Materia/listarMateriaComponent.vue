@@ -50,8 +50,9 @@
         style="width: 49%; background-color: #ffffff"
       >
         <div class="form-group" v-if="materiaSelect">
-          <h4 class="d-block">Modificar Materia</h4>
-          <form v-on:submit.prevent="modificarMateria()">
+          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">Modificar Materia</h4>
+            <h4 class="d-block" v-else>Listar Materia</h4>
+          <form v-on:submit.prevent="modificarMateria()" v-if="usuario.cargo != roles.adscripto">
             <div class="d-flex">
               <input
                 type="text"
@@ -78,11 +79,28 @@
               class="btn btn-danger ml-4 mt-4"
             />
           </form>
+          <div v-else>
+                <div class="d-flex">
+              <input
+                type="text"
+                class="form-control w-50"
+                id="nombre"
+                required
+                disabled
+                v-model="materiaSelect.nombre"
+              />
+              <i
+                class="fas fa-times btn-danger btn"
+                @click="materiaSelect = ''"
+              ></i>
+            </div>
+          </div>
         </div>
 
         <div class="form-group" v-else>
-          <h4 class="d-block">Agregar Materia</h4>
-          <form v-on:submit.prevent="agregarMateria()">
+          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">Agregar Materia</h4>
+          <h4 class="d-block" v-else>Listar Materia</h4>
+          <form v-on:submit.prevent="agregarMateria()" v-if="usuario.cargo != roles.adscripto">
             <input
               type="text"
               class="form-control w-50"
@@ -96,6 +114,14 @@
               class="btn btn-primary mt-4"
             />
           </form>
+          <div v-else>
+             <input
+              type="text"
+              class="form-control w-50"
+              disabled
+              required
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -103,6 +129,7 @@
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
@@ -115,6 +142,7 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: true,
       materiaSelect: "",
