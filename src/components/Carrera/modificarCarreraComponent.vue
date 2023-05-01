@@ -671,11 +671,11 @@ export default {
       };
 
       for (let materia of this.gradoPicked.materias) {
-        if (materia.id == this.materiaSelect.id) {
+        if (materia.id == this.materiaSelect.id || this.materiaSelect.cantidad_horas.length > 2 ||this.materiaSelect.cantidad_horas > 168) {
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
-            message: "Materia ya pertenece al grado",
+            message: "Compruebe la informacion y vuelva a intentar",
           });
           this.materiaSelect = {
             materia_id: "",
