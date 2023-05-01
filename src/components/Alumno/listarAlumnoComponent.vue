@@ -170,6 +170,27 @@ export default {
     this.getTodos();
   },
   methods: {
+        cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "logout", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Sesion cerrada correctamente",
+            });
+            this.logged = false;
+            localStorage.clear();
+            location.reload();
+          }
+        })
+    },
     activarUsuario(id) {
       this.loading = true;
       let config = {
@@ -242,6 +263,7 @@ export default {
           }
         })
         .catch(() => {
+          this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,

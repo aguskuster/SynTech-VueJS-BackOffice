@@ -244,6 +244,7 @@ export default {
           }
         })
         .catch(() => {
+          
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
@@ -280,13 +281,6 @@ export default {
             location.reload();
           }
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cerrar sesion",
-          });
-        });
     },
   },
 };

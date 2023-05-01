@@ -204,12 +204,34 @@ export default {
           }
         })
         .catch(() => {
+           this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
             message: "Error inesperado al cargar ",
           });
         });
+    },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "logout", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Sesion cerrada correctamente",
+            });
+            this.logged = false;
+            localStorage.clear();
+            location.reload();
+          }
+        })
     },
     onSearch(params) {
       if (params.searchTerm.length == 1) {
