@@ -26,8 +26,9 @@
           <p class="text-muted">CI: {{ usuarioDatos.id }}</p>
         </div>
         <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
-            <div class="btn btn-primary" style="min-width: 220px">
+             <div style="position: absolute; bottom: 10px; width: 100%">
+            <div style="display: flex; justify-content: space-between">
+           <div class="btn btn-primary"  style="width: 48%">
               <label for="file-input" style="color: white">
                 Cambiar Foto
               </label>
@@ -40,13 +41,15 @@
                 style="display: none"
               />
             </div>
-            <button
-              class="btn btn-primary"
-              style="margin-left: 55px; min-width: 220px"
-              @click="modalActualizarContrasenia()"
-            >
-              Cambiar contraseña
-            </button>
+              <button
+                class="btn btn-primary"
+                  @click="modalActualizarContrasenia()"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Actualizar Contraseña
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -305,10 +305,10 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire({
+             this.$swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Algo salio mal...",
+            title: "Error al crear un profesor",
+            text: "Verifique que la cedula no este registrada en el sistema",
           });
         });
     },

@@ -210,7 +210,7 @@ export default {
       usuario: "",
       logged: false,
       imgB64: "",
-      title: "BackOffice",
+      title: "Back Office",
       nav: false,
     };
   },

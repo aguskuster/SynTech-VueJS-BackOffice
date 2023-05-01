@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Profesor</h2>
+      <h2>Agregar Bedelia</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Profesor</h3>
+            <h3>Nuevo Bedelia</h3>
             <hr />
           </center>
         </div>
@@ -78,7 +78,7 @@
               <div class="mb-3">
                 <p style="font-size: 18px">Rol <em>*</em></p>
                 <select
-                  v-model="nuevoUsuario.rol"
+                  v-model="nuevoUsuario.cargo"
                   class="form-select inputFachero"
                   style="height: 50px; font-size: 16px"
                 >
@@ -119,7 +119,7 @@ export default {
         samaccountname: "",
         userPrincipalName: "",
         ou: "Bedelias",
-        rol:"",
+        cargo:"",
       },
 
       roles: roles,
@@ -141,6 +141,7 @@ export default {
           token: Global.token,
         },
       };
+  
       axios
         .post(Global.url + "usuario", this.nuevoUsuario, config)
         .then((response) => {
@@ -154,10 +155,10 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire({
+         this.$swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Algo salio mal...",
+            title: "Error al crear bedelia",
+            text: "Verifique que la cedula no este registrada en el sistema",
           });
         });
     },

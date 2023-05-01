@@ -1,6 +1,6 @@
 <template>
 <div class="d-flex align-items-center justify-content-center" style="height: 60vh;">
-  <vue-headful :title="title" />
+ 
   <div class="d-flex">
    
     <div class="text-center">
@@ -17,12 +17,10 @@
 </template>
 
 <script>
-import vueHeadful from "vue-headful";
+
 export default {
   name: "HomeComponent",
-  components: {
-    vueHeadful,
-  },
+ 
   data() {
     return {
        usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
