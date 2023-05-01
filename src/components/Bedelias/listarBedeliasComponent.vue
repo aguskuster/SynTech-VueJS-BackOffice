@@ -2,11 +2,11 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Bedelias</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
+      <button class="btn btn-primary" disabled v-if="loading  && usuario.cargo != roles.adscripto">
         Agregar Bedelia
       </button>
       <router-link
-        v-if="usuario.cargo != 'Adscripto' && !loading"
+        v-if="usuario.cargo != roles.adscripto && !loading"
         to="/bedelia/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
@@ -68,7 +68,7 @@
                 </span>
 
                 <span
-                  v-if="!listarEliminados && usuario.cargo != 'Adscripto'"
+                  v-if="!listarEliminados"
                   style="font-weight: bold; color: blue"
                   @click="eliminarUsuarioBedelia(props.row.id)"
                 >
@@ -100,7 +100,7 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
-
+import { roles } from "../../Global";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import $ from "jquery";
@@ -114,6 +114,7 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todoProfesres: null,
       userInfo: "",
@@ -165,6 +166,10 @@ export default {
   mounted() {
     if (!localStorage.getItem("auth_token_BO")) {
       localStorage.clear();
+    }
+
+    if (this.usuario.cargo == roles.administrativo || this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/home");
     }
     this.getTodos();
   },

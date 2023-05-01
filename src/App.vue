@@ -28,7 +28,7 @@
             Inicio</router-link
           >
         </li>
-        <li>
+        <li v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
           <router-link
             to="/bedelias"
             title="Listar Usuarios"
@@ -72,7 +72,7 @@
             Noticias</router-link
           >
         </li>
-        <li>
+          <li v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
           <router-link to="/historial" class="router-link">
             <i class="fas fa-history"></i>
             Historial Acciones
@@ -126,20 +126,20 @@
                 Inicio</router-link
               >
             </li>
-            <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()"  v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
               <router-link to="/bedelias" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Bedelia</router-link
               >
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/alumno" title="Listar Usuarios">
+              <router-link to="/alumnos" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Alumno</router-link
               >
             </li>
             <li v-on:click="bajarMenu()">
-              <router-link to="/profesor" title="Listar Usuarios">
+              <router-link to="/profesores" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Profesor</router-link
               >
@@ -159,7 +159,7 @@
                 Noticias</router-link
               >
             </li>
-            <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()" v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
               <router-link to="/historial" class="router-link">
                 <i class="fas fa-history"></i>
                 Historial Acciones
@@ -194,6 +194,7 @@
 </template>
 <script>
 import { Global } from "./Global";
+import { roles } from "./Global";
 import axios from "axios";
 import vueHeadful from "vue-headful";
 import LoginComponent from "./components/LoginComponent.vue";
@@ -205,6 +206,7 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: "",
       logged: false,
       imgB64: "",

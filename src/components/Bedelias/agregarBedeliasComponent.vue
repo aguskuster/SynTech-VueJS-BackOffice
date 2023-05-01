@@ -126,6 +126,11 @@ export default {
     
     };
   },
+  mounted() {
+     if (this.usuario.cargo == roles.administrativo || this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/home");
+    }
+  },
 
   methods: {
 
