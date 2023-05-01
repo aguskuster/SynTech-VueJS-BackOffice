@@ -36,6 +36,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+           <div slot="emptystate" style="text-align:center">
+            No hay alumnos para listar
+           </div>
             <div slot="table-actions">
               <button
                 class="btn btn-primary"

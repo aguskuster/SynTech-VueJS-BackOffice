@@ -29,6 +29,9 @@
           class="contenedorIzquierdo"
           style="width: 100%; background-color: transparent"
         >
+            <div slot="emptystate" style="text-align:center">
+              No hay usuarios para listar
+            </div>
           <vue-good-table
             @on-row-dblclick="onRowDoubleClick"
            

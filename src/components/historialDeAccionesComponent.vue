@@ -20,6 +20,9 @@
           theme="polar-bear"
           :pagination-options="pagination"
         >
+        <div slot="emptystate" style="text-align:center">
+            No hay registros
+           </div>
         </vue-good-table>
       </div>
     </div>

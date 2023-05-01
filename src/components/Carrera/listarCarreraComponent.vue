@@ -58,6 +58,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+          <div slot="emptystate" style="text-align:center">
+            No hay carreras para listar
+           </div>
             <template slot="table-row" slot-scope="props">
               <span
                 v-if="props.column.field == 'btn'"
