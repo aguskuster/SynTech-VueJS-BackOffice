@@ -508,8 +508,8 @@ export default {
       };
 
       axios
-        .post(
-          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",
+         .post(
+          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",null,
           config
         )
         .then((res) => {

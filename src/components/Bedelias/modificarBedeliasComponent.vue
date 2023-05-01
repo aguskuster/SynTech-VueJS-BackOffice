@@ -349,8 +349,8 @@ export default {
       };
 
       axios
-        .post(
-          Global.url + "usuario/" + this.idBedelia + "/imagen-perfil",
+         .post(
+          Global.url + "usuario/" + this.idBedelia + "/imagen-perfil",null,
           config
         )
         .then((res) => {

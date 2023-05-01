@@ -340,7 +340,7 @@ export default {
 
       axios
         .post(
-          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",
+          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",null,
           config
         )
         .then((res) => {
