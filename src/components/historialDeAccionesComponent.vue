@@ -29,6 +29,7 @@
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { Global } from "../Global";
+import { roles } from "../Global";
 import axios from "axios";
 import vueHeadful from "vue-headful";
 export default {
@@ -39,6 +40,8 @@ export default {
   },
   data() {
     return {
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
+      roles:roles,
       title: "Historial Acciones",
       historialAcciones: "",
       loading:true,
@@ -86,6 +89,9 @@ export default {
     };
   },
   mounted() {
+      if (this.usuario.cargo == roles.administrativo || this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/home");
+    }
     this.getHistorialCompleto();
   },
   methods: {

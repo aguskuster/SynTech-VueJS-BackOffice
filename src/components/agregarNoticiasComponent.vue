@@ -34,11 +34,10 @@
             <label for="encabezado">Imagen Encabezado</label>
             <input
               name="encabezado"
-    
               class="form-control mb-3"
               @change="getEncabezado"
               type="file"
-               accept=".jpg, .png , .jpeg"
+              accept=".jpg, .png , .jpeg"
               id="formFile"
             />
             <label for="mensaje" class="form-label"> Mensaje</label>
@@ -87,7 +86,7 @@
         style="width: 65% !important; height: 49rem; position: relative"
       >
         <h4>Listado de Noticias</h4>
-   
+
         <div
           class="p-4"
           style="max-height: 650px; overflow-y: auto"
@@ -306,10 +305,39 @@ export default {
           token: Global.token,
         },
       };
-      axios.get(Global.url + "noticia", config).then((res) => {
+      axios
+        .get(Global.url + "noticia", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.todasNoticias = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.cerrarSesion()
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+        });
+    },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios.post(Global.url + "logout", config).then((res) => {
         if (res.status == 200) {
-          this.todasNoticias = res.data;
-          this.loading = false;
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
         }
       });
     },
@@ -336,7 +364,6 @@ export default {
     },
 
     descargarPDF(label) {
-       
       let url = Global.url + "traerArchivo?archivo=" + label;
       axios
         .get(url, {
@@ -362,7 +389,7 @@ export default {
 
     borrarNoticia(noticia) {
       axios
-        .delete(Global.url + "noticia/"+noticia.id, {
+        .delete(Global.url + "noticia/" + noticia.id, {
           headers: {
             "Content-Type": "application/json",
             token: Global.token,
@@ -375,9 +402,9 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire({
-            icon: "success",
-            text: "Noticia eliminada con exito",
-          });
+              icon: "success",
+              text: "Noticia eliminada con exito",
+            });
 
             this.traerNoticias();
           }

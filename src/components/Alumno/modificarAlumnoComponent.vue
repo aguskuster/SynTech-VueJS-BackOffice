@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: #FFFFFF"
+        style="width: 30%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -29,14 +29,14 @@
             <button
               class="btn btn-primary"
               @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
             >
               Restablecer Foto
             </button>
             <button
               class="btn btn-primary"
               @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
             >
               Restablecer Contraseña
             </button>
@@ -46,12 +46,15 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: #FFFFFF"
+        style="width: 69%; background-color: #ffffff"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
             <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+            <div
+              class="personalDetails"
+              v-if="usuario.cargo != roles.adscripto"
+            >
               <div class="mb-3">
                 <p style="font-size: 18px">Nombre</p>
                 <input
@@ -151,9 +154,8 @@
             </div>
           </div>
           <div class="user-rol" style="width: 35% !important">
-             <h3 style="text-transform: uppercase">Grupo</h3>
+            <h3 style="text-transform: uppercase">Grupo</h3>
             <div>
-          
               <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
@@ -182,7 +184,7 @@
               class="btn btn-danger"
               style="margin-right: 10px; width: 200px"
               @click="eliminarUsuario(idAlumno)"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
             >
               Eliminar Alumno
             </button>
@@ -191,14 +193,14 @@
                 class="btn btn-success"
                 style="margin-right: 10px"
                 @click="comprobarModificarInfo()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Actualizar
               </button>
               <button
                 class="btn btn-danger"
                 v-on:click="$router.back()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Cancelar
               </button>
@@ -250,7 +252,6 @@ export default {
     this.getUsuario();
   },
   methods: {
-
     comprobarModificarInfo() {
       this.$swal
         .fire({
@@ -329,7 +330,7 @@ export default {
           }
         });
     },
-  
+
     restablecerFoto() {
       let config = {
         headers: {

@@ -6,20 +6,19 @@
         <button
           class="btn btn-primary mr-2"
           disabled
-          v-if="usuario.cargo != 'Adscripto'"
         >
           Administrar Asignaturas
         </button>
         <button
           class="btn btn-primary"
           disabled
-          v-if="usuario.cargo != 'Adscripto'"
+          v-if="usuario.cargo != roles.adscripto"
         >
           Agregar Carrera
         </button>
       </div>
 
-      <div v-else-if="usuario.cargo != 'Adscripto' && !loading">
+      <div v-else-if="!loading">
         <router-link
           to="/materia"
           title="Administrar Asignaturas"
@@ -28,6 +27,7 @@
           Administrar Asignaturas</router-link
         >
         <router-link
+        v-if="usuario.cargo != roles.adscripto"
           to="/carrera/crear"
           title="Listar carrera"
           class="btn btn-primary router-link"
@@ -70,6 +70,12 @@
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
+                    v-if="usuario.cargo != roles.adscripto"
+                  ></i>
+                  <i
+                    class="far fa-eye"
+                    style="color: orange; cursor: pointer"
+                    v-else
                   ></i>
                 </span>
 
@@ -92,6 +98,7 @@
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
@@ -108,6 +115,7 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todosUsuarios: null,
       userInfo: "",
@@ -204,12 +212,34 @@ export default {
           }
         })
         .catch(() => {
+           this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
             message: "Error inesperado al cargar ",
           });
         });
+    },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "logout", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Sesion cerrada correctamente",
+            });
+            this.logged = false;
+            localStorage.clear();
+            location.reload();
+          }
+        })
     },
     onSearch(params) {
       if (params.searchTerm.length == 1) {
