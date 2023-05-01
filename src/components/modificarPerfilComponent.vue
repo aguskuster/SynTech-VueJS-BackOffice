@@ -186,7 +186,7 @@ export default {
         },
       };
       let user = {
-        idUsuario: this.usuarioDatos.id,
+        idUsuario: this.usuario.username,
         nombre: this.nombre,
         apellido: this.apellido,
         email: this.usuarioDatos.email,
@@ -216,7 +216,7 @@ export default {
       let formData = new FormData();
       formData.append("archivo", foto);
       axios
-        .post(Global.url + "usuario/"+this.usuarioDatos.id+"/imagen-perfil", formData, config)
+        .post(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire({
@@ -266,7 +266,7 @@ export default {
         contrasenia: contrasenia,
       };
       axios
-        .put(Global.url + "usuario/"+this.$route.params.idUsuario+"/contrasenia", user, config)
+        .put(Global.url + "usuario/"+this.usuario.username+"/contrasenia", user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
