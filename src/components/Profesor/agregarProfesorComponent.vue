@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: #FFFFFF"
+        style="width: 35%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -27,7 +27,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: #FFFFFF"
+        style="width: 64%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="agregarUsuario()">
           <div class="d-flex justify-content-around p-4 mt-3">
@@ -60,6 +60,8 @@
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                   required
+                  id="cedula"
+                  v-on:keyup="validateCi"
                 />
               </div>
               <div class="mb-3">
@@ -139,7 +141,7 @@
                     data-target="#exampleModal"
                   ></i>
                 </p>
-                
+
                 <select
                   v-model="materiaSelect"
                   class="form-control inputFachero"
@@ -177,10 +179,14 @@
               </div>
 
               <div class="d-flex justify-content-end">
+                <div class="btn btn-primary" disabled v-if="!saveBtn">
+                  Agregar usuario
+                </div>
                 <input
                   type="submit"
                   value="Agregar usuario"
                   class="btn btn-primary"
+                  v-else
                 />
               </div>
             </div>
@@ -210,6 +216,7 @@ export default {
         ou: "Profesor",
         materias: [],
       },
+      saveBtn: false,
       materiaSelect: "",
       roles: roles,
       materias: [],
@@ -219,7 +226,7 @@ export default {
     };
   },
   mounted() {
-     if(this.usuario.cargo == roles.adscripto){
+    if (this.usuario.cargo == roles.adscripto) {
       this.$router.push("/profesores");
     }
     this.getAllMaterias();
@@ -305,7 +312,7 @@ export default {
           }
         })
         .catch(() => {
-             this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "Error al crear un profesor",
             text: "Verifique que la cedula no este registrada en el sistema",
@@ -318,6 +325,42 @@ export default {
     },
     cerrarModal(id) {
       $("#" + id).click();
+    },
+    validation_digit(ci) {
+      var a = 0;
+      var i = 0;
+      if (ci.length <= 6) {
+        for (i = ci.length; i < 7; i++) {
+          ci = "0" + ci;
+        }
+      }
+      for (i = 0; i < 7; i++) {
+        a += (parseInt("2987634"[i]) * parseInt(ci[i])) % 10;
+      }
+      if (a % 10 === 0) {
+        return 0;
+      } else {
+        return 10 - (a % 10);
+      }
+    },
+    validate_ci(ci) {
+      ci = this.clean_ci(ci);
+      var dig = ci[ci.length - 1];
+      ci = ci.replace(/[0-9]$/, "");
+      return dig == this.validation_digit(ci);
+    },
+    clean_ci(ci) {
+      return ci.replace(/\D/g, "");
+    },
+    validateCi() {
+      const valinput = document.getElementById("cedula");
+      if (this.validate_ci(valinput.value)) {
+        valinput.style.borderBottom = "3px solid #9deb91";
+        this.saveBtn = true;
+      } else {
+        valinput.style.borderBottom = "3px solid #eb91ae";
+        this.saveBtn = false;
+      }
     },
   },
 };
