@@ -91,12 +91,15 @@
                   </option>
                 </select>
               </div>
-
               <div class="d-flex justify-content-end">
+                <div class="btn btn-primary" disabled v-if="!saveBtn">
+                  Agregar bedelias
+                </div>
                 <input
                   type="submit"
                   value="Agregar bedelia"
                   class="btn btn-primary"
+                  v-else
                 />
               </div>
             </div>
@@ -125,8 +128,8 @@ export default {
         ou: "Bedelias",
         cargo: "",
       },
-
       roles: roles,
+      saveBtn: false,
     };
   },
   mounted() {
@@ -202,8 +205,10 @@ export default {
       const valinput = document.getElementById("cedula");
       if (this.validate_ci(valinput.value)) {
         valinput.style.borderBottom = "3px solid #9deb91";
+        this.saveBtn = true;
       } else {
         valinput.style.borderBottom = "3px solid #eb91ae";
+        this.saveBtn = false;
       }
     },
   },
