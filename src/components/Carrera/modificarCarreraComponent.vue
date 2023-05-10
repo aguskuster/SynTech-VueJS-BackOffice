@@ -344,9 +344,9 @@
                 </p>
                 <input
                   v-if="usuario.cargo != roles.adscripto"
-                  type="number"
                   class="form-control inputFachero"
                   v-model="materiaSelect.cantidad_horas"
+                  v-on:keyup="validateNumber"
                 />
                 <div
                   class="d-flex justify-content-end mt-2"
@@ -366,7 +366,7 @@
                     v-for="m in gradoPicked.materias"
                     v-bind:key="m.id"
                   >
-                    <span class="d-flex justify-content-between " >
+                    <span class="d-flex justify-content-between">
                       {{ returnSubjectNameById(m) }}
                       <button
                         class="btn btn-danger"
@@ -535,12 +535,12 @@ export default {
     cerrarModal(id) {
       $("#" + id).click();
     },
-    hiddeCollapse(id){
-          this.materiaSelect = {
-            materia_id: "",
-            cantidad_horas: "",
-            carrera_id: this.$route.params.carrera,
-          };
+    hiddeCollapse(id) {
+      this.materiaSelect = {
+        materia_id: "",
+        cantidad_horas: "",
+        carrera_id: this.$route.params.carrera,
+      };
       document.getElementById(id).classList.remove("show");
     },
     agregarGrado() {
@@ -746,7 +746,11 @@ export default {
       };
 
       for (let materia of this.gradoPicked.materias) {
-        if (materia.id == this.materiaSelect.id || this.materiaSelect.cantidad_horas.length > 2 ||this.materiaSelect.cantidad_horas > 168) {
+        if (
+          materia.id == this.materiaSelect.id ||
+          this.materiaSelect.cantidad_horas.length > 2 ||
+          this.materiaSelect.cantidad_horas > 168
+        ) {
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
@@ -892,6 +896,10 @@ export default {
             message: "Error inesperado al cargar",
           });
         });
+    },
+    validateNumber() {
+      let input = this.materiaSelect.cantidad_horas;
+      this.materiaSelect.cantidad_horas = input.replace(/[^0-9]/g, "");
     },
   },
 };

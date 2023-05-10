@@ -56,7 +56,6 @@
                 <input
                   maxlength="8"
                   minlength="8"
-                  type="phone"
                   v-model="nuevoUsuario.samaccountname"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
@@ -203,6 +202,10 @@ export default {
     },
     validateCi() {
       const valinput = document.getElementById("cedula");
+
+      let ci = this.nuevoUsuario.samaccountname;
+      this.nuevoUsuario.samaccountname = ci.replace(/[^0-9]/g, "");
+
       if (this.validate_ci(valinput.value)) {
         valinput.style.borderBottom = "3px solid #9deb91";
         this.saveBtn = true;
