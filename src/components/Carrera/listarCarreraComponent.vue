@@ -3,10 +3,7 @@
     <div class="contenedor_menu">
       <h2>Listado de Carreras</h2>
       <div v-if="loading">
-        <button
-          class="btn btn-primary mr-2"
-          disabled
-        >
+        <button class="btn btn-primary mr-2" disabled>
           Administrar Materias
         </button>
         <button
@@ -27,7 +24,7 @@
           Administrar Materias</router-link
         >
         <router-link
-        v-if="usuario.cargo != roles.adscripto"
+          v-if="usuario.cargo != roles.adscripto"
           to="/carrera/crear"
           title="Listar carrera"
           class="btn btn-primary router-link"
@@ -58,9 +55,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
-          <div slot="emptystate" style="text-align:center">
-            No hay carreras para listar
-           </div>
+            <div slot="emptystate" style="text-align: center">
+              No hay carreras para listar
+            </div>
             <template slot="table-row" slot-scope="props">
               <span
                 v-if="props.column.field == 'btn'"
@@ -118,7 +115,7 @@ export default {
   },
   data() {
     return {
-      roles:roles,
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todosUsuarios: null,
       userInfo: "",
@@ -170,34 +167,47 @@ export default {
     this.getTodos();
   },
   methods: {
-   
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
     },
-    eliminarCarrera(id){
-  let config = {
-          headers: {
-            token: Global.token,
-          },
-        };
-      axios
-        .delete(Global.url + "carrera/"+id, config)
-        .then((res) => {
-          if (res.status == 200) {
-           this.getTodos();
-           this.flashMessage.show({
-            status: "success",
-            title: Global.nombreSitio,
-            message: "Carrera eliminada correctamente",
-          });
-          }
+    eliminarCarrera(id) {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar la carrera?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Compruebe que la carrera selecionada no contenga grupos ni materias",
-          });
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(Global.url + "carrera/" + id, config)
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Carrera eliminada correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.getTodos();
+                }
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message:
+                    "Compruebe que la carrera selecionada no contenga grupos ni materias",
+                });
+              });
+          }
         });
     },
     getTodos() {
@@ -215,7 +225,7 @@ export default {
           }
         })
         .catch(() => {
-           this.cerrarSesion();
+          this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
@@ -229,20 +239,18 @@ export default {
           token: Global.token,
         },
       };
-      axios
-        .post(Global.url + "logout", config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Sesion cerrada correctamente",
-            });
-            this.logged = false;
-            localStorage.clear();
-            location.reload();
-          }
-        })
+      axios.post(Global.url + "logout", config).then((res) => {
+        if (res.status == 200) {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
+        }
+      });
     },
     onSearch(params) {
       if (params.searchTerm.length == 0) {

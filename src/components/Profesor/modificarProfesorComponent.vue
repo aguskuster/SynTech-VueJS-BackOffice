@@ -508,8 +508,9 @@ export default {
       };
 
       axios
-         .post(
-          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",null,
+        .post(
+          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",
+          null,
           config
         )
         .then((res) => {
@@ -548,11 +549,15 @@ export default {
           token: Global.token,
         },
       };
-    
+
       axios
-         .put(Global.url + "usuario/"+this.$route.params.user+"/contrasenia", {
-          contrasenia: "",
-       },config)
+        .put(
+          Global.url + "usuario/" + this.$route.params.user + "/contrasenia",
+          {
+            contrasenia: "",
+          },
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña restaurada", "", "success");
