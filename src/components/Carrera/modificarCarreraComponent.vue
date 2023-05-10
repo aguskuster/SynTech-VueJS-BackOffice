@@ -432,17 +432,18 @@
                       {{ g.idGrupo }}
                       <span>
                         <button
+                          class="btn btn-warning"
+                          style="background-color: #f0ad4e; margin-right: 5px"
+                          v-on:click="modificarGrupo(g)"
+                        >
+                          <i class="fas fa-pencil-alt" style="color: white"></i>
+                        </button>
+                        <button
                           class="btn btn-danger"
                           v-on:click="eliminarGrupo(g)"
                           v-if="usuario.cargo != roles.adscripto"
                         >
                           <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <button
-                          class="btn btn-warning"
-                          v-on:click="modificarGrupo(g)"
-                        >
-                          <i class="fas fa-pencil-alt"></i>
                         </button>
                       </span>
                     </span>
@@ -559,55 +560,94 @@ export default {
       this.updateCarrera();
     },
     eliminarMateriaGrado(materia) {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-
-      axios
-        .delete(
-          Global.url +
-            "grado/" +
-            this.gradoPicked.id +
-            "/materia/" +
-            materia.id,
-          config
-        )
-        .then((res) => {
-          this.gradoPicked = res.data;
-          this.flashMessage.show({
-            status: "success",
-            title: Global.nombreSitio,
-            message: "Grado actualizado correctamente",
-          });
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar la materia?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error inesperado al cargar",
-          });
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(
+                Global.url +
+                  "grado/" +
+                  this.gradoPicked.id +
+                  "/materia/" +
+                  materia.id,
+                config
+              )
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Materia eliminada correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.gradoPicked = res.data;
+                }
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message: "Error inesperado al cargar",
+                });
+              });
+          }
         });
     },
     eliminarGrado(grado) {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .delete(
-          Global.url + "carrera/" + this.carrera.id + "/grado/" + grado.id,
-          config
-        )
-        .then(() => {
-          this.getCarrera();
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar el grado?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .catch((error) => {
-          console.log(error);
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(
+                Global.url +
+                  "carrera/" +
+                  this.carrera.id +
+                  "/grado/" +
+                  grado.id,
+                config
+              )
+              .then(() => {
+                this.$swal.fire({
+                  icon: "success",
+                  title: "Grado eliminado correctamente",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                this.getCarrera();
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message:
+                    "Error inesperado al eliminar el grado, intente nuevamente",
+                });
+              });
+          }
         });
     },
     getOnlyGrados() {
@@ -660,28 +700,39 @@ export default {
     },
 
     eliminarGrupo(grupo) {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .delete(Global.url + "grupo/" + grupo.idGrupo, config)
-        .then(() => {
-          this.flashMessage.show({
-            status: "success",
-            title: Global.nombreSitio,
-            message: "Grupo eliminado correctamente",
-          });
-          this.cargarGrado(this.gradoPicked);
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar el grupo?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "warning",
-            title: Global.nombreSitio,
-            message: "Error al eliminar",
-          });
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(Global.url + "grupo/" + grupo.idGrupo, config)
+              .then(() => {
+                this.flashMessage.show({
+                  status: "success",
+                  title: Global.nombreSitio,
+                  message: "Grupo eliminado correctamente",
+                });
+                this.cargarGrado(this.gradoPicked);
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message: "Error al eliminar",
+                });
+              });
+          }
         });
     },
     agregarGrupo() {

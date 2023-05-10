@@ -2,11 +2,14 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Alumnos</h2>
-      <button class="btn btn-primary" disabled v-if="usuario.cargo != roles.adscripto && loading ">
+      <button
+        class="btn btn-primary"
+        disabled
+        v-if="usuario.cargo != roles.adscripto && loading"
+      >
         Agregar Alumno
       </button>
       <router-link
-
         v-if="usuario.cargo != roles.adscripto && !loading"
         to="/alumno/crear"
         title="Listar Usuarios"
@@ -37,9 +40,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
-           <div slot="emptystate" style="text-align:center">
-            No hay alumnos para listar
-           </div>
+            <div slot="emptystate" style="text-align: center">
+              No hay alumnos para listar
+            </div>
             <div slot="table-actions">
               <button
                 class="btn btn-primary"
@@ -69,9 +72,9 @@
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
-                    v-if="usuario.cargo != roles.adscripto "
+                    v-if="usuario.cargo != roles.adscripto"
                   ></i>
-                     <i
+                  <i
                     class="far fa-eye"
                     style="color: orange; cursor: pointer"
                     v-else
@@ -92,7 +95,6 @@
                   v-if="listarEliminados && usuario.cargo != roles.adscripto"
                   style="color: green; cursor: pointer"
                   @click="activarUsuario(props.row.id)"
-
                 >
                   <i
                     class="fas fa-check"
@@ -126,7 +128,7 @@ export default {
   },
   data() {
     return {
-      roles:roles,
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todoAlumnos: null,
       userInfo: "",
@@ -182,26 +184,24 @@ export default {
     this.getTodos();
   },
   methods: {
-        cerrarSesion() {
+    cerrarSesion() {
       let config = {
         headers: {
           token: Global.token,
         },
       };
-      axios
-        .post(Global.url + "logout", config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.nombreSitio,
-              message: "Sesion cerrada correctamente",
-            });
-            this.logged = false;
-            localStorage.clear();
-            location.reload();
-          }
-        })
+      axios.post(Global.url + "logout", config).then((res) => {
+        if (res.status == 200) {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
+        }
+      });
     },
     activarUsuario(id) {
       this.loading = true;
@@ -302,7 +302,7 @@ export default {
       this.$swal
         .fire({
           icon: "info",
-          title: "¿Estas seguro de eliminar el usuario?",
+          title: "¿Estas seguro de eliminar el alumno?",
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           confirmButtonText: "Eliminar",
@@ -320,7 +320,7 @@ export default {
                 if (res.status == 200) {
                   this.$swal.fire({
                     icon: "success",
-                    title: "Usuario eliminado correctamente",
+                    title: "Alumno eliminado correctamente",
                     showConfirmButton: false,
                     timer: 1500,
                   });
