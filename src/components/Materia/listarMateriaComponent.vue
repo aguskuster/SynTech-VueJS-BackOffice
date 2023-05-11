@@ -23,9 +23,9 @@
           theme="polar-bear"
           :pagination-options="pagination"
         >
-          <div slot="emptystate" style="text-align:center">
-              No hay materias para listar
-            </div>
+          <div slot="emptystate" style="text-align: center">
+            No hay materias para listar
+          </div>
           <template slot="table-row" slot-scope="props">
             <span
               v-if="props.column.field == 'btn'"
@@ -50,9 +50,14 @@
         style="width: 49%; background-color: #ffffff"
       >
         <div class="form-group" v-if="materiaSelect">
-          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">Modificar Materia</h4>
-            <h4 class="d-block" v-else>Listar Materia</h4>
-          <form v-on:submit.prevent="modificarMateria()" v-if="usuario.cargo != roles.adscripto">
+          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">
+            Modificar Materia
+          </h4>
+          <h4 class="d-block" v-else>Listar Materia</h4>
+          <form
+            v-on:submit.prevent="modificarMateria()"
+            v-if="usuario.cargo != roles.adscripto"
+          >
             <div class="d-flex">
               <input
                 type="text"
@@ -80,7 +85,7 @@
             />
           </form>
           <div v-else>
-                <div class="d-flex">
+            <div class="d-flex">
               <input
                 type="text"
                 class="form-control w-50"
@@ -98,9 +103,14 @@
         </div>
 
         <div class="form-group" v-else>
-          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">Agregar Materia</h4>
+          <h4 class="d-block" v-if="usuario.cargo != roles.adscripto">
+            Agregar Materia
+          </h4>
           <h4 class="d-block" v-else>Listar Materia</h4>
-          <form v-on:submit.prevent="agregarMateria()" v-if="usuario.cargo != roles.adscripto">
+          <form
+            v-on:submit.prevent="agregarMateria()"
+            v-if="usuario.cargo != roles.adscripto"
+          >
             <input
               type="text"
               class="form-control w-50"
@@ -115,12 +125,7 @@
             />
           </form>
           <div v-else>
-             <input
-              type="text"
-              class="form-control w-50"
-              disabled
-              required
-            />
+            <input type="text" class="form-control w-50" disabled required />
           </div>
         </div>
       </div>
@@ -142,7 +147,7 @@ export default {
   },
   data() {
     return {
-      roles:roles,
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       loading: true,
       materiaSelect: "",

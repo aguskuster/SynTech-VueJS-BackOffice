@@ -2,7 +2,11 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Bedelias</h2>
-      <button class="btn btn-primary" disabled v-if="loading  && usuario.cargo != roles.adscripto">
+      <button
+        class="btn btn-primary"
+        disabled
+        v-if="loading && usuario.cargo != roles.adscripto"
+      >
         Agregar Bedelia
       </button>
       <router-link
@@ -35,9 +39,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
-          <div slot="emptystate" style="text-align:center">
-            No hay bedelias para listar
-           </div>
+            <div slot="emptystate" style="text-align: center">
+              No hay bedelias para listar
+            </div>
             <div slot="table-actions">
               <button
                 class="btn btn-primary"
@@ -82,7 +86,11 @@
                 </span>
 
                 <span
-                  v-if="listarEliminados && usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo"
+                  v-if="
+                    listarEliminados &&
+                    usuario.cargo != roles.adscripto &&
+                    usuario.cargo != roles.administrativo
+                  "
                   style="color: green; cursor: pointer"
                   @click="activarUsuarioBedelia(props.row.id)"
                 >
@@ -117,7 +125,7 @@ export default {
   },
   data() {
     return {
-      roles:roles,
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todoProfesres: null,
       userInfo: "",
@@ -171,7 +179,10 @@ export default {
       localStorage.clear();
     }
 
-    if (this.usuario.cargo == roles.administrativo || this.usuario.cargo == roles.adscripto) {
+    if (
+      this.usuario.cargo == roles.administrativo ||
+      this.usuario.cargo == roles.adscripto
+    ) {
       this.$router.push("/home");
     }
     this.getTodos();
@@ -292,7 +303,7 @@ export default {
       this.$swal
         .fire({
           icon: "info",
-          title: "¿Estas seguro de eliminar el usuario?",
+          title: "¿Estas seguro de eliminar el usuario bedelias?",
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           confirmButtonText: "Eliminar",
@@ -310,7 +321,7 @@ export default {
                 if (res.status == 200) {
                   this.$swal.fire({
                     icon: "success",
-                    title: "Usuario eliminado correctamente",
+                    title: "Usuario  bedelias eliminado correctamente",
                     showConfirmButton: false,
                     timer: 1500,
                   });

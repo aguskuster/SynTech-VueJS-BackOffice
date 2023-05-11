@@ -55,11 +55,12 @@
                 <input
                   maxlength="8"
                   minlength="8"
-                  type="phone"
                   v-model="nuevoUsuario.samaccountname"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                   required
+                  id="cedula"
+                  v-on:keyup="validateCi"
                 />
               </div>
               <div class="mb-3">
@@ -81,7 +82,6 @@
                 v-if="carreras.length == 0 && loading == false"
               >
                 Para activar esta funcion primero debes crera una carrera.
-         
               </div>
               <div class="mb-3">
                 <p style="font-size: 18px">
@@ -159,10 +159,14 @@
               </div>
 
               <div class="d-flex justify-content-end">
+                <div disabled v-if="!saveBtn" class="btn btn-primary">
+                  Agregar alumno
+                </div>
                 <input
                   type="submit"
                   value="Agregar alumno"
                   class="btn btn-primary"
+                  v-else
                 />
               </div>
             </div>
@@ -194,7 +198,7 @@ export default {
       },
 
       roles: roles,
-
+      saveBtn: false,
       carreraSelect: "",
       gradoSelect: "",
       grupoSelect: "",
@@ -313,6 +317,45 @@ export default {
     },
     cerrarModal(id) {
       $("#" + id).click();
+    },
+    validation_digit(ci) {
+      var a = 0;
+      var i = 0;
+      if (ci.length <= 6) {
+        for (i = ci.length; i < 7; i++) {
+          ci = "0" + ci;
+        }
+      }
+      for (i = 0; i < 7; i++) {
+        a += (parseInt("2987634"[i]) * parseInt(ci[i])) % 10;
+      }
+      if (a % 10 === 0) {
+        return 0;
+      } else {
+        return 10 - (a % 10);
+      }
+    },
+    validate_ci(ci) {
+      ci = this.clean_ci(ci);
+      var dig = ci[ci.length - 1];
+      ci = ci.replace(/[0-9]$/, "");
+      return dig == this.validation_digit(ci);
+    },
+    clean_ci(ci) {
+      return ci.replace(/\D/g, "");
+    },
+    validateCi() {
+      let ci = this.nuevoUsuario.samaccountname;
+      this.nuevoUsuario.samaccountname = ci.replace(/[^0-9]/g, "");
+
+      const valinput = document.getElementById("cedula");
+      if (this.validate_ci(valinput.value)) {
+        valinput.style.borderBottom = "3px solid #9deb91";
+        this.saveBtn = true;
+      } else {
+        valinput.style.borderBottom = "3px solid #eb91ae";
+        this.saveBtn = false;
+      }
     },
   },
 };
