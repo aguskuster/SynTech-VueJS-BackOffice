@@ -80,6 +80,7 @@
                 </span>
 
                 <span
+                  v-if="usuario.cargo != roles.adscripto"
                   style="font-weight: bold; color: blue; margin-right: 10px"
                   @click="eliminarCarrera(props.row.id)"
                 >
