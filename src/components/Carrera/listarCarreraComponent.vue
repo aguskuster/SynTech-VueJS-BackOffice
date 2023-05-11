@@ -58,19 +58,36 @@
             <div slot="emptystate" style="text-align: center">
               No hay carreras para listar
             </div>
+            <div slot="table-actions">
+              <button
+                class="btn btn-primary"
+                v-if="listarEliminados"
+                @click="getTodos()"
+              >
+                Activos
+              </button>
+              <button
+                class="btn btn-primary"
+                v-else
+                @click="listarCarrerasEliminadas()"
+              >
+                Elimnados
+              </button>
+            </div>
             <template slot="table-row" slot-scope="props">
               <span
                 v-if="props.column.field == 'btn'"
                 style="display: flex; justify-content: space-evenly"
               >
                 <span
+                  v-if="!listarEliminados"
                   style="font-weight: bold; color: blue; margin-right: 10px"
                   @click="modificarCarerra(props.row.id)"
                 >
                   <i
                     class="far fa-pencil"
                     style="color: orange; cursor: pointer"
-                    v-if="usuario.cargo != roles.adscripto"
+                    v-if="!listarEliminados && usuario.cargo != roles.adscripto"
                   ></i>
                   <i
                     class="far fa-eye"
@@ -80,7 +97,7 @@
                 </span>
 
                 <span
-                  v-if="usuario.cargo != roles.adscripto"
+                  v-if="!listarEliminados && usuario.cargo != roles.adscripto"
                   style="font-weight: bold; color: blue; margin-right: 10px"
                   @click="eliminarCarrera(props.row.id)"
                 >
@@ -88,6 +105,18 @@
                     class="far fa-trash"
                     style="color: red; cursor: pointer"
                   ></i>
+                </span>
+
+                <span
+                  v-if="listarEliminados && usuario.cargo != roles.adscripto"
+                  style="color: green; cursor: pointer"
+                  @click="activarCarrera(props.row.id)"
+                >
+                  <i
+                    class="fas fa-check"
+                    style="color: green; cursor: pointer"
+                  ></i>
+                  Activar
                 </span>
               </span>
             </template>
@@ -158,6 +187,7 @@ export default {
         rowsPerPageLabel: "Filas por pagina",
       },
       rows: [],
+      listarEliminados: false,
     };
   },
 
@@ -168,6 +198,60 @@ export default {
     this.getTodos();
   },
   methods: {
+    activarCarrera(id) {
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.url + "carrera/" + id + "/activar", null, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.listarCarrerasEliminadas();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Carrera activada correctamente",
+            });
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+    listarCarrerasEliminadas() {
+      this.listarEliminados = true;
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "carrera?eliminado=true", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.cerrarSesion();
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
     },
@@ -212,6 +296,8 @@ export default {
         });
     },
     getTodos() {
+      this.listarEliminados = false;
+      this.loading = true;
       let config = {
         headers: {
           token: Global.token,
