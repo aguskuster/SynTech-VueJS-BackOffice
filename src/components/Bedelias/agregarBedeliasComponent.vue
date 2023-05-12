@@ -91,12 +91,16 @@
                 </select>
               </div>
               <div class="d-flex justify-content-end">
-                <div class="btn btn-primary" disabled v-if="!saveBtn">
+                <div
+                  class="btn btn-primary clase-bajar-btn-agragar"
+                  disabled
+                  v-if="!saveBtn"
+                >
                   Agregar bedelias
                 </div>
                 <input
                   type="submit"
-                  value="Agregar bedelia"
+                  value="Agregar bedelia clase-bajar-btn-agragar"
                   class="btn btn-primary"
                   v-else
                 />
