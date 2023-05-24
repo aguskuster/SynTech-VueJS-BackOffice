@@ -223,6 +223,19 @@ export default {
   },
   methods: {
     agregarCarrera() {
+      if (
+        this.carrera.nombre == "" ||
+        this.carrera.categoria == "" ||
+        this.carrera.plan == "" ||
+        this.gradoSelect == ""
+      ) {
+        this.$swal.fire({
+          icon: "warning",
+          title: "Faltan campos por completar",
+        });
+        return;
+      }
+
       let config = {
         headers: {
           "Content-Type": "application/json",

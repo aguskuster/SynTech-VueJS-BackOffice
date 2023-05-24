@@ -159,13 +159,17 @@
               </div>
 
               <div class="d-flex justify-content-end">
-                <div disabled v-if="!saveBtn" class="btn btn-primary">
+                <div
+                  disabled
+                  v-if="!saveBtn"
+                  class="btn btn-primary clase-bajar-btn-agragar"
+                >
                   Agregar alumno
                 </div>
                 <input
                   type="submit"
                   value="Agregar alumno"
-                  class="btn btn-primary"
+                  class="btn btn-primary clase-bajar-btn-agragar"
                   v-else
                 />
               </div>

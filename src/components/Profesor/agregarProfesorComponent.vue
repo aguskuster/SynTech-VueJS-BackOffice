@@ -178,13 +178,17 @@
               </div>
 
               <div class="d-flex justify-content-end">
-                <div class="btn btn-primary" disabled v-if="!saveBtn">
-                  Agregar usuario
+                <div
+                  class="btn btn-primary clase-bajar-btn-agragar"
+                  disabled
+                  v-if="!saveBtn"
+                >
+                  Agregar profesor
                 </div>
                 <input
                   type="submit"
-                  value="Agregar usuario"
-                  class="btn btn-primary"
+                  value="Agregar profesor"
+                  class="btn btn-primary clase-bajar-btn-agragar"
                   v-else
                 />
               </div>
