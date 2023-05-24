@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <vue-headful :title="title" />
+ 
       <h2>Historial de Registros</h2>
     </div>
       <center v-if="loading" style="margin-top:3rem;font-size:230px;">
@@ -20,6 +20,9 @@
           theme="polar-bear"
           :pagination-options="pagination"
         >
+        <div slot="emptystate" style="text-align:center">
+            No hay registros
+           </div>
         </vue-good-table>
       </div>
     </div>
@@ -29,16 +32,19 @@
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { Global } from "../Global";
+import { roles } from "../Global";
 import axios from "axios";
-import vueHeadful from "vue-headful";
+
 export default {
   name: "HistorialAcciones",
   components: {
     VueGoodTable,
-    vueHeadful,
+
   },
   data() {
     return {
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
+      roles:roles,
       title: "Historial Acciones",
       historialAcciones: "",
       loading:true,
@@ -86,6 +92,9 @@ export default {
     };
   },
   mounted() {
+      if (this.usuario.cargo == roles.administrativo || this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/home");
+    }
     this.getHistorialCompleto();
   },
   methods: {

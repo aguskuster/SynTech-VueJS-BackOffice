@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: whitesmoke"
+        style="width: 30%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -24,19 +24,22 @@
           </center>
           <p class="text-muted">CI: {{ alumno.info.id }}</p>
         </div>
-        <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
+
+        <div style="position: absolute; bottom: 10px; width: 100%">
+          <div style="display: flex; justify-content: space-between">
             <button
               class="btn btn-primary"
               @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
+              style="width: 48%"
             >
               Restablecer Foto
             </button>
             <button
               class="btn btn-primary"
               @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
+              style="width: 48%"
             >
               Restablecer Contraseña
             </button>
@@ -46,12 +49,15 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: whitesmoke"
+        style="width: 69%; background-color: #ffffff"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
             <h3 style="text-transform: uppercase">Informacion Personal</h3>
-            <div class="personalDetails" v-if="usuario.cargo != 'Adscripto'">
+            <div
+              class="personalDetails"
+              v-if="usuario.cargo != roles.adscripto"
+            >
               <div class="mb-3">
                 <p style="font-size: 18px">Nombre</p>
                 <input
@@ -151,10 +157,8 @@
             </div>
           </div>
           <div class="user-rol" style="width: 35% !important">
+            <h3 style="text-transform: uppercase">Grupo</h3>
             <div>
-              <p style="font-size: 18px">
-                <span> Grupos</span>
-              </p>
               <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
@@ -162,7 +166,7 @@
                   v-bind:key="grupo.id"
                 >
                   <span class="d-flex justify-content-between">
-                    {{ returnGroupName(grupo).nombre }}
+                    {{ grupo.idGrupo }}
                   </span>
                 </li>
               </ul>
@@ -171,7 +175,7 @@
 
           <div
             style="
-              width: 85%;
+              width: 93%;
               display: flex;
               justify-content: space-between;
               position: absolute;
@@ -183,7 +187,7 @@
               class="btn btn-danger"
               style="margin-right: 10px; width: 200px"
               @click="eliminarUsuario(idAlumno)"
-              v-if="usuario.cargo != 'Adscripto'"
+              v-if="usuario.cargo != roles.adscripto"
             >
               Eliminar Alumno
             </button>
@@ -192,14 +196,14 @@
                 class="btn btn-success"
                 style="margin-right: 10px"
                 @click="comprobarModificarInfo()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Actualizar
               </button>
               <button
                 class="btn btn-danger"
                 v-on:click="$router.back()"
-                v-if="usuario.cargo != 'Adscripto'"
+                v-if="usuario.cargo != roles.adscripto"
               >
                 Cancelar
               </button>
@@ -249,58 +253,8 @@ export default {
   },
   mounted() {
     this.getUsuario();
-    this.getAllGrupos();
   },
   methods: {
-   
-    cargarGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "grado/" + this.gradoSelect, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.grupos = response.data.grupos;
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.nombreSitio,
-            message: "Error al cargar grupos",
-          });
-        });
-    },
-
-
-    returnGroupName(idGrupo) {
-      for (let g of this.grupos) {
-        if (g.id == idGrupo) {
-          return { nombre: g.idGrupo , id: g.id };
-        }
-      }
-    },
- 
-    getAllGrupos() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios.get(Global.url + "grupo", config).then((res) => {
-        if (res.status == 200) {
-          this.grupos = res.data;
-
-          this.loading = false;
-        }
-      });
-    },
-
     comprobarModificarInfo() {
       this.$swal
         .fire({
@@ -379,13 +333,7 @@ export default {
           }
         });
     },
-    returnOnlyId(grupos) {
-      let aux = [];
-      for (let g of grupos) {
-        aux.push(g.id);
-      }
-      return aux;
-    },
+
     restablecerFoto() {
       let config = {
         headers: {
@@ -395,7 +343,7 @@ export default {
 
       axios
         .post(
-          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",
+          Global.url + "usuario/" + this.idAlumno + "/imagen-perfil",null,
           config
         )
         .then((res) => {
@@ -433,12 +381,13 @@ export default {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
       axios
-        .put(Global.url + "contrasenia", user, config)
+       .put(Global.url + "usuario/"+this.$route.params.user+"/contrasenia", {
+          contrasenia: "",
+       },config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Contraseña actualizada", "", "success");
+            this.$swal.fire("Contraseña restaurada", "", "success");
           }
         })
         .catch(() => {
@@ -455,8 +404,9 @@ export default {
       axios.get(Global.url + "alumno/" + this.idAlumno, config).then((res) => {
         if (res.status == 200) {
           this.alumno.info = res.data.usuario;
-          this.alumno.grupos = this.returnOnlyId(res.data.grupos);
+          this.alumno.grupos = res.data.grupos;
           this.recortarNombre();
+          this.loading = false;
         }
       });
     },

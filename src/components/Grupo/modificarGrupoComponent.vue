@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: whitesmoke"
+        style="width: 49%; background-color: #ffffff"
       >
         <!-- Modal Agregar Profesor -->
         <div
@@ -84,6 +84,10 @@
                     theme="polar-bear"
                     :pagination-options="pagination"
                   >
+                      <div slot="emptystate" style="text-align:center">
+              No hay profesores para listar
+            </div>
+                  
                     <template slot="table-row" slot-scope="props">
                       <span
                         v-if="props.column.field == 'btn'"
@@ -132,6 +136,9 @@
           theme="polar-bear"
           :pagination-options="pagination"
         >
+             <div slot="emptystate" style="text-align:center">
+              No hay profesores para listar
+            </div>
           <template slot="table-row" slot-scope="props">
             <span
               v-if="props.column.field == 'btn'"
@@ -150,7 +157,7 @@
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 49%; background-color: whitesmoke"
+        style="width: 49%; background-color: #ffffff"
       >
         <!-- Modal Agregar Alumno -->
 
@@ -196,6 +203,9 @@
                   theme="polar-bear"
                   :pagination-options="pagination"
                 >
+                  <div slot="emptystate" style="text-align:center">
+              No hay alumnos para listar
+            </div>
                 </vue-good-table>
 
                 <div>
@@ -227,6 +237,9 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+              <div slot="emptystate" style="text-align:center">
+              No hay alumnos para listar
+            </div>
             <template slot="table-row" slot-scope="props">
               <span
                 v-if="props.column.field == 'btn'"
@@ -282,7 +295,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -297,7 +310,7 @@ export default {
           field: "materia",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -308,7 +321,7 @@ export default {
           field: "nombre",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -359,6 +372,7 @@ export default {
         )
         .then((response) => {
           this.grupo = response.data;
+          this.getAlumnosNoAsignados();
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -388,6 +402,8 @@ export default {
         )
         .then((response) => {
           this.grupo = response.data;
+          this.getMateriasNoAsignadas();
+          this.profesores = "";
           this.flashMessage.show({
             status: "success",
             title: Global.nombreSitio,
@@ -418,6 +434,7 @@ export default {
         .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
         .then((response) => {
           this.grupo = response.data;
+          this.getAlumnosNoAsignados();
           document.getElementById("cerrarModalAlumno").click();
           this.flashMessage.show({
             status: "success",
@@ -460,6 +477,8 @@ export default {
         .put(Global.url + "grupo/" + this.$route.params.idGrupo, grupo, config)
         .then((response) => {
           this.grupo = response.data;
+          this.profesores = "";
+          this.getMateriasNoAsignadas();
           document.getElementById("cerrarModalProfesor").click();
           this.flashMessage.show({
             status: "success",
@@ -542,7 +561,7 @@ export default {
         });
     },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getGrupo();
       }
     },

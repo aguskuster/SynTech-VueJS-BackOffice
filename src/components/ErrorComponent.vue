@@ -1,6 +1,5 @@
 <template>
-  <div style="background-color: whitesmoke; height: 105vh; margin-top: -70px">
-    <vue-headful :title="title" />
+  <div style="background-color:#FFFFFF;height:105%;margin-top:-70px">
     <div id="main">
       <div class="fof">
         <h1>Error 404 | Pagina no encontrada</h1>
@@ -9,12 +8,10 @@
   </div>
 </template>
 <script>
-import vueHeadful from "vue-headful";
+
 export default {
-  name: "HomeComponent",
-  components: {
-    vueHeadful,
-  },
+  name: "ErrorComponent",
+
   data() {
     return {
       title: "Error 404",

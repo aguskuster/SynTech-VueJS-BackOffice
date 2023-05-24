@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 30%; background-color: whitesmoke"
+        style="width: 30%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -25,28 +25,32 @@
           <p class="text-muted">CI: {{ profesor.info.id }}</p>
         </div>
         <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('foto')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Foto
-            </button>
-            <button
-              class="btn btn-primary"
-              @click="comprobarAccion('contraseña')"
-              v-if="usuario.cargo != 'Adscripto'"
-            >
-              Restablecer Contraseña
-            </button>
+          <div style="position: absolute; bottom: 10px; width: 100%">
+            <div style="display: flex; justify-content: space-between">
+              <button
+                class="btn btn-primary"
+                @click="comprobarAccion('foto')"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Restablecer Foto
+              </button>
+              <button
+                class="btn btn-primary"
+                @click="comprobarAccion('contraseña')"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Restablecer Contraseña
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 69%; background-color: whitesmoke"
+        style="width: 69%; background-color: #ffffff"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -250,11 +254,9 @@
             </div>
 
             <div v-else>
-               <p style="font-size: 18px">
-                  <span> Materias</span>
-              
-                </p>
-                 <ul class="list-group mt-4">
+              <h3 style="text-transform: uppercase">Listado de materias</h3>
+
+              <ul class="list-group mt-4">
                 <li
                   class="list-group-item"
                   v-for="materia in profesor.materias"
@@ -262,17 +264,15 @@
                 >
                   <span class="d-flex justify-content-between">
                     {{ returnSubjectNameById(materia).nombre }}
-                   </span>
+                  </span>
                 </li>
               </ul>
             </div>
-
-          
           </div>
 
           <div
             style="
-              width: 85%;
+              width: 93%;
               display: flex;
               justify-content: space-between;
               position: absolute;
@@ -315,6 +315,7 @@
 import { Global } from "../../Global";
 import axios from "axios";
 import { roles } from "../../Global";
+import $ from "jquery";
 export default {
   name: "modificarProfesorComponent.vue",
   data() {
@@ -359,24 +360,28 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status == 201) {
+            this.materias.push(response.data);
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
               message: "Nueva materia agregada",
             });
-            this.getAllMaterias();
+            this.nuevaMateria.nombre = "";
             this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
           }
         })
         .catch(() => {
+          this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
             message: "Materia ya existente",
           });
         });
+    },
+    cerrarModal(id) {
+      $("#" + id).click();
     },
     agregarArray(id, array) {
       if (!array.includes(id)) {
@@ -449,7 +454,6 @@ export default {
         genero: this.profesor.info.genero,
         materias: this.profesor.materias,
       };
-   
 
       axios
         .put(Global.url + "profesor/" + this.idProfesor, user, config)
@@ -502,9 +506,13 @@ export default {
           token: Global.token,
         },
       };
-   
+
       axios
-        .post(Global.url + "usuario/"+this.idProfesor+"/imagen-perfil", config)
+        .post(
+          Global.url + "usuario/" + this.idProfesor + "/imagen-perfil",
+          null,
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Foto actualizada", "", "success");
@@ -541,12 +549,18 @@ export default {
           token: Global.token,
         },
       };
-      let user = { id: this.$route.params.user };
+
       axios
-        .put(Global.url + "contrasenia", user, config)
+        .put(
+          Global.url + "usuario/" + this.$route.params.user + "/contrasenia",
+          {
+            contrasenia: "",
+          },
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Contraseña actualizada", "", "success");
+            this.$swal.fire("Contraseña restaurada", "", "success");
           }
         })
         .catch(() => {

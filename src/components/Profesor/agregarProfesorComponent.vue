@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: whitesmoke"
+        style="width: 35%; background-color: #ffffff"
       >
         <div class="imgModificarUser">
           <center>
@@ -27,7 +27,7 @@
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: whitesmoke"
+        style="width: 64%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="agregarUsuario()">
           <div class="d-flex justify-content-around p-4 mt-3">
@@ -55,11 +55,12 @@
                 <input
                   maxlength="8"
                   minlength="8"
-                  type="phone"
                   v-model="nuevoUsuario.samaccountname"
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
                   required
+                  id="cedula"
+                  v-on:keyup="validateCi"
                 />
               </div>
               <div class="mb-3">
@@ -139,6 +140,7 @@
                     data-target="#exampleModal"
                   ></i>
                 </p>
+
                 <select
                   v-model="materiaSelect"
                   class="form-control inputFachero"
@@ -176,10 +178,18 @@
               </div>
 
               <div class="d-flex justify-content-end">
+                <div
+                  class="btn btn-primary clase-bajar-btn-agragar"
+                  disabled
+                  v-if="!saveBtn"
+                >
+                  Agregar profesor
+                </div>
                 <input
                   type="submit"
-                  value="Agregar usuario"
-                  class="btn btn-primary"
+                  value="Agregar profesor"
+                  class="btn btn-primary clase-bajar-btn-agragar"
+                  v-else
                 />
               </div>
             </div>
@@ -209,6 +219,7 @@ export default {
         ou: "Profesor",
         materias: [],
       },
+      saveBtn: false,
       materiaSelect: "",
       roles: roles,
       materias: [],
@@ -218,6 +229,9 @@ export default {
     };
   },
   mounted() {
+    if (this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/profesores");
+    }
     this.getAllMaterias();
   },
   methods: {
@@ -231,18 +245,19 @@ export default {
       axios
         .post(Global.url + "materia", this.nuevaMateria, config)
         .then((response) => {
-          if (response.status == 200) {
+          if (response.status == 201) {
+            this.materias.push(response.data);
             this.flashMessage.show({
               status: "success",
               title: Global.nombreSitio,
               message: "Nueva materia agregada",
             });
-            this.getAllMaterias();
+            this.nuevaMateria.nombre = "";
             this.cerrarModal("closeModal");
-            this.nuevaMateria = "";
           }
         })
         .catch(() => {
+          this.cerrarModal("closeModal");
           this.flashMessage.show({
             status: "error",
             title: Global.nombreSitio,
@@ -302,8 +317,8 @@ export default {
         .catch(() => {
           this.$swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: "Algo salio mal...",
+            title: "Error al crear un profesor",
+            text: "Verifique que la cedula no este registrada en el sistema",
           });
         });
     },
@@ -313,6 +328,45 @@ export default {
     },
     cerrarModal(id) {
       $("#" + id).click();
+    },
+    validation_digit(ci) {
+      var a = 0;
+      var i = 0;
+      if (ci.length <= 6) {
+        for (i = ci.length; i < 7; i++) {
+          ci = "0" + ci;
+        }
+      }
+      for (i = 0; i < 7; i++) {
+        a += (parseInt("2987634"[i]) * parseInt(ci[i])) % 10;
+      }
+      if (a % 10 === 0) {
+        return 0;
+      } else {
+        return 10 - (a % 10);
+      }
+    },
+    validate_ci(ci) {
+      ci = this.clean_ci(ci);
+      var dig = ci[ci.length - 1];
+      ci = ci.replace(/[0-9]$/, "");
+      return dig == this.validation_digit(ci);
+    },
+    clean_ci(ci) {
+      return ci.replace(/\D/g, "");
+    },
+    validateCi() {
+      let ci = this.nuevoUsuario.samaccountname;
+      this.nuevoUsuario.samaccountname = ci.replace(/[^0-9]/g, "");
+
+      const valinput = document.getElementById("cedula");
+      if (this.validate_ci(valinput.value)) {
+        valinput.style.borderBottom = "3px solid #9deb91";
+        this.saveBtn = true;
+      } else {
+        valinput.style.borderBottom = "3px solid #eb91ae";
+        this.saveBtn = false;
+      }
     },
   },
 };

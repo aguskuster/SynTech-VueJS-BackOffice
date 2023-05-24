@@ -2,11 +2,15 @@
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Bedelias</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
+      <button
+        class="btn btn-primary"
+        disabled
+        v-if="loading && usuario.cargo != roles.adscripto"
+      >
         Agregar Bedelia
       </button>
       <router-link
-        v-if="usuario.cargo != 'Adscripto' && !loading"
+        v-if="usuario.cargo != roles.adscripto && !loading"
         to="/bedelia/crear"
         title="Listar Usuarios"
         class="btn btn-primary router-link"
@@ -28,7 +32,6 @@
           style="width: 100%; background-color: transparent"
         >
           <vue-good-table
-            @on-row-dblclick="onRowDoubleClick"
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -36,23 +39,68 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+            <div slot="emptystate" style="text-align: center">
+              No hay bedelias para listar
+            </div>
+            <div slot="table-actions">
+              <button
+                class="btn btn-primary"
+                v-if="listarEliminados"
+                @click="getTodos()"
+              >
+                Activos
+              </button>
+              <button
+                class="btn btn-primary"
+                v-else
+                @click="listarUsuariosEliminados()"
+              >
+                Elimnados
+              </button>
+            </div>
             <template slot="table-row" slot-scope="props">
-
-              <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
-                
-             
-                <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarUsuarioBedelia(props.row.id)" >  
-                  <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
+              <span
+                v-if="props.column.field == 'btn'"
+                style="display: flex; justify-content: space-evenly"
+              >
+                <span
+                  v-if="!listarEliminados"
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="modificarUsuarioBedelia(props.row.id)"
+                >
+                  <i
+                    class="far fa-pencil"
+                    style="color: orange; cursor: pointer"
+                  ></i>
                 </span>
 
-                <span style="font-weight: bold; color: blue" @click="eliminarUsuarioBedelia(props.row.id)"  v-if="
-              usuario.cargo != 'Adscripto'
-            ">  
-                  <i class="far fa-trash" style='color:red;cursor:pointer;'></i>
+                <span
+                  v-if="!listarEliminados"
+                  style="font-weight: bold; color: blue"
+                  @click="eliminarUsuarioBedelia(props.row.id)"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
+                  ></i>
                 </span>
 
+                <span
+                  v-if="
+                    listarEliminados &&
+                    usuario.cargo != roles.adscripto &&
+                    usuario.cargo != roles.administrativo
+                  "
+                  style="color: green; cursor: pointer"
+                  @click="activarUsuarioBedelia(props.row.id)"
+                >
+                  <i
+                    class="fas fa-check"
+                    style="color: green; cursor: pointer"
+                  ></i>
+                  Activar
+                </span>
               </span>
-         
             </template>
           </vue-good-table>
         </div>
@@ -63,7 +111,7 @@
 <script>
 import { Global } from "../../Global";
 import axios from "axios";
-
+import { roles } from "../../Global";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import $ from "jquery";
@@ -77,11 +125,13 @@ export default {
   },
   data() {
     return {
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todoProfesres: null,
       userInfo: "",
       selectedRol: "",
       loading: true,
+      listarEliminados: false,
       columns: [
         {
           label: "ID",
@@ -100,7 +150,7 @@ export default {
           field: "email",
         },
         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -128,17 +178,55 @@ export default {
     if (!localStorage.getItem("auth_token_BO")) {
       localStorage.clear();
     }
+
+    if (
+      this.usuario.cargo == roles.administrativo ||
+      this.usuario.cargo == roles.adscripto
+    ) {
+      this.$router.push("/home");
+    }
     this.getTodos();
   },
   methods: {
-    getTodos() {
+    activarUsuarioBedelia(id) {
+      this.loading = true;
       let config = {
         headers: {
           token: Global.token,
         },
       };
       axios
-        .get(Global.url + "bedelia", config) 
+        .put(Global.url + "usuario/" + id + "/activar", null, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.listarUsuariosEliminados();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Usuario activado correctamente",
+            });
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+    listarUsuariosEliminados() {
+      this.loading = true;
+      this.listarEliminados = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "bedelia?eliminados=true", config)
         .then((res) => {
           if (res.status == 200) {
             this.rows = res.data;
@@ -153,13 +241,54 @@ export default {
           });
         });
     },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios.post(Global.url + "logout", config).then((res) => {
+        if (res.status == 200) {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
+        }
+      });
+    },
+    getTodos() {
+      this.listarEliminados = false;
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "bedelia", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.cerrarSesion();
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getTodos();
       }
-    },
-    onRowDoubleClick(usuario) {
-      this.$router.push("/bedelia/" + usuario.row.id);
     },
 
     returnImgProfile(img) {
@@ -174,7 +303,7 @@ export default {
       this.$swal
         .fire({
           icon: "info",
-          title: "¿Estas seguro de eliminar el usuario?",
+          title: "¿Estas seguro de eliminar el usuario bedelias?",
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           confirmButtonText: "Eliminar",
@@ -192,7 +321,7 @@ export default {
                 if (res.status == 200) {
                   this.$swal.fire({
                     icon: "success",
-                    title: "Usuario eliminado correctamente",
+                    title: "Usuario  bedelias eliminado correctamente",
                     showConfirmButton: false,
                     timer: 1500,
                   });

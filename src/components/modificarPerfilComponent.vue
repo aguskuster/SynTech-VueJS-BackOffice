@@ -14,7 +14,7 @@
       
       <div
         class="contenedorIzquierdo"
-        style="width: 35%; background-color: whitesmoke"
+        style="width: 35%; background-color: #FFFFFF"
       >
         <div class="imgModificarUser">
           <center>
@@ -26,8 +26,9 @@
           <p class="text-muted">CI: {{ usuarioDatos.id }}</p>
         </div>
         <div>
-          <div style="position: absolute; bottom: 10px; left: 37px">
-            <div class="btn btn-primary" style="min-width: 220px">
+             <div style="position: absolute; bottom: 10px; width: 100%">
+            <div style="display: flex; justify-content: space-between">
+           <div class="btn btn-primary"  style="width: 48%">
               <label for="file-input" style="color: white">
                 Cambiar Foto
               </label>
@@ -40,20 +41,22 @@
                 style="display: none"
               />
             </div>
-            <button
-              class="btn btn-primary"
-              style="margin-left: 55px; min-width: 220px"
-              @click="modalActualizarContrasenia()"
-            >
-              Cambiar contraseña
-            </button>
+              <button
+                class="btn btn-primary"
+                  @click="modalActualizarContrasenia()"
+                v-if="usuario.cargo != 'Adscripto'"
+                style="width: 48%"
+              >
+                Actualizar Contraseña
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div
         class="contenedorDerechoPersona"
-        style="width: 64%; background-color: whitesmoke"
+        style="width: 64%; background-color: #FFFFFF"
       >
         <div class="formModificar">
           <div class="informacion-izquierda">
@@ -92,14 +95,20 @@
                   style="height: 50px; font-size: 16px"
                 />
               </div>
-              <div class="mb-3">
+                <div class="mb-3">
                 <p style="font-size: 18px">Genero</p>
-                <input
-                  v-model="usuarioDatos.genero"
+                <select
                   class="form-control inputFachero"
                   style="height: 50px; font-size: 16px"
-                />
+                  v-model="usuarioDatos.genero"
+                >
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                  <option value="Otro">Prefiero no decirlo</option>
+                </select>
               </div>
+              
             </div>
           </div>
           <div class="informacion-derecha">
@@ -180,7 +189,7 @@ export default {
         },
       };
       let user = {
-        idUsuario: this.usuarioDatos.id,
+        idUsuario: this.usuario.username,
         nombre: this.nombre,
         apellido: this.apellido,
         email: this.usuarioDatos.email,
@@ -210,7 +219,7 @@ export default {
       let formData = new FormData();
       formData.append("archivo", foto);
       axios
-        .post(Global.url + "usuario/"+this.usuarioDatos.id+"/imagen-perfil", formData, config)
+        .post(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire({
@@ -257,15 +266,13 @@ export default {
         },
       };
       let user = {
-        id: this.$route.params.idUsuario,
         contrasenia: contrasenia,
       };
       axios
-        .put(Global.url + "contrasenia", user, config)
+        .put(Global.url + "usuario/"+this.usuario.username+"/contrasenia", user, config)
         .then((res) => {
           if (res.status == 200) {
             this.$swal.fire("Contraseña actualizada", "", "success");
-        
           }
         })
         .catch(() => {

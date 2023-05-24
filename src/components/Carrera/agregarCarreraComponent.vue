@@ -13,7 +13,7 @@
     <div v-else class="contenedorGeneral">
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 33%; background-color: whitesmoke"
+        style="width: 33%; background-color: #ffffff"
       >
         <div class="mb-3">
           <p style="font-size: 18px">Nombre <em>*</em></p>
@@ -45,36 +45,48 @@
             style="height: 50px; font-size: 16px"
           />
         </div>
+        <div class="mb-3">
+          <p style="font-size: 18px">Tipo <em>*</em></p>
+          <select
+            required
+            class="form-control inputFachero"
+            v-model="tipoSelect"
+            style="width: 350px"
+          >
+            <option value="año">Año</option>
+            <option value="semestre">Semestre</option>
+          </select>
+        </div>
       </div>
 
       <div
         class="contenedorIzquierdo p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #ffffff"
       >
         <form v-on:submit.prevent="agregarArray(gradoSelect, carrera.grados)">
           <div class="mb-3" style="display: flex">
-            <select
-              class="form-control"
-              v-model="tipoSelect"
-              style="width: 350px"
-            >
-              <option value="año">Año</option>
-              <option value="semestre">Semestre</option>
-            </select>
-
-            <select
-              class="form-control"
-              v-model="gradoSelect"
-              style="width: 135px; margin-left: 20px"
-            >
-             <option :value="'1er ' + tipoSelect">1er</option>
-              <option :value="'2do ' + tipoSelect">2do</option>
-              <option :value="'3er ' + tipoSelect">3er</option>
-              <option :value="'4to ' + tipoSelect">4to</option>
-              <option :value="'5to ' + tipoSelect">5to</option>
-              <option :value="'6to ' + tipoSelect">6to</option>
-            </select>
-
+            <div style="width: 100%">
+              <select class="form-control" v-model="gradoSelect">
+                <option :value="'1er ' + tipoSelect">
+                  1er {{ tipoSelect }}
+                </option>
+                <option :value="'2do ' + tipoSelect">
+                  2do {{ tipoSelect }}
+                </option>
+                <option :value="'3er ' + tipoSelect">
+                  3er {{ tipoSelect }}
+                </option>
+                <option :value="'4to ' + tipoSelect">
+                  4to {{ tipoSelect }}
+                </option>
+                <option :value="'5to ' + tipoSelect">
+                  5to {{ tipoSelect }}
+                </option>
+                <option :value="'6to ' + tipoSelect">
+                  6to {{ tipoSelect }}
+                </option>
+              </select>
+            </div>
             <input
               type="submit"
               value="Agregar Grado"
@@ -109,12 +121,12 @@
           />
         </div>
       </div>
-      
+
       <div
         class="contenedorDerechoPersona p-4"
-        style="width: 32%; background-color: whitesmoke"
+        style="width: 32%; background-color: #ffffff"
       >
-      <h5 style="text-align:center">Administrar Materias y grupos</h5>
+        <h5>Administrar Materias y grupos</h5>
         <p style="font-size: 18px" class="mt-4">
           <span> Materias</span>
           <i
@@ -123,10 +135,8 @@
           ></i>
         </p>
         <select
-          v-model="materiaSelect"
           class="form-control inputFachero"
           style="height: 50px; font-size: 16px"
-          v-on:change="agregarArray(materiaSelect, grado.materias)"
           disabled
         >
           <option
@@ -138,33 +148,28 @@
           </option>
         </select>
 
-        <ul class="list-group mt-4">
-          <li
-            class="list-group-item"
-            v-for="m in grado.materias"
-            v-bind:key="m.id"
-          >
-            <span class="d-flex justify-content-between">
-              {{ returnSubjectNameById(m) }}
-              <button
-                class="btn btn-danger"
-                v-on:click="eliminarArray(m, grado.materias)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </span>
-          </li>
-        </ul>
+        <p style="font-size: 18px" class="mt-4">
+          <span>Horas semanales</span>
+        </p>
+
+        <input
+          type="text"
+          id="nombreGrupo"
+          maxlength="5"
+          minlength="2"
+          class="form-control inputFachero"
+          disabled
+        />
+        <br />
 
         <p style="font-size: 18px">
           <span> Grupo</span>
           <i
             class="fa fa-plus-square ml-2"
             style="color: #006799; cursor: pointer"
-            @click="agregarArray(grupoSelect, grado.grupos)"
           ></i>
         </p>
-        <label for="nombreGrupo">Acronimo de grupo</label>
+
         <input
           type="text"
           id="nombreGrupo"
@@ -174,30 +179,13 @@
           v-model="grupoSelect"
           disabled
         />
-
-        <ul class="list-group mt-4">
-          <li
-            class="list-group-item"
-            v-for="g in grado.grupos"
-            v-bind:key="g.id"
-          >
-            <span class="d-flex justify-content-between">
-              {{ g }}
-              <button
-                class="btn btn-danger"
-                v-on:click="eliminarArray(g, grado.grupos)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </span>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 export default {
   name: "agregarUsuarioComponent.vue",
@@ -224,20 +212,37 @@ export default {
       acronimoGrupo: "",
 
       groupAccess: false,
+      roles: roles,
     };
   },
   mounted() {
+    if (this.usuario.cargo == roles.adscripto) {
+      this.$router.push("/carrera");
+    }
     this.getAllMaterias();
   },
   methods: {
     agregarCarrera() {
+      if (
+        this.carrera.nombre == "" ||
+        this.carrera.categoria == "" ||
+        this.carrera.plan == "" ||
+        this.gradoSelect == ""
+      ) {
+        this.$swal.fire({
+          icon: "warning",
+          title: "Faltan campos por completar",
+        });
+        return;
+      }
+
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-      
+
       axios
         .post(Global.url + "carrera", this.carrera, config)
         .then((res) => {
@@ -268,14 +273,19 @@ export default {
       }
       return carrera;
     },
- 
+
     agregarArray(id, array) {
-      if (id == "" || id == null) {
+      if (id == "" || id == null || array.includes(id)) {
+        this.flashMessage.show({
+          status: "warning",
+          title: Global.nombreSitio,
+          message: "Grado vacio o existente",
+        });
+        this.gradoSelect = "";
         return;
       }
-      if (!array.includes(id)) {
-        array.push(id);
-      }
+
+      array.push(id);
     },
 
     returnSubjectNameById(idSub) {

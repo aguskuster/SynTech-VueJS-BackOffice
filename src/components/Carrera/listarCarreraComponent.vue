@@ -1,19 +1,37 @@
  <template>
   <div>
     <div class="contenedor_menu">
-    
       <h2>Listado de Carreras</h2>
-      <button class="btn btn-primary" disabled v-if="loading">
-        Agregar Carrera
-      </button>
-      <router-link
-        v-if="usuario.cargo != 'Adscripto' && !loading"
-        to="/carrera/crear"
-        title="Listar carrera"
-        class="btn btn-primary router-link"
-      >
-        Agregar Carrera</router-link
-      >
+      <div v-if="loading">
+        <button class="btn btn-primary mr-2" disabled>
+          Administrar Materias
+        </button>
+        <button
+          class="btn btn-primary"
+          disabled
+          v-if="usuario.cargo != roles.adscripto"
+        >
+          Agregar Carrera
+        </button>
+      </div>
+
+      <div v-else-if="!loading">
+        <router-link
+          to="/materia"
+          title="Administrar Materias"
+          class="btn btn-primary router-link mr-2"
+        >
+          Administrar Materias</router-link
+        >
+        <router-link
+          v-if="usuario.cargo != roles.adscripto"
+          to="/carrera/crear"
+          title="Listar carrera"
+          class="btn btn-primary router-link"
+        >
+          Agregar Carrera</router-link
+        >
+      </div>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -23,7 +41,6 @@
       ></div>
     </center>
     <div v-else>
-     
       <div class="contenedorGeneral">
         <div
           class="contenedorIzquierdo"
@@ -31,7 +48,6 @@
         >
           <vue-good-table
             @on-row-dblclick="onRowDoubleClick"
-           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -39,16 +55,71 @@
             theme="polar-bear"
             :pagination-options="pagination"
           >
+            <div slot="emptystate" style="text-align: center">
+              No hay carreras para listar
+            </div>
+            <div slot="table-actions">
+              <button
+                class="btn btn-primary"
+                v-if="listarEliminados"
+                @click="getTodos()"
+              >
+                Activos
+              </button>
+              <button
+                class="btn btn-primary"
+                v-else
+                @click="listarCarrerasEliminadas()"
+              >
+                Elimnados
+              </button>
+            </div>
             <template slot="table-row" slot-scope="props">
-         
-          <span v-if="props.column.field == 'btn'" style="display:flex;justify-content: space-evenly;">
-            <span style="font-weight: bold; color: blue; margin-right: 10px;" @click="modificarCarerra(props.row.id)" >  
-              <i class="far fa-pencil" style='color:orange;cursor:pointer;'></i>
-            </span>
-           
-          </span>
-          
-          </template>
+              <span
+                v-if="props.column.field == 'btn'"
+                style="display: flex; justify-content: space-evenly"
+              >
+                <span
+                  v-if="!listarEliminados"
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="modificarCarerra(props.row.id)"
+                >
+                  <i
+                    class="far fa-pencil"
+                    style="color: orange; cursor: pointer"
+                    v-if="!listarEliminados && usuario.cargo != roles.adscripto"
+                  ></i>
+                  <i
+                    class="far fa-eye"
+                    style="color: orange; cursor: pointer"
+                    v-else
+                  ></i>
+                </span>
+
+                <span
+                  v-if="!listarEliminados && usuario.cargo != roles.adscripto"
+                  style="font-weight: bold; color: blue; margin-right: 10px"
+                  @click="eliminarCarrera(props.row.id)"
+                >
+                  <i
+                    class="far fa-trash"
+                    style="color: red; cursor: pointer"
+                  ></i>
+                </span>
+
+                <span
+                  v-if="listarEliminados && usuario.cargo != roles.adscripto"
+                  style="color: green; cursor: pointer"
+                  @click="activarCarrera(props.row.id)"
+                >
+                  <i
+                    class="fas fa-check"
+                    style="color: green; cursor: pointer"
+                  ></i>
+                  Activar
+                </span>
+              </span>
+            </template>
           </vue-good-table>
         </div>
       </div>
@@ -57,16 +128,16 @@
 </template>
 <script>
 import { Global } from "../../Global";
+import { roles } from "../../Global";
 import axios from "axios";
 
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 
-import $ from 'jquery'
+import $ from "jquery";
 
-
-window.jQuery = $
-window.$ = $
+window.jQuery = $;
+window.$ = $;
 export default {
   name: "listarUsuarios",
   components: {
@@ -74,6 +145,7 @@ export default {
   },
   data() {
     return {
+      roles: roles,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       todosUsuarios: null,
       userInfo: "",
@@ -94,11 +166,7 @@ export default {
           field: "plan",
         },
         {
-          label: "Fecha de creacion",
-          field: "created_at",
-        },
-         {
-          label: "Action",
+          label: "Accion",
           field: "btn",
           html: true,
         },
@@ -119,6 +187,7 @@ export default {
         rowsPerPageLabel: "Filas por pagina",
       },
       rows: [],
+      listarEliminados: false,
     };
   },
 
@@ -129,10 +198,106 @@ export default {
     this.getTodos();
   },
   methods: {
+    activarCarrera(id) {
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.url + "carrera/" + id + "/activar", null, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.listarCarrerasEliminadas();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Carrera activada correctamente",
+            });
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.loading = false;
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
+    listarCarrerasEliminadas() {
+      this.listarEliminados = true;
+      this.loading = true;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.url + "carrera?eliminado=true", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.rows = res.data;
+            this.loading = false;
+          }
+        })
+        .catch(() => {
+          this.cerrarSesion();
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.nombreSitio,
+            message: "Error inesperado al cargar ",
+          });
+        });
+    },
     modificarCarerra(id) {
       this.$router.push("/carrera/" + id);
     },
+    eliminarCarrera(id) {
+      this.$swal
+        .fire({
+          icon: "info",
+          title: "¿Estas seguro de eliminar la carrera?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Eliminar",
+        })
+        .then((result) => {
+          if (result.isConfirmed == true) {
+            let config = {
+              headers: {
+                token: Global.token,
+              },
+            };
+            axios
+              .delete(Global.url + "carrera/" + id, config)
+              .then((res) => {
+                if (res.status == 200) {
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Carrera eliminada correctamente",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.getTodos();
+                }
+              })
+              .catch(() => {
+                this.flashMessage.show({
+                  status: "warning",
+                  title: Global.nombreSitio,
+                  message:
+                    "Compruebe que la carrera selecionada no contenga grupos ni materias",
+                });
+              });
+          }
+        });
+    },
     getTodos() {
+      this.listarEliminados = false;
+      this.loading = true;
       let config = {
         headers: {
           token: Global.token,
@@ -147,6 +312,7 @@ export default {
           }
         })
         .catch(() => {
+          this.cerrarSesion();
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
@@ -154,16 +320,33 @@ export default {
           });
         });
     },
+    cerrarSesion() {
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios.post(Global.url + "logout", config).then((res) => {
+        if (res.status == 200) {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Sesion cerrada correctamente",
+          });
+          this.logged = false;
+          localStorage.clear();
+          location.reload();
+        }
+      });
+    },
     onSearch(params) {
-      if (params.searchTerm.length == 1) {
+      if (params.searchTerm.length == 0) {
         this.getTodos();
       }
     },
     onRowDoubleClick() {
-        alert('Double Click')
+      alert("Double Click");
     },
-
-   
   },
 };
 </script>

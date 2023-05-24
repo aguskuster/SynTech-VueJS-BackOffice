@@ -28,7 +28,7 @@
             Inicio</router-link
           >
         </li>
-        <li>
+        <li v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
           <router-link
             to="/bedelias"
             title="Listar Usuarios"
@@ -38,17 +38,17 @@
             Bedelias</router-link
           >
         </li>
-         <li>
+        <li>
           <router-link
             to="/alumnos"
             title="Listar Usuarios"
             class="router-link"
           >
-           <i class="far fa-users"></i>
+            <i class="far fa-users"></i>
             Alumnos</router-link
           >
         </li>
-         <li>
+        <li>
           <router-link
             to="/profesores"
             title="Listar Usuarios"
@@ -64,32 +64,15 @@
             Carreras
           </router-link>
         </li>
-        <li>
-          <router-link
-            to="/materias"
-            title="Listar Materia"
-            class="router-link"
-          >
-            <i class="fal fa-books"></i>
-            Listar Materia
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link
-            to="/listarGrupo"
-            title="Listar Grupo"
-            class="router-link"
-          >
-            <i class="far fa-users-class"></i>Listar Grupo
-          </router-link>
-        </li>
+
         <li>
           <router-link to="/noticias" title="Home" class="router-link">
             <i class="fas fa-newspaper"></i>
 
-            Noticias</router-link>
+            Noticias</router-link
+          >
         </li>
-        <li>
+          <li v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
           <router-link to="/historial" class="router-link">
             <i class="fas fa-history"></i>
             Historial Acciones
@@ -143,43 +126,32 @@
                 Inicio</router-link
               >
             </li>
-            <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()"  v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
               <router-link to="/bedelias" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Bedelia</router-link
               >
             </li>
-              <li v-on:click="bajarMenu()">
-              <router-link to="/alumno" title="Listar Usuarios">
+            <li v-on:click="bajarMenu()">
+              <router-link to="/alumnos" title="Listar Usuarios">
                 <i class="far fa-user"></i>
-               Alumno</router-link
+                Alumno</router-link
               >
             </li>
-              <li v-on:click="bajarMenu()">
-              <router-link to="/profesor" title="Listar Usuarios">
+            <li v-on:click="bajarMenu()">
+              <router-link to="/profesores" title="Listar Usuarios">
                 <i class="far fa-user"></i>
                 Profesor</router-link
               >
             </li>
-            
+
             <li v-on:click="bajarMenu()">
               <router-link to="/carrera" class="router-link">
                 <i class="fas fa-history"></i>
                 Carreras
               </router-link>
             </li>
-            <li v-on:click="bajarMenu()">
-              <router-link to="/materias" title="Listar Materia">
-                <i class="fal fa-books"></i>
 
-                Listar Materia
-              </router-link>
-            </li>
-            <li v-on:click="bajarMenu()">
-              <router-link to="/listarGrupo" title="Listar Grupo">
-                <i class="far fa-users"></i>Listar Grupo
-              </router-link>
-            </li>
             <li v-on:click="bajarMenu()">
               <router-link to="/noticias" title="Home" class="router-link">
                 <i class="fas fa-newspaper"></i>
@@ -187,7 +159,7 @@
                 Noticias</router-link
               >
             </li>
-            <li v-on:click="bajarMenu()">
+            <li v-on:click="bajarMenu()" v-if="usuario.cargo != roles.adscripto && usuario.cargo != roles.administrativo">
               <router-link to="/historial" class="router-link">
                 <i class="fas fa-history"></i>
                 Historial Acciones
@@ -222,6 +194,7 @@
 </template>
 <script>
 import { Global } from "./Global";
+import { roles } from "./Global";
 import axios from "axios";
 import vueHeadful from "vue-headful";
 import LoginComponent from "./components/LoginComponent.vue";
@@ -233,10 +206,11 @@ export default {
   },
   data() {
     return {
+      roles:roles,
       usuario: "",
       logged: false,
       imgB64: "",
-      title: "BackOffice",
+      title: "Back Office",
       nav: false,
     };
   },
@@ -262,13 +236,17 @@ export default {
         },
       };
       axios
-        .get(Global.url + "usuario/"+this.usuario.username+"/imagen-perfil", config)
+        .get(
+          Global.url + "usuario/" + this.usuario.username + "/imagen-perfil",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.imgB64 = res.data;
           }
         })
         .catch(() => {
+          
           this.flashMessage.show({
             status: "warning",
             title: Global.nombreSitio,
@@ -286,9 +264,25 @@ export default {
       }
     },
     cerrarSesion() {
-      localStorage.clear();
-      location.reload();
-      this.logged = false;
+      let config = {
+        headers: {
+          token: Global.token,
+        },
+      };
+      axios
+        .post(Global.url + "logout", config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: Global.nombreSitio,
+              message: "Sesion cerrada correctamente",
+            });
+            this.logged = false;
+            localStorage.clear();
+            location.reload();
+          }
+        })
     },
   },
 };
@@ -303,7 +297,7 @@ body {
   background-color: #0e0d17;
 }
 .pagina {
-  background: url(./assets/images/img.png);
+  background-color: #ebe9f1;
 }
 @import "./assets/css/estilos.css";
 
