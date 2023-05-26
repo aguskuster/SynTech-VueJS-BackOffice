@@ -1,105 +1,77 @@
- <template>
+<template>
   <div>
     <div class="contenedor_menu">
       <h2>Listado de Alumnos</h2>
-      <button
-        class="btn btn-primary"
-        disabled
-        v-if="usuario.cargo != roles.adscripto && loading"
-      >
-        Agregar Alumno
-      </button>
-      <router-link
-        v-if="usuario.cargo != roles.adscripto && !loading"
-        to="/alumno/crear"
-        title="Listar Usuarios"
-        class="btn btn-primary router-link"
-      >
-        Agregar Alumno</router-link
-      >
+      <div>
+        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Importar Alumno
+        </button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Importar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <input type="file" ref="fileInput" accept=".csv" />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @click="importarArchivo">Importar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" disabled v-if="usuario.cargo != roles.adscripto && loading">
+          Agregar Alumno
+        </button>
+        <router-link v-if="usuario.cargo != roles.adscripto && !loading" to="/alumno/crear" title="Listar Usuarios"
+          class="btn btn-primary router-link">
+          Agregar Alumno</router-link>
+      </div>
+
+
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
-      <div
-        class="spinner-border text-primary"
-        role="status"
-        style="color: #13111e !important"
-      ></div>
+      <div class="spinner-border text-primary" role="status" style="color: #13111e !important"></div>
     </center>
     <div v-else>
       <div class="contenedorGeneral">
-        <div
-          class="contenedorIzquierdo"
-          style="width: 100%; background-color: transparent"
-        >
-          <vue-good-table
-            @on-row-dblclick="onRowDoubleClick"
-            @on-search="onSearch"
-            :columns="columns"
-            :rows="rows"
-            :search-options="{ enabled: true }"
-            theme="polar-bear"
-            :pagination-options="pagination"
-          >
+        <div class="contenedorIzquierdo" style="width: 100%; background-color: transparent">
+          <vue-good-table @on-row-dblclick="onRowDoubleClick" @on-search="onSearch" :columns="columns" :rows="rows"
+            :search-options="{ enabled: true }" theme="polar-bear" :pagination-options="pagination">
             <div slot="emptystate" style="text-align: center">
               No hay alumnos para listar
             </div>
             <div slot="table-actions">
-              <button
-                class="btn btn-primary"
-                v-if="listarEliminados"
-                @click="getTodos()"
-              >
+              <button class="btn btn-primary" v-if="listarEliminados" @click="getTodos()">
                 Activos
               </button>
-              <button
-                class="btn btn-primary"
-                v-else
-                @click="listarUsuariosEliminados()"
-              >
+              <button class="btn btn-primary" v-else @click="listarUsuariosEliminados()">
                 Elimnados
               </button>
             </div>
             <template slot="table-row" slot-scope="props">
-              <span
-                v-if="props.column.field == 'btn'"
-                style="display: flex; justify-content: space-evenly"
-              >
-                <span
-                  style="font-weight: bold; color: blue; margin-right: 10px"
-                  @click="modificarAlumno(props.row.id)"
-                  v-if="!listarEliminados"
-                >
-                  <i
-                    class="far fa-pencil"
-                    style="color: orange; cursor: pointer"
-                    v-if="usuario.cargo != roles.adscripto"
-                  ></i>
-                  <i
-                    class="far fa-eye"
-                    style="color: orange; cursor: pointer"
-                    v-else
-                  ></i>
+              <span v-if="props.column.field == 'btn'" style="display: flex; justify-content: space-evenly">
+                <span style="font-weight: bold; color: blue; margin-right: 10px" @click="modificarAlumno(props.row.id)"
+                  v-if="!listarEliminados">
+                  <i class="far fa-pencil" style="color: orange; cursor: pointer"
+                    v-if="usuario.cargo != roles.adscripto"></i>
+                  <i class="far fa-eye" style="color: orange; cursor: pointer" v-else></i>
                 </span>
-                <span
-                  style="font-weight: bold; color: blue"
-                  @click="eliminarAlumno(props.row.id)"
-                  v-if="usuario.cargo != roles.adscripto && !listarEliminados"
-                >
-                  <i
-                    class="far fa-trash"
-                    style="color: red; cursor: pointer"
-                  ></i>
+                <span style="font-weight: bold; color: blue" @click="eliminarAlumno(props.row.id)"
+                  v-if="usuario.cargo != roles.adscripto && !listarEliminados">
+                  <i class="far fa-trash" style="color: red; cursor: pointer"></i>
                 </span>
 
-                <span
-                  v-if="listarEliminados && usuario.cargo != roles.adscripto"
-                  style="color: green; cursor: pointer"
-                  @click="activarUsuario(props.row.id)"
-                >
-                  <i
-                    class="fas fa-check"
-                    style="color: green; cursor: pointer"
-                  ></i>
+                <span v-if="listarEliminados && usuario.cargo != roles.adscripto" style="color: green; cursor: pointer"
+                  @click="activarUsuario(props.row.id)">
+                  <i class="fas fa-check" style="color: green; cursor: pointer"></i>
                   Activar
                 </span>
               </span>
@@ -116,7 +88,6 @@ import axios from "axios";
 import { roles } from "../../Global";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
-
 import $ from "jquery";
 
 window.jQuery = $;
@@ -184,6 +155,33 @@ export default {
     this.getTodos();
   },
   methods: {
+    importarArchivo() {
+      const file = this.$refs.fileInput.files[0];
+      let formData = new FormData();
+      formData.append('file', file);
+      let config = {
+        headers: {
+          token: Global.token,
+          'Content-Type': 'multipart/form-data'
+        },
+      };
+      axios.post(Global.url + 'usuario/importar', formData, config)
+        .then(() => {
+          this.flashMessage.show({
+            status: "success",
+            title: Global.nombreSitio,
+            message: "Se importo el archivo correctamente",
+          });
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.nombreSitio,
+            message: "No se importo el archivo correctamente",
+          });
+        });
+
+    },
     cerrarSesion() {
       let config = {
         headers: {
