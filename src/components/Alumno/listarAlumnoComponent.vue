@@ -165,7 +165,7 @@ export default {
           'Content-Type': 'multipart/form-data'
         },
       };
-      axios.post(Global.url + 'usuario/importar', formData, config)
+      axios.post(Global.url + 'alumno/importar', formData, config)
         .then(() => {
           this.flashMessage.show({
             status: "success",
