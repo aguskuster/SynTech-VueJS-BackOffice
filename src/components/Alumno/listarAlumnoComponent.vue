@@ -34,8 +34,6 @@
           class="btn btn-primary router-link">
           Agregar Alumno</router-link>
       </div>
-
-
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div class="spinner-border text-primary" role="status" style="color: #13111e !important"></div>
