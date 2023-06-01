@@ -160,6 +160,7 @@ export default {
             title: Global.nombreSitio,
             message: "Se importo el archivo correctamente",
           });
+          location.reload();
         })
         .catch(() => {
           this.flashMessage.show({

@@ -1,39 +1,39 @@
 <template>
   <div>
     <div class="contenedor_menu">
-        <h2>Listado de Bedelias</h2>
-          <div>
-          <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Importar Bedelias
-          </button>
+      <h2>Listado de Bedelias</h2>
+      <div>
+        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Importar Bedelias
+        </button>
 
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Importar</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Importar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <input type="file" ref="fileInput" accept=".csv" />
                 </div>
-                <div class="modal-body">
-                  <div>
-                    <input type="file" ref="fileInput" accept=".csv" />
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" @click="importarArchivo">Importar</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @click="importarArchivo">Importar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
               </div>
             </div>
           </div>
+        </div>
         <button class="btn btn-primary" disabled v-if="loading && usuario.cargo != roles.adscripto">
           Agregar Bedelia
         </button>
         <router-link v-if="usuario.cargo != roles.adscripto && !loading" to="/bedelia/crear" title="Listar Usuarios"
           class="btn btn-primary router-link">
           Agregar Bedelia</router-link>
-        </div>
       </div>
+    </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div class="spinner-border text-primary" role="status" style="color: #13111e !important"></div>
     </center>
@@ -178,6 +178,7 @@ export default {
             title: Global.nombreSitio,
             message: "Se importo el archivo correctamente",
           });
+          location.reload();
         })
         .catch(() => {
           this.flashMessage.show({
@@ -186,7 +187,6 @@ export default {
             message: "No se importo el archivo correctamente",
           });
         });
-
     },
     activarUsuarioBedelia(id) {
       this.loading = true;

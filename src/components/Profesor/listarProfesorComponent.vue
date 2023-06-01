@@ -151,7 +151,7 @@ export default {
     this.getTodos();
   },
   methods: {
-        importarArchivo() {
+    importarArchivo() {
       const file = this.$refs.fileInput.files[0];
       let formData = new FormData();
       formData.append('file', file);
@@ -168,6 +168,8 @@ export default {
             title: Global.nombreSitio,
             message: "Se importo el archivo correctamente",
           });
+          location.reload();
+
         })
         .catch(() => {
           this.flashMessage.show({
