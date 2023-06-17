@@ -92,18 +92,23 @@
               </div>
               <div class="d-flex justify-content-end">
                 <div
-                  class="btn btn-primary clase-bajar-btn-agragar"
-                  disabled
+                  class="clase-bajar-btn-agragar"
                   v-if="!saveBtn"
                 >
-                  Agregar bedelias
+                   <input
+                    disabled
+                    type="button"
+                    value="Agregar bedelia"
+                    class="btn btn-primary"
+                  />
                 </div>
-                <input
-                  type="submit"
-                  value="Agregar bedelia clase-bajar-btn-agragar"
-                  class="btn btn-primary"
-                  v-else
-                />
+                <div v-else class="clase-bajar-btn-agragar">
+                  <input
+                    type="submit"
+                    value="Agregar bedelia"
+                    class="btn btn-primary"
+                  />
+                </div>
               </div>
             </div>
           </div>
