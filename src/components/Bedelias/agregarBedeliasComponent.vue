@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Bedelia</h2>
+      <h2>Agregar Administrador</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Bedelia</h3>
+            <h3>Nuevo Administrador</h3>
             <hr />
           </center>
         </div>

@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Listado de Bedelias</h2>
+      <h2>Listado de Administradores</h2>
       <div>
         <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Importar Bedelias
+          Importar Administradores
         </button>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -27,11 +27,11 @@
           </div>
         </div>
         <button class="btn btn-primary" disabled v-if="loading && usuario.cargo != roles.adscripto">
-          Agregar Bedelia
+          Agregar Administrador
         </button>
         <router-link v-if="usuario.cargo != roles.adscripto && !loading" to="/bedelia/crear" title="Listar Usuarios"
           class="btn btn-primary router-link">
-          Agregar Bedelia</router-link>
+          Agregar Administrador</router-link>
       </div>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
@@ -50,7 +50,7 @@
                 Activos
               </button>
               <button class="btn btn-primary" v-else @click="listarUsuariosEliminados()">
-                Elimnados
+                Eliminados
               </button>
             </div>
             <template slot="table-row" slot-scope="props">
