@@ -98,14 +98,14 @@
                    <input
                     disabled
                     type="button"
-                    value="Agregar bedelia"
+                    value="Agregar administrador"
                     class="btn btn-primary"
                   />
                 </div>
                 <div v-else class="clase-bajar-btn-agragar">
                   <input
                     type="submit"
-                    value="Agregar bedelia"
+                    value="Agregar administrador"
                     class="btn btn-primary"
                   />
                 </div>
@@ -173,7 +173,7 @@ export default {
         .catch(() => {
           this.$swal.fire({
             icon: "error",
-            title: "Error al crear bedelia",
+            title: "Error al crear administrador",
             text: "Verifique que la cedula no este registrada en el sistema",
           });
         });

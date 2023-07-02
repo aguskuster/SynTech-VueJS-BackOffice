@@ -303,7 +303,7 @@ export default {
       this.$swal
         .fire({
           icon: "info",
-          title: "¿Estas seguro de eliminar el usuario bedelias?",
+          title: "¿Estas seguro de eliminar el usuario administrador?",
           showCancelButton: true,
           cancelButtonText: "Cancelar",
           confirmButtonText: "Eliminar",
@@ -321,7 +321,7 @@ export default {
                 if (res.status == 200) {
                   this.$swal.fire({
                     icon: "success",
-                    title: "Usuario  bedelias eliminado correctamente",
+                    title: "Usuario  administrador eliminado correctamente",
                     showConfirmButton: false,
                     timer: 1500,
                   });
