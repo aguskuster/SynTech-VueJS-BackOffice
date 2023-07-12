@@ -1,22 +1,25 @@
-FROM node:9.11.1-alpine
+FROM node:16.16.0-alpine
 
-# instalar un simple servidor http para servir nuestro contenido estático
+# Install a simple HTTP server to serve our static content
 RUN npm install -g http-server
 
-# hacer la carpeta 'app' el directorio de trabajo actual
+# Set the working directory to /app
 WORKDIR /app
 
-# copiar 'package.json' y 'package-lock.json' (si están disponibles)
+# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
-# instalar dependencias del proyecto
+# Install project dependencies
 RUN npm install
 
-# copiar los archivos y carpetas del proyecto al directorio de trabajo actual (es decir, la carpeta 'app')
+# Copy project files and folders to the working directory (i.e., the 'app' folder)
 COPY . .
 
-# construir aplicación para producción minificada
+# Build the production-minified application
 RUN npm run build
 
+# Expose port 8080 (adjust if necessary)
 EXPOSE 8080
+
+# Start the HTTP server and serve the 'dist' folder
 CMD [ "http-server", "dist" ]
