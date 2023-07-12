@@ -53,7 +53,7 @@
               class="form-control mb-3"
               @change="getFile"
               type="file"
-              accept=".pdf, .doc"
+              accept=".pdf, .doc, .png , .jpg , .jpeg , .csv , .xls , .xlsx"
               id="formFile2"
             />
             <hr />
@@ -437,7 +437,7 @@ export default {
         formData.append("archivos[]", archivo);
       }
       for (let archivo of this.noticia.archivos) {
-        formData.append("nombresArchivo[]", archivo.name);
+        formData.append("nombresArchivo[]", archivo.name? archivo.name.trim() : "file-"+moment().format('YYYY-MM-DD'));
       }
 
       if (this.noticia.titulo == "" || this.noticia.mensaje == "") {

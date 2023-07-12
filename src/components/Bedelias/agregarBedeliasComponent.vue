@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="contenedor_menu">
-      <h2>Agregar Bedelia</h2>
+      <h2>Agregar Administrador</h2>
     </div>
     <center v-if="loading" style="margin-top: 3rem; font-size: 230px">
       <div
@@ -19,7 +19,7 @@
           <center>
             <img src="../../assets/images/default_profile.png" alt="" />
 
-            <h3>Nuevo Bedelia</h3>
+            <h3>Nuevo Administrador</h3>
             <hr />
           </center>
         </div>
@@ -92,18 +92,23 @@
               </div>
               <div class="d-flex justify-content-end">
                 <div
-                  class="btn btn-primary clase-bajar-btn-agragar"
-                  disabled
+                  class="clase-bajar-btn-agragar"
                   v-if="!saveBtn"
                 >
-                  Agregar bedelias
+                   <input
+                    disabled
+                    type="button"
+                    value="Agregar administrador"
+                    class="btn btn-primary"
+                  />
                 </div>
-                <input
-                  type="submit"
-                  value="Agregar bedelia clase-bajar-btn-agragar"
-                  class="btn btn-primary"
-                  v-else
-                />
+                <div v-else class="clase-bajar-btn-agragar">
+                  <input
+                    type="submit"
+                    value="Agregar administrador"
+                    class="btn btn-primary"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -168,7 +173,7 @@ export default {
         .catch(() => {
           this.$swal.fire({
             icon: "error",
-            title: "Error al crear bedelia",
+            title: "Error al crear administrador",
             text: "Verifique que la cedula no este registrada en el sistema",
           });
         });

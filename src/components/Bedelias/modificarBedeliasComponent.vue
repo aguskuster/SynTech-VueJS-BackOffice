@@ -378,7 +378,7 @@ export default {
         .delete(Global.url + "usuario/" + user, config)
         .then((res) => {
           if (res.status == 200) {
-            this.$swal.fire("Bedelia eliminado", "", "success");
+            this.$swal.fire("Administrador eliminado", "", "success");
             this.$router.push("/bedelias");
           }
         })
