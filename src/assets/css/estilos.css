@@ -53,21 +53,21 @@ label {
 }
 
 .btn-primary {
-    color: rgb(232, 230, 227)!important;
-    background-color: rgb(2, 80, 196)!important;
-    border-color: rgb(1, 71, 174)!important;
+    color: rgb(232, 230, 227) !important;
+    background-color: rgb(2, 80, 196) !important;
+    border-color: rgb(1, 71, 174) !important;
 }
 
 .btn-success {
-    color: rgb(232, 230, 227)!important;
+    color: rgb(232, 230, 227) !important;
     background-color: green !important;
     border-color: green !important;
 }
 
 .btn-danger {
-    color: rgb(232, 230, 227)!important;
+    color: rgb(232, 230, 227) !important;
     background-color: red !important;
-    border-color: red!important;
+    border-color: red !important;
 }
 
 .table tr:nth-of-type(even) {
@@ -115,12 +115,12 @@ label {
 .contenedorSupremo {
     display: flex;
     flex-direction: row;
+    min-height: 100vh;
 }
 
 .menu {
     width: 230px;
     background-color: rgb(14, 13, 23);
-    height: 100vh;
 }
 
 .menu ul {

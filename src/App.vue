@@ -35,7 +35,7 @@
             class="router-link"
           >
             <i class="far fa-user"></i>
-            Bedelias</router-link
+            Administradores</router-link
           >
         </li>
         <li>
