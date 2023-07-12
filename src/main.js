@@ -50,9 +50,9 @@ Vue.use(Vuelidate);
 Vue.component('vue-multiselect', window.VueMultiselect.default)
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
-    { path: '/', redirect: 'home' },
-    { path: '/home', name: 'home', component: HomeComponent },
-    
+    { path: '/home', redirect: 'inicio' },
+    { path: '/', name: 'inicio', component: HomeComponent },
+    // { path: '/home', name: 'home', component: HomeComponent },
 
     { path: '/historial', name: 'historial-acciones', component: historialDeAccionesComponent },
     { path: '/noticias', name: 'noticias', component: agregarNoticiasComponent },
