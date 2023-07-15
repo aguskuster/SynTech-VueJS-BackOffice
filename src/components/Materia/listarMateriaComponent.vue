@@ -160,7 +160,7 @@ export default {
             title: Global.nombreSitio,
             message: "Se importo el archivo correctamente",
           });
-          location.reload();
+          this.$router.push("/materia");
         })
         .catch(() => {
           this.flashMessage.show({
