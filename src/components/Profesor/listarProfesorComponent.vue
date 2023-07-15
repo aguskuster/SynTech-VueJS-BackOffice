@@ -248,7 +248,7 @@ export default {
           });
           this.logged = false;
           localStorage.clear();
-          location.reload();
+          this.$router.push("/");
         }
       });
     },

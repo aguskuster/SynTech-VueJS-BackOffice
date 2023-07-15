@@ -226,7 +226,7 @@ export default {
               icon: "success",
               title: "Foto de perfil actualizada",
             });
-            location.reload();
+            this.$router.push("/perfil/"+this.usuario.username);
           }
         })
         .catch(() => {
