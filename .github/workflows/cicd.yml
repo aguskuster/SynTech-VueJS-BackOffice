@@ -38,7 +38,7 @@ jobs:
           sshpass -p ${{ secrets.SERVER_PASSWORD }} \
           ssh -o StrictHostKeyChecking=no \
           -p 223 \
-          root@${{ secrets.SERVER_IP }} kubectl set image deployment/vuejs-backoffice-actions vuejs-backoffice-actions=akuster/vuejs-backoffice-actions:latest
+          root@${{ secrets.SERVER_IP }} source script-vue-backoffice.sh
 
 
   
