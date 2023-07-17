@@ -12,6 +12,8 @@
       ></div>
     </center>
     <div v-else class="container p-3 mt-4" style='height: 50rem;'>
+      <div class="d-flex justify-content-end mb-1">  <a class="btn btn-primary mr-2 " target="_blank" :href="matomoSitio"> Analiticas Sitio </a> <a class="btn btn-primary" target="_blank" :href="matomoBackoffice"> Analiticas Backoffice </a> 
+</div>
       <div width="70%">
         <vue-good-table
           :columns="columns"
@@ -43,6 +45,8 @@ export default {
   },
   data() {
     return {
+      matomoSitio:Global.matomoSitio,
+      matomoBackoffice:Global.matomoBackoffice,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token_BO"))),
       roles:roles,
       title: "Historial Acciones",
