@@ -33,8 +33,6 @@
               No hay usuarios para listar
             </div>
           <vue-good-table
-            @on-row-dblclick="onRowDoubleClick"
-           
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -145,9 +143,7 @@ export default {
         this.getTodos();
       }
     },
-    onRowDoubleClick(usuario) {
-       this.$router.push('/usuarios/'+usuario.row.id);
-    },
+   
 
  
     returnImgProfile(img) {
