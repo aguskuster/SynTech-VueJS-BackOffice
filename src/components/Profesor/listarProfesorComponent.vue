@@ -3,7 +3,7 @@
     <div class="contenedor_menu">
       <h2>Listado de Profesores</h2>
       <div>
-        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal" v-if="usuario.cargo != 'Adscripto' && !loading">
           Importar Profesores
         </button>
 
@@ -40,7 +40,7 @@
     <div v-else>
       <div class="contenedorGeneral">
         <div class="contenedorIzquierdo" style="width: 100%; background-color: transparent">
-          <vue-good-table @on-row-dblclick="onRowDoubleClick" @on-search="onSearch" :columns="columns" :rows="rows"
+          <vue-good-table  @on-search="onSearch" :columns="columns" :rows="rows"
             :search-options="{ enabled: true }" theme="polar-bear" :pagination-options="pagination">
             <div slot="emptystate" style="text-align:center">
               No hay profesores para listar
@@ -282,9 +282,7 @@ export default {
         this.getTodos();
       }
     },
-    onRowDoubleClick(usuario) {
-      this.$router.push("/profesor/" + usuario.row.id);
-    },
+  
 
     modificarProfesor(id) {
       this.$router.push("/profesor/" + id);

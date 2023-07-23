@@ -47,7 +47,7 @@
           style="width: 100%; background-color: transparent"
         >
           <vue-good-table
-            @on-row-dblclick="onRowDoubleClick"
+         
             @on-search="onSearch"
             :columns="columns"
             :rows="rows"
@@ -344,9 +344,7 @@ export default {
         this.getTodos();
       }
     },
-    onRowDoubleClick() {
-      alert("Double Click");
-    },
+  
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <div class="contenedor_menu">
       <h2>Listado de Administradores</h2>
       <div>
-        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal" v-if="usuario.cargo != 'Adscripto'">
           Importar Administradores
         </button>
 
