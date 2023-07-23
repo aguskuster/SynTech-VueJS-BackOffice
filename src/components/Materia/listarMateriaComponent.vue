@@ -4,7 +4,7 @@
     <div class="contenedor_menu">
       <h2>Administrar Materias</h2>
       <div>
-        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-primary mr-4" data-bs-toggle="modal" data-bs-target="#exampleModal" v-if="usuario.cargo != roles.adscripto && !loading">
           Importar Materias
         </button>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
