@@ -3,8 +3,8 @@ export var Global = {
     token: localStorage.getItem("auth_token_BO"),
     nombreSitio: 'BackOffice',
     spinnerUrl: 'https://www.sanandreasregional.org/app/plugins/unyson/framework/extensions/forms/static/img/ajax-loader.gif',
-    matomoSitio : "http://10.106.5.151/index.php?module=CoreHome&action=index&date=yesterday&period=day&idSite=2#?period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1",
-    matomoBackoffice: "http://10.10.5.151/index.php?module=CoreHome&action=index&date=yesterday&period=day&idSite=1#?period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1"
+    matomoSitio : "http://10.106.5.151/index.php?module=CoreHome&action=index&date=yesterday&period=day&idSite=3#?period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1",
+    matomoBackoffice: "http://10.10.5.151/index.php?module=CoreHome&action=index&date=yesterday&period=day&idSite=2#?period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1"
 }
 
 export var roles = {
